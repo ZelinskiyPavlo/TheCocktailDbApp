@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.cocktailDetailsScreen
 
 import androidx.fragment.app.Fragment
+import com.test.thecocktaildb.di.Injectable
 
-class CocktailDetailsFragment: Fragment() {
+class CocktailDetailsFragment: Injectable, Fragment() {
 }
