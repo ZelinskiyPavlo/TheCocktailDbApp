@@ -3,13 +3,15 @@
     package="com.test.thecocktaildb">
 
     <application
+        android:name=".CocktailsDbApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".cocktailsScreen.CocktailsActivity">
+        <activity android:name=".cocktailsScreen.CocktailsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
