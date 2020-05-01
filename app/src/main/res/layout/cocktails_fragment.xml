@@ -23,27 +23,26 @@
             app:srcCompat="@drawable/ic_search" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/empty_history_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="228dp"
             android:layout_marginBottom="260dp"
             android:gravity="center"
-            android:text="TextView"
+            android:text="History is empty"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cocktails_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
+            android:layout_height="match_parent"
+            android:paddingStart="16dp"
+            android:paddingTop="23dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/empty_history_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,13 +51,13 @@
             android:id="@+id/empty_history_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="textView" />
+            app:constraint_referenced_ids="empty_history_text" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/filled_history_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="cardView" />
+            app:constraint_referenced_ids="cocktails_recycler_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
