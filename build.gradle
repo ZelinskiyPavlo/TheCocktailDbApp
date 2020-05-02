@@ -35,4 +35,5 @@ ext {
     junitVersion = '4.13'
     roomVersion = '2.1.0-alpha06'
     daggerVersion = '2.24'
+    retrofitVersion = '2.8.1'
 }
