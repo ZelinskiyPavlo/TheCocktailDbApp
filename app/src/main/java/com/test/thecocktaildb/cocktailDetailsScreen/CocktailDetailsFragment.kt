@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
@@ -33,6 +34,7 @@ class CocktailDetailsFragment: Injectable, Fragment() {
 
         setupDataBinding(inflater, container)
 
+        getCocktail()
         return viewDataBinding.root
     }
 
@@ -44,9 +46,20 @@ class CocktailDetailsFragment: Injectable, Fragment() {
     private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?){
         viewDataBinding = CocktailDetailsFragmentBinding.inflate(inflater, container, false)
             .apply {
-
+                viewModel = mViewModel
             }
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+    }
+
+    private fun getCocktail() {
+        val cocktailId = getNavigationArgs()
+        mViewModel.getCocktailById(cocktailId)
+    }
+
+    private fun getNavigationArgs(): String {
+        val args by navArgs<CocktailDetailsFragmentArgs>()
+
+        return args.cocktailId
     }
 
 }
