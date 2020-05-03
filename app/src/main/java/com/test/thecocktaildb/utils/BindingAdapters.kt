@@ -13,8 +13,8 @@ import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsViewModel
 import timber.log.Timber
 
 @BindingAdapter("app:image_url")
-fun /*ImageView.*/loadImage(imageView: ImageView, url: String) =
-    Glide.with(imageView.context).load(url).into(imageView)
+fun /*ImageView.*/loadImage(imageView: ImageView, url: String?) =
+    url?.let { Glide.with(imageView.context).load(url).into(imageView) }
 
 @BindingAdapter("app:items", "app:adapter_tag")
 fun /*RecyclerView.*/setItems(recyclerView: RecyclerView, items: List<Cocktail>, tag: ViewModel) {
