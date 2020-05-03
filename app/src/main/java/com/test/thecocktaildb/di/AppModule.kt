@@ -2,6 +2,7 @@ package com.test.thecocktaildb.di
 
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.data.local.CocktailsLocalDataSource
 import com.test.thecocktaildb.data.remote.CocktailsRemoteDataSource
 import com.test.thecocktaildb.utils.schedulers.AppSchedulerProvider
 import com.test.thecocktaildb.utils.schedulers.SchedulerProvider
@@ -12,16 +13,15 @@ import javax.inject.Singleton
 @Module(includes = [DatabaseModule::class, RetrofitModule::class, ViewModelModule::class])
 class AppModule {
 
-//    TODO: provide repository, DAO, and other things
-
     @Singleton
     @Provides
-    fun provideRepostiry(
+    fun provideRepository(
         cocktailsRemoteDataSource: CocktailsRemoteDataSource,
+        cocktailsLocalDataSource: CocktailsLocalDataSource,
         scheduler: AppSchedulerProvider
-    ): CocktailsRepository {
-        return AppCocktailsRepository(cocktailsRemoteDataSource, scheduler)
-    }
+    ): CocktailsRepository =
+        AppCocktailsRepository(cocktailsRemoteDataSource, cocktailsLocalDataSource, scheduler)
+
 
     @Singleton
     @Provides
