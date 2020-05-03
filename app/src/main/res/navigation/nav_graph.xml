@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/cocktailsFragment">
-
+<!--TODO: extract labels to string resources-->
     <fragment
         android:id="@+id/cocktailsFragment"
         android:name="com.test.thecocktaildb.cocktailsScreen.CocktailsFragment"
@@ -21,8 +21,16 @@
     <fragment
         android:id="@+id/cocktailDetailsFragment"
         android:name="com.test.thecocktaildb.cocktailDetailsScreen.CocktailDetailsFragment"
-        android:label="CocktailDetailsFragment"
-        tools:layout="@layout/cocktail_details_fragment"/>
+        android:label="{action_bar_title}"
+        tools:layout="@layout/cocktail_details_fragment">
+        <argument
+            android:name="action_bar_title"
+            app:argType="string" />
+        <argument
+            android:name="cocktailId"
+            app:argType="string"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/searchCocktailsFragment"
