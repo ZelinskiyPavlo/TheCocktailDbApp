@@ -52,7 +52,7 @@ class CocktailsFragment : Injectable, Fragment() {
     }
 
     private fun setupFab(){
-        activity?.findViewById<FloatingActionButton>(R.id.search_fab)?.setOnClickListener {
+        viewDataBinding.searchFab.setOnClickListener {
             val action = CocktailsFragmentDirections
                 .actionCocktailsFragmentToSearchCocktailsFragment()
             findNavController().navigate(action)
