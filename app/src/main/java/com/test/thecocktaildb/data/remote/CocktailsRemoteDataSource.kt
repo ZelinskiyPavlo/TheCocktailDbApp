@@ -4,8 +4,7 @@ import com.test.thecocktaildb.data.Cocktails
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CocktailsRemoteDataSource @Inject constructor(
-    private val cocktailsService: CocktailsService) {
+class CocktailsRemoteDataSource @Inject constructor(private val cocktailsService: CocktailsService) {
 
     fun searchCocktails(searchQuery: String): Single<Cocktails> =
         cocktailsService.searchCocktails(searchQuery)
