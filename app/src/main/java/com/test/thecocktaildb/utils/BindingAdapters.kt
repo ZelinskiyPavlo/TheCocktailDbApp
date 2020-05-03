@@ -2,13 +2,31 @@ package com.test.thecocktaildb.utils
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.test.thecocktaildb.cocktailsScreen.CocktailsAdapter
+import com.test.thecocktaildb.cocktailsScreen.CocktailsViewModel
+import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsAdapter
+import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsViewModel
+import timber.log.Timber
 
-object BindingAdapters {
+@BindingAdapter("app:image_url")
+fun /*ImageView.*/loadImage(imageView: ImageView, url: String) =
+    Glide.with(imageView.context).load(url).into(imageView)
 
-    @BindingAdapter("app:items")
-    @JvmStatic
-    fun loadImage(imageView: ImageView, url: String) =
-        Glide.with(imageView.context).load(url).into(imageView)
+@BindingAdapter("app:items", "app:adapter_tag")
+fun /*RecyclerView.*/setItems(recyclerView: RecyclerView, items: List<Cocktail>, tag: ViewModel) {
 
+    val recyclerViewAdapter = when (tag) {
+        is CocktailsViewModel -> recyclerView.adapter as CocktailsAdapter
+//        is CocktailsViewModel -> adapter as CocktailsAdapter
+        is SearchCocktailsViewModel -> recyclerView.adapter as SearchCocktailsAdapter
+//        is SearchCocktailsViewModel -> adapter as SearchCocktailsAdapter
+        else -> throw ClassCastException()
+    }
+
+    Timber.d("SetData Binding adapter setItems called")
+    recyclerViewAdapter.setData(items)
 }
