@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
+import timber.log.Timber
 import javax.inject.Inject
 
 class CocktailsFragment : Injectable, Fragment() {
@@ -22,17 +23,13 @@ class CocktailsFragment : Injectable, Fragment() {
 
     private lateinit var viewDataBinding: CocktailsFragmentBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        mViewModel = ViewModelProvider(this, viewModelFactory)[CocktailsViewModel::class.java]
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setupViewModel()
+
         setupDataBinding(inflater, container)
 
         setupFab()
@@ -41,6 +38,10 @@ class CocktailsFragment : Injectable, Fragment() {
         loadCocktails()
 
         return viewDataBinding.root
+    }
+
+    private fun setupViewModel(){
+        mViewModel = ViewModelProvider(this, viewModelFactory)[CocktailsViewModel::class.java]
     }
 
     private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?){
