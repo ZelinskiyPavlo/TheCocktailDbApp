@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.test.thecocktaildb">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".CocktailsDbApplication"
         android:allowBackup="true"
