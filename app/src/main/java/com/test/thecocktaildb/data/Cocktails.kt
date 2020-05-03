@@ -1,4 +1,6 @@
 package com.test.thecocktaildb.data
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
@@ -7,8 +9,10 @@ data class Cocktails(
     val cocktailsList: List<Cocktail>?
 )
 
-data class Cocktail(
+@Entity(tableName = "cocktails")
+data class Cocktail /*@JvmOverloads constructor*/(
     @SerializedName("idDrink")
+    @PrimaryKey
     val idDrink: String,
 
     @SerializedName("strAlcoholic")
@@ -87,7 +91,7 @@ data class Cocktail(
     @SerializedName("strMeasure14")
     val strMeasure14: String?,
     @SerializedName("strMeasure15")
-    val strMeasure15: String?,
+    val strMeasure15: String?
 
     @SerializedName("strTags")
     val strTags: String?
