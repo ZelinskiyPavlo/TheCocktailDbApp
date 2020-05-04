@@ -6,7 +6,7 @@ import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseAdapter
 
 abstract class BaseCocktailsAdapter<T> : BaseAdapter<Cocktail>() {
 
-    abstract fun setData(items: List<Cocktail>)
+    abstract override fun setData(items: List<Cocktail>?)
 
     protected var cocktailsList: List<Cocktail> = emptyList()
 
