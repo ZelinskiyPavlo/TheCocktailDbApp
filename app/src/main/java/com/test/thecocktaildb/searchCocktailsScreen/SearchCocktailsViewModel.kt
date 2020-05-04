@@ -7,9 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.utils.Event
-import io.reactivex.Observable
+import com.test.thecocktaildb.utils.log
+import io.reactivex.Completable
+import io.reactivex.Maybe
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -52,15 +57,28 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
         )
     }
 
-    fun saveClickedCocktail(cocktail: Cocktail) {
+    fun performSwitchingToCocktailDetailsFragment(cocktail: Cocktail) {
+        val cocktailName = cocktail.strDrink
+        val cocktailId = cocktail.idDrink
         disposable.add(
-            repository.saveCocktails(cocktail).subscribeBy(onComplete = {
-                Timber.d("Cocktail saved successful in database")
-            })
+            getNumberOfItemsInDatabase().flatMapSingle { position ->
+                cocktail.position = position.toInt()
+                Single.just(cocktail)
+            }.flatMapCompletable {
+                repository.saveCocktail(it)
+            }
+                .subscribeBy(onComplete = {
+                    navigateToCocktailDetailsFragment(cocktailName, cocktailId)
+                    Timber.d("Chain completed")
+                })
         )
     }
 
-    fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+    private fun getNumberOfItemsInDatabase(): Maybe<Long> {
+        return repository.getNumberOfItems().firstElement()
+    }
+
+    private fun navigateToCocktailDetailsFragment(actionBarTitle: String, cocktailId: String) {
+        _cocktailDetailsEvent.postValue(Event(Pair(actionBarTitle, cocktailId)))
     }
 }
