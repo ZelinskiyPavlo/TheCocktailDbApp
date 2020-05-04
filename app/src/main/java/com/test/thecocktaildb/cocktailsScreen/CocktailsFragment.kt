@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
+import com.test.thecocktaildb.utils.EventObserver
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,10 +61,28 @@ class CocktailsFragment : Injectable, Fragment() {
         }
     }
 
-    private fun setupNavigation(){}
+    private fun setupNavigation(){
+        viewDataBinding.viewModel?.cocktailDetailEvent?.observe(viewLifecycleOwner, EventObserver{
+            val (actionBarTitle, cocktailId) = it
+            val action = CocktailsFragmentDirections
+                .actionCocktailsFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
+            findNavController().navigate(action)
+        })
+    }
 
-    private fun setupRecyclerView(){}
+    private fun setupRecyclerView(){
+//        val cocktailsAdapter = CocktailsAdapter(viewDataBinding.viewModel)
+        val cocktailsAdapter = CocktailsAdapter(mViewModel)
+        viewDataBinding.cocktailsRv.apply {
+            adapter = cocktailsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
 
-    private fun loadCocktails(){}
+
+    }
+
+    private fun loadCocktails(){
+
+    }
 
 }
