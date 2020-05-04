@@ -24,8 +24,13 @@ class AppCocktailsRepository @Inject constructor(
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
-    override fun getCocktails(cocktailId: String): Maybe<Cocktail> {
+    override fun getCocktail(cocktailId: String): Maybe<Cocktail> {
         return cocktailsLocalDataSource.getCocktail(cocktailId)
+            .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
+    }
+
+    override fun getCocktails(): Maybe<List<Cocktail>> {
+        return cocktailsLocalDataSource.getCocktails()
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 }

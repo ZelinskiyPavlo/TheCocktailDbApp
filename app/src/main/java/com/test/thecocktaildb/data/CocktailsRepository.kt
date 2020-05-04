@@ -10,5 +10,7 @@ interface CocktailsRepository {
 
     fun saveCocktails(cocktail: Cocktail): Completable
 
-    fun getCocktails(cocktailId: String): Maybe<Cocktail>
+    fun getCocktail(cocktailId: String): Maybe<Cocktail>
+
+    fun getCocktails(): Maybe<List<Cocktail>>
 }
