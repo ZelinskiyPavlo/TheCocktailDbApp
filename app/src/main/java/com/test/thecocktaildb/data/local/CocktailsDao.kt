@@ -16,4 +16,7 @@ interface CocktailsDao {
 
     @Query("SELECT * FROM cocktails WHERE idDrink = :cocktailId")
     fun getCocktail(cocktailId: String): Maybe<Cocktail>
+
+    @Query("SELECT * FROM cocktails ORDER BY position ASC")
+    fun getCocktails(): Maybe<List<Cocktail>>
 }

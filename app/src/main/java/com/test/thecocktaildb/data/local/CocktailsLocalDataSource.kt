@@ -13,4 +13,6 @@ class CocktailsLocalDataSource @Inject constructor(private val cocktailsDao: Coc
     fun saveCocktail(cocktail: Cocktail): Completable =
         cocktailsDao.saveCocktail(cocktail)
 
+    fun getCocktails(): Maybe<List<Cocktail>> =
+        cocktailsDao.getCocktails()
 }
