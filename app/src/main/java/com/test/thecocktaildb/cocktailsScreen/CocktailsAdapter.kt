@@ -16,7 +16,7 @@ class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
         return object : CocktailsItemUserActionListener {
 
             override fun onItemClicked(cocktail: Cocktail) {
-                TODO("Not yet implemented")
+                cocktailsViewModel.navigateToCocktailDetailsFragment(cocktail)
             }
         }
     }
