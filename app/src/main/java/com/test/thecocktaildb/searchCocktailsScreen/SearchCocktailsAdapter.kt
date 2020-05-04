@@ -8,8 +8,9 @@ import timber.log.Timber
 class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktailsViewModel) :
     BaseCocktailsAdapter<Cocktail>() {
 
-    override fun setData(items: List<Cocktail>) {
-        cocktailsList = items
+    override fun setData(items: List<Cocktail>?) {
+//        Test without elvis operator here
+        cocktailsList = items ?: emptyList()
         notifyDataSetChanged()
     }
 

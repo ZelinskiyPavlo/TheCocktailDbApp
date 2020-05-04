@@ -7,15 +7,15 @@ import com.test.thecocktaildb.utils.CocktailsItemUserActionListener
 class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
     BaseCocktailsAdapter<Cocktail>() {
 
-    override fun setData(items: List<Cocktail>) {
-        cocktailsList = items
+    override fun setData(items: List<Cocktail>?) {
+        cocktailsList = items ?: emptyList()
         notifyDataSetChanged()
     }
 
     override fun getItemClickListener(): CocktailsItemUserActionListener {
         return object : CocktailsItemUserActionListener {
 
-            override fun onItemClicked() {
+            override fun onItemClicked(cocktail: Cocktail) {
                 TODO("Not yet implemented")
             }
         }
