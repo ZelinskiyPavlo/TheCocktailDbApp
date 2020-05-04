@@ -3,19 +3,18 @@ package com.test.thecocktaildb.cocktailDetailsScreen
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.lifecycle.Observer
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.test.thecocktaildb.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
-import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
-class CocktailDetailsFragment: Injectable, Fragment() {
+class CocktailDetailsFragment : Injectable, Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -33,6 +32,7 @@ class CocktailDetailsFragment: Injectable, Fragment() {
         setupViewModel()
 
         setupDataBinding(inflater, container)
+        setupIngredientsRecyclerView()
 
         getCocktail()
         return viewDataBinding.root
@@ -43,12 +43,25 @@ class CocktailDetailsFragment: Injectable, Fragment() {
             ViewModelProvider(this, viewModelFactory)[CocktailDetailsViewModel::class.java]
     }
 
-    private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?){
+    private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         viewDataBinding = CocktailDetailsFragmentBinding.inflate(inflater, container, false)
             .apply {
                 viewModel = mViewModel
             }
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+    }
+
+    private fun setupIngredientsRecyclerView() {
+        val ingredientsAdapter = IngredientsAdapter()
+        viewDataBinding.ingredientsRv.apply {
+            adapter = ingredientsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+        // Is this needed when i have binding adapter
+        viewDataBinding.viewModel?.ingredients?.observe(viewLifecycleOwner, Observer {
+            Timber.d("SetData in Fragment called")
+            ingredientsAdapter.setData(it)
+        })
     }
 
     private fun getCocktail() {
