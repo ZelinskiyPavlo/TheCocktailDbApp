@@ -28,6 +28,8 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter<T>.BaseViewHold
         return getLayoutIdForPosition(position)
     }
 
+    abstract fun setData(items: List<T>?)
+
     protected abstract fun getItemForPosition(position: Int): T
 
     protected abstract fun getLayoutIdForPosition(position: Int): Int
