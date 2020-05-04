@@ -12,10 +12,12 @@ data class Cocktails(
 )
 
 @Entity(tableName = "cocktails")
-data class Cocktail /*@JvmOverloads constructor*/(
+data class Cocktail @JvmOverloads constructor(
     @SerializedName("idDrink")
     @PrimaryKey
     val idDrink: String,
+
+    val position: Int = 0,
 
     @SerializedName("strAlcoholic")
     val strAlcoholic: String?,
