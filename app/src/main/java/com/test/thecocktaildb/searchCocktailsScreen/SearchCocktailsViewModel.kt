@@ -28,7 +28,7 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
 //    мала б зберігати останній введений результат (по ідеї)
     val searchQuerySubject = PublishSubject.create<String>()
 
-    val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
+    val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isNullOrEmpty() }
 
     private val disposable = CompositeDisposable()
 
