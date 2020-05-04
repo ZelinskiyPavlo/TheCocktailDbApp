@@ -17,7 +17,7 @@ data class Cocktail @JvmOverloads constructor(
     @PrimaryKey
     val idDrink: String,
 
-    val position: Int = 0,
+    var position: Int = 0,
 
     @SerializedName("strAlcoholic")
     val strAlcoholic: String?,
