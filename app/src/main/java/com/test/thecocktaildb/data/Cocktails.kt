@@ -1,7 +1,9 @@
 package com.test.thecocktaildb.data
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.test.thecocktaildb.cocktailDetailsScreen.Ingredient
 
 
 data class Cocktails(
@@ -92,7 +94,52 @@ data class Cocktail /*@JvmOverloads constructor*/(
     val strMeasure14: String?,
     @SerializedName("strMeasure15")
     val strMeasure15: String?
+) {
 
-    @SerializedName("strTags")
-    val strTags: String?
-)
+    fun createNumberedIngredientsList(): List<Ingredient> {
+        val ingredientsList = createIngredientsList()
+        ingredientsList.removeAll { it.name.isNullOrEmpty()}
+        addSequenceNumber(ingredientsList)
+        removeNewLineCharacter(ingredientsList)
+        return ingredientsList
+    }
+
+    private fun createIngredientsList(): MutableList<Ingredient> {
+//        maybe better approach would be to somehow get Json string save it in Db and then parse it
+//        when populating data
+        return mutableListOf<Ingredient>().apply {
+            add(Ingredient(strIngredient1, strMeasure1))
+            add(Ingredient(strIngredient2, strMeasure2))
+            add(Ingredient(strIngredient3, strMeasure3))
+            add(Ingredient(strIngredient4, strMeasure4))
+            add(Ingredient(strIngredient5, strMeasure5))
+            add(Ingredient(strIngredient6, strMeasure6))
+            add(Ingredient(strIngredient7, strMeasure7))
+            add(Ingredient(strIngredient8, strMeasure8))
+            add(Ingredient(strIngredient9, strMeasure9))
+            add(Ingredient(strIngredient10, strMeasure10))
+            add(Ingredient(strIngredient11, strMeasure11))
+            add(Ingredient(strIngredient12, strMeasure12))
+            add(Ingredient(strIngredient13, strMeasure13))
+            add(Ingredient(strIngredient14, strMeasure14))
+            add(Ingredient(strIngredient15, strMeasure15))
+        }
+    }
+
+    private fun addSequenceNumber(list: MutableList<Ingredient>) {
+        list.forEachIndexed { index, ingredient ->
+                ingredient.name = index.inc().toString() + ". " + ingredient.name
+        }
+    }
+
+    private fun removeNewLineCharacter(list: MutableList<Ingredient>) {
+        list.forEach { ingredient ->
+            if (ingredient.measure?.endsWith("\n") == true) {
+                ingredient.measure = ingredient.measure!!.removeSuffix("\n")
+            }
+            if (ingredient.name?.endsWith("\n") == true) {
+                ingredient.name = ingredient.name!!.removeSuffix("\n")
+            }
+        }
+    }
+}
