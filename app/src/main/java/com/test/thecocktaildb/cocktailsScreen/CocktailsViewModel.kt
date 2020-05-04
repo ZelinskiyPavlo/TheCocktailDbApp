@@ -28,7 +28,11 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     override fun onCleared() = disposable.clear()
 
     fun loadCocktails() {
-
+        disposable.add(
+            repository.getCocktails().subscribeBy(onSuccess = {cocktailsList ->
+                _items.value = cocktailsList
+            })
+        )
     }
 
     fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
