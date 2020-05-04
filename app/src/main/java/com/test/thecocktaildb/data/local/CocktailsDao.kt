@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.test.thecocktaildb.data.Cocktail
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Observable
 
 @Dao
 interface CocktailsDao {
@@ -19,4 +20,7 @@ interface CocktailsDao {
 
     @Query("SELECT * FROM cocktails ORDER BY position ASC")
     fun getCocktails(): Maybe<List<Cocktail>>
+
+    @Query("SELECT COUNT(idDrink) FROM cocktails")
+    fun getNumberOfItems(): Observable<Long>
 }

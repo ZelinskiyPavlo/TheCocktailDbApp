@@ -5,6 +5,7 @@ import com.test.thecocktaildb.data.remote.CocktailsRemoteDataSource
 import com.test.thecocktaildb.utils.schedulers.AppSchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -32,5 +33,10 @@ class AppCocktailsRepository @Inject constructor(
     override fun getCocktails(): Maybe<List<Cocktail>> {
         return cocktailsLocalDataSource.getCocktails()
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
+    }
+
+    override fun getNumberOfItems(): Observable<Long> {
+        return cocktailsLocalDataSource.getNumberOfItems().subscribeOn(scheduler.io())
+            .observeOn(scheduler.ui())
     }
 }
