@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.test.thecocktaildb.R
+import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.utils.EventObserver
@@ -75,7 +73,7 @@ class CocktailsFragment : Injectable, Fragment() {
         val cocktailsAdapter = CocktailsAdapter(mViewModel)
         viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = GridLayoutManager(activity, 2)
         }
 
 
