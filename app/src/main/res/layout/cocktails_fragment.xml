@@ -4,7 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="viewModel"
+            type="com.test.thecocktaildb.cocktailsScreen.CocktailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +41,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cocktails_rv"
+            app:items="@{viewModel.items}"
+            app:adapter_tag="@{viewModel}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="16dp"
