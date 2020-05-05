@@ -42,14 +42,4 @@
             app:destination="@id/cocktailDetailsFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.test.thecocktaildb.splashScreen.SplashFragment"
-        android:label="SplashFragment"
-        tools:layout="@layout/splash_fragment">
-        <action
-            android:id="@+id/action_splashFragment_to_cocktailsFragment"
-            app:destination="@id/cocktailsFragment" />
-
-    </fragment>
 </navigation>

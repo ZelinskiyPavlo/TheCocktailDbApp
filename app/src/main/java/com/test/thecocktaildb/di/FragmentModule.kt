@@ -3,7 +3,6 @@ package com.test.thecocktaildb.di
 import com.test.thecocktaildb.cocktailDetailsScreen.CocktailDetailsFragment
 import com.test.thecocktaildb.cocktailsScreen.CocktailsFragment
 import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsFragment
-import com.test.thecocktaildb.splashScreen.SplashFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,7 +17,4 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSearchCocktailsFragment(): SearchCocktailsFragment
-
-    @ContributesAndroidInjector
-    abstract fun contributeSplashFragment(): SplashFragment
 }
