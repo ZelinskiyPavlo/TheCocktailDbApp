@@ -17,6 +17,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -57,28 +58,17 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
         )
     }
 
-    fun performSwitchingToCocktailDetailsFragment(cocktail: Cocktail) {
-        val cocktailName = cocktail.strDrink
-        val cocktailId = cocktail.idDrink
-        disposable.add(
-            getNumberOfItemsInDatabase().flatMapSingle { position ->
-                cocktail.position = position.toInt()
-                Single.just(cocktail)
-            }.flatMapCompletable {
-                repository.saveCocktail(it)
-            }
+    fun saveCocktailAndNavigateDetailsFragment(cocktail: Cocktail) {
+        cocktail.dateAdded = Calendar.getInstance().time
+        disposable.add(repository.saveCocktail(cocktail)
                 .subscribeBy(onComplete = {
-                    navigateToCocktailDetailsFragment(cocktailName, cocktailId)
+                    navigateToCocktailDetailsFragment(cocktail)
                     Timber.d("Chain completed")
                 })
         )
     }
 
-    private fun getNumberOfItemsInDatabase(): Maybe<Long> {
-        return repository.getNumberOfItems().firstElement()
-    }
-
-    private fun navigateToCocktailDetailsFragment(actionBarTitle: String, cocktailId: String) {
-        _cocktailDetailsEvent.postValue(Event(Pair(actionBarTitle, cocktailId)))
+    fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
+        _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 }

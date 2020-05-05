@@ -10,6 +10,7 @@ import com.test.thecocktaildb.utils.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class CocktailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
@@ -18,8 +19,8 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     private val _items = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
     val items: LiveData<List<Cocktail>> = _items
 
-    private val _cocktailDetailEvent = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailEvent
+    private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
+    val cocktailDetaislEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
 
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
 
@@ -35,7 +36,17 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         )
     }
 
-    fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+    fun updateCocktailAndNavigateDetailsFragment(cocktail: Cocktail) {
+        cocktail.dateAdded = Calendar.getInstance().time
+        disposable.add(repository.saveCocktail(cocktail)
+            .subscribeBy(onComplete = {
+                navigateToCocktailDetailsFragment(cocktail)
+                Timber.d("Chain completed")
+            })
+        )
+    }
+
+    private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
+        _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 }

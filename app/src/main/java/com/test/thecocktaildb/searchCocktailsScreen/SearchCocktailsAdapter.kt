@@ -4,6 +4,7 @@ import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseCocktailsAdapter
 import com.test.thecocktaildb.utils.CocktailsItemUserActionListener
 import timber.log.Timber
+import java.util.*
 
 class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktailsViewModel) :
     BaseCocktailsAdapter<Cocktail>() {
@@ -18,7 +19,7 @@ class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktai
         return object : CocktailsItemUserActionListener {
 
             override fun onItemClicked(cocktail: Cocktail) {
-                searchCocktailsViewModel.performSwitchingToCocktailDetailsFragment(cocktail)
+                searchCocktailsViewModel.saveCocktailAndNavigateDetailsFragment(cocktail)
             }
         }
     }

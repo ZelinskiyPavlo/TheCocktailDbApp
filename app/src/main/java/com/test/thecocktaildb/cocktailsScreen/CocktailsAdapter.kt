@@ -16,7 +16,7 @@ class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
         return object : CocktailsItemUserActionListener {
 
             override fun onItemClicked(cocktail: Cocktail) {
-                cocktailsViewModel.navigateToCocktailDetailsFragment(cocktail)
+                cocktailsViewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
             }
         }
     }

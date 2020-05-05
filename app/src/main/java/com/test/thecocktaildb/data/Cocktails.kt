@@ -19,8 +19,6 @@ data class Cocktail @JvmOverloads constructor(
     @PrimaryKey
     val idDrink: String,
 
-    var position: Int = 0,
-
     var dateAdded: Date? = Calendar.getInstance().time,
 
     @SerializedName("strAlcoholic")
