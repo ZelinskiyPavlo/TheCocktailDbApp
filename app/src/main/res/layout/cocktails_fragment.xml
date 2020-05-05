@@ -54,12 +54,14 @@
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/empty_history_group"
+            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="empty_history_text" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/filled_history_group"
+            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="cocktails_rv" />
