@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.test.thecocktaildb.cocktailDetailsScreen.Ingredient
+import java.time.Instant
+import java.util.*
 
 
 data class Cocktails(
@@ -18,6 +20,8 @@ data class Cocktail @JvmOverloads constructor(
     val idDrink: String,
 
     var position: Int = 0,
+
+    var dateAdded: Date? = Calendar.getInstance().time,
 
     @SerializedName("strAlcoholic")
     val strAlcoholic: String?,
