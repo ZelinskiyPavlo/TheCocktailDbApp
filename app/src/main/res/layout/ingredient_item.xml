@@ -19,14 +19,13 @@
         <TextView
             android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:text="@{obj.name}"
             android:textSize="16sp" />
 
         <TextView
-            android:layout_width="235dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="160dp"
+            android:layout_marginStart="145dp"
             android:text="@{obj.measure}"
             android:textSize="16sp" />
 
