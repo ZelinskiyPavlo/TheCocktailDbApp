@@ -20,7 +20,7 @@ class AppCocktailsRepository @Inject constructor(
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
-    override fun saveCocktails(cocktail: Cocktail): Completable {
+    override fun saveCocktail(cocktail: Cocktail): Completable {
         return cocktailsLocalDataSource.saveCocktail(cocktail)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
@@ -36,7 +36,7 @@ class AppCocktailsRepository @Inject constructor(
     }
 
     override fun getNumberOfItems(): Observable<Long> {
-        return cocktailsLocalDataSource.getNumberOfItems().subscribeOn(scheduler.io())
-            .observeOn(scheduler.ui())
+        return cocktailsLocalDataSource.getNumberOfItems()
+            .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 }

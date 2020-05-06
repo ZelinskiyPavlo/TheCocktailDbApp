@@ -9,7 +9,7 @@ interface CocktailsRepository {
 
     fun searchCocktails(searchQuery: String): Single<Cocktails>
 
-    fun saveCocktails(cocktail: Cocktail): Completable
+    fun saveCocktail(cocktail: Cocktail): Completable
 
     fun getCocktail(cocktailId: String): Maybe<Cocktail>
 

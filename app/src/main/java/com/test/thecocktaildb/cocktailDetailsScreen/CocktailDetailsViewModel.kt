@@ -13,8 +13,6 @@ import javax.inject.Inject
 class CocktailDetailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModel() {
 
-// TODO: add on BackStack navigation to pasting previous query in search field
-
     private val _cocktailPicture = MutableLiveData<String>()
     val cocktailPicture: LiveData<String> = _cocktailPicture
 
@@ -39,7 +37,7 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
 
     fun getCocktailById(cocktailId: String) {
         disposable.add(
-            repository.getCocktails(cocktailId).subscribeBy(onSuccess = {fillCocktailDetails(it)})
+            repository.getCocktail(cocktailId).subscribeBy(onSuccess = {fillCocktailDetails(it)})
         )
     }
 
