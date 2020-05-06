@@ -1,8 +1,12 @@
 package com.test.thecocktaildb.searchCocktailsScreen
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
+import android.widget.EditText
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +16,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.utils.EventObserver
+import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -35,9 +40,8 @@ class SearchCocktailsFragment : Injectable, Fragment() {
         setupDataBinding(inflater, container)
         setupNavigation()
         setupRecyclerView()
+        setupSearchField()
 
-
-        setHasOptionsMenu(true)
         return viewDataBinding.root
     }
 
@@ -74,39 +78,20 @@ class SearchCocktailsFragment : Injectable, Fragment() {
             Timber.d("SetData in Fragment called")
             cocktailsAdapter.setData(it)
         })
-
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_cocktails_menu, menu)
+    private fun setupSearchField() {
+        val editText = activity?.toolBar?.findViewById<EditText>(R.id.temp_search_field)
+        editText?.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {}
 
-        setupSearchView(menu)
-    }
-
-    private fun setupSearchView(menu: Menu) {
-        val searchItem: MenuItem? = menu.findItem(R.id.search_menu_item)
-        val searchView: SearchView = searchItem?.actionView as SearchView
-
-        setSearchViewExpanded(searchView)
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(submittedText: String?): Boolean {
-                // Maybe perform keyboard closing
-                return false
+            override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Timber.d("beforeTextChanged Printed $query")
+                mViewModel.searchQuerySubject.onNext(query.toString())
             }
 
-            override fun onQueryTextChange(query: String?): Boolean {
-                mViewModel.searchQuerySubject.onNext(query!!)
-                return false
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
         mViewModel.subscribeToSearchSubject()
-    }
-
-    private fun setSearchViewExpanded(searchView: SearchView) {
-        searchView.isIconifiedByDefault = true
-        searchView.isFocusable = true
-        searchView.isIconified = false
-
     }
 }
