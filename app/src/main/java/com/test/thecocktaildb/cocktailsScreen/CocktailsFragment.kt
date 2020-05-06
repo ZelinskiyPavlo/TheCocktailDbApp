@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -47,6 +48,7 @@ class CocktailsFragment : Injectable, Fragment() {
     private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?){
         viewDataBinding = CocktailsFragmentBinding.inflate(inflater, container, false)
             .apply {
+                viewModel = mViewModel
             }
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
     }
@@ -60,7 +62,7 @@ class CocktailsFragment : Injectable, Fragment() {
     }
 
     private fun setupNavigation(){
-        viewDataBinding.viewModel?.cocktailDetailEvent?.observe(viewLifecycleOwner, EventObserver{
+        viewDataBinding.viewModel?.cocktailDetaislEvent?.observe(viewLifecycleOwner, EventObserver{
             val (actionBarTitle, cocktailId) = it
             val action = CocktailsFragmentDirections
                 .actionCocktailsFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
@@ -75,12 +77,14 @@ class CocktailsFragment : Injectable, Fragment() {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
-
-
+        viewDataBinding.viewModel?.items?.observe(viewLifecycleOwner, Observer {
+            Timber.d("SetData in Fragment called")
+            cocktailsAdapter.setData(it)
+        })
     }
 
     private fun loadCocktails(){
-
+        mViewModel.loadCocktails()
     }
 
 }
