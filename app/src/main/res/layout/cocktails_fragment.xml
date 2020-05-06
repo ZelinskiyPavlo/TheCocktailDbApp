@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="18dp"
+            android:elevation="16dp"
             app:backgroundTint="#009688"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,29 +43,29 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cocktails_rv"
-            app:items="@{viewModel.items}"
-            app:adapter_tag="@{viewModel}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="16dp"
-            android:paddingTop="23dp"
-            android:paddingEnd="16dp"
+            android:clipToPadding="false"
+            android:paddingTop="16dp"
+            android:visibility="gone"
+            app:adapter_tag="@{viewModel}"
+            app:items="@{viewModel.items}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
+
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/empty_history_group"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="empty_history_text" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/filled_history_group"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
             app:constraint_referenced_ids="cocktails_rv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
