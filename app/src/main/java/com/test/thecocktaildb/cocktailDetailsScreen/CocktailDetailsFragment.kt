@@ -3,7 +3,6 @@ package com.test.thecocktaildb.cocktailDetailsScreen
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.Observer
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
-import timber.log.Timber
 import javax.inject.Inject
 
 class CocktailDetailsFragment : Injectable, Fragment() {
@@ -57,10 +55,6 @@ class CocktailDetailsFragment : Injectable, Fragment() {
             adapter = ingredientsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-        // Is this needed when i have binding adapter
-        viewDataBinding.viewModel?.ingredients?.observe(viewLifecycleOwner, Observer {
-            ingredientsAdapter.setData(it)
-        })
     }
 
     private fun getCocktail() {

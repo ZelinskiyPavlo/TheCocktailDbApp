@@ -70,15 +70,11 @@ class CocktailsFragment : Injectable, Fragment() {
     }
 
     private fun setupRecyclerView(){
-//        val cocktailsAdapter = CocktailsAdapter(viewDataBinding.viewModel)
         val cocktailsAdapter = CocktailsAdapter(mViewModel)
         viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
-        viewDataBinding.viewModel?.items?.observe(viewLifecycleOwner, Observer {
-            cocktailsAdapter.setData(it)
-        })
     }
 
     private fun loadCocktails(){

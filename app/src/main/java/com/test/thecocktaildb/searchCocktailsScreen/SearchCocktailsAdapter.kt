@@ -10,7 +10,6 @@ class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktai
     BaseCocktailsAdapter<Cocktail>() {
 
     override fun setData(items: List<Cocktail>?) {
-//     TODO:   Test without elvis operator here
         cocktailsList = items ?: emptyList()
         notifyDataSetChanged()
     }

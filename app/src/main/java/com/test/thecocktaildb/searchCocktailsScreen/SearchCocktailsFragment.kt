@@ -15,7 +15,6 @@ import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.utils.EventObserver
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class SearchCocktailsFragment : Injectable, Fragment() {
@@ -71,11 +70,6 @@ class SearchCocktailsFragment : Injectable, Fragment() {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
-        // Is this needed when i have binding adapter
-        viewDataBinding.viewModel?.items?.observe(viewLifecycleOwner, Observer {
-            Timber.d("SetData in Fragment called")
-            cocktailsAdapter.setData(it)
-        })
     }
 
     private fun setupSearchField() {
