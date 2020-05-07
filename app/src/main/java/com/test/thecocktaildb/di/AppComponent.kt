@@ -12,10 +12,10 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AndroidInjectionModule::class, AppModule::class, FragmentModule::class])
-interface AppComponent: AndroidInjector<CocktailsApplication> {
+interface AppComponent : AndroidInjector<CocktailsApplication> {
 
     @Component.Factory
-    interface Factory{
+    interface Factory {
         fun create(@BindsInstance application: CocktailsApplication): AppComponent
     }
 

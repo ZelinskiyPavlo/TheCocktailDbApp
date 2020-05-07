@@ -20,7 +20,7 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     val items: LiveData<List<Cocktail>> = _items
 
     private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetaislEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
+    val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
 
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
 
@@ -30,7 +30,7 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
 
     fun loadCocktails() {
         disposable.add(
-            repository.getCocktails().subscribeBy(onSuccess = {cocktailsList ->
+            repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
                 _items.value = cocktailsList
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )

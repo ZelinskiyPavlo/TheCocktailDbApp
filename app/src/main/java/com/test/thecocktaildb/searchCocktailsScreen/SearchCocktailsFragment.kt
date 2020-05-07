@@ -5,8 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.EditText
-import android.widget.SearchView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,8 +56,8 @@ class SearchCocktailsFragment : Injectable, Fragment() {
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
     }
 
-    private fun setupNavigation(){
-        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(viewLifecycleOwner, EventObserver{
+    private fun setupNavigation() {
+        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(viewLifecycleOwner, EventObserver {
             val (actionBarTitle, cocktailId) = it
             val action = SearchCocktailsFragmentDirections
                 .actionSearchCocktailsFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
@@ -67,7 +65,7 @@ class SearchCocktailsFragment : Injectable, Fragment() {
         })
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         val cocktailsAdapter = SearchCocktailsAdapter(mViewModel)
         viewDataBinding.searchCocktailsRv.apply {
             adapter = cocktailsAdapter
@@ -81,8 +79,8 @@ class SearchCocktailsFragment : Injectable, Fragment() {
     }
 
     private fun setupSearchField() {
-        val editText = activity?.toolBar?.findViewById<EditText>(R.id.temp_search_field)
-        editText?.addTextChangedListener(object : TextWatcher{
+        val editText = activity?.toolBar?.findViewById<EditText>(R.id.search_field_edit_text)
+        editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
             override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {

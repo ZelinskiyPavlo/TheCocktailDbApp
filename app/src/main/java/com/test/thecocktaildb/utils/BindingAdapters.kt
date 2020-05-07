@@ -37,7 +37,7 @@ fun /*RecyclerView.*/setItems(recyclerView: RecyclerView, items: List<Cocktail>?
 // Temporary solution (I guess)
 @BindingAdapter("app:ingredients")
 fun setIngredients(recyclerView: RecyclerView, items: List<Ingredient>?) {
-    with(recyclerView.adapter as IngredientsAdapter){
+    with(recyclerView.adapter as IngredientsAdapter) {
         Timber.d("SetIngredients called")
         setData(items ?: emptyList())
     }

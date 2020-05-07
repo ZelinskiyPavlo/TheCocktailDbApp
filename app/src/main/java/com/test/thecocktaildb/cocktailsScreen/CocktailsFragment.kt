@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.utils.EventObserver
-import timber.log.Timber
 import javax.inject.Inject
 
 class CocktailsFragment : Injectable, Fragment() {
@@ -62,7 +61,7 @@ class CocktailsFragment : Injectable, Fragment() {
     }
 
     private fun setupNavigation(){
-        viewDataBinding.viewModel?.cocktailDetaislEvent?.observe(viewLifecycleOwner, EventObserver{
+        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(viewLifecycleOwner, EventObserver{
             val (actionBarTitle, cocktailId) = it
             val action = CocktailsFragmentDirections
                 .actionCocktailsFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
@@ -78,7 +77,6 @@ class CocktailsFragment : Injectable, Fragment() {
             layoutManager = GridLayoutManager(activity, 2)
         }
         viewDataBinding.viewModel?.items?.observe(viewLifecycleOwner, Observer {
-            Timber.d("SetData in Fragment called")
             cocktailsAdapter.setData(it)
         })
     }

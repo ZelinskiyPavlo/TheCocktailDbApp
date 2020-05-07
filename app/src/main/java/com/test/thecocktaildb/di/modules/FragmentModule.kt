@@ -13,7 +13,7 @@ abstract class FragmentModule {
     abstract fun contributeCocktailsFragment(): CocktailsFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeCocktalDetailsFragment(): CocktailDetailsFragment
+    abstract fun contributeCocktailDetailsFragment(): CocktailDetailsFragment
 
     @ContributesAndroidInjector
     abstract fun contributeSearchCocktailsFragment(): SearchCocktailsFragment

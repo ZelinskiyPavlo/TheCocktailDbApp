@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.test.thecocktaildb.cocktailDetailsScreen.Ingredient
-import java.time.Instant
 import java.util.*
 
 
@@ -102,7 +101,7 @@ data class Cocktail @JvmOverloads constructor(
 
     fun createNumberedIngredientsList(): List<Ingredient> {
         val ingredientsList = createIngredientsList()
-        ingredientsList.removeAll { it.name.isNullOrEmpty()}
+        ingredientsList.removeAll { it.name.isNullOrEmpty() }
         addSequenceNumber(ingredientsList)
         removeNewLineCharacter(ingredientsList)
         return ingredientsList
@@ -132,7 +131,7 @@ data class Cocktail @JvmOverloads constructor(
 
     private fun addSequenceNumber(list: MutableList<Ingredient>) {
         list.forEachIndexed { index, ingredient ->
-                ingredient.name = index.inc().toString() + ". " + ingredient.name
+            ingredient.name = index.inc().toString() + ". " + ingredient.name
         }
     }
 

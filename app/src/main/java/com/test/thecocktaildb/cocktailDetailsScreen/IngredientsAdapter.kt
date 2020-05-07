@@ -1,7 +1,6 @@
 package com.test.thecocktaildb.cocktailDetailsScreen
 
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.utils.CustomActionListener
 import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseAdapter
 
@@ -17,7 +16,8 @@ class IngredientsAdapter :
 
     override fun getItemForPosition(position: Int): Ingredient = ingredientsList[position]
 
-    override fun getLayoutIdForPosition(position: Int): Int = R.layout.ingredient_item
+    override fun getLayoutIdForPosition(position: Int): Int =
+        R.layout.cocktail_details_ingredient_item
 
     override fun getItemCount(): Int = ingredientsList.size
 

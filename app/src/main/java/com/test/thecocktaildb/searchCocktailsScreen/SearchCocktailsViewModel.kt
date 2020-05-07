@@ -7,14 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.utils.Event
-import com.test.thecocktaildb.utils.log
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 import java.util.*
@@ -30,8 +24,6 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
     private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
     val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
 
-    //    Ми використовуємо PublishSubject тому, що в RxJava це аналог змінної. І ця змінна напевно
-//    мала б зберігати останній введений результат (по ідеї)
     val searchQuerySubject = PublishSubject.create<String>()
 
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isNullOrEmpty() }
@@ -60,7 +52,8 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
 
     fun saveCocktailAndNavigateDetailsFragment(cocktail: Cocktail) {
         cocktail.dateAdded = Calendar.getInstance().time
-        disposable.add(repository.saveCocktail(cocktail)
+        disposable.add(
+            repository.saveCocktail(cocktail)
                 .subscribeBy(onComplete = {
                     navigateToCocktailDetailsFragment(cocktail)
                     Timber.d("Cocktail with date added saved, switching to another fragment")
@@ -68,7 +61,7 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
         )
     }
 
-    fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
+    private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
         _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 }

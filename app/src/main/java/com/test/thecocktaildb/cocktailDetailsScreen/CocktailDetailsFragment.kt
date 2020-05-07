@@ -59,7 +59,6 @@ class CocktailDetailsFragment : Injectable, Fragment() {
         }
         // Is this needed when i have binding adapter
         viewDataBinding.viewModel?.ingredients?.observe(viewLifecycleOwner, Observer {
-            Timber.d("SetData in Fragment called")
             ingredientsAdapter.setData(it)
         })
     }
