@@ -2,6 +2,8 @@ package com.test.thecocktaildb.di
 
 import android.app.Application
 import com.test.thecocktaildb.CocktailsApplication
+import com.test.thecocktaildb.di.modules.AppModule
+import com.test.thecocktaildb.di.modules.FragmentModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

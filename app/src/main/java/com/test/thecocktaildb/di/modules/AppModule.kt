@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.di
+package com.test.thecocktaildb.di.modules
 
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.CocktailsRepository

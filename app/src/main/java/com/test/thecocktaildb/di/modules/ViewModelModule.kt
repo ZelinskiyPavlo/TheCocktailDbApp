@@ -1,9 +1,10 @@
-package com.test.thecocktaildb.di
+package com.test.thecocktaildb.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.cocktailDetailsScreen.CocktailDetailsViewModel
 import com.test.thecocktaildb.cocktailsScreen.CocktailsViewModel
+import com.test.thecocktaildb.di.ViewModelKey
 import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsViewModel
 import com.test.thecocktaildb.utils.ViewModelFactory
 import dagger.Binds

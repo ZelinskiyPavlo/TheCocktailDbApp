@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.di
+package com.test.thecocktaildb.di.modules
 
 import androidx.room.Room
 import com.test.thecocktaildb.CocktailsApplication
