@@ -16,19 +16,17 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Light">
+            app:contentInsetStart="0dp">
 
             <include
                 android:id="@+id/search_field_layout"
-                layout="@layout/search_cocktails_toolbar"/>
+                layout="@layout/search_cocktails_toolbar" />
 
             <include
                 android:id="@+id/cocktails_toolbar_layout"
-                layout="@layout/cocktails_toolbar"/>
+                layout="@layout/cocktails_toolbar" />
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#fafafa">
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/toolbar_background">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cocktail App"
-        android:layout_marginStart="72dp"/>
+        android:layout_height="match_parent"
+        android:layout_marginStart="72dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_vertical"
+        android:text="@string/cocktail_app_title"
+        android:textAppearance="@style/TextRegular"
+        android:textSize="@dimen/text_title" />
 
 </RelativeLayout>

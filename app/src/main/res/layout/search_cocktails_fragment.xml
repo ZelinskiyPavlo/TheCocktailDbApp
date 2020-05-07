@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -21,10 +20,10 @@
             android:id="@+id/search_cocktails_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/margin_double"
             app:adapter_tag="@{viewModel}"
             app:items="@{viewModel.items}"
-            android:paddingTop="16dp"
-            android:clipToPadding ="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +32,10 @@
             android:id="@+id/search_help_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter text to start search"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:text="@string/search_help_text"
+            android:textAppearance="@style/TextHint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -41,16 +43,16 @@
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/search_find_data_group"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
             app:constraint_referenced_ids="search_cocktails_rv" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/search_no_data_group"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="search_help_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
