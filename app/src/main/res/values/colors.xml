@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@color/gray_100</color>
+    <color name="colorPrimaryDark">@color/gray_300</color>
+    <color name="colorAccent">@color/teal_500</color>
+
+    <color name="app_background">@color/seashell</color>
+    <color name="toolbar_background">@color/gray_100</color>
+    <color name="toolbar_search_background">@color/gray_50</color>
+
+    <color name="text_default">@color/black</color>
+    <color name="text_hint">@color/gray_dove</color>
+
+    <color name="card_view_background">@color/white</color>
+    <color name="section_divider_background">@color/mercury</color>
+
+
+    <!-- Palette colors -->
+    <!-- Colors for "internal use" only -->
+
+    <!-- General palettes -->
+    <color name="white">#ffffff</color>
+    <color name="black">#de000000</color>
+
+    <!-- Palette Grey -->
+    <color name="gray_50">#fafafa</color>
+    <color name="seashell">#f1f1f1</color>
+    <color name="gray_100">#f5f5f5</color>
+    <color name="gray_300">#e0e0e0</color>
+    <color name="gray_dove">#727272</color>
+
+    <color name="teal_500">#009688</color>
+    <color name="mercury">#e7e7e7</color>
+
 </resources>
