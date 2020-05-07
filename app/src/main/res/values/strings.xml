@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">TheCocktailDb</string>
+
+    <!--CocktailsFragment related-->
+    <string name="empty_history_text">History is empty</string>
+    <string name="cocktail_app_title">Cocktail App</string>
+
+    <!--SearchCocktailsFragment related-->
+    <string name="search_help_text">Enter text to start search</string>
+    <string name="search_cocktails_fragment_title">SearchCocktailsFragment</string>
+
+    <!--CocktailDetailsFragment related-->
+    <string name="cocktail_name_tag">Name:</string>
+    <string name="cocktail_alcoholic_tag">Alcoholic:</string>
+    <string name="cocktail_glass_tag">Glass:</string>
+    <string name="ingredients_tag">Ingredients</string>
+    <string name="instructions_tag">Instructions</string>
+
 </resources>
