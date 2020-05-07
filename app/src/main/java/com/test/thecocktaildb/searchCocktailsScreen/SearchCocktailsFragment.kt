@@ -90,12 +90,11 @@ class SearchCocktailsFragment : Injectable, Fragment() {
         showKeyboard(editText)
 
         editText?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-
-            override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Timber.d("beforeTextChanged Printed $query")
+            override fun afterTextChanged(query: Editable?) {
                 mViewModel.searchQuerySubject.onNext(query.toString())
             }
+
+            override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
