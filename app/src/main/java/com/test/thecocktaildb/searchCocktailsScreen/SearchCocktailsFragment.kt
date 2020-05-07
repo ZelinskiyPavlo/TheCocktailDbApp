@@ -1,12 +1,15 @@
 package com.test.thecocktaildb.searchCocktailsScreen
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -73,7 +76,19 @@ class SearchCocktailsFragment : Injectable, Fragment() {
     }
 
     private fun setupSearchField() {
+        fun showKeyboard(editText: EditText?) {
+            if (editText?.requestFocus() == true) {
+                val imm =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }
+
         val editText = activity?.toolBar?.findViewById<EditText>(R.id.search_field_edit_text)
+        editText?.setText("")
+
+        showKeyboard(editText)
+
         editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
 
