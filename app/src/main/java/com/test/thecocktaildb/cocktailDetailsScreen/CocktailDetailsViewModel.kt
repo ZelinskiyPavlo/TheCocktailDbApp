@@ -37,7 +37,8 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
 
     fun getCocktailById(cocktailId: String) {
         disposable.add(
-            repository.getCocktail(cocktailId).subscribeBy(onSuccess = {fillCocktailDetails(it)})
+            repository.getCocktail(cocktailId).subscribeBy(onSuccess = { fillCocktailDetails(it) },
+                onError = { Timber.e("Error occurred in getting cocktails, $it") })
         )
     }
 

@@ -54,7 +54,7 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
             repository.searchCocktails(query).subscribeBy(onSuccess = {
                 _items.value = it.cocktailsList
                 Timber.d("Search performed with query $query")
-            })
+            }, onError = { Timber.e("Error occurred when searching with $query, $it") })
         )
     }
 
@@ -63,8 +63,8 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
         disposable.add(repository.saveCocktail(cocktail)
                 .subscribeBy(onComplete = {
                     navigateToCocktailDetailsFragment(cocktail)
-                    Timber.d("Chain completed")
-                })
+                    Timber.d("Cocktail with date added saved, switching to another fragment")
+                }, onError = { Timber.e("Error occurred when updating cocktail, $it") })
         )
     }
 

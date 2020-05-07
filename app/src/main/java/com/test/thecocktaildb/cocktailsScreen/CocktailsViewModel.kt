@@ -32,17 +32,18 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         disposable.add(
             repository.getCocktails().subscribeBy(onSuccess = {cocktailsList ->
                 _items.value = cocktailsList
-            })
+            }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
     }
 
     fun updateCocktailAndNavigateDetailsFragment(cocktail: Cocktail) {
         cocktail.dateAdded = Calendar.getInstance().time
-        disposable.add(repository.saveCocktail(cocktail)
-            .subscribeBy(onComplete = {
-                navigateToCocktailDetailsFragment(cocktail)
-                Timber.d("Chain completed")
-            })
+        disposable.add(
+            repository.saveCocktail(cocktail)
+                .subscribeBy(onComplete = {
+                    navigateToCocktailDetailsFragment(cocktail)
+                    Timber.d("Cocktail with date updated saved, switching to another fragment")
+                }, onError = { Timber.e("Error occurred when updating cocktail, $it") })
         )
     }
 
