@@ -37,6 +37,8 @@
                 android:layout_margin="@dimen/margin_default"
                 android:layout_toEndOf="@+id/search_field_icon"
                 android:background="@null"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textAppearance="@style/TextRegular" />
 
         </RelativeLayout>
