@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.utils.recyclerViewAdapters
+package com.test.thecocktaildb.util.recyclerViewAdapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
-import com.test.thecocktaildb.utils.CustomActionListener
+import com.test.thecocktaildb.util.CustomActionListener
 
 abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolder>() {
 

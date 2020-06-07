@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.cocktailDetailsScreen.CocktailDetailsViewModel" />
+            type="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel" />
     </data>
 
     <ScrollView

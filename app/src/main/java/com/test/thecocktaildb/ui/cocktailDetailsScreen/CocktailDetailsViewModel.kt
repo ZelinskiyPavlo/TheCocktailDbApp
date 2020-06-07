@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.cocktailDetailsScreen
+package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,10 +1,10 @@
-package com.test.thecocktaildb.cocktailsScreen
+package com.test.thecocktaildb.ui.searchCocktailsScreen
 
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseCocktailsAdapter
-import com.test.thecocktaildb.utils.CocktailsItemUserActionListener
+import com.test.thecocktaildb.util.CocktailsItemUserActionListener
+import com.test.thecocktaildb.util.recyclerViewAdapters.BaseCocktailsAdapter
 
-class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
+class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktailsViewModel) :
     BaseCocktailsAdapter<Cocktail>() {
 
     override fun setData(items: List<Cocktail>?) {
@@ -16,7 +16,7 @@ class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
         return object : CocktailsItemUserActionListener {
 
             override fun onItemClicked(cocktail: Cocktail) {
-                cocktailsViewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
+                searchCocktailsViewModel.saveCocktailAndNavigateDetailsFragment(cocktail)
             }
         }
     }

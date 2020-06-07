@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.base.BaseFragment
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.utils.EventObserver
+import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.util.EventObserver
 
 class CocktailsFragment : Injectable, BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>() {
 

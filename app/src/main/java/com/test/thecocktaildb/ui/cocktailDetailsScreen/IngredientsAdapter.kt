@@ -1,8 +1,8 @@
-package com.test.thecocktaildb.cocktailDetailsScreen
+package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.utils.CustomActionListener
-import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseAdapter
+import com.test.thecocktaildb.util.CustomActionListener
+import com.test.thecocktaildb.util.recyclerViewAdapters.BaseAdapter
 
 class IngredientsAdapter :
     BaseAdapter<Ingredient>() {

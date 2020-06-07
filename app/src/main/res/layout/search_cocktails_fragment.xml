@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsViewModel" />
+            type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
 
     </data>
 

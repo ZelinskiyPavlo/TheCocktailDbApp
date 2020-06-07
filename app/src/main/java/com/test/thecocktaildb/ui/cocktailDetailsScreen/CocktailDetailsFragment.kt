@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.cocktailDetailsScreen
+package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.base.BaseFragment
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
+import com.test.thecocktaildb.ui.base.BaseFragment
 
 class CocktailDetailsFragment : Injectable,
     BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {

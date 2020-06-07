@@ -4,8 +4,8 @@ import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.data.local.CocktailsLocalDataSource
 import com.test.thecocktaildb.data.remote.CocktailsRemoteDataSource
-import com.test.thecocktaildb.utils.schedulers.AppSchedulerProvider
-import com.test.thecocktaildb.utils.schedulers.SchedulerProvider
+import com.test.thecocktaildb.util.schedulers.AppSchedulerProvider
+import com.test.thecocktaildb.util.schedulers.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

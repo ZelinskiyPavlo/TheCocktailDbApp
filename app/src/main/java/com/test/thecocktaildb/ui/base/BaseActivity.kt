@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.base
+package com.test.thecocktaildb.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
 

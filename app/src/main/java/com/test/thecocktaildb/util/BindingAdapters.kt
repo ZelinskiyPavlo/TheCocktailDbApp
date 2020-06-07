@@ -1,17 +1,17 @@
-package com.test.thecocktaildb.utils
+package com.test.thecocktaildb.util
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.test.thecocktaildb.cocktailDetailsScreen.Ingredient
-import com.test.thecocktaildb.cocktailDetailsScreen.IngredientsAdapter
-import com.test.thecocktaildb.cocktailsScreen.CocktailsAdapter
-import com.test.thecocktaildb.cocktailsScreen.CocktailsViewModel
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsAdapter
-import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsViewModel
+import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
+import com.test.thecocktaildb.ui.cocktailDetailsScreen.IngredientsAdapter
+import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsAdapter
+import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel
+import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsAdapter
+import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
 
 @BindingAdapter("app:image_url")
 fun ImageView.loadImage(url: String?) =

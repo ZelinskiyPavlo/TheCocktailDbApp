@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.utils.recyclerViewAdapters
+package com.test.thecocktaildb.util.recyclerViewAdapters
 
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail

@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.searchCocktailsScreen
+package com.test.thecocktaildb.ui.searchCocktailsScreen
 
 import android.content.Context
 import android.os.Bundle
@@ -12,10 +12,10 @@ import android.widget.EditText
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.base.BaseFragment
 import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.utils.EventObserver
+import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.util.EventObserver
 import kotlinx.android.synthetic.main.activity_main.*
 
 class SearchCocktailsFragment : Injectable,

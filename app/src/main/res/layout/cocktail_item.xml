@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.test.thecocktaildb.utils.CocktailsItemUserActionListener" />
+            type="com.test.thecocktaildb.util.CocktailsItemUserActionListener" />
 
     </data>
 

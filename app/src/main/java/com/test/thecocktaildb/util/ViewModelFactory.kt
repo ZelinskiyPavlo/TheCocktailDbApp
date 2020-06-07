@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.utils
+package com.test.thecocktaildb.util
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

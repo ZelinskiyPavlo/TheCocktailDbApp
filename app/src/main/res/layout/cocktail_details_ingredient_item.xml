@@ -5,7 +5,7 @@
 
         <variable
             name="obj"
-            type="com.test.thecocktaildb.cocktailDetailsScreen.Ingredient" />
+            type="com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient" />
 
     </data>
 

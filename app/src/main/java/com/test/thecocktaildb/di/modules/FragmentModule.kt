@@ -1,8 +1,8 @@
 package com.test.thecocktaildb.di.modules
 
-import com.test.thecocktaildb.cocktailDetailsScreen.CocktailDetailsFragment
-import com.test.thecocktaildb.cocktailsScreen.CocktailsFragment
-import com.test.thecocktaildb.searchCocktailsScreen.SearchCocktailsFragment
+import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
+import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

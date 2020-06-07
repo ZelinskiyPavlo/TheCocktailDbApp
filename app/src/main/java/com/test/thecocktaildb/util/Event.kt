@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.utils
+package com.test.thecocktaildb.util
 
 import androidx.lifecycle.Observer
 

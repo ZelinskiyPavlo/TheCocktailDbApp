@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen
 
 import android.os.Bundle
 import android.view.View

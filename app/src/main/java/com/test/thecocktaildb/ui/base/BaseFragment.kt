@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.base
+package com.test.thecocktaildb.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
