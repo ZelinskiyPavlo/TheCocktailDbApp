@@ -10,11 +10,14 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
 
     @ContributesAndroidInjector
+    @Suppress("unused")
     abstract fun contributeCocktailsFragment(): CocktailsFragment
 
     @ContributesAndroidInjector
+    @Suppress("unused")
     abstract fun contributeCocktailDetailsFragment(): CocktailDetailsFragment
 
     @ContributesAndroidInjector
+    @Suppress("unused")
     abstract fun contributeSearchCocktailsFragment(): SearchCocktailsFragment
 }

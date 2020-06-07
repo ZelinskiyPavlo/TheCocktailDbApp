@@ -7,11 +7,15 @@
         <item name="android:windowBackground">@drawable/app_background</item>
     </style>
 
+    <!--region Splash screen theme-->
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
+    <!--endregion-->
 
+    <!--region Text style-->
 
+    <!--region Font style-->
     <style name="TextRegular" parent="TextAppearance.AppCompat">
         <item name="fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
@@ -33,11 +37,16 @@
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textColor">@color/text_hint</item>
     </style>
+    <!--endregion-->
 
+    <!--region Appearance style-->
     <style name="TextSpacing">
         <item name="android:layout_marginTop">@dimen/margin_small</item>
         <item name="android:layout_marginBottom">@dimen/margin_small</item>
     </style>
+    <!--endregion-->
+
+    <!--endregion-->
 
     <style name="SectionDivider">
         <item name="android:layout_marginTop">@dimen/margin_default</item>

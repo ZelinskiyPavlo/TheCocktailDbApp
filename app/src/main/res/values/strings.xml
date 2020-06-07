@@ -1,19 +1,30 @@
 <resources>
+    <!--region High level text-->
     <string name="app_name">TheCocktailDb</string>
+    <!--endregion-->
 
-    <!--CocktailsFragment related-->
+    <!--region CocktailsFragment related-->
     <string name="empty_history_text">History is empty</string>
     <string name="cocktail_app_title">Cocktail App</string>
+    <!--endregion-->
 
-    <!--SearchCocktailsFragment related-->
+    <!--region SearchCocktailsFragment related-->
     <string name="search_help_text">Enter text to start search</string>
     <string name="search_cocktails_fragment_title">SearchCocktailsFragment</string>
+    <!--endregion-->
 
-    <!--CocktailDetailsFragment related-->
+    <!--region CocktailDetailsFragment related-->
     <string name="cocktail_name_tag">Name:</string>
     <string name="cocktail_alcoholic_tag">Alcoholic:</string>
     <string name="cocktail_glass_tag">Glass:</string>
     <string name="ingredients_tag">Ingredients</string>
     <string name="instructions_tag">Instructions</string>
+    <!--endregion-->
+
+    <!--region Content description-->
+    <string name="cocktail_image_description">Show image of selected cocktail</string>
+    <string name="cocktail_item_image_description">Cocktail item image</string>
+    <string name="search_field_icon_description">search icon</string>
+    <!--endregion-->
 
 </resources>

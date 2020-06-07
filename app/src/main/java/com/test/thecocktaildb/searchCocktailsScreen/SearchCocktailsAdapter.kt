@@ -1,10 +1,8 @@
 package com.test.thecocktaildb.searchCocktailsScreen
 
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseCocktailsAdapter
 import com.test.thecocktaildb.utils.CocktailsItemUserActionListener
-import timber.log.Timber
-import java.util.*
+import com.test.thecocktaildb.utils.recyclerViewAdapters.BaseCocktailsAdapter
 
 class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktailsViewModel) :
     BaseCocktailsAdapter<Cocktail>() {

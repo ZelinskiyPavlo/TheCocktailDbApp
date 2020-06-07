@@ -14,22 +14,24 @@
     <color name="card_view_background">@color/white</color>
     <color name="section_divider_background">@color/mercury</color>
 
+    <color name="ic_search_tint">@color/white</color>
 
-    <!-- Palette colors -->
-    <!-- Colors for "internal use" only -->
+    <!--region Palette colors. Colors for "internal use" only -->
 
     <!-- General palettes -->
     <color name="white">#ffffff</color>
     <color name="black">#de000000</color>
 
-    <!-- Palette Grey -->
+    <!--region Palette Grey-->
     <color name="gray_50">#fafafa</color>
     <color name="seashell">#f1f1f1</color>
     <color name="gray_100">#f5f5f5</color>
     <color name="gray_300">#e0e0e0</color>
     <color name="gray_dove">#727272</color>
+    <!--endregion-->
 
     <color name="teal_500">#009688</color>
     <color name="mercury">#e7e7e7</color>
+    <!--endregion-->
 
 </resources>

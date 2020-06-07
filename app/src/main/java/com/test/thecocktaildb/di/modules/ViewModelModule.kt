@@ -17,11 +17,13 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CocktailsViewModel::class)
+    @Suppress("unused")
     abstract fun bindsCocktailsViewModel(cocktailsViewModel: CocktailsViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(CocktailDetailsViewModel::class)
+    @Suppress("unused")
     abstract fun bindsCocktailDetailsViewModel(
         cocktailDetailsViewModel: CocktailDetailsViewModel
     ): ViewModel
@@ -29,10 +31,12 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(SearchCocktailsViewModel::class)
+    @Suppress("unused")
     abstract fun bindsSearchCocktailsViewModel(
         searchCocktailsViewModel: SearchCocktailsViewModel
     ): ViewModel
 
     @Binds
+    @Suppress("unused")
     abstract fun bindsViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }
