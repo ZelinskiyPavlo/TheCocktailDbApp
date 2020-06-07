@@ -35,7 +35,7 @@ ext {
     navigationVersion = '2.3.0-beta01'
     junitVersion = '4.13'
     roomVersion = '2.2.5'
-    daggerVersion = '2.24'
+    daggerVersion = '2.25.2'
     retrofitVersion = '2.9.0'
     lifecycleVersion = '2.2.0'
 }
