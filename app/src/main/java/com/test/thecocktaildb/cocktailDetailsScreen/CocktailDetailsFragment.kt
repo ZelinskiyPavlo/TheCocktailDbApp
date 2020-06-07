@@ -4,54 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.test.thecocktaildb.R
+import com.test.thecocktaildb.base.BaseFragment
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
-import javax.inject.Inject
 
-class CocktailDetailsFragment : Injectable, Fragment() {
+class CocktailDetailsFragment : Injectable,
+    BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override fun getLayoutId(): Int = R.layout.cocktail_details_fragment
 
-    private lateinit var mViewModel: CocktailDetailsViewModel
-
-    private lateinit var viewDataBinding: CocktailDetailsFragmentBinding
+    override fun getViewModelClass(): Class<CocktailDetailsViewModel> =
+        CocktailDetailsViewModel::class.java
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
-        setupViewModel()
+        attachBindingVariable()
 
-        setupDataBinding(inflater, container)
         setupIngredientsRecyclerView()
 
         getCocktail()
-        return viewDataBinding.root
+        return mViewDataBinding.root
     }
 
-    private fun setupViewModel() {
-        mViewModel =
-            ViewModelProvider(this, viewModelFactory)[CocktailDetailsViewModel::class.java]
-    }
-
-    private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        viewDataBinding = CocktailDetailsFragmentBinding.inflate(inflater, container, false)
-            .apply {
-                viewModel = mViewModel
-            }
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+    private fun attachBindingVariable() {
+        mViewDataBinding.viewModel = mViewModel
     }
 
     private fun setupIngredientsRecyclerView() {
         val ingredientsAdapter = IngredientsAdapter()
-        viewDataBinding.ingredientsRv.apply {
+        mViewDataBinding.ingredientsRv.apply {
             adapter = ingredientsAdapter
             layoutManager = LinearLayoutManager(activity)
         }

@@ -9,67 +9,60 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.base.BaseFragment
 import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.utils.EventObserver
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
-class SearchCocktailsFragment : Injectable, Fragment() {
+class SearchCocktailsFragment : Injectable,
+    BaseFragment<SearchCocktailsFragmentBinding, SearchCocktailsViewModel>() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override fun getLayoutId(): Int = R.layout.search_cocktails_fragment
 
-    private lateinit var mViewModel: SearchCocktailsViewModel
-
-    private lateinit var viewDataBinding: SearchCocktailsFragmentBinding
+    override fun getViewModelClass(): Class<SearchCocktailsViewModel> =
+        SearchCocktailsViewModel::class.java
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
-        setupViewModel()
+        attachBindingVariable()
 
-        setupDataBinding(inflater, container)
         setupNavigation()
         setupRecyclerView()
         setupSearchField()
 
-        return viewDataBinding.root
+        return mViewDataBinding.root
     }
 
-    private fun setupViewModel() {
-        mViewModel =
-            ViewModelProvider(this, viewModelFactory)[SearchCocktailsViewModel::class.java]
+
+    private fun attachBindingVariable() {
+        mViewDataBinding.viewModel = mViewModel
     }
 
-    private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        viewDataBinding = SearchCocktailsFragmentBinding.inflate(inflater, container, false)
-            .apply {
-                viewModel = mViewModel
-            }
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-    }
 
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(viewLifecycleOwner, EventObserver {
-            val (actionBarTitle, cocktailId) = it
-            val action = SearchCocktailsFragmentDirections
-                .actionSearchCocktailsFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
-            findNavController().navigate(action)
-        })
+        mViewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+            viewLifecycleOwner, EventObserver {
+                val (actionBarTitle, cocktailId) = it
+                val action = SearchCocktailsFragmentDirections
+                    .actionSearchCocktailsFragmentToCocktailDetailsFragment(
+                        actionBarTitle, cocktailId
+                    )
+                findNavController().navigate(action)
+            })
     }
 
     private fun setupRecyclerView() {
         val cocktailsAdapter = SearchCocktailsAdapter(mViewModel)
-        viewDataBinding.searchCocktailsRv.apply {
+        mViewDataBinding.searchCocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
