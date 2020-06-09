@@ -2,17 +2,18 @@ package com.test.thecocktaildb.ui.cocktailsScreen
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class CocktailsActivity : AppCompatActivity() {
+//class CocktailsActivity : AppCompatActivity() {
+class CocktailsActivity : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
