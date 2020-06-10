@@ -1,5 +1,9 @@
 package com.test.thecocktaildb.ui.cocktailsScreen
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
@@ -19,6 +23,10 @@ class CocktailsActivity : BaseActivity() {
 
     private lateinit var navController: NavController
 
+    private lateinit var batteryBroadcastReceiver: BroadcastReceiver
+
+    private lateinit var intentFilter: IntentFilter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -32,6 +40,21 @@ class CocktailsActivity : BaseActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         showSearchFieldInSearchCocktailsFragment()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        batteryBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                val intentFilter: IntentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+            }
+        }
+        val intentFilter = IntentFilter().apply {
+            addAction(Intent.ACTION_BATTERY_OKAY)
+            addAction(Intent.ACTION_BATTERY_LOW)
+        }
+        val batteryStatus = applicationContext.registerReceiver(batteryBroadcastReceiver, intentFilter)
     }
 
     override fun onSupportNavigateUp(): Boolean {
