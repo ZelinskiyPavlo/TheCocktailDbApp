@@ -1,5 +1,6 @@
 package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.util.DrinkProposalService
+import timber.log.Timber
 
 class CocktailDetailsFragment : Injectable,
     BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {
@@ -57,4 +60,9 @@ class CocktailDetailsFragment : Injectable,
         return args.cocktailId
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.d("onDestroyView in Fragment")
+        activity?.startService(Intent(activity, DrinkProposalService::class.java))
+    }
 }
