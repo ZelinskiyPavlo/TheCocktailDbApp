@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.cocktailDetailsScreen.CocktailDetailsViewModel" />
+            type="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel" />
     </data>
 
     <ScrollView
@@ -32,7 +32,8 @@
                     android:id="@+id/cocktail_image"
                     android:layout_width="@dimen/image_size"
                     android:layout_height="@dimen/image_size"
-                    app:image_url="@{viewModel.cocktailPicture}" />
+                    app:image_url="@{viewModel.cocktailPicture}"
+                    android:contentDescription="@string/cocktail_image_description" />
 
             </com.google.android.material.card.MaterialCardView>
 

@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.test.thecocktaildb.utils.CocktailsItemUserActionListener" />
+            type="com.test.thecocktaildb.util.CocktailsItemUserActionListener" />
 
     </data>
 
@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="118dp"
                 android:scaleType="centerCrop"
-                app:image_url="@{obj.strDrinkThumb}" />
+                app:image_url="@{obj.strDrinkThumb}"
+                android:contentDescription="@string/cocktail_item_image_description" />
 
             <TextView
                 android:id="@+id/cocktail_item_name"

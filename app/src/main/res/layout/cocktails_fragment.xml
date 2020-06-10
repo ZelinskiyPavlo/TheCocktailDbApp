@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.cocktailsScreen.CocktailsViewModel" />
+            type="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_search"
-            app:tint="@color/white" />
+            app:tint="@color/ic_search_tint" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/empty_history_group"
