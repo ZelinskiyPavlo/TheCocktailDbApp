@@ -11,7 +11,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.util.DrinkProposalService
+import com.test.thecocktaildb.util.service.DrinkProposalService
 import timber.log.Timber
 
 class CocktailDetailsFragment : Injectable,
@@ -63,6 +63,17 @@ class CocktailDetailsFragment : Injectable,
     override fun onDestroyView() {
         super.onDestroyView()
         Timber.d("onDestroyView in Fragment")
+
+        launchDrinkProposalService()
+    }
+
+    private fun launchDrinkProposalService(){
+        val intentWithCocktail = Intent(activity, DrinkProposalService::class.java)
+        val stubId = 1
+//        TODO: does name needs to be "SomeName" or "SOME_NAME"???
+//        TODO: do i need to extract intent name to top-level declaration???
+        intentWithCocktail.putExtra("SelectedDrink", stubId)
+
         activity?.startService(Intent(activity, DrinkProposalService::class.java))
     }
 }

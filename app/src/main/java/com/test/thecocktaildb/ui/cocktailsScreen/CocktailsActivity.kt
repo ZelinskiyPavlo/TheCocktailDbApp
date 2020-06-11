@@ -12,7 +12,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.util.AirplaneReceiver
+import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
@@ -43,7 +43,8 @@ class CocktailsActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
 
-        val airplaneBroadcastReceiver = AirplaneReceiver()
+        airplaneBroadcastReceiver =
+            AirplaneReceiver()
         val intentFilter = IntentFilter().apply {
             addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
         }

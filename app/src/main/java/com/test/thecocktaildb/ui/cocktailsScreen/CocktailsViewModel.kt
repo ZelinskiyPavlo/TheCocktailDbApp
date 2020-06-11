@@ -50,4 +50,8 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
         _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
+
+    fun openProposedCocktail(selectedCocktailId: Int) {
+        
+    }
 }

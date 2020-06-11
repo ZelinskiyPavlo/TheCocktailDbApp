@@ -1,23 +1,20 @@
-package com.test.thecocktaildb.util
+package com.test.thecocktaildb.util.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.widget.Toast
+import io.reactivex.Observable
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class DrinkProposalService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        for (i in 1..5) {
-            try {
-                Toast.makeText(applicationContext, "$i", Toast.LENGTH_SHORT).show()
-                Timber.i("onStartCommand $i")
-                TimeUnit.SECONDS.sleep(3)
-            } catch (e: Exception) {
+        Timber.i("onStartCommand of Service")
+        val proposalIntent = Intent("TEST_ACTION")
 
-            }
-        }
+        Observable.timer(3, TimeUnit.SECONDS)
+            .map { sendBroadcast(proposalIntent) }.subscribe()
+
         return super.onStartCommand(intent, flags, startId)
     }
 

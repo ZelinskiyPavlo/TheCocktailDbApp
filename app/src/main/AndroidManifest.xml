@@ -20,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".util.DrinkProposalService"
+        <service android:name=".util.service.DrinkProposalService"
+            android:enabled="true"
             android:exported="false">
         </service>
     </application>

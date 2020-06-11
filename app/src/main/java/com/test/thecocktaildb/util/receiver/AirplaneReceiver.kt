@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.util
+package com.test.thecocktaildb.util.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

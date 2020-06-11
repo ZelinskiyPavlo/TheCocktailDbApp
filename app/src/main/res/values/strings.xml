@@ -25,6 +25,7 @@
     <string name="cocktail_image_description">Show image of selected cocktail</string>
     <string name="cocktail_item_image_description">Cocktail item image</string>
     <string name="search_field_icon_description">search icon</string>
+    <string name="proposal_snackbar_message">якийсь напій із вашого списку?</string>
     <!--endregion-->
 
 </resources>
