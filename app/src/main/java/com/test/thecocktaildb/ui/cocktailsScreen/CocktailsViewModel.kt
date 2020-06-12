@@ -51,7 +51,12 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 
-    fun openProposedCocktail(selectedCocktailId: Int) {
-        
+    fun openProposedCocktail(selectedCocktailId: String?) {
+        val otherCocktail = items.value
+            ?.filter { it.idDrink != selectedCocktailId }?.random()
+
+        if (otherCocktail != null) {
+            updateCocktailAndNavigateDetailsFragment(otherCocktail)
+        }
     }
 }

@@ -3,14 +3,15 @@ package com.test.thecocktaildb.util.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import timber.log.Timber
+import com.test.thecocktaildb.ui.cocktailsScreen.DrinkProposalCallback
 
-class DrinkProposalReceiver: BroadcastReceiver() {
+class DrinkProposalReceiver(
+    private val drinkProposalCallback: DrinkProposalCallback
+) : BroadcastReceiver() {
+
     override fun onReceive(context: Context?, intent: Intent?) {
-        Timber.i("onReceive after 3 seconds of sleep")
+        val selectedCocktailId = intent?.getStringExtra(Intent.EXTRA_TEXT) ?: ""
 
-//        TODO: intent name may be changed
-        val selectedCocktailId = intent?.getIntExtra("SelectedDrink", -1)
-
+        drinkProposalCallback.proposeCocktail(selectedCocktailId)
     }
 }

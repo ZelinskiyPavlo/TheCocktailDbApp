@@ -4,13 +4,14 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import io.reactivex.Observable
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
+
+const val ACTION_PROPOSE_DRINK = "com.test.thecocktaildb.action.PROPOSE_DRINK"
 
 class DrinkProposalService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Timber.i("onStartCommand of Service")
-        val proposalIntent = Intent("TEST_ACTION")
+        val proposalIntent = Intent(ACTION_PROPOSE_DRINK)
+        proposalIntent.putExtra(Intent.EXTRA_TEXT, intent?.getStringExtra(Intent.EXTRA_TEXT))
 
         Observable.timer(3, TimeUnit.SECONDS)
             .map { sendBroadcast(proposalIntent) }.subscribe()
@@ -18,17 +19,7 @@ class DrinkProposalService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        Timber.i("onCreate service")
-    }
-
     override fun onBind(p0: Intent?): IBinder? {
         return null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.i("onDestroy service")
     }
 }

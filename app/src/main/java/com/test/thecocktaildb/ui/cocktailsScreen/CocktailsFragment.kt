@@ -15,8 +15,10 @@ import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
+import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
 
-class CocktailsFragment : Injectable, BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>() {
+class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>(), Injectable,
+    DrinkProposalCallback {
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver
 
@@ -79,10 +81,10 @@ class CocktailsFragment : Injectable, BaseFragment<CocktailsFragmentBinding, Coc
     override fun onStart() {
         super.onStart()
 
-        drinkProposalReceiver =
-            DrinkProposalReceiver()
+        drinkProposalReceiver = DrinkProposalReceiver(this)
+
         val intentFilter = IntentFilter().apply {
-            addAction("TEST_ACTION")
+            addAction(ACTION_PROPOSE_DRINK)
         }
         activity?.registerReceiver(drinkProposalReceiver, intentFilter)
     }
@@ -93,14 +95,19 @@ class CocktailsFragment : Injectable, BaseFragment<CocktailsFragmentBinding, Coc
         activity?.unregisterReceiver(drinkProposalReceiver)
     }
 
-    private fun showProposalSnackbar(selectedCocktailId: Int) {
-        val proposalSnackbar = Snackbar.make(
-            mViewDataBinding.root, "Чи хочете ви переглянути ще " +
-                    getString(R.string.proposal_snackbar_message), Snackbar.LENGTH_LONG
-        )
-//        TODO: extract string resource
-        proposalSnackbar.setAction("Показати") {
-            mViewDataBinding.viewModel.openProposedCocktail(selectedCocktailId)
+    override fun proposeCocktail(selectedCocktailId: String) {
+        // show proposal snackbar only if there are at least 2 cocktail in history
+        if ((mViewDataBinding.viewModel?.items?.value?.size ?: 0) > 1) {
+            val proposalSnackbar = Snackbar.make(
+                mViewDataBinding.root,
+                getString(R.string.proposal_snackbar_message),
+                Snackbar.LENGTH_LONG
+            )
+            proposalSnackbar.setAction(getString(R.string.show_proposed_cocktail)) {
+                mViewDataBinding.viewModel?.openProposedCocktail(selectedCocktailId)
+            }
+            proposalSnackbar.show()
         }
+
     }
 }
