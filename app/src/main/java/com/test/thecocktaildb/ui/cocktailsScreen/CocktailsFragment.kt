@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.ui.cocktailsScreen
 
 import android.content.BroadcastReceiver
+import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,14 +14,17 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.util.BatteryStateHolder
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
 
 class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>(), Injectable,
-    DrinkProposalCallback {
+    DrinkProposalCallback, BatteryStateCallback {
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver
+    private lateinit var batteryStateReceiver: BroadcastReceiver
 
     override fun getLayoutId(): Int = R.layout.cocktails_fragment
 
@@ -81,6 +85,11 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     override fun onStart() {
         super.onStart()
 
+        registerDrinkProposalReceiver()
+        registerBatteryStatusReceiver()
+    }
+
+    private fun registerDrinkProposalReceiver() {
         drinkProposalReceiver = DrinkProposalReceiver(this)
 
         val intentFilter = IntentFilter().apply {
@@ -89,10 +98,22 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         activity?.registerReceiver(drinkProposalReceiver, intentFilter)
     }
 
+    private fun registerBatteryStatusReceiver() {
+        batteryStateReceiver = BatteryStateReceiver(this)
+
+        val intentFilter = IntentFilter().apply {
+            addAction(Intent.ACTION_BATTERY_CHANGED)
+            addAction(Intent.ACTION_BATTERY_OKAY)
+            addAction(Intent.ACTION_BATTERY_LOW)
+        }
+        activity?.registerReceiver(batteryStateReceiver, intentFilter)
+    }
+
     override fun onStop() {
         super.onStop()
 
         activity?.unregisterReceiver(drinkProposalReceiver)
+        activity?.unregisterReceiver(batteryStateReceiver)
     }
 
     override fun proposeCocktail(selectedCocktailId: String) {
@@ -108,6 +129,9 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
             }
             proposalSnackbar.show()
         }
+    }
 
+    override fun updateBatteryState(batteryState: BatteryStateHolder) {
+        mViewDataBinding.viewModel?.updateBatteryState(batteryState)
     }
 }

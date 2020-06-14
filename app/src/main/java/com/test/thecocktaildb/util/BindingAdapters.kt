@@ -1,10 +1,13 @@
 package com.test.thecocktaildb.util
 
+import android.content.res.ColorStateList
 import android.widget.ImageView
+import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.IngredientsAdapter
@@ -32,5 +35,16 @@ fun RecyclerView.setItems(items: List<Cocktail>?, tag: ViewModel) {
 fun RecyclerView.setIngredients(items: List<Ingredient>?) {
     with(adapter as IngredientsAdapter) {
         setData(items ?: emptyList())
+    }
+}
+
+@BindingAdapter("app:tint")
+fun ImageView.setTint(isCharging: Boolean) {
+    if (isCharging) {
+        val colorConnected = this.context.getColor(R.color.battery_connected)
+        ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorConnected))
+    } else {
+        val colorDisconnected = this.context.getColor(R.color.battery_disconnected)
+        ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorDisconnected))
     }
 }
