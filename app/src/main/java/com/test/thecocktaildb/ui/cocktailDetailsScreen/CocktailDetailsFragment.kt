@@ -11,8 +11,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.util.DrinkProposalService
-import timber.log.Timber
+import com.test.thecocktaildb.util.service.DrinkProposalService
 
 class CocktailDetailsFragment : Injectable,
     BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {
@@ -62,7 +61,15 @@ class CocktailDetailsFragment : Injectable,
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.d("onDestroyView in Fragment")
-        activity?.startService(Intent(activity, DrinkProposalService::class.java))
+
+        launchDrinkProposalService()
+    }
+
+    private fun launchDrinkProposalService(){
+        val intentWithCocktail = Intent(activity, DrinkProposalService::class.java)
+        val selectedCocktailId = mViewDataBinding.viewModel?.cocktailId
+        intentWithCocktail.putExtra(Intent.EXTRA_TEXT, selectedCocktailId)
+
+        activity?.startService(intentWithCocktail)
     }
 }

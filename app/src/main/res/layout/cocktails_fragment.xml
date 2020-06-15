@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -41,12 +42,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_double"
+            android:layout_marginEnd="@dimen/margin_double"
+            android:layout_marginBottom="@dimen/margin_double"
+            android:background="@drawable/bg_battery_state_view"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_double"
+            android:paddingEnd="@dimen/margin_double"
+            app:layout_constraintTop_toTopOf="@+id/search_fab"
+            app:layout_constraintBottom_toBottomOf="@+id/cocktails_rv"
+            app:layout_constraintEnd_toStartOf="@+id/search_fab"
+            app:layout_constraintStart_toStartOf="@+id/cocktails_rv">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{viewModel.batteryPercent}"
+                android:textAppearance="@style/TextRegular"
+                android:textColor="@color/text_white" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:tint="@{viewModel.isBatteryCharging()}"
+                android:src="@drawable/ic_battery_24"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{viewModel.batteryStatus}"
+                android:textAppearance="@style/TextRegular"
+                android:textColor="@color/text_white" />
+
+        </LinearLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/search_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_double"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="@dimen/margin_double"
             android:elevation="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

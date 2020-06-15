@@ -31,6 +31,8 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
     private val _cocktailInstruction = MutableLiveData<String>()
     val cocktailInstruction: LiveData<String> = _cocktailInstruction
 
+    lateinit var cocktailId: String
+
     private val disposable = CompositeDisposable()
 
     override fun onCleared() = disposable.clear()
@@ -49,5 +51,7 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
         _cocktailGlass.value = cocktail.strGlass
         _ingredientsList.value = cocktail.createNumberedIngredientsList()
         _cocktailInstruction.value = cocktail.strInstructions
+
+        cocktailId = cocktail.idDrink
     }
 }

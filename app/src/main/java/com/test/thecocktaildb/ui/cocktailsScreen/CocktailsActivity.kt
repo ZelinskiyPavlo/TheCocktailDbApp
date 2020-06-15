@@ -1,7 +1,6 @@
 package com.test.thecocktaildb.ui.cocktailsScreen
 
 import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -13,19 +12,18 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.base.BaseActivity
+import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-//class CocktailsActivity : AppCompatActivity() {
 class CocktailsActivity : BaseActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var navController: NavController
 
-    private lateinit var batteryBroadcastReceiver: BroadcastReceiver
-
-    private lateinit var intentFilter: IntentFilter
+    // This needs to be injected
+    private lateinit var airplaneBroadcastReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -45,16 +43,17 @@ class CocktailsActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
 
-        batteryBroadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(p0: Context?, p1: Intent?) {
-                val intentFilter: IntentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-            }
-        }
+        airplaneBroadcastReceiver =
+            AirplaneReceiver()
         val intentFilter = IntentFilter().apply {
-            addAction(Intent.ACTION_BATTERY_OKAY)
-            addAction(Intent.ACTION_BATTERY_LOW)
+            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
         }
-        val batteryStatus = applicationContext.registerReceiver(batteryBroadcastReceiver, intentFilter)
+        registerReceiver(airplaneBroadcastReceiver, intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(airplaneBroadcastReceiver)
     }
 
     override fun onSupportNavigateUp(): Boolean {

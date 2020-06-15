@@ -10,11 +10,16 @@
 
     <color name="text_default">@color/black</color>
     <color name="text_hint">@color/gray_dove</color>
+    <color name="text_white">@color/white</color>
 
     <color name="card_view_background">@color/white</color>
     <color name="section_divider_background">@color/mercury</color>
 
     <color name="ic_search_tint">@color/white</color>
+
+    <color name="battery_state_bg">@color/gray_900</color>
+    <color name="battery_connected">@color/light_green_a_400</color>
+    <color name="battery_disconnected">@color/gray_50</color>
 
     <!--region Palette colors. Colors for "internal use" only -->
 
@@ -28,7 +33,10 @@
     <color name="gray_100">#f5f5f5</color>
     <color name="gray_300">#e0e0e0</color>
     <color name="gray_dove">#727272</color>
+    <color name="gray_900">#212121</color>
     <!--endregion-->
+    
+    <color name="light_green_a_400">#76FF03</color>
 
     <color name="teal_500">#009688</color>
     <color name="mercury">#e7e7e7</color>
