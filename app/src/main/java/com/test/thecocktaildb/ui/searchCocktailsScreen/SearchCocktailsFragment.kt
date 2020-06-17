@@ -39,17 +39,17 @@ class SearchCocktailsFragment : Injectable,
         setupRecyclerView()
         setupSearchField()
 
-        return mViewDataBinding.root
+        return viewDataBinding.root
     }
 
 
     private fun attachBindingVariable() {
-        mViewDataBinding.viewModel = mViewModel
+        viewDataBinding.viewModel = this.viewModel
     }
 
 
     private fun setupNavigation() {
-        mViewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = SearchCocktailsFragmentDirections
@@ -61,8 +61,8 @@ class SearchCocktailsFragment : Injectable,
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = SearchCocktailsAdapter(mViewModel)
-        mViewDataBinding.searchCocktailsRv.apply {
+        val cocktailsAdapter = SearchCocktailsAdapter(viewModel)
+        viewDataBinding.searchCocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
@@ -84,13 +84,13 @@ class SearchCocktailsFragment : Injectable,
 
         editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(query: Editable?) {
-                mViewModel.searchQuerySubject.onNext(query.toString())
+                viewModel.searchQuerySubject.onNext(query.toString())
             }
 
             override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
-        mViewModel.subscribeToSearchSubject()
+        viewModel.subscribeToSearchSubject()
     }
 }

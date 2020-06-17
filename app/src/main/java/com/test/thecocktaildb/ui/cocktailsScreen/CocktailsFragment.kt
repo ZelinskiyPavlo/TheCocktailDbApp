@@ -44,15 +44,15 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         setupRecyclerView()
         loadCocktails()
 
-        return mViewDataBinding.root
+        return viewDataBinding.root
     }
 
     private fun attachBindingVariable() {
-        mViewDataBinding.viewModel = mViewModel
+        viewDataBinding.viewModel = this.viewModel
     }
 
     private fun setupFab() {
-        mViewDataBinding.searchFab.setOnClickListener {
+        viewDataBinding.searchFab.setOnClickListener {
             val action = CocktailsFragmentDirections
                 .actionCocktailsFragmentToSearchCocktailsFragment()
             findNavController().navigate(action)
@@ -60,7 +60,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     }
 
     private fun setupNavigation() {
-        mViewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
             viewLifecycleOwner,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
@@ -71,15 +71,15 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = CocktailsAdapter(mViewModel)
-        mViewDataBinding.cocktailsRv.apply {
+        val cocktailsAdapter = CocktailsAdapter(viewModel)
+        viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
     }
 
     private fun loadCocktails() {
-        mViewModel.loadCocktails()
+        viewModel.loadCocktails()
     }
 
     override fun onStart() {
@@ -118,20 +118,20 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     override fun proposeCocktail(selectedCocktailId: String) {
         // show proposal snackbar only if there are at least 2 cocktail in history
-        if ((mViewDataBinding.viewModel?.items?.value?.size ?: 0) > 1) {
+        if ((viewDataBinding.viewModel?.items?.value?.size ?: 0) > 1) {
             val proposalSnackbar = Snackbar.make(
-                mViewDataBinding.root,
+                viewDataBinding.root,
                 getString(R.string.proposal_snackbar_message),
                 Snackbar.LENGTH_LONG
             )
             proposalSnackbar.setAction(getString(R.string.show_proposed_cocktail)) {
-                mViewDataBinding.viewModel?.openProposedCocktail(selectedCocktailId)
+                viewDataBinding.viewModel?.openProposedCocktail(selectedCocktailId)
             }
             proposalSnackbar.show()
         }
     }
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
-        mViewDataBinding.viewModel?.updateBatteryState(batteryState)
+        viewDataBinding.viewModel?.updateBatteryState(batteryState)
     }
 }
