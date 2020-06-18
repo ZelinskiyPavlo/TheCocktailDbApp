@@ -26,7 +26,7 @@
             android:paddingEnd="@dimen/margin_default"
             android:visibility="gone"
             app:adapter_tag="@{viewModel}"
-            app:items="@{viewModel.items}"
+            app:items="@{viewModel.itemsLiveData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{viewModel.batteryPercent}"
+                android:text="@{viewModel.batteryPercentLiveData}"
                 android:textAppearance="@style/TextRegular"
                 android:textColor="@color/text_white" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:tint="@{viewModel.isBatteryCharging()}"
+                app:tint="@{viewModel.isBatteryChargingLiveData()}"
                 android:src="@drawable/ic_battery_24"
                 tools:ignore="ContentDescription" />
 
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{viewModel.batteryStatus}"
+                android:text="@{viewModel.batteryStatusLiveData}"
                 android:textAppearance="@style/TextRegular"
                 android:textColor="@color/text_white" />
 
@@ -100,14 +100,14 @@
             android:id="@+id/empty_history_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.isSearchResultEmptyLiveData ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="empty_history_text" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/filled_history_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.isSearchResultEmptyLiveData ? View.GONE : View.VISIBLE}"
             app:constraint_referenced_ids="cocktails_rv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

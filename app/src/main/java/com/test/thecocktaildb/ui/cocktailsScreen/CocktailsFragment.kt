@@ -60,7 +60,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     }
 
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEventLiveData?.observe(
             viewLifecycleOwner,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
@@ -118,7 +118,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     override fun proposeCocktail(selectedCocktailId: String) {
         // show proposal snackbar only if there are at least 2 cocktail in history
-        if ((viewDataBinding.viewModel?.items?.value?.size ?: 0) > 1) {
+        if ((viewDataBinding.viewModel?.itemsLiveData?.value?.size ?: 0) > 1) {
             val proposalSnackbar = Snackbar.make(
                 viewDataBinding.root,
                 getString(R.string.proposal_snackbar_message),

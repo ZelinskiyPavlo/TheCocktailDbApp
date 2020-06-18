@@ -18,23 +18,25 @@ import javax.inject.Inject
 class CocktailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModel() {
 
-    private val _items = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
-    val items: LiveData<List<Cocktail>> = _items
+    private val _itemsLiveData = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
+    val itemsLiveData: LiveData<List<Cocktail>> = _itemsLiveData
 
-    private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
+    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, String>>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> =
+        _cocktailDetailsEventLiveData
 
-    val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
+    val isSearchResultEmptyLiveData: LiveData<Boolean> =
+        Transformations.map(_itemsLiveData) { it.isEmpty() }
 
-    private val _batteryPercent = MutableLiveData<String>()
-    val batteryPercent: LiveData<String> = _batteryPercent
+    private val _batteryPercentLiveData = MutableLiveData<String>()
+    val batteryPercentLiveData: LiveData<String> = _batteryPercentLiveData
 
-    private val _batteryStatus = MutableLiveData<Boolean>()
-    val batteryStatus: LiveData<String> =
-        Transformations.map(_batteryStatus) { if (it) "BATTERY_OKAY" else "BATTERY_LOW" }
+    private val _batteryStatusLiveData = MutableLiveData<Boolean>()
+    val batteryStatusLiveData: LiveData<String> =
+        Transformations.map(_batteryStatusLiveData) { if (it) "BATTERY_OKAY" else "BATTERY_LOW" }
 
-    private val _isBatteryCharging = MutableLiveData<Boolean>()
-    val isBatteryCharging: LiveData<Boolean> = _isBatteryCharging
+    private val _isBatteryChargingLiveData = MutableLiveData<Boolean>()
+    val isBatteryChargingLiveData: LiveData<Boolean> = _isBatteryChargingLiveData
 
     private val batteryStateCache = BatteryStateCacheHolder()
 
@@ -45,7 +47,7 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     fun loadCocktails() {
         disposable.add(
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
-                _items.value = cocktailsList
+                _itemsLiveData.value = cocktailsList
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
     }
@@ -62,12 +64,12 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+        _cocktailDetailsEventLiveData.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 
     fun openProposedCocktail(selectedCocktailId: String?) {
-        val otherCocktail = items.value
-            ?.filter { it.idDrink != selectedCocktailId }?.random()
+        val otherCocktail =
+            itemsLiveData.value?.filter { it.idDrink != selectedCocktailId }?.random()
 
         if (otherCocktail != null) {
             updateCocktailAndNavigateDetailsFragment(otherCocktail)
@@ -100,11 +102,11 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         cacheBatteryState()
 
         if (batteryStateCache.batteryStatus == null) {
-            _batteryStatus.value = determineBatteryStatus()
+            _batteryStatusLiveData.value = determineBatteryStatus()
         } else {
-            _batteryStatus.value = batteryStateCache.batteryStatus
+            _batteryStatusLiveData.value = batteryStateCache.batteryStatus
         }
-        _isBatteryCharging.value = batteryStateCache.isCharging ?: false
-        _batteryPercent.value = batteryStateCache.batteryPercent.toString()
+        _isBatteryChargingLiveData.value = batteryStateCache.isCharging ?: false
+        _batteryPercentLiveData.value = batteryStateCache.batteryPercent.toString()
     }
 }

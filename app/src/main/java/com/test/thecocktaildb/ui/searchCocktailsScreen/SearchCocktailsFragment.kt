@@ -49,7 +49,7 @@ class SearchCocktailsFragment : Injectable,
 
 
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEventLiveData?.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = SearchCocktailsFragmentDirections
