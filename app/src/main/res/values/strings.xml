@@ -27,4 +27,11 @@
     <string name="search_field_icon_description">search icon</string>
     <!--endregion-->
 
+
+    <!--region AuthActivity-->
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="button_login">Login</string>
+    <!--endregion-->
+
 </resources>

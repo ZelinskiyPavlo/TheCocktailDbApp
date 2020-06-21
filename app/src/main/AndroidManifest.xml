@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity"
-            android:theme="@style/SplashTheme">
+        <activity android:name="com.test.thecocktaildb.ui.auth.AuthActivity"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +25,8 @@
         <service android:name=".util.DrinkProposalService"
             android:exported="false">
         </service>
+        <activity android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
