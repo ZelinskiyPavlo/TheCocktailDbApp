@@ -4,167 +4,222 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/image_view_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_double"
-                app:cardCornerRadius="@dimen/corner_radius_default"
-                app:cardElevation="@dimen/elevation_none"
-                app:layout_constraintLeft_toLeftOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/cocktail_image"
-                    android:layout_width="@dimen/image_size"
-                    android:layout_height="@dimen/image_size"
-                    app:image_url="@{viewModel.cocktailPicture}"
-                    android:contentDescription="@string/cocktail_image_description" />
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/cocktail_name_tag"
-                style="@style/TextSpacing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/cocktail_name_tag"
-                android:textAppearance="@style/TextBoldRegular"
-                app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
-                app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/image_view_container" />
-
-            <TextView
-                android:id="@+id/cocktail_alcoholic_tag"
-                style="@style/TextSpacing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/cocktail_alcoholic_tag"
-                android:textAppearance="@style/TextBoldRegular"
-                app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
-                app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/cocktail_name_tag" />
-
-            <TextView
-                android:id="@+id/cocktail_glass_tag"
-                style="@style/TextSpacing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_default"
-                android:text="@string/cocktail_glass_tag"
-                android:textAppearance="@style/TextBoldRegular"
-                app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
-                app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic_tag" />
-
-            <TextView
-                android:id="@+id/cocktail_name"
-                style="@style/TextSpacing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:layout_marginTop="20dp"
-                android:text="@{viewModel.cocktailName}"
-                android:textAppearance="@style/TextRegular"
-                app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/image_view_container" />
-
-            <TextView
-                android:id="@+id/cocktail_alcoholic"
-                style="@style/TextSpacing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:text="@{viewModel.cocktailAlcoholic}"
-                android:textAppearance="@style/TextRegular"
-                app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/cocktail_name" />
-
-            <TextView
-                android:id="@+id/cocktail_glass"
-                style="@style/TextSpacing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:layout_marginBottom="@dimen/margin_default"
-                android:text="@{viewModel.cocktailGlass}"
-                android:textAppearance="@style/TextRegular"
-                app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic" />
-
-            <TextView
-                android:id="@+id/ingredients_tag"
-                style="@style/SectionDivider"
+            
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/ctl_detail"
                 android:layout_width="match_parent"
-                android:text="@string/ingredients_tag"
-                android:textAppearance="@style/TextBoldTitle"
-                app:layout_constraintTop_toBottomOf="@+id/cocktail_glass"
-                tools:layout_editor_absoluteX="165dp" />
+                android:layout_height="300dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:expandedTitleGravity="bottom"
+                app:expandedTitleTextAppearance="@style/TextTitleExpanded"
+                app:expandedTitleMarginBottom="32dp"
+                app:expandedTitleMarginStart="24dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingredients_rv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:overScrollMode="never"
-                app:ingredients="@{viewModel.ingredients}"
-                app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients_tag" />
+                <LinearLayout
+                    android:id="@+id/image_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.5">
 
-            <TextView
-                android:id="@+id/instructions_tag"
-                style="@style/SectionDivider"
+                    <ImageView
+                        android:id="@+id/cocktail_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
+                        app:image_url="@{viewModel.cocktailPicture}"
+                        android:contentDescription="@string/cocktail_image_description" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_cocktail_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:titleMarginStart="48dp"
+                    app:layout_collapseMode="pin"> 
+                
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:contentDescription="@null"
+                        android:onClick="@{viewModel.onBackButtonPressed}"
+                        android:background="@drawable/bg_btn_details_back"
+                        android:src="@drawable/ic_arrow_back_24"
+                        />
+                    
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:text="@string/instructions_tag"
-                android:textAppearance="@style/TextBoldTitle"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients_rv"
-                tools:layout_editor_absoluteX="0dp" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/instructions_desc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_double"
-                android:lineSpacingExtra="12sp"
-                android:paddingTop="13dp"
-                android:paddingBottom="@dimen/margin_double"
-                android:text="@{viewModel.cocktailInstruction}"
-                android:textAppearance="@style/TextRegular"
-                app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/instructions_tag"
-                tools:layout_editor_absoluteX="159dp" />
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/image_view_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_double"
+                    app:cardCornerRadius="@dimen/corner_radius_default"
+                    app:cardElevation="@dimen/elevation_none"
+                    app:layout_constraintLeft_toLeftOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toTopOf="parent">
+                </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/first_column_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.04" />
+                <TextView
+                    android:id="@+id/cocktail_name_tag"
+                    style="@style/TextSpacing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/cocktail_name_tag"
+                    android:textAppearance="@style/TextBoldRegular"
+                    app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
+                    app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/image_view_container" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/second_column_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.28" />
+                <TextView
+                    android:id="@+id/cocktail_alcoholic_tag"
+                    style="@style/TextSpacing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cocktail_alcoholic_tag"
+                    android:textAppearance="@style/TextBoldRegular"
+                    app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
+                    app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_name_tag" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/cocktail_glass_tag"
+                    style="@style/TextSpacing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:text="@string/cocktail_glass_tag"
+                    android:textAppearance="@style/TextBoldRegular"
+                    app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
+                    app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic_tag" />
+
+                <TextView
+                    android:id="@+id/cocktail_name"
+                    style="@style/TextSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@{viewModel.cocktailName}"
+                    android:textAppearance="@style/TextRegular"
+                    app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/image_view_container"
+                    />
+
+                <TextView
+                    android:id="@+id/cocktail_alcoholic"
+                    style="@style/TextSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:text="@{viewModel.cocktailAlcoholic}"
+                    android:textAppearance="@style/TextRegular"
+                    app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_name" />
+
+                <TextView
+                    android:id="@+id/cocktail_glass"
+                    style="@style/TextSpacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:text="@{viewModel.cocktailGlass}"
+                    android:textAppearance="@style/TextRegular"
+                    app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic" />
+
+                <TextView
+                    android:id="@+id/ingredients_tag"
+                    style="@style/SectionDivider"
+                    android:layout_width="match_parent"
+                    android:text="@string/ingredients_tag"
+                    android:textAppearance="@style/TextBoldTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_glass"
+                    tools:layout_editor_absoluteX="165dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ingredients_rv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:overScrollMode="never"
+                    app:ingredients="@{viewModel.ingredients}"
+                    app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredients_tag" />
+
+                <TextView
+                    android:id="@+id/instructions_tag"
+                    style="@style/SectionDivider"
+                    android:layout_width="match_parent"
+                    android:text="@string/instructions_tag"
+                    android:textAppearance="@style/TextBoldTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredients_rv"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <TextView
+                    android:id="@+id/instructions_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_double"
+                    android:lineSpacingExtra="12sp"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="@dimen/margin_double"
+                    android:text="@{viewModel.cocktailInstruction}"
+                    android:textAppearance="@style/TextRegular"
+                    app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/instructions_tag"
+                    tools:layout_editor_absoluteX="159dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/first_column_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.04" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/second_column_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.28" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>
