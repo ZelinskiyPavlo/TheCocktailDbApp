@@ -16,7 +16,7 @@ import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.search_cocktails_toolbar.view.*
 
 class SearchCocktailsFragment : Injectable,
     BaseFragment<SearchCocktailsFragmentBinding, SearchCocktailsViewModel>() {
@@ -77,7 +77,7 @@ class SearchCocktailsFragment : Injectable,
             }
         }
 
-        val editText = activity?.toolBar?.findViewById<EditText>(R.id.search_field_edit_text)
+        val editText = mViewDataBinding.searchFieldLayout.search_field_edit_text
         editText?.setText("")
 
         showKeyboard(editText)
