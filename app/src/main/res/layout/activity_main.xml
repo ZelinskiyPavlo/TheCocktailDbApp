@@ -12,24 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Light"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp">
-
-            <include
-                android:id="@+id/search_field_layout"
-                layout="@layout/search_cocktails_toolbar" />
-
-            <include
-                android:id="@+id/cocktails_toolbar_layout"
-                layout="@layout/cocktails_toolbar" />
-
-        </androidx.appcompat.widget.Toolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <fragment

@@ -6,6 +6,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
+import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.util.BatteryStateCacheHolder
 import com.test.thecocktaildb.util.BatteryStateHolder
 import com.test.thecocktaildb.util.Event
@@ -37,6 +39,8 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     val isBatteryCharging: LiveData<Boolean> = _isBatteryCharging
 
     private val batteryStateCache = BatteryStateCacheHolder()
+
+    private var allCocktailList: List<Cocktail>? = null
 
     private val disposable = CompositeDisposable()
 
@@ -106,5 +110,28 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         }
         _isBatteryCharging.value = batteryStateCache.isCharging ?: false
         _batteryPercent.value = batteryStateCache.batteryPercent.toString()
+    }
+
+    fun applyFilter(filterTypeList: List<DrinkFilter?>) {
+        if (allCocktailList == null) allCocktailList = _items.value
+
+        _items.value = allCocktailList
+
+        filterTypeList.forEach { drinkFilter ->
+            if (drinkFilter == null) {
+                _items.value = allCocktailList
+            } else {
+                when (drinkFilter.type) {
+                    DrinkFilterType.ALCOHOL -> {
+                        _items.value = _items.value?.filter { it.strAlcoholic == drinkFilter.key }
+                    }
+                    DrinkFilterType.CATEGORY -> {
+                        _items.value = _items.value?.filter { it.strCategory == drinkFilter.key }
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
     }
 }
