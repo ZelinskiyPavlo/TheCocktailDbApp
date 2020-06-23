@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.di.ViewModelKey
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
+import com.test.thecocktaildb.ui.cocktailsScreen.CocktailFilterViewModel
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
 import com.test.thecocktaildb.util.ViewModelFactory
@@ -34,6 +35,14 @@ abstract class ViewModelModule {
     @Suppress("unused")
     abstract fun bindsSearchCocktailsViewModel(
         searchCocktailsViewModel: SearchCocktailsViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CocktailFilterViewModel::class)
+    @Suppress("unused")
+    abstract fun bindsCocktailFilterViewModel(
+        cocktailFilterViewModel: CocktailFilterViewModel
     ): ViewModel
 
     @Binds

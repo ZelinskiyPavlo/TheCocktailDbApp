@@ -28,6 +28,8 @@
     <string name="proposal_snackbar_message">Чи хочете ви переглянути ще якийсь напій із вашого
         списку?</string>
     <string name="show_proposed_cocktail">Показати</string>
+    <string name="filter_button_reset">Скинути</string>
+    <string name="filter_button_apply">Застосувати</string>
     <!--endregion-->
 
 </resources>

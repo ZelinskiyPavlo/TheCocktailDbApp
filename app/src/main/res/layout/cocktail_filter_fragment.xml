@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.test.thecocktaildb.ui.cocktailsScreen.CocktailFilterViewModel" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/windowBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="24dp"
+            tools:context=".ui.cocktailsScreen.CocktailFilterFragment">
+
+            <RadioGroup
+                android:id="@+id/radio_group_filter_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_filter_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group_filter_1"
+                app:layout_constraintBottom_toTopOf="@id/filter_button_reset"
+                />
+
+            <Button
+                android:id="@+id/filter_button_reset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/battery_state_bg"
+                android:onClick="@{() -> viewModel.onResetButtonClicked()}"
+                android:text="@string/filter_button_reset"
+                android:textAppearance="@style/TextRegular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/filter_button_apply"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/filter_button_apply"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/battery_state_bg"
+                android:onClick="@{() -> viewModel.onApplyButtonClicked()}"
+                android:text="@string/filter_button_apply"
+                android:textAppearance="@style/TextRegular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/filter_button_reset" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>
