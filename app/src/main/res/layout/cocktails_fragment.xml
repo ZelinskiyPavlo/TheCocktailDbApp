@@ -12,35 +12,62 @@
             type="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cocktails_rv"
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/cocktail_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/margin_default"
-            android:paddingTop="@dimen/margin_double"
-            android:paddingEnd="@dimen/margin_default"
-            android:visibility="gone"
-            app:adapter_tag="@{viewModel}"
-            app:items="@{viewModel.items}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <TextView
-            android:id="@+id/empty_history_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:text="@string/empty_history_text"
-            android:textAppearance="@style/TextHint"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cocktails_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/margin_default"
+                android:paddingTop="@dimen/margin_double"
+                android:paddingEnd="@dimen/margin_default"
+                android:visibility="gone"
+                app:adapter_tag="@{viewModel}"
+                app:items="@{viewModel.items}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/empty_history_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:text="@string/empty_history_text"
+                android:textAppearance="@style/TextHint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/search_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_double"
+                android:layout_marginBottom="18dp"
+                android:elevation="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_search"
+                app:tint="@color/ic_search_tint" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -95,21 +122,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_search"
             app:tint="@color/ic_search_tint" />
+			
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/empty_history_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="empty_history_text" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/empty_history_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
-            app:constraint_referenced_ids="empty_history_text" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/filled_history_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
+                app:constraint_referenced_ids="cocktails_rv" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/filled_history_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
-            app:constraint_referenced_ids="cocktails_rv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
@@ -36,8 +39,8 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         attachBindingVariable()
+        initNavigation()
 
         setupFab()
         setupNavigation()
@@ -47,7 +50,15 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         return mViewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    private fun initNavigation() {
+        (activity as AppCompatActivity).setSupportActionBar(mViewDataBinding.cocktailToolbar)
+
+        val navController = NavHostFragment.findNavController(this)
+
+        NavigationUI.setupWithNavController(mViewDataBinding.cocktailToolbar, navController)
+    }
+
+    private fun attachBindingVariable(){
         mViewDataBinding.viewModel = mViewModel
     }
 
