@@ -1,42 +1,33 @@
-package com.test.thecocktaildb.ui.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
+import com.test.thecocktaildb.databinding.FavoriteFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.DrinkProposalCallback
+import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsAdapter
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
-import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
 
-class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>(), Injectable,
-    DrinkProposalCallback, OnFilterApplied {
+class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel>(), Injectable,
+    OnFilterApplied {
 
     companion object {
-        fun newInstance(): CocktailsFragment {
-            return CocktailsFragment()
-        }
+        fun newInstance() = FavoriteFragment()
     }
 
-    override val layoutId: Int = R.layout.cocktails_fragment
+    override val layoutId: Int = R.layout.favorite_fragment
 
-    override fun getViewModelClass() = CocktailsViewModel::class.java
-
-    private lateinit var drinkProposalReceiver: BroadcastReceiver
+    override fun getViewModelClass(): Class<FavoriteViewModel> = FavoriteViewModel::class.java
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,22 +35,21 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         attachBindingVariable()
-
         setupNavigation()
-        setupRecyclerView()
-        loadCocktails()
 
+        setupRecyclerView()
+
+        loadFavoriteCocktail()
         return viewDataBinding.root
     }
 
     private fun attachBindingVariable() {
-        viewDataBinding.viewModel = viewModel
+        viewDataBinding.viewModel = this.viewModel
     }
 
     private fun setupNavigation() {
@@ -75,35 +65,14 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     private fun setupRecyclerView() {
         val cocktailsAdapter = CocktailsAdapter(viewModel)
-        viewDataBinding.cocktailsRv.apply {
+        viewDataBinding.cocktailsFavoriteRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
     }
 
-    private fun loadCocktails() {
-        viewModel.loadCocktails()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        registerDrinkProposalReceiver()
-    }
-
-    private fun registerDrinkProposalReceiver() {
-        drinkProposalReceiver = DrinkProposalReceiver(this)
-
-        val intentFilter = IntentFilter().apply {
-            addAction(ACTION_PROPOSE_DRINK)
-        }
-        activity?.registerReceiver(drinkProposalReceiver, intentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        activity?.unregisterReceiver(drinkProposalReceiver)
+    private fun loadFavoriteCocktail() {
+        viewDataBinding.viewModel?.loadFavoriteCocktails()
     }
 
     override fun onDetach() {
@@ -117,19 +86,5 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     override fun resetFilter() {
         viewDataBinding.viewModel?.applyFilter(listOf(null))
-    }
-
-    override fun proposeCocktail(selectedCocktailId: String) {
-        if ((viewDataBinding.viewModel?.items?.value?.size ?: 0) > 1) {
-            val proposalSnackbar = Snackbar.make(
-                viewDataBinding.root,
-                getString(R.string.proposal_snackbar_message),
-                Snackbar.LENGTH_LONG
-            )
-            proposalSnackbar.setAction(getString(R.string.show_proposed_cocktail)) {
-                viewDataBinding.viewModel?.openProposedCocktail(selectedCocktailId)
-            }
-            proposalSnackbar.show()
-        }
     }
 }

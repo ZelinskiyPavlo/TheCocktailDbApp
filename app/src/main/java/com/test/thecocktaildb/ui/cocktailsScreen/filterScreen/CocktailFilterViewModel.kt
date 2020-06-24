@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.ui.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen.filterScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,6 +21,7 @@ class CocktailFilterViewModel @Inject constructor() : ViewModel() {
     private val _retrieveFilterEventLiveData = MutableLiveData<Event<Unit>>()
     val retrieveFilterEventLiveData: LiveData<Event<Unit>> = _retrieveFilterEventLiveData
 
+    var numberOfRadioButtons = 0
     lateinit var selectedFilterViewIdList: List<Int>
     lateinit var drinkFilterTypeList: List<DrinkFilterType?>
     lateinit var selectedFilterTypeList: List<DrinkFilter?>
@@ -39,15 +40,16 @@ class CocktailFilterViewModel @Inject constructor() : ViewModel() {
                 else -> throw IllegalArgumentException("Unknown enum specified")
             }
         }
-        val numberOfRadioButton = filterTypeSizeList.size + filterTypeSizeList.sum()
 
         val selectedFilterIdList = selectedFilterViewIdList.mapIndexed { index, viewId ->
             if (viewId == -1) return@mapIndexed -1
-            val floorMod1 = Math.floorMod(viewId, numberOfRadioButton)
 
-            if (index != 1) Math.floorMod(floorMod1, filterTypeSizeList[index] + 1) - 1
-            else Math
-                .floorMod(floorMod1, numberOfRadioButton - filterTypeSizeList[index - 1] + 1) - 1
+            if (index == 0 && viewId == filterTypeSizeList[index]) return@mapIndexed -1
+
+            if (index == 1 && viewId == numberOfRadioButtons - 1) return@mapIndexed -1
+
+            if (index != 1) Math.floorMod(viewId, filterTypeSizeList[index])
+            else Math.floorMod(viewId, numberOfRadioButtons - filterTypeSizeList[index - 1] - 1)
         }
 
         selectedFilterTypeList = selectedFilterIdList.mapIndexed { index, id ->
@@ -66,5 +68,4 @@ class CocktailFilterViewModel @Inject constructor() : ViewModel() {
 
         _applyFilterEventLiveData.value = Event(selectedFilterTypeList)
     }
-
 }

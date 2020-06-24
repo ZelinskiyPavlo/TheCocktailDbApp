@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.ui.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.ui.cocktailsScreen.AdapterHandler
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.util.Event
@@ -15,7 +16,7 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-class CocktailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
+class FavoriteViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModel(), AdapterHandler {
 
     private val _items = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
@@ -32,7 +33,8 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
 
     override fun onCleared() = disposable.clear()
 
-    fun loadCocktails() {
+//    TODO: add filter by favorite
+    fun loadFavoriteCocktails() {
         disposable.add(
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
                 _items.value = cocktailsList
@@ -53,15 +55,6 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
 
     private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
         _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
-    }
-
-    fun openProposedCocktail(selectedCocktailId: String?) {
-        val otherCocktail = items.value
-            ?.filter { it.idDrink != selectedCocktailId }?.random()
-
-        if (otherCocktail != null) {
-            updateCocktailAndNavigateDetailsFragment(otherCocktail)
-        }
     }
 
     fun applyFilter(filterTypeList: List<DrinkFilter?>) {

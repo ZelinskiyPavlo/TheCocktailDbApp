@@ -28,8 +28,21 @@
     <string name="proposal_snackbar_message">Чи хочете ви переглянути ще якийсь напій із вашого
         списку?</string>
     <string name="show_proposed_cocktail">Показати</string>
+    <!--endregion-->
+
+    <!--region FilterFragment related-->
     <string name="filter_button_reset">Скинути</string>
     <string name="filter_button_apply">Застосувати</string>
+    <string name="filter_fragment_none_filter">None</string>
+    <!--endregion-->
+
+    <!--region HostFragment related-->
+    <string name="tl_host_fragment_history_tab">History</string>
+    <string name="tl_host_fragment_favorite_tab">Favorite</string>
+    <!--endregion-->
+
+    <!--region FavoriteFragment-->
+    <string name="empty_favorite_text">Favorite is empty</string>
     <!--endregion-->
 
 </resources>

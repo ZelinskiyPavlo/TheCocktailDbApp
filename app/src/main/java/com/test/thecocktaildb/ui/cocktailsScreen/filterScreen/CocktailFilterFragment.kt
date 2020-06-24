@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.ui.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen.filterScreen
 
 import android.content.Context
 import android.os.Bundle
@@ -10,17 +10,20 @@ import android.widget.RadioGroup
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailFilterFragmentBinding
 import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.CategoryDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.util.EventObserver
 
-class CocktailFilterFragment : BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
+class CocktailFilterFragment :
+    BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
 
     companion object {
         fun newInstance(drinkFilterTypeList: List<DrinkFilterType>? = null): CocktailFilterFragment {
-            val filterFragment = CocktailFilterFragment()
+            val filterFragment =
+                CocktailFilterFragment()
             val args = Bundle()
 
             if (drinkFilterTypeList != null) {
@@ -33,18 +36,18 @@ class CocktailFilterFragment : BaseFragment<CocktailFilterFragmentBinding, Cockt
         }
     }
 
-    private lateinit var fragmentNavigationListener: FragmentNavigationListener
-
-    private lateinit var radioGroupList: List<RadioGroup>
-
     override val layoutId: Int = R.layout.cocktail_filter_fragment
 
     override fun getViewModelClass(): Class<CocktailFilterViewModel> =
         CocktailFilterViewModel::class.java
 
+    private lateinit var fragmentEventCallback: FragmentEventCallback
+
+    private lateinit var radioGroupList: List<RadioGroup>
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentNavigationListener = context as FragmentNavigationListener
+        fragmentEventCallback = context as FragmentEventCallback
     }
 
     override fun onCreateView(
@@ -52,7 +55,6 @@ class CocktailFilterFragment : BaseFragment<CocktailFilterFragmentBinding, Cockt
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         attachBindingVariable()
 
         setupRadioGroup()
@@ -67,15 +69,22 @@ class CocktailFilterFragment : BaseFragment<CocktailFilterFragmentBinding, Cockt
     private fun setupRadioGroup() {
         radioGroupList =
             listOf(viewDataBinding.radioGroupFilter1, viewDataBinding.radioGroupFilter2)
+        var numberOfRadioButtons = 0
 
         fun populateRadioGroup(radioGroupIndex: Int, filterValues: Array<out DrinkFilter>) {
-            filterValues.forEach {
+            filterValues.forEachIndexed { index, drinkFilter ->
                 val radioButton = RadioButton(activity)
-                radioButton.text = it.key.replace("_", " ")
+                radioButton.text = drinkFilter.key.replace("_", " ")
+                radioButton.id = numberOfRadioButtons
                 radioGroupList[radioGroupIndex].addView(radioButton)
+                numberOfRadioButtons++
             }
             val radioButton = RadioButton(activity)
-            radioButton.text = "None"
+            radioButton.text = getString(R.string.filter_fragment_none_filter)
+            radioButton.id = numberOfRadioButtons
+
+            numberOfRadioButtons++
+            viewDataBinding.viewModel?.numberOfRadioButtons = numberOfRadioButtons
             radioGroupList[radioGroupIndex].addView(radioButton)
         }
 
@@ -110,7 +119,7 @@ class CocktailFilterFragment : BaseFragment<CocktailFilterFragmentBinding, Cockt
         })
 
         viewModel.applyFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            fragmentNavigationListener.navigateToCocktailFragment(it)
+            fragmentEventCallback.navigateToHostFragmentEvent(it)
         })
     }
 }

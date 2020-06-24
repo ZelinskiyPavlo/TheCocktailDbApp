@@ -6,15 +6,21 @@ import android.content.IntentFilter
 import android.os.Bundle
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.base.BaseActivity
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 
-class CocktailsActivity : BaseActivity(), FragmentNavigationListener {
+class CocktailsActivity : BaseActivity(),
+    FragmentEventCallback {
 
     private lateinit var airplaneBroadcastReceiver: BroadcastReceiver
 
     private lateinit var cocktailFilterFragment: CocktailFilterFragment
+
+    private var listeners: MutableSet<OnFilterApplied> = mutableSetOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -47,25 +53,31 @@ class CocktailsActivity : BaseActivity(), FragmentNavigationListener {
         unregisterReceiver(airplaneBroadcastReceiver)
     }
 
-    override fun navigateToFilterFragment() {
+    override fun navigateToFilterFragmentEvent() {
         val drinkFilterTypeList = listOf(DrinkFilterType.ALCOHOL, DrinkFilterType.CATEGORY)
 
         cocktailFilterFragment = CocktailFilterFragment.newInstance(drinkFilterTypeList)
-        supportFragmentManager.beginTransaction().replace(
-            R.id.nav_host_fragment, cocktailFilterFragment, null
-        ).addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.nav_host_fragment, cocktailFilterFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
-    override fun navigateToCocktailFragment(filterTypeList: List<DrinkFilter?>) {
-        supportFragmentManager.beginTransaction().remove(cocktailFilterFragment).runOnCommit {
-            val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-            navHost?.let { navFragment ->
-                navFragment.childFragmentManager.primaryNavigationFragment?.let { cocktailFragment ->
-                    cocktailFragment as CocktailsFragment
-                    cocktailFragment.applyFilter(filterTypeList)
-                }
-            }
-        }.commit()
+    override fun navigateToHostFragmentEvent(filterTypeList: List<DrinkFilter?>) {
+        listeners.forEach { it.applyFilter(filterTypeList) }
 
+        supportFragmentManager.popBackStack()
+    }
+
+    override fun resetFilterEvent() {
+        listeners.forEach { it.resetFilter() }
+    }
+
+    override fun addCallback(listener: OnFilterApplied) {
+        listeners.add(listener)
+    }
+
+    override fun removeCallback(listener: OnFilterApplied) {
+        listeners.remove(listener)
     }
 }

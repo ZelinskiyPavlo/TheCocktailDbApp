@@ -4,7 +4,7 @@ import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
 import com.test.thecocktaildb.util.recyclerViewAdapters.BaseCocktailsAdapter
 
-class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
+class CocktailsAdapter(private val viewModel: AdapterHandler) :
     BaseCocktailsAdapter<Cocktail>() {
 
     override fun setData(items: List<Cocktail>?) {
@@ -16,7 +16,7 @@ class CocktailsAdapter(private val cocktailsViewModel: CocktailsViewModel) :
         return object : CocktailsItemUserActionListener {
 
             override fun onItemClicked(cocktail: Cocktail) {
-                cocktailsViewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
+                viewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
             }
         }
     }
