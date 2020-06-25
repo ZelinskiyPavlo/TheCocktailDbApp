@@ -1,6 +1,7 @@
 <resources>
     <!--region High level text-->
     <string name="app_name">TheCocktailDb</string>
+    <string name="app_name_simplified">Pavlo Zelinskiy</string>
     <!--endregion-->
 
     <!--region CocktailsFragment related-->
