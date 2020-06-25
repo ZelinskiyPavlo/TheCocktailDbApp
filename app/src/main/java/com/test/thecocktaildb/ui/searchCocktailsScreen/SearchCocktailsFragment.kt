@@ -20,7 +20,7 @@ import com.test.thecocktaildb.util.EventObserver
 class SearchCocktailsFragment : Injectable,
     BaseFragment<SearchCocktailsFragmentBinding, SearchCocktailsViewModel>() {
 
-    override fun getLayoutId(): Int = R.layout.search_cocktails_fragment
+    override val layoutId: Int = R.layout.search_cocktails_fragment
 
     override fun getViewModelClass(): Class<SearchCocktailsViewModel> =
         SearchCocktailsViewModel::class.java
@@ -38,17 +38,15 @@ class SearchCocktailsFragment : Injectable,
         setupRecyclerView()
         setupSearchField()
 
-        return mViewDataBinding.root
+        return viewDataBinding.root
     }
-
 
     private fun attachBindingVariable() {
-        mViewDataBinding.viewModel = mViewModel
+        viewDataBinding.viewModel = viewModel
     }
 
-
     private fun setupNavigation() {
-        mViewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = SearchCocktailsFragmentDirections
@@ -60,8 +58,8 @@ class SearchCocktailsFragment : Injectable,
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = SearchCocktailsAdapter(mViewModel)
-        mViewDataBinding.searchCocktailsRv.apply {
+        val cocktailsAdapter = SearchCocktailsAdapter(viewModel)
+        viewDataBinding.searchCocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
@@ -76,20 +74,21 @@ class SearchCocktailsFragment : Injectable,
             }
         }
 
-        val editText = activity?.toolBar?.findViewById<EditText>(R.id.search_field_edit_text)
+        val editText = viewDataBinding.searchFieldLayout
+            .findViewById<EditText>(R.id.search_field_edit_text)
         editText?.setText("")
 
         showKeyboard(editText)
 
         editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(query: Editable?) {
-                mViewModel.searchQuerySubject.onNext(query.toString())
+                viewModel.searchQuerySubject.onNext(query.toString())
             }
 
             override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
-        mViewModel.subscribeToSearchSubject()
+        viewModel.subscribeToSearchSubject()
     }
 }
