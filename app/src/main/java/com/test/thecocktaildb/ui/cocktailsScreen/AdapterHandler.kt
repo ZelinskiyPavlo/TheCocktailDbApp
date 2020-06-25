@@ -6,4 +6,8 @@ interface AdapterHandler {
 
     fun updateCocktailAndNavigateDetailsFragment(cocktail: Cocktail)
 
+    fun addCocktailToFavorite(cocktail: Cocktail)
+
+    fun removeCocktailFromFavorite(cocktail: Cocktail)
+
 }

@@ -28,16 +28,17 @@ class FavoriteViewModel @Inject constructor(private val repository: AppCocktails
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
 
     private var allCocktailList: List<Cocktail>? = null
+    private var cachedFilterTypeList: List<DrinkFilter?> = listOf(null)
 
     private val disposable = CompositeDisposable()
 
     override fun onCleared() = disposable.clear()
 
-//    TODO: add filter by favorite
     fun loadFavoriteCocktails() {
         disposable.add(
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
-                _items.value = cocktailsList
+                _items.value = cocktailsList.filter { it.isFavorite }
+                allCocktailList = _items.value
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
     }
@@ -58,14 +59,12 @@ class FavoriteViewModel @Inject constructor(private val repository: AppCocktails
     }
 
     fun applyFilter(filterTypeList: List<DrinkFilter?>) {
-        if (allCocktailList == null) allCocktailList = _items.value
+        cachedFilterTypeList = filterTypeList
 
         _items.value = allCocktailList
 
         filterTypeList.forEach { drinkFilter ->
-            if (drinkFilter == null) {
-                _items.value = allCocktailList
-            } else {
+            if (drinkFilter != null) {
                 when (drinkFilter.type) {
                     DrinkFilterType.ALCOHOL -> {
                         _items.value = _items.value?.filter { it.strAlcoholic == drinkFilter.key }
@@ -78,5 +77,34 @@ class FavoriteViewModel @Inject constructor(private val repository: AppCocktails
                 }
             }
         }
+    }
+
+    override fun addCocktailToFavorite(cocktail: Cocktail) {
+    }
+
+    override fun removeCocktailFromFavorite(cocktail: Cocktail) {
+        disposable.add(
+            repository.updateFavoriteState(cocktail.idDrink, false)
+                .doOnComplete {
+                    Timber.i("Cocktail removed from favorite")
+                }
+                .subscribeBy(onComplete = {
+                    val updatedCocktailList = allCocktailList?.toMutableList()?.apply {
+                        removeIf { it.idDrink == cocktail.idDrink }
+                    }
+                    allCocktailList = updatedCocktailList
+                    applyFilter(cachedFilterTypeList)
+                })
+        )
+    }
+
+    fun updateFavoriteList(cocktail: Cocktail) {
+        val updatedCocktailList = allCocktailList?.toMutableList()
+        if (updatedCocktailList?.contains(cocktail)
+                ?.not() != false || updatedCocktailList.isNullOrEmpty()
+        )
+            updatedCocktailList?.add(cocktail)
+        allCocktailList = updatedCocktailList?.sortedByDescending { it.dateAdded }
+        applyFilter(cachedFilterTypeList)
     }
 }

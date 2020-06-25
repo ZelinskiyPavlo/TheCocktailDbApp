@@ -16,4 +16,6 @@ interface CocktailsRepository {
     fun getCocktails(): Maybe<List<Cocktail>>
 
     fun getNumberOfItems(): Observable<Long>
+
+    fun updateFavoriteState(cocktailId: String, state: Boolean): Completable
 }

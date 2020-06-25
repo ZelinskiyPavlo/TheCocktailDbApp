@@ -23,4 +23,7 @@ interface CocktailsDao {
 
     @Query("SELECT COUNT(idDrink) FROM cocktails")
     fun getNumberOfItems(): Observable<Long>
+
+    @Query("UPDATE cocktails SET isFavorite = :state WHERE idDrink = :cocktailId")
+    fun updateFavoriteState(cocktailId: String, state: Boolean): Completable
 }

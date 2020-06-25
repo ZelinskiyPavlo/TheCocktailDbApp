@@ -16,7 +16,6 @@ import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
-import kotlinx.android.synthetic.main.activity_main.*
 
 class SearchCocktailsFragment : Injectable,
     BaseFragment<SearchCocktailsFragmentBinding, SearchCocktailsViewModel>() {

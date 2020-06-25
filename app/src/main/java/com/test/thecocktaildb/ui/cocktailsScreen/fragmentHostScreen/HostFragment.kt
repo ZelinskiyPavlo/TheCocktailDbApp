@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.databinding.FragmentHostBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
@@ -43,7 +44,8 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     private lateinit var fragmentEventCallback: FragmentEventCallback
 
-    private lateinit var viewPager: ViewPager2
+    lateinit var viewPager: ViewPager2
+    private lateinit var fragmentList: ArrayList<Fragment>
 
     private lateinit var batteryStateReceiver: BroadcastReceiver
 
@@ -85,7 +87,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     private fun setupViewPager() {
         val historyFragment = CocktailsFragment.newInstance()
         val favoriteFragment = FavoriteFragment.newInstance()
-        val fragmentList = arrayListOf<Fragment>(historyFragment, favoriteFragment)
+        fragmentList = arrayListOf(historyFragment, favoriteFragment)
 
         val cocktailPagerAdapter = CocktailPagerAdapter(fragmentList, this)
 
@@ -181,5 +183,10 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     private fun changeFilterIndicator(filterState: Boolean) {
         isFilterApplied = filterState
         activity?.invalidateOptionsMenu()
+    }
+
+    fun onFavoriteAdded(cocktail: Cocktail) {
+        val favoriteFragment = fragmentList[1] as FavoriteFragment
+        favoriteFragment.updateFavoriteCocktail(cocktail)
     }
 }

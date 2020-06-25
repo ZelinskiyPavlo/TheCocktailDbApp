@@ -5,16 +5,19 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 
 class CocktailsActivity : BaseActivity(),
-    FragmentEventCallback {
+    FragmentEventCallback, OnFavoriteClicked {
 
     private lateinit var airplaneBroadcastReceiver: BroadcastReceiver
 
@@ -79,5 +82,15 @@ class CocktailsActivity : BaseActivity(),
 
     override fun removeCallback(listener: OnFilterApplied) {
         listeners.remove(listener)
+    }
+
+    override fun onFavoriteAdded(cocktail: Cocktail) {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        navHost?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let { hostFragment ->
+                hostFragment as HostFragment
+                hostFragment.onFavoriteAdded(cocktail)
+            }
+        }
     }
 }

@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.databinding.FavoriteFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsAdapter
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
@@ -29,9 +31,12 @@ class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel
 
     override fun getViewModelClass(): Class<FavoriteViewModel> = FavoriteViewModel::class.java
 
+    private lateinit var onFavoriteClickedCallback: OnFavoriteClicked
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity() as FragmentEventCallback).addCallback(this)
+        onFavoriteClickedCallback = context as OnFavoriteClicked
     }
 
     override fun onCreateView(
@@ -86,5 +91,9 @@ class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel
 
     override fun resetFilter() {
         viewDataBinding.viewModel?.applyFilter(listOf(null))
+    }
+
+    fun updateFavoriteCocktail(cocktail: Cocktail) {
+        viewDataBinding.viewModel?.updateFavoriteList(cocktail)
     }
 }

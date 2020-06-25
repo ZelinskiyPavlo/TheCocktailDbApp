@@ -30,25 +30,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/cocktail_item_picture"
-                android:layout_width="match_parent"
-                android:layout_height="118dp"
-                android:scaleType="centerCrop"
-                app:image_url="@{obj.strDrinkThumb}"
-                android:contentDescription="@string/cocktail_item_image_description" />
+                <ImageView
+                    android:id="@+id/cocktail_item_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="118dp"
+                    android:contentDescription="@string/cocktail_item_image_description"
+                    android:scaleType="centerCrop"
+                    app:image_url="@{obj.strDrinkThumb}" />
 
-            <TextView
-                android:id="@+id/cocktail_item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:gravity="center_vertical"
-                android:text="@{obj.strDrink}"
-                android:textAppearance="@style/TextRegular"
-                android:textSize="@dimen/text_small" />
+                <TextView
+                    android:id="@+id/cocktail_item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:gravity="center_vertical"
+                    android:text="@{obj.strDrink}"
+                    android:textAppearance="@style/TextRegular"
+                    android:textSize="@dimen/text_small" />
+            </LinearLayout>
 
-        </LinearLayout>
+            <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="top|end"
+                android:onClick="@{() -> listener.onFavoriteIconClicked(obj)}"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_baseline_favorite_border_48" />
+
+        </FrameLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
 </layout>

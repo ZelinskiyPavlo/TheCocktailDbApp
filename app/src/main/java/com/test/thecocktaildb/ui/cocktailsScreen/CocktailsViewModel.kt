@@ -24,6 +24,9 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
     val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
 
+    private val _favoriteAddedEvent = MutableLiveData<Event<Cocktail>>()
+    val favoriteAddedEvent: LiveData<Event<Cocktail>> = _favoriteAddedEvent
+
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
 
     private var allCocktailList: List<Cocktail>? = null
@@ -36,6 +39,7 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         disposable.add(
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
                 _items.value = cocktailsList
+                allCocktailList = _items.value
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
     }
@@ -65,14 +69,10 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     }
 
     fun applyFilter(filterTypeList: List<DrinkFilter?>) {
-        if (allCocktailList == null) allCocktailList = _items.value
-
         _items.value = allCocktailList
 
         filterTypeList.forEach { drinkFilter ->
-            if (drinkFilter == null) {
-                _items.value = allCocktailList
-            } else {
+            if (drinkFilter != null) {
                 when (drinkFilter.type) {
                     DrinkFilterType.ALCOHOL -> {
                         _items.value = _items.value?.filter { it.strAlcoholic == drinkFilter.key }
@@ -85,5 +85,20 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
                 }
             }
         }
+    }
+
+    override fun addCocktailToFavorite(cocktail: Cocktail) {
+        disposable.add(
+            repository.updateFavoriteState(cocktail.idDrink, true)
+                .doOnComplete {
+                    Timber.i("Favorite cocktail added to Db")
+                }
+                .subscribeBy(onComplete = {
+                    _favoriteAddedEvent.value = Event(cocktail)
+                })
+        )
+    }
+
+    override fun removeCocktailFromFavorite(cocktail: Cocktail) {
     }
 }

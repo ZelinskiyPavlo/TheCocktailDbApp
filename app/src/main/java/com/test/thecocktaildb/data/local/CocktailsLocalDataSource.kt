@@ -19,4 +19,7 @@ class CocktailsLocalDataSource @Inject constructor(private val cocktailsDao: Coc
 
     fun getNumberOfItems(): Observable<Long> =
         cocktailsDao.getNumberOfItems()
+
+    fun updateFavoriteState(cocktailId: String, state: Boolean): Completable =
+        cocktailsDao.updateFavoriteState(cocktailId, state)
 }

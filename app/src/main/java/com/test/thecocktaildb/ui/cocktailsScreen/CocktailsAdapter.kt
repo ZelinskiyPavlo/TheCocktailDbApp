@@ -14,6 +14,10 @@ class CocktailsAdapter(private val viewModel: AdapterHandler) :
 
     override fun getItemClickListener(): CocktailsItemUserActionListener {
         return object : CocktailsItemUserActionListener {
+            override fun onFavoriteIconClicked(cocktail: Cocktail) {
+                if (viewModel is CocktailsViewModel) viewModel.addCocktailToFavorite(cocktail)
+                if (viewModel is FavoriteViewModel) viewModel.removeCocktailFromFavorite(cocktail)
+            }
 
             override fun onItemClicked(cocktail: Cocktail) {
                 viewModel.updateCocktailAndNavigateDetailsFragment(cocktail)

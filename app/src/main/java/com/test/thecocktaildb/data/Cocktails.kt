@@ -20,6 +20,8 @@ data class Cocktail @JvmOverloads constructor(
 
     var dateAdded: Date? = Calendar.getInstance().time,
 
+    val isFavorite: Boolean = false,
+
     @SerializedName("strAlcoholic")
     val strAlcoholic: String?,
     @SerializedName("strCategory")

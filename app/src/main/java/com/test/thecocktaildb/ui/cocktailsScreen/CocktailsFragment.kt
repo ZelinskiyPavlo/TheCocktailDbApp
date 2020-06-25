@@ -16,6 +16,7 @@ import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.DrinkProposalCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
@@ -38,9 +39,12 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver
 
+    private lateinit var onFavoriteClickedCallback: OnFavoriteClicked
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity() as FragmentEventCallback).addCallback(this)
+        onFavoriteClickedCallback = context as OnFavoriteClicked
     }
 
     override fun onCreateView(
@@ -54,6 +58,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         setupNavigation()
         setupRecyclerView()
         loadCocktails()
+        addFavoriteCallback()
 
         return viewDataBinding.root
     }
@@ -83,6 +88,12 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     private fun loadCocktails() {
         viewModel.loadCocktails()
+    }
+
+    private fun addFavoriteCallback() {
+        viewDataBinding.viewModel?.favoriteAddedEvent?.observe(viewLifecycleOwner, EventObserver{
+            onFavoriteClickedCallback.onFavoriteAdded(it)
+        })
     }
 
     override fun onStart() {
