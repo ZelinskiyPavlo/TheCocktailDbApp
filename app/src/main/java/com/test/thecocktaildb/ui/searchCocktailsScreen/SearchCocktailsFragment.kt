@@ -67,10 +67,10 @@ class SearchCocktailsFragment : Injectable,
 
     private fun setupSearchField() {
         fun showKeyboard(editText: EditText?) {
-            if (editText?.requestFocus() == true) {
-                val imm =
-                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            editText?.post {
+                editText.requestFocus()
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
             }
         }
 
