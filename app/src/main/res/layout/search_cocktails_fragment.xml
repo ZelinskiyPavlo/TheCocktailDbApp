@@ -30,6 +30,7 @@
                     layout="@layout/search_cocktails_toolbar" />
 
             </androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,6 +78,7 @@
                 app:constraint_referenced_ids="search_help_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+		
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

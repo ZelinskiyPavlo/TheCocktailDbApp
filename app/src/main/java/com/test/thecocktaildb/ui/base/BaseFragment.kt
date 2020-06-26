@@ -18,11 +18,10 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    protected lateinit var mViewDataBinding: VDB
-    protected lateinit var mViewModel: VM
+    protected lateinit var viewDataBinding: VDB
+    protected lateinit var viewModel: VM
 
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
+    abstract val layoutId: Int
 
     protected abstract fun getViewModelClass(): Class<VM>
 
@@ -34,16 +33,24 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(),
         setupViewModel()
         setupDataBinding(inflater, container)
 
-        return mViewDataBinding.root
+        return viewDataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        configureView(savedInstanceState)
+    }
+
+    protected open fun configureView(savedInstanceState: Bundle?) {
+        // stub
     }
 
     private fun setupViewModel() {
-        mViewModel = ViewModelProvider(this, viewModelFactory)[getViewModelClass()]
+        viewModel = ViewModelProvider(this, viewModelFactory)[getViewModelClass()]
     }
 
     private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        mViewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+        viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         return
     }
 }

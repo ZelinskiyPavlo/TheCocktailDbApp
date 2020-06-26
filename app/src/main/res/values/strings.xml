@@ -1,6 +1,7 @@
 <resources>
     <!--region High level text-->
     <string name="app_name">TheCocktailDb</string>
+    <string name="app_name_simplified">Pavlo Zelinskiy</string>
     <!--endregion-->
 
     <!--region CocktailsFragment related-->
@@ -36,6 +37,21 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="button_login">Login</string>
+    <!--endregion-->
+
+    <!--region FilterFragment related-->
+    <string name="filter_button_reset">Скинути</string>
+    <string name="filter_button_apply">Застосувати</string>
+    <string name="filter_fragment_none_filter">None</string>
+    <!--endregion-->
+
+    <!--region HostFragment related-->
+    <string name="tl_host_fragment_history_tab">History</string>
+    <string name="tl_host_fragment_favorite_tab">Favorite</string>
+    <!--endregion-->
+
+    <!--region FavoriteFragment-->
+    <string name="empty_favorite_text">Favorite is empty</string>
     <!--endregion-->
 
 </resources>

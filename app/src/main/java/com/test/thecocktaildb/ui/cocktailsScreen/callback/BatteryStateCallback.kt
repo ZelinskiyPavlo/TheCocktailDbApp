@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.ui.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen.callback
 
 import com.test.thecocktaildb.util.BatteryStateHolder
 

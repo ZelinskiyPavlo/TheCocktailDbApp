@@ -20,7 +20,7 @@ import com.test.thecocktaildb.util.EventObserver
 class CocktailDetailsFragment : Injectable,
     BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {
 
-    override fun getLayoutId(): Int = R.layout.cocktail_details_fragment
+    override val layoutId: Int = R.layout.cocktail_details_fragment
 
     override fun getViewModelClass(): Class<CocktailDetailsViewModel> =
         CocktailDetailsViewModel::class.java
@@ -39,11 +39,11 @@ class CocktailDetailsFragment : Injectable,
         setCollapsingToolbarListener()
 
         getCocktail()
-        return mViewDataBinding.root
+        return viewDataBinding.root
     }
 
     private fun attachBindingVariable() {
-        mViewDataBinding.viewModel = mViewModel
+        viewDataBinding.viewModel = viewModel
     }
 
     private fun setupNavigation() {
@@ -57,7 +57,7 @@ class CocktailDetailsFragment : Injectable,
 
     private fun setupIngredientsRecyclerView() {
         val ingredientsAdapter = IngredientsAdapter()
-        mViewDataBinding.ingredientsRv.apply {
+        viewDataBinding.ingredientsRv.apply {
             adapter = ingredientsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
@@ -132,9 +132,9 @@ class CocktailDetailsFragment : Injectable,
         launchDrinkProposalService()
     }
 
-    private fun launchDrinkProposalService(){
+    private fun launchDrinkProposalService() {
         val intentWithCocktail = Intent(activity, DrinkProposalService::class.java)
-        val selectedCocktailId = mViewDataBinding.viewModel?.cocktailId
+        val selectedCocktailId = viewDataBinding.viewModel?.cocktailId
         intentWithCocktail.putExtra(Intent.EXTRA_TEXT, selectedCocktailId)
 
         activity?.startService(intentWithCocktail)

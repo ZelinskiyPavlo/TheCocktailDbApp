@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.ui.cocktailsScreen
+package com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.ui.cocktailsScreen.AdapterHandler
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.util.Event
@@ -15,7 +16,7 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-class CocktailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
+class FavoriteViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModel(), AdapterHandler {
 
     private val _items = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
@@ -24,21 +25,19 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
     val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
 
-    private val _favoriteAddedEvent = MutableLiveData<Event<Cocktail>>()
-    val favoriteAddedEvent: LiveData<Event<Cocktail>> = _favoriteAddedEvent
-
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
 
     private var allCocktailList: List<Cocktail>? = null
+    private var cachedFilterTypeList: List<DrinkFilter?> = listOf(null)
 
     private val disposable = CompositeDisposable()
 
     override fun onCleared() = disposable.clear()
 
-    fun loadCocktails() {
+    fun loadFavoriteCocktails() {
         disposable.add(
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
-                _items.value = cocktailsList
+                _items.value = cocktailsList.filter { it.isFavorite }
                 allCocktailList = _items.value
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
@@ -59,16 +58,9 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 
-    fun openProposedCocktail(selectedCocktailId: String?) {
-        val otherCocktail = items.value
-            ?.filter { it.idDrink != selectedCocktailId }?.random()
-
-        if (otherCocktail != null) {
-            updateCocktailAndNavigateDetailsFragment(otherCocktail)
-        }
-    }
-
     fun applyFilter(filterTypeList: List<DrinkFilter?>) {
+        cachedFilterTypeList = filterTypeList
+
         _items.value = allCocktailList
 
         filterTypeList.forEach { drinkFilter ->
@@ -88,17 +80,31 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     }
 
     override fun addCocktailToFavorite(cocktail: Cocktail) {
+    }
+
+    override fun removeCocktailFromFavorite(cocktail: Cocktail) {
         disposable.add(
-            repository.updateFavoriteState(cocktail.idDrink, true)
+            repository.updateFavoriteState(cocktail.idDrink, false)
                 .doOnComplete {
-                    Timber.i("Favorite cocktail added to Db")
+                    Timber.i("Cocktail removed from favorite")
                 }
                 .subscribeBy(onComplete = {
-                    _favoriteAddedEvent.value = Event(cocktail)
+                    val updatedCocktailList = allCocktailList?.toMutableList()?.apply {
+                        removeIf { it.idDrink == cocktail.idDrink }
+                    }
+                    allCocktailList = updatedCocktailList
+                    applyFilter(cachedFilterTypeList)
                 })
         )
     }
 
-    override fun removeCocktailFromFavorite(cocktail: Cocktail) {
+    fun updateFavoriteList(cocktail: Cocktail) {
+        val updatedCocktailList = allCocktailList?.toMutableList()
+        if (updatedCocktailList?.contains(cocktail)
+                ?.not() != false || updatedCocktailList.isNullOrEmpty()
+        )
+            updatedCocktailList?.add(cocktail)
+        allCocktailList = updatedCocktailList?.sortedByDescending { it.dateAdded }
+        applyFilter(cachedFilterTypeList)
     }
 }

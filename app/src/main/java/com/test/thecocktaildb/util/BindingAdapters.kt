@@ -13,6 +13,7 @@ import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.IngredientsAdapter
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsAdapter
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel
+import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteViewModel
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsAdapter
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
 
@@ -25,7 +26,8 @@ fun RecyclerView.setItems(items: List<Cocktail>?, tag: ViewModel) {
     val recyclerViewAdapter = when (tag) {
         is CocktailsViewModel -> adapter as CocktailsAdapter
         is SearchCocktailsViewModel -> adapter as SearchCocktailsAdapter
-        else -> throw ClassCastException()
+        is FavoriteViewModel -> adapter as CocktailsAdapter
+        else -> throw ClassCastException("Unknown adapter Specified")
     }
 
     recyclerViewAdapter.setData(items ?: emptyList())

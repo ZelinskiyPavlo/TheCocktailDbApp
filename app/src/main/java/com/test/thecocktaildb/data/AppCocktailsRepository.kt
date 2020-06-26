@@ -39,4 +39,9 @@ class AppCocktailsRepository @Inject constructor(
         return cocktailsLocalDataSource.getNumberOfItems()
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
+
+    override fun updateFavoriteState(cocktailId: String, state: Boolean): Completable {
+        return cocktailsLocalDataSource.updateFavoriteState(cocktailId, state)
+            .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
+    }
 }

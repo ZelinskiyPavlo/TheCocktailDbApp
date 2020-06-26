@@ -14,6 +14,8 @@ class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktai
 
     override fun getItemClickListener(): CocktailsItemUserActionListener {
         return object : CocktailsItemUserActionListener {
+            override fun onFavoriteIconClicked(cocktail: Cocktail) {
+            }
 
             override fun onItemClicked(cocktail: Cocktail) {
                 searchCocktailsViewModel.saveCocktailAndNavigateDetailsFragment(cocktail)

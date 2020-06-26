@@ -16,16 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/cocktail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.appbar.AppBarLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -56,60 +46,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/search_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_double"
-                android:layout_marginBottom="@dimen/margin_double"
-                android:elevation="6dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_search"
-                app:tint="@color/ic_search_tint" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_double"
-                android:layout_marginEnd="@dimen/margin_double"
-                android:layout_marginBottom="@dimen/margin_double"
-                android:background="@drawable/bg_battery_state_view"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/margin_double"
-                android:paddingEnd="@dimen/margin_double"
-                app:layout_constraintBottom_toBottomOf="@+id/cocktails_rv"
-                app:layout_constraintEnd_toStartOf="@+id/search_fab"
-                app:layout_constraintStart_toStartOf="@+id/cocktails_rv"
-                app:layout_constraintTop_toTopOf="@+id/search_fab">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@{viewModel.batteryPercent}"
-                    android:textAppearance="@style/TextRegular"
-                    android:textColor="@color/text_white" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_battery_24"
-                    app:tint="@{viewModel.isBatteryCharging()}"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@{viewModel.batteryStatus}"
-                    android:textAppearance="@style/TextRegular"
-                    android:textColor="@color/text_white" />
-
-            </LinearLayout>
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/empty_history_group"
