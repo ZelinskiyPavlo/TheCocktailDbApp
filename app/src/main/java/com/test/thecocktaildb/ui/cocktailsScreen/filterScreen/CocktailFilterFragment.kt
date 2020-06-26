@@ -72,9 +72,11 @@ class CocktailFilterFragment :
         var numberOfRadioButtons = 0
 
         fun populateRadioGroup(radioGroupIndex: Int, filterValues: Array<out DrinkFilter>) {
-            filterValues.forEachIndexed { index, drinkFilter ->
+            filterValues.forEach { drinkFilter ->
                 val radioButton = RadioButton(activity)
-                radioButton.text = drinkFilter.key.replace("_", " ")
+                radioButton.text = drinkFilter.key
+                    .replace("_", " ")
+                    .replace("\\/", "")
                 radioButton.id = numberOfRadioButtons
                 radioGroupList[radioGroupIndex].addView(radioButton)
                 numberOfRadioButtons++

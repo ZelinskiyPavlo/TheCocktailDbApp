@@ -30,14 +30,6 @@ class CocktailsActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById(R.id.toolBar))
-
-        navController = findNavController(R.id.nav_host_fragment)
-
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        showSearchFieldInSearchCocktailsFragment()
     }
 
     override fun onStart() {

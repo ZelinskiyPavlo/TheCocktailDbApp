@@ -70,7 +70,7 @@ class SearchCocktailsFragment : Injectable,
             if (editText?.requestFocus() == true) {
                 val imm =
                     context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
         }
 

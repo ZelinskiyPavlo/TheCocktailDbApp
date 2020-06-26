@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.ui.cocktailsScreen
 
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteViewModel
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
 import com.test.thecocktaildb.util.recyclerViewAdapters.BaseCocktailsAdapter
 
