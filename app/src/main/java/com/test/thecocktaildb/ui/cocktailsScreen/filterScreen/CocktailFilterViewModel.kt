@@ -18,40 +18,43 @@ class CocktailFilterViewModel @Inject constructor() : ViewModel() {
     private val _clearFilterEventLiveData = MutableLiveData<Event<Unit>>()
     val clearFilterEventLiveData: LiveData<Event<Unit>> = _clearFilterEventLiveData
 
-    private val _retrieveFilterEventLiveData = MutableLiveData<Event<Unit>>()
-    val retrieveFilterEventLiveData: LiveData<Event<Unit>> = _retrieveFilterEventLiveData
-
-    var numberOfRadioButtons = 0
-    lateinit var selectedFilterViewIdList: List<Int>
-    lateinit var drinkFilterTypeList: List<DrinkFilterType?>
+    private val selectedFilterIdList: MutableList<Int?> = mutableListOf(null, null)
+    private val drinkFilterTypeList: List<DrinkFilterType> =
+        listOf(DrinkFilterType.CATEGORY, DrinkFilterType.ALCOHOL)
     lateinit var selectedFilterTypeList: List<DrinkFilter?>
+
+    private val _alcoholSignLiveData = MutableLiveData<String>()
+    val alcoholSignLiveData: LiveData<String> = _alcoholSignLiveData
+
+    private val _categorySignLiveData = MutableLiveData<String>()
+    val categorySignLiveData: LiveData<String> = _categorySignLiveData
+
+    private lateinit var changeTextSuffix: String
+
+    fun setInitialText(chooseText: String, changeText:String) {
+        changeTextSuffix = changeText
+
+        _alcoholSignLiveData.value = chooseText
+        _categorySignLiveData.value = chooseText
+    }
+
+    fun alcoholFilterSpecified(itemId: Int) {
+        selectedFilterIdList[0] = itemId
+        _alcoholSignLiveData.value =
+            AlcoholDrinkFilter.values()[itemId].key + "   " + changeTextSuffix
+    }
+
+    fun categoryFilterSpecified(itemId: Int) {
+        selectedFilterIdList[1] = itemId
+        _categorySignLiveData.value =
+            CategoryDrinkFilter.values()[itemId].key + "   " + changeTextSuffix
+    }
 
     fun onResetButtonClicked() {
         _clearFilterEventLiveData.value = Event(Unit)
     }
 
     fun onApplyButtonClicked() {
-        _retrieveFilterEventLiveData.value = Event(Unit)
-
-        val filterTypeSizeList = drinkFilterTypeList.filterNotNull().map { drinkFilterType ->
-            when (drinkFilterType) {
-                DrinkFilterType.ALCOHOL -> AlcoholDrinkFilter.values().size
-                DrinkFilterType.CATEGORY -> CategoryDrinkFilter.values().size
-                else -> throw IllegalArgumentException("Unknown enum specified")
-            }
-        }
-
-        val selectedFilterIdList = selectedFilterViewIdList.mapIndexed { index, viewId ->
-            if (viewId == -1) return@mapIndexed -1
-
-            if (index == 0 && viewId == filterTypeSizeList[index]) return@mapIndexed -1
-
-            if (index == 1 && viewId == numberOfRadioButtons - 1) return@mapIndexed -1
-
-            if (index != 1) Math.floorMod(viewId, filterTypeSizeList[index])
-            else Math.floorMod(viewId, numberOfRadioButtons - filterTypeSizeList[index - 1] - 1)
-        }
-
         selectedFilterTypeList = selectedFilterIdList.mapIndexed { index, id ->
             val selectedFilterType: Array<out DrinkFilter> = when (drinkFilterTypeList[index]) {
                 DrinkFilterType.ALCOHOL -> {
@@ -62,7 +65,7 @@ class CocktailFilterViewModel @Inject constructor() : ViewModel() {
                 }
                 else -> throw IllegalArgumentException("Unknown enum specified")
             }
-            if (selectedFilterIdList[index] != -1) selectedFilterType[id]
+            if (id != null) selectedFilterType[id]
             else null
         }
 

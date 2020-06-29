@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.fragment.app.Fragment
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.base.BaseActivity
@@ -11,10 +13,11 @@ import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
-import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
-import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
+import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
+import kotlinx.android.synthetic.main.activity_main.*
 
 class CocktailsActivity : BaseActivity(),
     FragmentEventCallback, OnFavoriteClicked {
@@ -89,16 +92,6 @@ class CocktailsActivity : BaseActivity(),
     override fun onStop() {
         super.onStop()
         unregisterReceiver(airplaneBroadcastReceiver)
-    }
-
-    override fun navigateToFilterFragmentEvent() {
-        val drinkFilterTypeList = listOf(DrinkFilterType.ALCOHOL, DrinkFilterType.CATEGORY)
-
-        cocktailFilterFragment = CocktailFilterFragment.newInstance(drinkFilterTypeList)
-        supportFragmentManager.beginTransaction()
-            .add(R.id.nav_host_fragment, cocktailFilterFragment)
-            .addToBackStack(null)
-            .commit()
     }
 
     override fun navigateToHostFragmentEvent(filterTypeList: List<DrinkFilter?>) {

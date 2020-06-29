@@ -121,12 +121,12 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.cocktail_fragment_menu, menu)
 
-        val menuItem = menu.findItem(R.id.menu_filter)
-        val imageButton = ImageButton(activity)
-        imageButton.setImageResource(R.drawable.ic_filter_list_24)
-        imageButton.background = null
-        menuItem.actionView = imageButton
-        menuItem.actionView.setOnLongClickListener {
+        val filterMenuItem = menu.findItem(R.id.menu_filter)
+        val filterImageButton = ImageButton(activity)
+        filterImageButton.setImageResource(R.drawable.ic_filter_list_24)
+        filterImageButton.background = null
+        filterMenuItem.actionView = filterImageButton
+        filterMenuItem.actionView.setOnLongClickListener {
             fragmentEventCallback.resetFilterEvent()
             true
         }
@@ -164,7 +164,20 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_filter -> {
-                fragmentEventCallback.navigateToFilterFragmentEvent()
+                val filterFragment = CocktailFilterFragment.newInstance()
+                childFragmentManager.beginTransaction()
+                    .add(R.id.filter_fragment_container, filterFragment)
+                    .addToBackStack(null)
+                    .commit()
+                true
+            }
+            R.id.menu_sort -> {
+                val sortKeyTypeList = CocktailSortType.values().map { it.key }.toTypedArray()
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("Choose sort type")
+                    .setItems(sortKeyTypeList) { _, i ->
+                        fragmentEventCallback.applySortingEvent(CocktailSortType.values()[i])
+                    }.show()
                 true
             }
             else -> false

@@ -5,8 +5,6 @@ import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 
 interface FragmentEventCallback {
 
-    fun navigateToFilterFragmentEvent()
-
     fun navigateToHostFragmentEvent(filterTypeList: List<DrinkFilter?>)
 
     fun resetFilterEvent()

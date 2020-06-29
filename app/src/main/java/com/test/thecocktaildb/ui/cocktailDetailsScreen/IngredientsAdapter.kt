@@ -1,5 +1,6 @@
 package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
+import android.view.View
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
