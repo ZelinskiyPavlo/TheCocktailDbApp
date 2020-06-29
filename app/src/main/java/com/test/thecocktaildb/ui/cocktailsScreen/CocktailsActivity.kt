@@ -21,7 +21,7 @@ class CocktailsActivity : BaseActivity(),
 
     private lateinit var airplaneBroadcastReceiver: BroadcastReceiver
 
-    private lateinit var cocktailFilterFragment: CocktailFilterFragment
+    private var navHost: Fragment? = null
 
     private var listeners: MutableSet<OnFilterApplied> = mutableSetOf()
 
@@ -31,6 +31,48 @@ class CocktailsActivity : BaseActivity(),
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initNavHost()
+
+        setupBottomNavigation()
+    }
+
+    private fun initNavHost() {
+        navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+    }
+
+    private fun setupBottomNavigation() {
+        val bottomNavigation = main_activity_bnv
+        bottomNavigation.selectedItemId = R.id.bnv_main_fragment
+
+        val profileFragment = ProfileFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.profile_fragment_container, profileFragment)
+            .hide(profileFragment)
+            .commit()
+
+        bottomNavigation.setOnNavigationItemSelectedListener { item: MenuItem ->
+            when(item.itemId) {
+                R.id.bnv_main_fragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .hide(profileFragment)
+                        .show(navHost!!)
+                        .setPrimaryNavigationFragment(navHost!!)
+                        .commit()
+                    true
+                }
+                R.id.bnv_profile_fragment -> {
+                    if (navHost != null) {
+                        supportFragmentManager.beginTransaction()
+                            .show(profileFragment)
+                            .hide(navHost!!)
+                            .setPrimaryNavigationFragment(profileFragment)
+                            .commit()
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onStart() {
