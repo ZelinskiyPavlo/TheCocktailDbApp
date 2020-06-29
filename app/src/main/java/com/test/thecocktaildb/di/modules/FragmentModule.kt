@@ -5,6 +5,7 @@ import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment
+import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -35,4 +36,8 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     @Suppress("unused")
     abstract fun contributeFavoriteFragment(): FavoriteFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeProfileFragment(): ProfileFragment
 }
