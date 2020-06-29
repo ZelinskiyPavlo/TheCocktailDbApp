@@ -101,6 +101,13 @@ data class Cocktail @JvmOverloads constructor(
     val strMeasure15: String?
 ) {
 
+    fun ingredientsNumber(): Int {
+        return with(createIngredientsList()) {
+            removeAll{ it.name.isNullOrEmpty() }
+            size
+        }
+    }
+
     fun createNumberedIngredientsList(): List<Ingredient> {
         val ingredientsList = createIngredientsList()
         ingredientsList.removeAll { it.name.isNullOrEmpty() }

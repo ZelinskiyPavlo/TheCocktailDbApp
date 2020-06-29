@@ -69,6 +69,10 @@ class CocktailsActivity : BaseActivity(),
         listeners.forEach { it.resetFilter() }
     }
 
+    override fun applySortingEvent(cocktailSortType: CocktailSortType?) {
+        listeners.forEach { it.applySorting(cocktailSortType) }
+    }
+
     override fun addCallback(listener: OnFilterApplied) {
         listeners.add(listener)
     }

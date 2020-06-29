@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
@@ -25,6 +26,8 @@ import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.BatteryStateCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.util.BatteryStateHolder
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
 
@@ -127,7 +130,22 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
             fragmentEventCallback.resetFilterEvent()
             true
         }
-        menuItem.actionView.setOnClickListener { menu.performIdentifierAction(R.id.menu_filter, 0) }
+        filterMenuItem.actionView.setOnClickListener {
+            menu.performIdentifierAction(R.id.menu_filter, 0)
+        }
+
+        val sortMenuItem = menu.findItem(R.id.menu_sort)
+        val sortImageButton = ImageButton(activity)
+        sortImageButton.setImageResource(R.drawable.ic_sort_24)
+        sortImageButton.background = null
+        sortMenuItem.actionView = sortImageButton
+        sortMenuItem.actionView.setOnLongClickListener {
+            fragmentEventCallback.applySortingEvent(null)
+            true
+        }
+        sortMenuItem.actionView.setOnClickListener {
+            menu.performIdentifierAction(R.id.menu_sort, 1)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
