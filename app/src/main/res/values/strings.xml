@@ -54,4 +54,10 @@
     <string name="empty_favorite_text">Favorite is empty</string>
     <!--endregion-->
 
+    <string name="menu_cocktail_history_open">Open</string>
+    <string name="menu_cocktail_history_add_favorite">Add Favorite</string>
+    <string name="menu_cocktail_history_quick_preview">Quick Preview</string>
+    <string name="menu_cocktail_history_remove">Remove</string>
+    <string name="menu_cocktail_history_remove_favorite">Remove Favorite</string>
+
 </resources>

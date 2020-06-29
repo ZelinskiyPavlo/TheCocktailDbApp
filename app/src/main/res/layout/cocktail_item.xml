@@ -22,6 +22,7 @@
         android:layout_margin="@dimen/margin_default"
         android:onClick="@{() -> listener.onItemClicked(obj)}"
         app:cardBackgroundColor="@color/card_view_background"
+        app:onLongClickListener="@{(view) -> listener.onItemLongClicked(view, obj)}"
         card_view:cardCornerRadius="@dimen/corner_radius_default"
         card_view:cardElevation="16dp">
 
