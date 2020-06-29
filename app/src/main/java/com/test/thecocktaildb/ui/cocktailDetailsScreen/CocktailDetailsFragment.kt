@@ -14,8 +14,8 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.util.service.DrinkProposalService
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.service.DrinkProposalService
 
 class CocktailDetailsFragment : Injectable,
     BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {
@@ -49,7 +49,7 @@ class CocktailDetailsFragment : Injectable,
     private fun setupNavigation() {
         val navController = NavHostFragment.findNavController(this)
 
-        mViewDataBinding.viewModel?.onBackPressedEventLiveData?.observe(viewLifecycleOwner,
+        viewDataBinding.viewModel?.onBackPressedEventLiveData?.observe(viewLifecycleOwner,
             EventObserver {
                 navController.popBackStack()
             })
@@ -65,7 +65,7 @@ class CocktailDetailsFragment : Injectable,
 
     private fun setActionBarTitle() {
         val actionBarTitle = getNavigationArgs().second
-        mViewDataBinding.ctlDetail.title = actionBarTitle
+        viewDataBinding.ctlDetail.title = actionBarTitle
     }
 
     private fun setCollapsingToolbarListener() {
@@ -79,17 +79,17 @@ class CocktailDetailsFragment : Injectable,
         val imageMarginTop = (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
 
         val marginParams =
-            mViewDataBinding.cocktailImage.layoutParams as ViewGroup.MarginLayoutParams
+            viewDataBinding.cocktailImage.layoutParams as ViewGroup.MarginLayoutParams
 
         var setupFlag = true
 
-        mViewDataBinding.ablDetails.addOnOffsetChangedListener(
+        viewDataBinding.ablDetails.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
 
                 if (setupFlag) {
-                    mViewDataBinding.imageContainer.layoutParams.height = mViewDataBinding
+                    viewDataBinding.imageContainer.layoutParams.height = viewDataBinding
                         .cocktailImage.layoutParams.height
-                    mViewDataBinding.imageContainer.requestLayout()
+                    viewDataBinding.imageContainer.requestLayout()
 
                     setupFlag = false
                 }
@@ -100,12 +100,12 @@ class CocktailDetailsFragment : Injectable,
 
                 val currentImageWidth =
                     minImageWidth + ((maxImageWidth - minImageWidth) * scaleFactor)
-                mViewDataBinding.cocktailImage.layoutParams.width = currentImageWidth.toInt()
+                viewDataBinding.cocktailImage.layoutParams.width = currentImageWidth.toInt()
 
-                if (mViewDataBinding.cocktailImage.layoutParams.width != cachedImageWidth) {
+                if (viewDataBinding.cocktailImage.layoutParams.width != cachedImageWidth) {
                     cachedImageWidth = currentImageWidth.toInt()
-                    mViewDataBinding.cocktailImage.requestLayout()
-                    mViewDataBinding.cocktailImage.layoutParams = marginParams
+                    viewDataBinding.cocktailImage.requestLayout()
+                    viewDataBinding.cocktailImage.layoutParams = marginParams
                 }
 
                 marginParams.topMargin =
@@ -117,7 +117,7 @@ class CocktailDetailsFragment : Injectable,
 
     private fun getCocktail() {
         val cocktailId = getNavigationArgs().first
-        mViewModel.getCocktailById(cocktailId)
+        viewModel.getCocktailById(cocktailId)
     }
 
     private fun getNavigationArgs(): Pair<String, String> {

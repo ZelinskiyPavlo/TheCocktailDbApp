@@ -28,8 +28,6 @@ class CocktailsActivity : BaseActivity(),
 
     private var listeners: MutableSet<OnFilterApplied> = mutableSetOf()
 
-    private lateinit var intentFilter: IntentFilter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -117,7 +115,6 @@ class CocktailsActivity : BaseActivity(),
     }
 
     override fun onFavoriteAdded(cocktail: Cocktail) {
-        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         navHost?.let { navFragment ->
             navFragment.childFragmentManager.primaryNavigationFragment?.let { hostFragment ->
                 hostFragment as HostFragment
@@ -126,4 +123,3 @@ class CocktailsActivity : BaseActivity(),
         }
     }
 }
-
