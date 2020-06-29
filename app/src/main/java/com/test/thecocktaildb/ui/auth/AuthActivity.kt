@@ -9,12 +9,15 @@ import android.view.inputmethod.InputMethodManager
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
+import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
 import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : BaseActivity() {
 
     private val login = "SomeLogin"
     private val password = "123456a"
+
+    private var isErrorFounded = true
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
@@ -37,25 +40,29 @@ class AuthActivity : BaseActivity() {
         password_edit_text.addTextChangedListener(textWatcher)
 
         login_button.setOnClickListener {
-
             val view = this.currentFocus
             view?.let { v ->
                 val imm =
                     this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
             }
-
-            val intent = Intent(this, CocktailsActivity::class.java)
-            this.startActivity(intent)
+            if (isErrorFounded) {
+                showErrorDialog()
+            } else {
+                val intent = Intent(this, CocktailsActivity::class.java)
+                this.startActivity(intent)
+            }
         }
-
         invalidateAuthData()
+
+        login_edit_text.setText("SomeLogin")
+        password_edit_text.setText("123456a")
     }
 
     private fun invalidateAuthData() {
         val typedLogin = login_edit_text.text.toString()
         val typedPassword = password_edit_text.text.toString()
-        login_button.isEnabled = false
+        isErrorFounded = false
 
         if (typedLogin.any { it.isWhitespace() }) {
             login_edit_text.setText(typedLogin.replace(" ", ""))
@@ -67,14 +74,21 @@ class AuthActivity : BaseActivity() {
             password_edit_text.setSelection(password_edit_text.text?.length ?: 0)
         }
 
-        if (typedLogin.length < 6) login_edit_text_layout.error = "Login too short"
-        else login_edit_text_layout.isErrorEnabled = false
-        if (typedPassword.length < 6) password_edit_text_layout.error = "Password too short"
-        else password_edit_text_layout.isErrorEnabled = false
-        if (typedPassword.any { it.isDigit() } && typedPassword.any { it.isLetter() })
-            password_edit_text_layout.isErrorEnabled = false
-        else password_edit_text_layout.error = "Password doesn't suit requirements"
+        if (typedLogin.length < 6) isErrorFounded = true
 
-        login_button.isEnabled = typedLogin == login && typedPassword == password
+        if (typedPassword.length < 6) isErrorFounded = true
+
+        if ((typedPassword.any { it.isDigit() } && typedPassword.any { it.isLetter() }).not())
+            isErrorFounded = true
+
+        isErrorFounded = (typedLogin == login && typedPassword == password).not()
+    }
+
+    private fun showErrorDialog() {
+        RegularDialogFragment.newInstance {
+            titleText = "Sign in error"
+            rightButtonText = "Ok"
+            descriptionText = "Looks like you provided wrong login or password"
+        }.show(supportFragmentManager, "SignInErrorDialog")
     }
 }
