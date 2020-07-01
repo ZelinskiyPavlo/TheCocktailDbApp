@@ -2,17 +2,23 @@ package com.test.thecocktaildb.ui.profileScreen
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ProfileFragmentBinding
+import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.auth.AuthActivity
 import com.test.thecocktaildb.ui.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
 import kotlinx.android.synthetic.main.profile_fragment.*
 
-class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileViewModel>(),
+class ProfileFragment: Injectable,
+    BaseFragment<ProfileFragmentBinding, ProfileViewModel>(),
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>
 {
 
@@ -22,13 +28,29 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileViewModel>()
         }
     }
 
+    private val sharedViewModel: SharedMainViewModel by activityViewModels()
+
     override val layoutId: Int = R.layout.profile_fragment
 
     override fun getViewModelClass(): Class<ProfileViewModel> = ProfileViewModel::class.java
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        attachBindingVariable()
+
+        return viewDataBinding.root
+    }
+
+    private fun attachBindingVariable() {
+        viewDataBinding.viewModel = sharedViewModel
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setOnClickListeners()
     }
 

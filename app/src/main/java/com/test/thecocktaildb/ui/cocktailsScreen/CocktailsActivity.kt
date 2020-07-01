@@ -5,7 +5,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.*
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.base.BaseActivity
@@ -19,8 +24,19 @@ import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 
-class CocktailsActivity : BaseActivity(),
-    FragmentEventCallback, OnFavoriteClicked {
+class CocktailsActivity @Inject constructor() : BaseActivity(),
+    FragmentEventCallback, LifecycleObserver, OnFavoriteClicked, HasAndroidInjector,
+    BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>{
+
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    @Inject
+    lateinit var viewModelFactory: DelegatedViewModelFactory
+
+    private val mainViewModel: MainViewModel by viewModels{viewModelFactory}
+
+    private val sharedMainViewModel: SharedMainViewModel by viewModels()
 
     private lateinit var airplaneBroadcastReceiver: BroadcastReceiver
 
@@ -45,7 +61,13 @@ class CocktailsActivity : BaseActivity(),
         val bottomNavigation = main_activity_bnv
         bottomNavigation.selectedItemId = R.id.bnv_main_fragment
 
-        val profileFragment = ProfileFragment.newInstance()
+        fun changeBottomNavTitleVisibility(isVisible: Boolean) {
+            bottomNavigation.labelVisibilityMode =
+                if (isVisible) LabelVisibilityMode.LABEL_VISIBILITY_LABELED
+                else LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
+        }
+
+        profileFragment = ProfileFragment.newInstance()
         supportFragmentManager.beginTransaction()
             .replace(R.id.profile_fragment_container, profileFragment)
             .hide(profileFragment)
