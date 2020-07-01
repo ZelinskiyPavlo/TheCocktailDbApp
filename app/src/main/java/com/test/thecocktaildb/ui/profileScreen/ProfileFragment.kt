@@ -63,6 +63,7 @@ class ProfileFragment: Injectable,
                 .commit()
         }
 
+//      TODO: Extract to Data binding (in branch homework 7)
         profile_fragment_log_out_btn.setOnClickListener { view ->
             showLogOutBottomSheetDialog()
         }

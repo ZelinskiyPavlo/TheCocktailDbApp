@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.di.modules
 
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
@@ -40,4 +41,8 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     @Suppress("unused")
     abstract fun contributeProfileFragment(): ProfileFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeCocktailsActivity(): CocktailsActivity
 }

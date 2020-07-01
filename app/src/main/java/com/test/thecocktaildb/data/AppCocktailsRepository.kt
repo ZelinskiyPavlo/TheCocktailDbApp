@@ -44,4 +44,9 @@ class AppCocktailsRepository @Inject constructor(
         return cocktailsLocalDataSource.updateFavoriteState(cocktailId, state)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
+
+    override fun findCocktailById(id: String): Single<Cocktails> {
+        return cocktailsRemoteDataSource.findCocktailById(id)
+            .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
+    }
 }

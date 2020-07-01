@@ -14,15 +14,26 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.base.BaseActivity
+import com.test.thecocktaildb.ui.base.BaseDialogFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment
+import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
+import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
+import com.test.thecocktaildb.util.DelegatedViewModelFactory
+import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
+
+var lastSavedTime: Long? = null
 
 class CocktailsActivity @Inject constructor() : BaseActivity(),
     FragmentEventCallback, LifecycleObserver, OnFavoriteClicked, HasAndroidInjector,
@@ -44,17 +55,37 @@ class CocktailsActivity @Inject constructor() : BaseActivity(),
 
     private var listeners: MutableSet<OnFilterApplied> = mutableSetOf()
 
+    private lateinit var profileFragment: ProfileFragment
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNavHost()
+        attachLifecycleObserver()
 
+        setupNavigation()
         setupBottomNavigation()
     }
 
     private fun initNavHost() {
         navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+    }
+
+    private fun attachLifecycleObserver() {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+    }
+
+    private fun setupNavigation() {
+        mainViewModel.cocktailDetailsEventLiveData.observe(this,
+            EventObserver {
+                val (actionBarTitle, cocktailId) = it
+                val action = HostFragmentDirections
+                    .actionHostFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
+                navHost?.findNavController()?.navigate(action)
+            })
     }
 
     private fun setupBottomNavigation() {
@@ -96,13 +127,16 @@ class CocktailsActivity @Inject constructor() : BaseActivity(),
                 else -> false
             }
         }
+
+        sharedMainViewModel.isCheckBoxCheckedLiveData.observe(this, Observer {
+            changeBottomNavTitleVisibility(it)
+        })
     }
 
     override fun onStart() {
         super.onStart()
 
-        airplaneBroadcastReceiver =
-            AirplaneReceiver()
+        airplaneBroadcastReceiver = AirplaneReceiver()
         val intentFilter = IntentFilter().apply {
             addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
         }
@@ -112,6 +146,50 @@ class CocktailsActivity @Inject constructor() : BaseActivity(),
     override fun onStop() {
         super.onStop()
         unregisterReceiver(airplaneBroadcastReceiver)
+    }
+
+    @Suppress("unused")
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun checkLastClosedTime() {
+        lastSavedTime?.let {
+            val currentTime = System.currentTimeMillis()
+            if(currentTime - it > 10000) showCocktailOfTheDayDialog()
+        }
+    }
+
+    @Suppress("unused")
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun saveClosedTime() {
+        lastSavedTime = System.currentTimeMillis()
+    }
+
+    private fun showCocktailOfTheDayDialog() {
+        RegularDialogFragment.newInstance {
+            titleText = "Cocktail of the day"
+            descriptionText = "Do you want to see cocktail of the day"
+            leftButtonText = "No"
+            rightButtonText = "Yes"
+        }.show(supportFragmentManager, "CocktailOfTheDayDialog")
+    }
+
+    override fun onDialogFragmentClick(
+        dialog: DialogFragment,
+        dialogType: DialogType<DialogButton>,
+        buttonType: DialogButton,
+        data: Any?
+    ) {
+        super.onDialogFragmentClick(dialog, dialogType, buttonType, data)
+
+        when (dialogType) {
+            RegularDialogType -> {
+                when (buttonType) {
+                    LeftDialogButton -> dialog.dismiss()
+                    RightDialogButton -> {
+                        mainViewModel.openCocktail()
+                    }
+                }
+            }
+        }
     }
 
     override fun navigateToHostFragmentEvent(filterTypeList: List<DrinkFilter?>) {
