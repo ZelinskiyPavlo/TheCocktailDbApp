@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
+import com.test.thecocktaildb.util.DelegatedViewModelFactory
 import javax.inject.Inject
 
 abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(), Injectable,
@@ -23,6 +24,9 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(),
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
 
     protected lateinit var viewDataBinding: VDB
     protected lateinit var viewModel: VM

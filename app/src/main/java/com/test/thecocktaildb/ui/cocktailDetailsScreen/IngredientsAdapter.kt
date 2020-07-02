@@ -26,7 +26,7 @@ class IngredientsAdapter :
 
     override fun getItemClickListener(): CustomActionListener {
         return object : CocktailsItemUserActionListener {
-            override fun onFavoriteIconClicked(cocktail: Cocktail) {
+            override fun onFavoriteIconClicked(view: View, cocktail: Cocktail) {
             }
 
             override fun onItemClicked(cocktail: Cocktail) {}

@@ -6,9 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterViewModel" />
-
+            name="sharedViewModel"
+            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -32,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_arrow_down_24"
                 android:gravity="center_vertical|end"
-                android:text="@{viewModel.alcoholSignLiveData, default=Обрати}"
+                android:text="@{sharedViewModel.alcoholSignLiveData, default=Обрати}"
                 android:textColor="@color/text_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
@@ -46,7 +45,7 @@
                 android:layout_marginTop="24dp"
                 android:drawableEnd="@drawable/ic_arrow_down_24"
                 android:gravity="center_vertical|end"
-                android:text="@{viewModel.categorySignLiveData, default=Обрати}"
+                android:text="@{sharedViewModel.categorySignLiveData, default=Обрати}"
                 android:textColor="@color/text_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
@@ -59,14 +58,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/battery_state_bg"
-                android:onClick="@{() -> viewModel.onResetButtonClicked()}"
+                android:onClick="@{() -> sharedViewModel.resetFilters()}"
                 android:text="@string/filter_button_reset"
                 android:textAppearance="@style/TextRegular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/filter_button_apply"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_dodgeInsetEdges="bottom" />
 
             <Button
                 android:id="@+id/filter_button_apply"
@@ -74,13 +74,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:backgroundTint="@color/battery_state_bg"
-                android:onClick="@{() -> viewModel.onApplyButtonClicked()}"
+                android:onClick="@{() -> sharedViewModel.onApplyButtonClicked()}"
                 android:text="@string/filter_button_apply"
                 android:textAppearance="@style/TextRegular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/filter_button_reset" />
+                app:layout_constraintStart_toEndOf="@+id/filter_button_reset"
+                app:layout_dodgeInsetEdges="bottom" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

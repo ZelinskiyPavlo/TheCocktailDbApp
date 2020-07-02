@@ -41,7 +41,7 @@
 
     <!--region FilterFragment related-->
     <string name="filter_button_reset">Скинути</string>
-    <string name="filter_button_apply">Застосувати</string>
+    <string name="filter_button_apply">До результатів</string>
     <string name="filter_fragment_none_filter">None</string>
     <!--endregion-->
 

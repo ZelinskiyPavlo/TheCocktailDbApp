@@ -12,16 +12,9 @@ import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.base.BaseDialogFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
-import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
-import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
-import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
 import com.test.thecocktaildb.util.DelegatedViewModelFactory
@@ -35,25 +28,24 @@ import javax.inject.Inject
 
 var lastSavedTime: Long? = null
 
-class CocktailsActivity @Inject constructor() : BaseActivity(),
-    FragmentEventCallback, LifecycleObserver, OnFavoriteClicked, HasAndroidInjector,
-    BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>{
+class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserver,
+    HasAndroidInjector,
+    BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
+    //    TODO: extract all injects to BaseActivity()
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
-    lateinit var viewModelFactory: DelegatedViewModelFactory
+    lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
 
-    private val mainViewModel: MainViewModel by viewModels{viewModelFactory}
+    private val mainViewModel: MainViewModel by viewModels { delegatedViewModelFactory }
 
     private val sharedMainViewModel: SharedMainViewModel by viewModels()
 
     private lateinit var airplaneBroadcastReceiver: BroadcastReceiver
 
     private var navHost: Fragment? = null
-
-    private var listeners: MutableSet<OnFilterApplied> = mutableSetOf()
 
     private lateinit var profileFragment: ProfileFragment
 
@@ -105,7 +97,7 @@ class CocktailsActivity @Inject constructor() : BaseActivity(),
             .commit()
 
         bottomNavigation.setOnNavigationItemSelectedListener { item: MenuItem ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.bnv_main_fragment -> {
                     supportFragmentManager.beginTransaction()
                         .hide(profileFragment)
@@ -153,7 +145,7 @@ class CocktailsActivity @Inject constructor() : BaseActivity(),
     fun checkLastClosedTime() {
         lastSavedTime?.let {
             val currentTime = System.currentTimeMillis()
-            if(currentTime - it > 10000) showCocktailOfTheDayDialog()
+            if (currentTime - it > 10000) showCocktailOfTheDayDialog()
         }
     }
 
@@ -188,37 +180,6 @@ class CocktailsActivity @Inject constructor() : BaseActivity(),
                         mainViewModel.openCocktail()
                     }
                 }
-            }
-        }
-    }
-
-    override fun navigateToHostFragmentEvent(filterTypeList: List<DrinkFilter?>) {
-        listeners.forEach { it.applyFilter(filterTypeList) }
-
-        supportFragmentManager.popBackStack()
-    }
-
-    override fun resetFilterEvent() {
-        listeners.forEach { it.resetFilter() }
-    }
-
-    override fun applySortingEvent(cocktailSortType: CocktailSortType?) {
-        listeners.forEach { it.applySorting(cocktailSortType) }
-    }
-
-    override fun addCallback(listener: OnFilterApplied) {
-        listeners.add(listener)
-    }
-
-    override fun removeCallback(listener: OnFilterApplied) {
-        listeners.remove(listener)
-    }
-
-    override fun onFavoriteAdded(cocktail: Cocktail) {
-        navHost?.let { navFragment ->
-            navFragment.childFragmentManager.primaryNavigationFragment?.let { hostFragment ->
-                hostFragment as HostFragment
-                hostFragment.onFavoriteAdded(cocktail)
             }
         }
     }
