@@ -3,10 +3,12 @@ package com.test.thecocktaildb.ui.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.InputFilter
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
@@ -14,74 +16,46 @@ import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : BaseActivity() {
 
-    private val login = "SomeLogin"
-    private val password = "123456a"
-
-    private var isErrorFounded = true
-
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(editable: Editable?) {
-            invalidateAuthData()
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        }
-    }
+    val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
 
-        login_edit_text.addTextChangedListener(textWatcher)
-        password_edit_text.addTextChangedListener(textWatcher)
-
-        login_button.setOnClickListener {
-            val view = this.currentFocus
-            view?.let { v ->
-                val imm =
-                    this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
-            }
-            if (isErrorFounded) {
-                showErrorDialog()
-            } else {
-                val intent = Intent(this, CocktailsActivity::class.java)
-                this.startActivity(intent)
-            }
+//        TODO: implement in baseActivity (in branch_7)
+        DataBindingUtil.setContentView<ActivityAuthBinding>(this, R.layout.activity_auth).also {
+            it.lifecycleOwner = this
+            it.viewModel = this.viewModel
+            it.activity = this
         }
-        invalidateAuthData()
 
-        login_edit_text.setText("SomeLogin")
-        password_edit_text.setText("123456a")
+        setWhiteSpaceFilter()
+        viewModel.setInitialText()
     }
 
-    private fun invalidateAuthData() {
-        val typedLogin = login_edit_text.text.toString()
-        val typedPassword = password_edit_text.text.toString()
-        isErrorFounded = false
-
-        if (typedLogin.any { it.isWhitespace() }) {
-            login_edit_text.setText(typedLogin.replace(" ", ""))
-            login_edit_text.setSelection(login_edit_text.text?.length ?: 0)
+    private fun setWhiteSpaceFilter() {
+        val whiteSpaceFilter = InputFilter { source, _, _, _, _, _ ->
+            source.filterNot { char -> char.isWhitespace() }
         }
 
-        if (typedPassword.any { it.isWhitespace() }) {
-            password_edit_text.setText(typedPassword.replace(" ", ""))
-            password_edit_text.setSelection(password_edit_text.text?.length ?: 0)
+        login_edit_text.filters = login_edit_text.filters + whiteSpaceFilter
+        password_edit_text.filters = password_edit_text.filters + whiteSpaceFilter
+    }
+
+    fun onLoginButtonClicked() {
+        val view = this.currentFocus
+        view?.let { v ->
+            val imm =
+                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
         }
-
-        if (typedLogin.length < 6) isErrorFounded = true
-
-        if (typedPassword.length < 6) isErrorFounded = true
-
-        if ((typedPassword.any { it.isDigit() } && typedPassword.any { it.isLetter() }).not())
-            isErrorFounded = true
-
-        isErrorFounded = (typedLogin == login && typedPassword == password).not()
+        if (viewModel.isLoginDataValidLiveData.value == true) {
+            val intent = Intent(this, CocktailsActivity::class.java)
+            this.startActivity(intent)
+            finish()
+        } else {
+            showErrorDialog()
+        }
     }
 
     private fun showErrorDialog() {
