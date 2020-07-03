@@ -1,7 +1,6 @@
 package com.test.thecocktaildb.util
 
 import android.content.res.ColorStateList
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
@@ -49,9 +48,4 @@ fun ImageView.setTint(isCharging: Boolean) {
         val colorDisconnected = this.context.getColor(R.color.battery_disconnected)
         ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorDisconnected))
     }
-}
-
-@BindingAdapter("app:selected")
-fun ImageButton.setSelectedState(selectedState: Boolean) {
-    isSelected = !selectedState
 }
