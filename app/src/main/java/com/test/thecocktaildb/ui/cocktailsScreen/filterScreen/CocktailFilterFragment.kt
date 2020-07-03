@@ -1,19 +1,23 @@
 package com.test.thecocktaildb.ui.cocktailsScreen.filterScreen
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailFilterFragmentBinding
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.CategoryDrinkFilter
-import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
+import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel
 
 class CocktailFilterFragment :
     BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
@@ -29,15 +33,10 @@ class CocktailFilterFragment :
     override fun getViewModelClass(): Class<CocktailFilterViewModel> =
         CocktailFilterViewModel::class.java
 
-    private lateinit var fragmentEventCallback: FragmentEventCallback
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
 
     private lateinit var alcoholMenu: PopupMenu
     private lateinit var categoryMenu: PopupMenu
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentEventCallback = context as FragmentEventCallback
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,17 +47,31 @@ class CocktailFilterFragment :
 
         setupFilterPopMenu()
         setupFilterButtons()
+        setupResultSnackbar()
         return viewDataBinding.root
     }
 
     private fun attachBindingVariable() {
-        viewDataBinding.viewModel = viewModel
+        viewDataBinding.sharedViewModel = sharedHostViewModel
     }
 
     private fun setupFilterPopMenu() {
         val chooseText = "Обрати"
         val changeText = "Змінити"
-        viewDataBinding.viewModel?.setInitialText(chooseText, changeText)
+        if(sharedHostViewModel.alcoholSignLiveData.value == null &&
+                sharedHostViewModel.categorySignLiveData.value == null){
+            sharedHostViewModel.setInitialText(chooseText, changeText)
+        }
+
+        fun populateMenu(drinkFilterList: Array<out DrinkFilter>, popupMenu: PopupMenu) {
+            drinkFilterList.forEachIndexed { index, drinkFilter ->
+                popupMenu.menu.add(
+                    Menu.NONE, index, Menu.NONE, drinkFilter.key
+                        .replace("_", " ")
+                        .replace("\\/", "")
+                )
+            }
+        }
 
         alcoholMenu = PopupMenu(context, viewDataBinding.filterBtnAlcohol)
         categoryMenu = PopupMenu(context, viewDataBinding.filterBtnCategory)
@@ -66,27 +79,15 @@ class CocktailFilterFragment :
         val alcoholDrinkFilter = AlcoholDrinkFilter.values()
         val categoryDrinkFilter = CategoryDrinkFilter.values()
 
-        alcoholDrinkFilter.forEachIndexed { index, drinkFilter ->
-            alcoholMenu.menu.add(
-                Menu.NONE, index, Menu.NONE, drinkFilter.key
-                    .replace("_", " ")
-                    .replace("\\/", "")
-            )
-        }
-        categoryDrinkFilter.forEachIndexed { index, drinkFilter ->
-            categoryMenu.menu.add(
-                Menu.NONE, index, Menu.NONE, drinkFilter.key
-                    .replace("_", " ")
-                    .replace("\\/", "")
-            )
-        }
+        populateMenu(alcoholDrinkFilter, alcoholMenu)
+        populateMenu(categoryDrinkFilter, categoryMenu)
 
         alcoholMenu.setOnMenuItemClickListener { menuItem ->
-            viewDataBinding.viewModel?.alcoholFilterSpecified(menuItem.itemId)
+            sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.ALCOHOL)
             true
         }
         categoryMenu.setOnMenuItemClickListener { menuItem ->
-            viewDataBinding.viewModel?.categoryFilterSpecified(menuItem.itemId)
+            sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.CATEGORY)
             true
         }
     }
@@ -94,13 +95,20 @@ class CocktailFilterFragment :
     private fun setupFilterButtons() {
         viewDataBinding.filterBtnAlcohol.setOnClickListener { alcoholMenu.show() }
         viewDataBinding.filterBtnCategory.setOnClickListener { categoryMenu.show() }
+    }
 
-        viewModel.clearFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            viewModel.selectedFilterTypeList = mutableListOf(null)
-        })
-
-        viewModel.applyFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            fragmentEventCallback.navigateToHostFragmentEvent(it)
-        })
+    private fun setupResultSnackbar() {
+        sharedHostViewModel.filterResultLiveData.observe(
+            viewLifecycleOwner,
+            Observer { message ->
+                Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)
+                    .apply {
+                        setAction("UNDO") {
+                            sharedHostViewModel.resetFilters()
+                        }
+                        animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+                        show()
+                    }
+            })
     }
 }

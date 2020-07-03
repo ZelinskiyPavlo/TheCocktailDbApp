@@ -8,4 +8,7 @@ class CocktailsRemoteDataSource @Inject constructor(private val cocktailsService
 
     fun searchCocktails(searchQuery: String): Single<Cocktails> =
         cocktailsService.searchCocktails(searchQuery)
+
+    fun findCocktailById(id: String): Single<Cocktails> =
+        cocktailsService.findCocktailsById(id)
 }

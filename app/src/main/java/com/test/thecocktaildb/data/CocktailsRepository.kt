@@ -18,4 +18,6 @@ interface CocktailsRepository {
     fun getNumberOfItems(): Observable<Long>
 
     fun updateFavoriteState(cocktailId: String, state: Boolean): Completable
+
+    fun findCocktailById(id: String): Single<Cocktails>
 }

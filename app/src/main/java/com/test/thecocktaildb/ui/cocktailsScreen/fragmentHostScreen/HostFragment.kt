@@ -1,7 +1,6 @@
 package com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen
 
 import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -10,6 +9,8 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -17,18 +18,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.databinding.FragmentHostBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailPagerAdapter
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.BatteryStateCallback
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.util.BatteryStateHolder
+import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
 
 class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injectable,
@@ -45,7 +45,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     override fun getViewModelClass(): Class<HostViewModel> = HostViewModel::class.java
 
-    private lateinit var fragmentEventCallback: FragmentEventCallback
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
 
     lateinit var viewPager: ViewPager2
     private lateinit var fragmentList: ArrayList<Fragment>
@@ -53,11 +53,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     private lateinit var batteryStateReceiver: BroadcastReceiver
 
     private var isFilterApplied: Boolean = false
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentEventCallback = context as FragmentEventCallback
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +62,12 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         attachBindingVariable()
         initNavigation()
 
+        setupNavigation()
         setupViewPager()
         setupTabLayout()
         setupFab()
+        attachObserver()
+        loadCocktails()
 
         setHasOptionsMenu(true)
         return viewDataBinding.root
@@ -85,6 +83,12 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         val navController = NavHostFragment.findNavController(this)
 
         NavigationUI.setupWithNavController(viewDataBinding.hostToolbar, navController)
+    }
+
+    private fun setupNavigation() {
+        sharedHostViewModel.applyFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            parentFragmentManager.popBackStack()
+        })
     }
 
     private fun setupViewPager() {
@@ -118,6 +122,14 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         }
     }
 
+    private fun attachObserver() {
+        sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
+    }
+
+    private fun loadCocktails() {
+        sharedHostViewModel.loadCocktails()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.cocktail_fragment_menu, menu)
 
@@ -127,7 +139,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         filterImageButton.background = null
         filterMenuItem.actionView = filterImageButton
         filterMenuItem.actionView.setOnLongClickListener {
-            fragmentEventCallback.resetFilterEvent()
+            sharedHostViewModel.resetFilters()
             true
         }
         filterMenuItem.actionView.setOnClickListener {
@@ -140,7 +152,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         sortImageButton.background = null
         sortMenuItem.actionView = sortImageButton
         sortMenuItem.actionView.setOnLongClickListener {
-            fragmentEventCallback.applySortingEvent(null)
+            sharedHostViewModel.sortingOrderLiveData.value = null
             true
         }
         sortMenuItem.actionView.setOnClickListener {
@@ -164,6 +176,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_filter -> {
+                sharedHostViewModel.isFilterFragmentOpened = true
                 val filterFragment = CocktailFilterFragment.newInstance()
                 childFragmentManager.beginTransaction()
                     .add(R.id.filter_fragment_container, filterFragment)
@@ -176,7 +189,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
                 MaterialAlertDialogBuilder(context)
                     .setTitle("Choose sort type")
                     .setItems(sortKeyTypeList) { _, i ->
-                        fragmentEventCallback.applySortingEvent(CocktailSortType.values()[i])
+                        sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
                     }.show()
                 true
             }
@@ -214,10 +227,5 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     private fun changeFilterIndicator(filterState: Boolean) {
         isFilterApplied = filterState
         activity?.invalidateOptionsMenu()
-    }
-
-    fun onFavoriteAdded(cocktail: Cocktail) {
-        val favoriteFragment = fragmentList[1] as FavoriteFragment
-        favoriteFragment.updateFavoriteCocktail(cocktail)
     }
 }

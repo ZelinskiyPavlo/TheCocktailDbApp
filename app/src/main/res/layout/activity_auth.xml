@@ -1,78 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.test.thecocktaildb.ui.auth.AuthViewModel" />
+
+        <variable
+            name="activity"
+            type="com.test.thecocktaildb.ui.auth.AuthActivity" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:backgroundTint="@color/colorPrimary"
-        android:paddingStart="16dp"
-        android:paddingTop="32dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="32dp">
+        android:fillViewport="true">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/cocktail_logo_description"
-            android:src="@drawable/ic_logo" />
-
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:backgroundTint="@color/colorPrimary"
+            android:paddingStart="16dp"
+            android:paddingTop="32dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="32dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/login"
-            app:hintTextColor="@color/text_hint">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/cocktail_logo_description"
+                android:src="@drawable/ic_logo" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_edit_text"
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary" />
+                android:hint="@string/login"
+                app:hintTextColor="@color/text_hint">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_edit_text"
+                    android:text="@={viewModel.loginInputLiveData}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            app:endIconMode="password_toggle"
-            app:hintTextColor="@color/text_hint">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edit_text"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:inputType="textPassword" />
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
+                app:hintTextColor="@color/text_hint">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_edit_text"
+                    android:text="@={viewModel.passwordInputLiveData}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:inputType="textPassword" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/login_button"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_btn"
-            android:gravity="center"
-            android:text="@string/button_login"
-            android:textColor="#FFFF" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:onClick="@{() -> activity.onLoginButtonClicked()}"
+                android:background="@{viewModel.isLoginDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
+                android:gravity="center"
+                android:text="@string/button_login"
+                android:textColor="#FFFF" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

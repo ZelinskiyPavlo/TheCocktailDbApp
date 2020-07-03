@@ -6,10 +6,11 @@
 
         <import type="android.view.View" />
 
+        <import type="com.test.thecocktaildb.util.AdapterType"/>
+
         <variable
             name="viewModel"
             type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -44,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/margin_double"
-                app:adapter_tag="@{viewModel}"
+                app:adapter_tag="@{AdapterType.SEARCH_ADAPTER}"
                 app:items="@{viewModel.items}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
