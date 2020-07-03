@@ -67,6 +67,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         setupTabLayout()
         setupFab()
         attachObserver()
+        loadCocktails()
 
         setHasOptionsMenu(true)
         return viewDataBinding.root
@@ -122,7 +123,11 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     }
 
     private fun attachObserver() {
-        sharedHostViewModel.filterResultMediatorLiveData.observe(viewLifecycleOwner, Observer {})
+        sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
+    }
+
+    private fun loadCocktails() {
+        sharedHostViewModel.loadCocktails()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -147,7 +152,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         sortImageButton.background = null
         sortMenuItem.actionView = sortImageButton
         sortMenuItem.actionView.setOnLongClickListener {
-            sharedHostViewModel.applySorting(null)
+            sharedHostViewModel.sortingOrderLiveData.value = null
             true
         }
         sortMenuItem.actionView.setOnClickListener {
@@ -171,6 +176,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_filter -> {
+                sharedHostViewModel.isFilterFragmentOpened = true
                 val filterFragment = CocktailFilterFragment.newInstance()
                 childFragmentManager.beginTransaction()
                     .add(R.id.filter_fragment_container, filterFragment)
@@ -183,7 +189,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
                 MaterialAlertDialogBuilder(context)
                     .setTitle("Choose sort type")
                     .setItems(sortKeyTypeList) { _, i ->
-                        sharedHostViewModel.applySorting(CocktailSortType.values()[i])
+                        sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
                     }.show()
                 true
             }

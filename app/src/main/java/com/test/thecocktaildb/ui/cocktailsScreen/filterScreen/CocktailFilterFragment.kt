@@ -16,6 +16,7 @@ import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.CategoryDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
+import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel
 
 class CocktailFilterFragment :
@@ -82,11 +83,11 @@ class CocktailFilterFragment :
         populateMenu(categoryDrinkFilter, categoryMenu)
 
         alcoholMenu.setOnMenuItemClickListener { menuItem ->
-            sharedHostViewModel.alcoholFilterSpecified(menuItem.itemId)
+            sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.ALCOHOL)
             true
         }
         categoryMenu.setOnMenuItemClickListener { menuItem ->
-            sharedHostViewModel.categoryFilterSpecified(menuItem.itemId)
+            sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.CATEGORY)
             true
         }
     }
@@ -97,7 +98,7 @@ class CocktailFilterFragment :
     }
 
     private fun setupResultSnackbar() {
-        sharedHostViewModel.filterResultMediatorLiveData.observe(
+        sharedHostViewModel.filterResultLiveData.observe(
             viewLifecycleOwner,
             Observer { message ->
                 Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)

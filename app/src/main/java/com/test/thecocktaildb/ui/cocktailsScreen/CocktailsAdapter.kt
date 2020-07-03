@@ -18,8 +18,8 @@ class CocktailsAdapter(private val viewModel: SharedHostViewModel) :
 
     override fun getItemClickListener(): CocktailsItemUserActionListener {
         return object : CocktailsItemUserActionListener {
-            override fun onFavoriteIconClicked(view: View, cocktail: Cocktail) {
-                viewModel.changeIsFavoriteState(cocktail, view.isSelected)
+            override fun onFavoriteIconClicked(cocktail: Cocktail) {
+                viewModel.changeIsFavoriteState(cocktail)
             }
 
             override fun onItemClicked(cocktail: Cocktail) {

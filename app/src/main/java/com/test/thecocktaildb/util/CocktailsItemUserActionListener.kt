@@ -5,7 +5,7 @@ import com.test.thecocktaildb.data.Cocktail
 
 interface CocktailsItemUserActionListener : CustomActionListener {
 
-    fun onFavoriteIconClicked(view: View, cocktail: Cocktail)
+    fun onFavoriteIconClicked(cocktail: Cocktail)
 
     fun onItemClicked(cocktail: Cocktail)
 

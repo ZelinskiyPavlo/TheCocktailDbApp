@@ -58,13 +58,11 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="top|end"
-                android:onClick="@{(view) -> listener.onFavoriteIconClicked(view, obj)}"
+                android:onClick="@{(view) -> listener.onFavoriteIconClicked(obj)}"
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_favorite_selector"
-                app:selected="@{obj.isFavorite}"
+                android:src="@{obj.isFavorite ? @drawable/ic_favorite_solid_48 : @drawable/ic_baseline_favorite_border_48}"
                 />
-<!--android:src="@drawable/ic_baseline_favorite_border_48" -->
         </FrameLayout>
 
     </com.google.android.material.card.MaterialCardView>

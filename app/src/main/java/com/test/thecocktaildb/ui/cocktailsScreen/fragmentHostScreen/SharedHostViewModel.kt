@@ -39,50 +39,59 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     val isFavoriteListEmpty: LiveData<Boolean> =
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
-    private val _alcoholFilterLiveData = MutableLiveData<DrinkFilter>()
-    private val _categoryFilterLiveData = MutableLiveData<DrinkFilter>()
+    var isFilterFragmentOpened = false
 
-    val alcoholSignLiveData: LiveData<String> = Transformations.map(_alcoholFilterLiveData) {
-        if (it == null) chooseTextSuffix
-        else "${it.key}    $changeTextSuffix"
+    private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
+        .apply { value = listOf<DrinkFilter?>(null, null) }
+
+    val alcoholSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
+        if (it[0] == null) chooseTextSuffix
+        else "${it[0]?.key}    $changeTextSuffix"
     }
 
-    val categorySignLiveData: LiveData<String> = Transformations.map(_categoryFilterLiveData) {
-        if (it == null) chooseTextSuffix
-        else "${it.key}    $changeTextSuffix"
+    val categorySignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
+        if (it[1] == null) chooseTextSuffix
+        else "${it[1]?.key?.replace("\\/", "")}    $changeTextSuffix"
     }
 
     private lateinit var changeTextSuffix: String
     private lateinit var chooseTextSuffix: String
 
-    private var defaultItemOrder: List<Cocktail>? = null
-
-//    private var cachedFilterTypeList: List<DrinkFilter?> = listOf(null)
     private var cachedSortingOrder: CocktailSortType? = null
+    var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
 
-    val filterResultMediatorLiveData: LiveData<String> =
+    private val filterAndSortLiveData: LiveData<Unit> = MediatorLiveData<Unit>().apply {
+        fun transformData() {
+            allCocktailList?.let { _cocktailsLiveData.value = it }
+            applyFilter(_filterListLiveData.value ?: listOf(null, null))
+            applySorting(sortingOrderLiveData.value)
+            value = Unit
+        }
+
+        addSource(_filterListLiveData) {
+            transformData()
+        }
+
+        addSource(sortingOrderLiveData) {
+            transformData()
+        }
+    }
+
+    val filterResultLiveData: LiveData<String> =
         MediatorLiveData<String>().apply {
             fun determineResult() {
+                if (!isFilterFragmentOpened) return
+                if (_filterListLiveData.value == listOf(null, null)) return
+
                 val numberOfHistory = cocktailsLiveData.value?.size
                 val numberOfFavorite = favoriteListLiveData.value?.size
-                Timber.i("alcohol ${_alcoholFilterLiveData.value} and category ${_categoryFilterLiveData.value}")
-                if(_alcoholFilterLiveData.value == null && _categoryFilterLiveData.value == null)
-                    return
+
                 value = if (numberOfHistory == 0 && numberOfFavorite == 0)
                     "Результаті відсутні"
                 else
                     "Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)"
             }
-            addSource(_alcoholFilterLiveData) {
-                applyFilter(it)
-                Timber.i("_alcoholFilterLiveData called")
-                if(_alcoholFilterLiveData.value != null)
-                determineResult()
-            }
-            addSource(_categoryFilterLiveData) {
-                applyFilter(it)
-                Timber.i("_categoryFilterLiveData called")
-                if(_categoryFilterLiveData.value != null)
+            addSource(filterAndSortLiveData) {
                 determineResult()
             }
         }
@@ -96,7 +105,6 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
                 _cocktailsLiveData.value = cocktailsList
                 allCocktailList = _cocktailsLiveData.value
-                defaultItemOrder = cocktailsLiveData.value
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
     }
@@ -124,14 +132,14 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         }
     }
 
-    fun changeIsFavoriteState(cocktail: Cocktail, state: Boolean) {
+    fun changeIsFavoriteState(cocktail: Cocktail) {
         disposable.add(
-            repository.updateFavoriteState(cocktail.idDrink, true)
+            repository.updateFavoriteState(cocktail.idDrink, cocktail.isFavorite.not())
                 .doOnComplete {
                     Timber.i("Favorite cocktail added to Db")
                 }
                 .subscribeBy(onComplete = {
-                    val cocktailCopy = cocktail.copy(isFavorite = state)
+                    val cocktailCopy = cocktail.copy(isFavorite = cocktail.isFavorite.not())
                     val updatedCocktailList = allCocktailList?.toMutableList()?.map {
                         if (it.idDrink == cocktailCopy.idDrink) cocktailCopy
                         else it
@@ -146,50 +154,53 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         changeTextSuffix = changeText
         chooseTextSuffix = chooseText
 
-        _alcoholFilterLiveData.value = null
-        _categoryFilterLiveData.value = null
+        _filterListLiveData.value = listOf(null, null)
     }
 
-    fun alcoholFilterSpecified(itemId: Int) {
-        _alcoholFilterLiveData.value = AlcoholDrinkFilter.values()[itemId]
-    }
-
-    fun categoryFilterSpecified(itemId: Int) {
-        _categoryFilterLiveData.value = CategoryDrinkFilter.values()[itemId]
-    }
-
-    private fun applyFilter(filterType: DrinkFilter?) {
-        if ((_alcoholFilterLiveData.value == null && _categoryFilterLiveData.value == null)
-            || filterType == null
-        ) {
-            _cocktailsLiveData.value = allCocktailList
-            applySorting(cachedSortingOrder)
-            return
-        }
-
-        when (filterType.type) {
+    fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
+        _filterListLiveData.value = when (filterType) {
             DrinkFilterType.ALCOHOL -> {
-                _cocktailsLiveData.value =
-                    _cocktailsLiveData.value?.filter { it.strAlcoholic == filterType.key }
+                _filterListLiveData.value?.toMutableList()?.apply {
+                    set(0, AlcoholDrinkFilter.values()[itemId])
+                }
             }
             DrinkFilterType.CATEGORY -> {
-                _cocktailsLiveData.value =
-                    _cocktailsLiveData.value?.filter { it.strCategory == filterType.key }
+                _filterListLiveData.value?.toMutableList()?.apply {
+                    set(1, CategoryDrinkFilter.values()[itemId])
+                }
             }
             else -> throw IllegalArgumentException("unknown filter type was chosen")
         }
     }
 
+    private fun applyFilter(filterTypeList: List<DrinkFilter?>) {
+        if (filterTypeList == listOf(null, null)) return
+
+        filterTypeList.filterNotNull().forEach { filterType ->
+            when (filterType.type) {
+                DrinkFilterType.ALCOHOL -> {
+                    _cocktailsLiveData.value =
+                        _cocktailsLiveData.value?.filter { it.strAlcoholic == filterType.key }
+                }
+                DrinkFilterType.CATEGORY -> {
+                    _cocktailsLiveData.value =
+                        _cocktailsLiveData.value?.filter { it.strCategory == filterType.key }
+                }
+                else -> throw IllegalArgumentException("unknown filter type was chosen")
+            }
+        }
+    }
+
     fun resetFilters() {
-        _alcoholFilterLiveData.value = null
-        _categoryFilterLiveData.value = null
+        _filterListLiveData.value = listOf(null, null)
     }
 
     fun onApplyButtonClicked() {
+        isFilterFragmentOpened = false
         _applyFilterEventLiveData.value = Event(Unit)
     }
 
-    fun applySorting(cocktailSortType: CocktailSortType?) {
+    private fun applySorting(cocktailSortType: CocktailSortType?) {
         cachedSortingOrder = cocktailSortType ?: CocktailSortType.RECENT
 
         val alcoholDrinkFilter = AlcoholDrinkFilter.values()

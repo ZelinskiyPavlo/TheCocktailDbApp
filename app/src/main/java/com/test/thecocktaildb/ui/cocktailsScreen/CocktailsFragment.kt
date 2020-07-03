@@ -48,7 +48,6 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
         setupNavigation()
         setupRecyclerView()
-        loadCocktails()
 
         return viewDataBinding.root
     }
@@ -74,10 +73,6 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
-    }
-
-    private fun loadCocktails() {
-        sharedHostViewModel.loadCocktails()
     }
 
     override fun onStart() {
