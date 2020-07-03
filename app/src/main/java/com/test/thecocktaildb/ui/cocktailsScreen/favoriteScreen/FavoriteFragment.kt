@@ -18,6 +18,7 @@ import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
+import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.util.EventObserver
 
 class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel>(), Injectable,
@@ -91,6 +92,10 @@ class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel
 
     override fun resetFilter() {
         viewDataBinding.viewModel?.applyFilter(listOf(null))
+    }
+
+    override fun applySorting(cocktailSortType: CocktailSortType?) {
+        viewDataBinding.viewModel?.applySorting(cocktailSortType)
     }
 
     fun updateFavoriteCocktail(cocktail: Cocktail) {

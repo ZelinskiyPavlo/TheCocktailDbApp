@@ -26,23 +26,32 @@
             android:paddingVertical="24dp"
             tools:context=".ui.cocktailsScreen.filterScreen.CocktailFilterFragment">
 
-            <RadioGroup
-                android:id="@+id/radio_group_filter_1"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/filter_btn_alcohol"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:drawableEnd="@drawable/ic_arrow_down_24"
+                android:gravity="center_vertical|end"
+                android:text="@{viewModel.alcoholSignLiveData, default=Обрати}"
+                android:textColor="@color/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/radio_group_filter_2"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/filter_btn_category"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@id/filter_button_reset"
+                android:layout_marginTop="24dp"
+                android:drawableEnd="@drawable/ic_arrow_down_24"
+                android:gravity="center_vertical|end"
+                android:text="@{viewModel.categorySignLiveData, default=Обрати}"
+                android:textColor="@color/text_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radio_group_filter_1" />
+                app:layout_constraintTop_toBottomOf="@+id/filter_btn_alcohol" />
 
             <Button
                 android:id="@+id/filter_button_reset"

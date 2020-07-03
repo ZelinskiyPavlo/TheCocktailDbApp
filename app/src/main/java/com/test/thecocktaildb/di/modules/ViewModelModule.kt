@@ -8,6 +8,7 @@ import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel
 import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteViewModel
 import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterViewModel
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostViewModel
+import com.test.thecocktaildb.ui.profileScreen.ProfileViewModel
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
 import com.test.thecocktaildb.util.ViewModelFactory
 import dagger.Binds
@@ -61,6 +62,14 @@ abstract class ViewModelModule {
     @Suppress("unused")
     abstract fun bindsFavoriteViewModel(
         hostViewModel: FavoriteViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    @Suppress("unused")
+    abstract fun bindsProfileViewModel(
+        profileViewModel: ProfileViewModel
     ): ViewModel
 
     @Binds

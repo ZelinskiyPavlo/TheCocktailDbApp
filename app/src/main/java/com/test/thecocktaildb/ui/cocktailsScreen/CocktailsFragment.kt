@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
@@ -23,6 +20,7 @@ import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFavoriteClicked
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.OnFilterApplied
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
+import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
@@ -57,7 +55,6 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         attachBindingVariable()
-        initNavigation()
 
         setupNavigation()
         setupRecyclerView()
@@ -132,6 +129,10 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
 
     override fun resetFilter() {
         viewDataBinding.viewModel?.applyFilter(listOf(null))
+    }
+
+    override fun applySorting(cocktailSortType: CocktailSortType?) {
+        viewDataBinding.viewModel?.applySorting(cocktailSortType)
     }
 
     override fun proposeCocktail(selectedCocktailId: String) {

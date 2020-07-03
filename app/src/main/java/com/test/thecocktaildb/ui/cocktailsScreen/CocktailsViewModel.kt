@@ -6,8 +6,10 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -30,6 +32,13 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isEmpty() }
 
     private var allCocktailList: List<Cocktail>? = null
+    private var defaultItemOrder: List<Cocktail>? = null
+
+    private var cachedFilterTypeList: List<DrinkFilter?> = listOf(null)
+    private var cachedSortingOrder: CocktailSortType? = null
+
+    private var isFiltered: Boolean = false
+    private var isSorted: Boolean = false
 
     private val disposable = CompositeDisposable()
 
@@ -40,6 +49,7 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
             repository.getCocktails().subscribeBy(onSuccess = { cocktailsList ->
                 _items.value = cocktailsList
                 allCocktailList = _items.value
+                defaultItemOrder = items.value
             }, onError = { Timber.e("Error occurred when loading cocktails, $it") })
         )
     }
@@ -68,8 +78,11 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
         }
     }
 
-    fun applyFilter(filterTypeList: List<DrinkFilter?>) {
-        _items.value = allCocktailList
+    fun applyFilter(filterTypeList: List<DrinkFilter?>, forceFilter: Boolean = false) {
+        cachedFilterTypeList = filterTypeList
+        isFiltered = true
+
+        if (!forceFilter) _items.value = allCocktailList
 
         filterTypeList.forEach { drinkFilter ->
             if (drinkFilter != null) {
@@ -83,7 +96,13 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
                     else -> {
                     }
                 }
+            } else {
+                isFiltered = false
             }
+        }
+        if (isSorted) {
+            isFiltered = false
+            applySorting(cachedSortingOrder, true)
         }
     }
 
@@ -100,5 +119,45 @@ class CocktailsViewModel @Inject constructor(private val repository: AppCocktail
     }
 
     override fun removeCocktailFromFavorite(cocktail: Cocktail) {
+    }
+
+    fun applySorting(cocktailSortType: CocktailSortType?, forceSorting: Boolean = false) {
+        cachedSortingOrder = cocktailSortType ?: CocktailSortType.RECENT
+        isSorted = true
+
+        if (!forceSorting) _items.value = defaultItemOrder
+
+        val alcoholDrinkFilter = AlcoholDrinkFilter.values()
+        val alcoholComparator = kotlin.Comparator<Cocktail> { t, t2 ->
+            if (t.strAlcoholic != null && t2.strAlcoholic != null)
+                alcoholDrinkFilter.indexOf(alcoholDrinkFilter.find { it.key == t.strAlcoholic }) -
+                        alcoholDrinkFilter
+                            .indexOf(alcoholDrinkFilter.find { it.key == t2.strAlcoholic })
+            else 0
+        }
+
+        _items.value = when (cachedSortingOrder) {
+            CocktailSortType.RECENT -> {
+                isSorted = false
+                _items.value?.sortedByDescending { it.dateAdded }
+            }
+            CocktailSortType.NAME_DESC ->
+                _items.value?.sortedByDescending { it.strDrink }
+            CocktailSortType.NAME_ASC ->
+                _items.value?.sortedBy { it.strDrink }
+            CocktailSortType.ALCOHOL_FIRST ->
+                _items.value?.sortedWith(nullsLast(alcoholComparator))
+            CocktailSortType.NON_ALCOHOL_FIRST ->
+                _items.value?.sortedWith(nullsLast(alcoholComparator))?.reversed()
+            CocktailSortType.INGREDIENT_DESC ->
+                _items.value?.sortedByDescending { it.ingredientsNumber() }
+            CocktailSortType.INGREDIENT_ASC ->
+                _items.value?.sortedBy { it.ingredientsNumber() }
+            null -> _items.value?.sortedByDescending { it.dateAdded }
+        }
+        if (isFiltered) {
+            isSorted = false
+            applyFilter(cachedFilterTypeList, true)
+        }
     }
 }

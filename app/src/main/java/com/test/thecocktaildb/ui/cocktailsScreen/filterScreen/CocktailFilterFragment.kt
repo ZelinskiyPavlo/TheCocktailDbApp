@@ -3,36 +3,24 @@ package com.test.thecocktaildb.ui.cocktailsScreen.filterScreen
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.PopupMenu
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailFilterFragmentBinding
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.callback.FragmentEventCallback
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.CategoryDrinkFilter
-import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilter
-import com.test.thecocktaildb.ui.cocktailsScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.util.EventObserver
 
 class CocktailFilterFragment :
     BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
 
     companion object {
-        fun newInstance(drinkFilterTypeList: List<DrinkFilterType>? = null): CocktailFilterFragment {
-            val filterFragment =
-                CocktailFilterFragment()
-            val args = Bundle()
-
-            if (drinkFilterTypeList != null) {
-                drinkFilterTypeList.forEach { drinkFilterType ->
-                    args.putSerializable(drinkFilterType.toString(), drinkFilterType)
-                }
-                filterFragment.arguments = args
-            }
-            return filterFragment
+        fun newInstance(): CocktailFilterFragment {
+            return CocktailFilterFragment()
         }
     }
 
@@ -43,7 +31,8 @@ class CocktailFilterFragment :
 
     private lateinit var fragmentEventCallback: FragmentEventCallback
 
-    private lateinit var radioGroupList: List<RadioGroup>
+    private lateinit var alcoholMenu: PopupMenu
+    private lateinit var categoryMenu: PopupMenu
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,7 +46,7 @@ class CocktailFilterFragment :
         super.onCreateView(inflater, container, savedInstanceState)
         attachBindingVariable()
 
-        setupRadioGroup()
+        setupFilterPopMenu()
         setupFilterButtons()
         return viewDataBinding.root
     }
@@ -66,58 +55,48 @@ class CocktailFilterFragment :
         viewDataBinding.viewModel = viewModel
     }
 
-    private fun setupRadioGroup() {
-        radioGroupList =
-            listOf(viewDataBinding.radioGroupFilter1, viewDataBinding.radioGroupFilter2)
-        var numberOfRadioButtons = 0
+    private fun setupFilterPopMenu() {
+        val chooseText = "Обрати"
+        val changeText = "Змінити"
+        viewDataBinding.viewModel?.setInitialText(chooseText, changeText)
 
-        fun populateRadioGroup(radioGroupIndex: Int, filterValues: Array<out DrinkFilter>) {
-            filterValues.forEach { drinkFilter ->
-                val radioButton = RadioButton(activity)
-                radioButton.text = drinkFilter.key
+        alcoholMenu = PopupMenu(context, viewDataBinding.filterBtnAlcohol)
+        categoryMenu = PopupMenu(context, viewDataBinding.filterBtnCategory)
+
+        val alcoholDrinkFilter = AlcoholDrinkFilter.values()
+        val categoryDrinkFilter = CategoryDrinkFilter.values()
+
+        alcoholDrinkFilter.forEachIndexed { index, drinkFilter ->
+            alcoholMenu.menu.add(
+                Menu.NONE, index, Menu.NONE, drinkFilter.key
                     .replace("_", " ")
                     .replace("\\/", "")
-                radioButton.id = numberOfRadioButtons
-                radioGroupList[radioGroupIndex].addView(radioButton)
-                numberOfRadioButtons++
-            }
-            val radioButton = RadioButton(activity)
-            radioButton.text = getString(R.string.filter_fragment_none_filter)
-            radioButton.id = numberOfRadioButtons
-
-            numberOfRadioButtons++
-            viewDataBinding.viewModel?.numberOfRadioButtons = numberOfRadioButtons
-            radioGroupList[radioGroupIndex].addView(radioButton)
+            )
+        }
+        categoryDrinkFilter.forEachIndexed { index, drinkFilter ->
+            categoryMenu.menu.add(
+                Menu.NONE, index, Menu.NONE, drinkFilter.key
+                    .replace("_", " ")
+                    .replace("\\/", "")
+            )
         }
 
-        viewDataBinding.viewModel?.drinkFilterTypeList =
-            DrinkFilterType.values().mapIndexed { index, drinkFilterType ->
-                when (arguments?.get(drinkFilterType.toString())) {
-                    DrinkFilterType.ALCOHOL -> {
-                        populateRadioGroup(index, AlcoholDrinkFilter.values())
-                        DrinkFilterType.ALCOHOL
-                    }
-                    DrinkFilterType.CATEGORY -> {
-                        populateRadioGroup(index, CategoryDrinkFilter.values())
-                        DrinkFilterType.CATEGORY
-                    }
-                    else -> null
-                }
-            }
-
-        viewDataBinding.viewModel?.retrieveFilterEventLiveData?.observe(viewLifecycleOwner,
-            EventObserver {
-                viewDataBinding.viewModel?.selectedFilterViewIdList = radioGroupList.map {
-                    it.checkedRadioButtonId
-                }
-            })
+        alcoholMenu.setOnMenuItemClickListener { menuItem ->
+            viewDataBinding.viewModel?.alcoholFilterSpecified(menuItem.itemId)
+            true
+        }
+        categoryMenu.setOnMenuItemClickListener { menuItem ->
+            viewDataBinding.viewModel?.categoryFilterSpecified(menuItem.itemId)
+            true
+        }
     }
 
     private fun setupFilterButtons() {
+        viewDataBinding.filterBtnAlcohol.setOnClickListener { alcoholMenu.show() }
+        viewDataBinding.filterBtnCategory.setOnClickListener { categoryMenu.show() }
+
         viewModel.clearFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            viewDataBinding.radioGroupFilter1.clearCheck()
-            viewDataBinding.radioGroupFilter2.clearCheck()
-            viewModel.selectedFilterTypeList = listOf(null)
+            viewModel.selectedFilterTypeList = mutableListOf(null)
         })
 
         viewModel.applyFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {

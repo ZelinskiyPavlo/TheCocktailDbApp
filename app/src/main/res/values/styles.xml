@@ -59,4 +59,14 @@
         <item name="android:background">@color/section_divider_background</item>
     </style>
 
+    <style name="DialogFragment" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/color_transparent</item>
+        <item name="android:background">@color/color_transparent</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
 </resources>
