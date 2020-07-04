@@ -1,14 +1,14 @@
 package com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.test.thecocktaildb.dataBinding.adapter.Page
 import com.test.thecocktaildb.util.BatteryStateCacheHolder
 import com.test.thecocktaildb.util.BatteryStateHolder
 import javax.inject.Inject
 
 class HostViewModel @Inject constructor(): ViewModel() {
+
+    val currentPageLiveData = MutableLiveData<Page>().apply { value = Page.HistoryPage }
 
     private val _batteryPercent = MutableLiveData<String>()
     val batteryPercent: LiveData<String> = _batteryPercent
@@ -21,6 +21,13 @@ class HostViewModel @Inject constructor(): ViewModel() {
     val isBatteryCharging: LiveData<Boolean> = _isBatteryCharging
 
     private val batteryStateCache = BatteryStateCacheHolder()
+
+    val testMediatorLiveData = MediatorLiveData<Unit>().apply {
+
+        addSource(currentPageLiveData){
+            value = Unit
+        }
+    }
 
     fun updateBatteryState(stateHolder: BatteryStateHolder) {
         fun determineBatteryStatus(): Boolean {
