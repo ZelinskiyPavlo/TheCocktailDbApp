@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -41,7 +42,7 @@
                     android:layout_height="118dp"
                     android:contentDescription="@string/cocktail_item_image_description"
                     android:scaleType="centerCrop"
-                    app:image_url="@{obj.strDrinkThumb}" />
+                    bind:iv_imageUrl="@{obj.strDrinkThumb}" />
 
                 <TextView
                     android:id="@+id/cocktail_item_name"
@@ -58,11 +59,10 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="top|end"
-                android:onClick="@{(view) -> listener.onFavoriteIconClicked(obj)}"
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@null"
-                android:src="@{obj.isFavorite ? @drawable/ic_favorite_solid_48 : @drawable/ic_baseline_favorite_border_48}"
-                />
+                android:onClick="@{(view) -> listener.onFavoriteIconClicked(obj)}"
+                android:src="@{obj.isFavorite ? @drawable/ic_favorite_solid_48 : @drawable/ic_baseline_favorite_border_48}" />
         </FrameLayout>
 
     </com.google.android.material.card.MaterialCardView>

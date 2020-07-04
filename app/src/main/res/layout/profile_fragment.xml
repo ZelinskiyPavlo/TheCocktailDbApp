@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.test.thecocktaildb.ui.profileScreen.ProfileFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +35,7 @@
             android:text="Open TestFragment"
             android:textAppearance="@style/TextBoldRegular"
             android:textColor="@color/black"
+            android:onClick="@{() -> fragment.openTestFragment()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Log out"
+            android:onClick="@{() -> fragment.showLogOutBottomSheetDialog()}"
             android:textAppearance="@style/TextBoldRegular"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"

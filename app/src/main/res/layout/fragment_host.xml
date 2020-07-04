@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/ic_battery_24"
-                        app:tint="@{viewModel.isBatteryCharging()}"
+                        bind:iv_batteryBar_tint="@{viewModel.isBatteryCharging()}"
                         tools:ignore="ContentDescription" />
 
                     <TextView
