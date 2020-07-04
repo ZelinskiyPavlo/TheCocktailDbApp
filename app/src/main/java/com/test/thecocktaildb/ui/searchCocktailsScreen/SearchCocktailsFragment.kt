@@ -32,8 +32,6 @@ class SearchCocktailsFragment : Injectable,
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        attachBindingVariable()
-
         setupNavigation()
         setupRecyclerView()
         setupSearchField()
@@ -41,8 +39,10 @@ class SearchCocktailsFragment : Injectable,
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.viewModel = viewModel
+
     }
 
     private fun setupNavigation() {

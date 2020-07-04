@@ -31,7 +31,6 @@ class CocktailDetailsFragment : Injectable,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
         setupNavigation()
         setupIngredientsRecyclerView()
         setActionBarTitle()
@@ -42,7 +41,8 @@ class CocktailDetailsFragment : Injectable,
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.viewModel = viewModel
     }
 

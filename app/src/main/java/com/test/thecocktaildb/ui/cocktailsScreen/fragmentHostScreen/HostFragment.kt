@@ -59,7 +59,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
         initNavigation()
 
         setupNavigation()
@@ -69,11 +68,13 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         attachObserver()
         loadCocktails()
 
+        viewModel.testMediatorLiveData.observe(viewLifecycleOwner, Observer {  })
         setHasOptionsMenu(true)
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.viewModel = this.viewModel
     }
 

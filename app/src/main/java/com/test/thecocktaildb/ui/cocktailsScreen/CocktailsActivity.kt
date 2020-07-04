@@ -12,6 +12,7 @@ import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.databinding.ActivityMainBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.base.BaseDialogFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
@@ -28,9 +29,11 @@ import javax.inject.Inject
 
 var lastSavedTime: Long? = null
 
-class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserver,
+class CocktailsActivity @Inject constructor() : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     HasAndroidInjector,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
+
+    override val contentLayoutResId: Int = R.layout.activity_main
 
     //    TODO: extract all injects to BaseActivity()
     @Inject
@@ -54,7 +57,6 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         initNavHost()
         attachLifecycleObserver()
 
@@ -147,6 +149,11 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
             val currentTime = System.currentTimeMillis()
             if (currentTime - it > 10000) showCocktailOfTheDayDialog()
         }
+    }
+
+    override fun onDestroy() {
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+        super.onDestroy()
     }
 
     @Suppress("unused")

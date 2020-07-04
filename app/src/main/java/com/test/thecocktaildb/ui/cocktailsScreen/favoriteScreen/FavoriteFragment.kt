@@ -19,6 +19,7 @@ import com.test.thecocktaildb.util.EventObserver
 class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel>(), Injectable {
 
     companion object {
+        @JvmStatic
         fun newInstance() = FavoriteFragment()
     }
 
@@ -33,7 +34,6 @@ class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
         setupNavigation()
 
         setupRecyclerView()
@@ -41,7 +41,8 @@ class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.sharedViewModel = sharedHostViewModel
     }
 
