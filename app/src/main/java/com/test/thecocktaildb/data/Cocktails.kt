@@ -20,6 +20,8 @@ data class Cocktail @JvmOverloads constructor(
 
     var dateAdded: Date? = Calendar.getInstance().time,
 
+    val isFavorite: Boolean = false,
+
     @SerializedName("strAlcoholic")
     val strAlcoholic: String?,
     @SerializedName("strCategory")
@@ -98,6 +100,13 @@ data class Cocktail @JvmOverloads constructor(
     @SerializedName("strMeasure15")
     val strMeasure15: String?
 ) {
+
+    fun ingredientsNumber(): Int {
+        return with(createIngredientsList()) {
+            removeAll{ it.name.isNullOrEmpty() }
+            size
+        }
+    }
 
     fun createNumberedIngredientsList(): List<Ingredient> {
         val ingredientsList = createIngredientsList()

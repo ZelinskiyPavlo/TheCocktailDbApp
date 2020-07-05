@@ -1,60 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
 
+        <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType"/>
+
         <variable
             name="viewModel"
             type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
-
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_cocktails_rv"
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/cocktail_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <include
+                    android:id="@+id/search_field_layout"
+                    layout="@layout/search_cocktails_toolbar" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/margin_double"
-            app:adapter_tag="@{viewModel}"
-            app:items="@{viewModel.itemsLiveData}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <TextView
-            android:id="@+id/search_help_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:gravity="center_vertical"
-            android:text="@string/search_help_text"
-            android:textAppearance="@style/TextHint"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_cocktails_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/margin_double"
+                bind:rv_adapterTag="@{AdapterType.SEARCH_ADAPTER}"
+                bind:rv_cocktails="@{viewModel.items}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/search_find_data_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
-            app:constraint_referenced_ids="search_cocktails_rv" />
+            <TextView
+                android:id="@+id/search_help_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:gravity="center_vertical"
+                android:text="@string/search_help_text"
+                android:textAppearance="@style/TextHint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/search_no_data_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
-            app:constraint_referenced_ids="search_help_text" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/search_find_data_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isSearchResultEmpty ? View.GONE : View.VISIBLE}"
+                app:constraint_referenced_ids="search_cocktails_rv" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/search_no_data_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isSearchResultEmpty ? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="search_help_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+		
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

@@ -1,10 +1,12 @@
 package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
@@ -31,6 +33,9 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
     private val _cocktailInstructionLiveData = MutableLiveData<String>()
     val cocktailInstructionLiveData: LiveData<String> = _cocktailInstructionLiveData
 
+    private val _onBackPressedEventLiveData = MutableLiveData<Event<Unit>>()
+    val onBackPressedEventLiveData: LiveData<Event<Unit>> = _onBackPressedEventLiveData
+
     lateinit var cocktailId: String
 
     private val disposable = CompositeDisposable()
@@ -53,5 +58,9 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
         _cocktailInstructionLiveData.value = cocktail.strInstructions
 
         cocktailId = cocktail.idDrink
+    }
+
+    fun onBackButtonPressed(view: View?) {
+        _onBackPressedEventLiveData.value = Event(Unit)
     }
 }

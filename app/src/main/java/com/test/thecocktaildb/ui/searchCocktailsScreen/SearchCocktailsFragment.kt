@@ -16,12 +16,11 @@ import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
-import kotlinx.android.synthetic.main.activity_main.*
 
 class SearchCocktailsFragment : Injectable,
     BaseFragment<SearchCocktailsFragmentBinding, SearchCocktailsViewModel>() {
 
-    override fun getLayoutId(): Int = R.layout.search_cocktails_fragment
+    override val layoutId: Int = R.layout.search_cocktails_fragment
 
     override fun getViewModelClass(): Class<SearchCocktailsViewModel> =
         SearchCocktailsViewModel::class.java
@@ -33,8 +32,6 @@ class SearchCocktailsFragment : Injectable,
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        attachBindingVariable()
-
         setupNavigation()
         setupRecyclerView()
         setupSearchField()
@@ -42,14 +39,14 @@ class SearchCocktailsFragment : Injectable,
         return viewDataBinding.root
     }
 
+    override fun configureDataBinding() {
+        super.configureDataBinding()
+        viewDataBinding.viewModel = viewModel
 
-    private fun attachBindingVariable() {
-        viewDataBinding.viewModel = this.viewModel
     }
 
-
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEventLiveData?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = SearchCocktailsFragmentDirections
@@ -70,14 +67,16 @@ class SearchCocktailsFragment : Injectable,
 
     private fun setupSearchField() {
         fun showKeyboard(editText: EditText?) {
-            if (editText?.requestFocus() == true) {
-                val imm =
-                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            editText?.post {
+                editText.requestFocus()
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
             }
         }
 
-        val editText = activity?.toolBar?.findViewById<EditText>(R.id.search_field_edit_text)
+        val editText = viewDataBinding.searchFieldLayout
+            .findViewById<EditText>(R.id.search_field_edit_text)
+
         editText?.setText("")
 
         showKeyboard(editText)

@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.di.ViewModelKey
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
 import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsViewModel
+import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteViewModel
+import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterViewModel
+import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostViewModel
+import com.test.thecocktaildb.ui.profileScreen.ProfileViewModel
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
 import com.test.thecocktaildb.util.ViewModelFactory
 import dagger.Binds
@@ -34,6 +38,38 @@ abstract class ViewModelModule {
     @Suppress("unused")
     abstract fun bindsSearchCocktailsViewModel(
         searchCocktailsViewModel: SearchCocktailsViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CocktailFilterViewModel::class)
+    @Suppress("unused")
+    abstract fun bindsCocktailFilterViewModel(
+        cocktailFilterViewModel: CocktailFilterViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HostViewModel::class)
+    @Suppress("unused")
+    abstract fun bindsHostViewModel(
+        hostViewModel: HostViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteViewModel::class)
+    @Suppress("unused")
+    abstract fun bindsFavoriteViewModel(
+        hostViewModel: FavoriteViewModel
+    ): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    @Suppress("unused")
+    abstract fun bindsProfileViewModel(
+        profileViewModel: ProfileViewModel
     ): ViewModel
 
     @Binds

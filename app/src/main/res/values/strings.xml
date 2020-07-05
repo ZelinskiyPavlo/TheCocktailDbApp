@@ -1,6 +1,7 @@
 <resources>
     <!--region High level text-->
     <string name="app_name">TheCocktailDb</string>
+    <string name="app_name_simplified">Pavlo Zelinskiy</string>
     <!--endregion-->
 
     <!--region CocktailsFragment related-->
@@ -25,9 +26,38 @@
     <string name="cocktail_image_description">Show image of selected cocktail</string>
     <string name="cocktail_item_image_description">Cocktail item image</string>
     <string name="search_field_icon_description">search icon</string>
+    <string name="cocktail_logo_description">Cocktail Database logo</string>
+    <!--endregion-->
+
     <string name="proposal_snackbar_message">Чи хочете ви переглянути ще якийсь напій із вашого
         списку?</string>
     <string name="show_proposed_cocktail">Показати</string>
+
+    <!--region AuthActivity-->
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="button_login">Login</string>
     <!--endregion-->
+
+    <!--region FilterFragment related-->
+    <string name="filter_button_reset">Скинути</string>
+    <string name="filter_button_apply">До результатів</string>
+    <string name="filter_fragment_none_filter">None</string>
+    <!--endregion-->
+
+    <!--region HostFragment related-->
+    <string name="tl_host_fragment_history_tab">History</string>
+    <string name="tl_host_fragment_favorite_tab">Favorite</string>
+    <!--endregion-->
+
+    <!--region FavoriteFragment-->
+    <string name="empty_favorite_text">Favorite is empty</string>
+    <!--endregion-->
+
+    <string name="menu_cocktail_history_open">Open</string>
+    <string name="menu_cocktail_history_add_favorite">Add Favorite</string>
+    <string name="menu_cocktail_history_quick_preview">Quick Preview</string>
+    <string name="menu_cocktail_history_remove">Remove</string>
+    <string name="menu_cocktail_history_remove_favorite">Remove Favorite</string>
 
 </resources>

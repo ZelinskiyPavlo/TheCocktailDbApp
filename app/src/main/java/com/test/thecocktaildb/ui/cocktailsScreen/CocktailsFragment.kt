@@ -1,12 +1,12 @@
 package com.test.thecocktaildb.ui.cocktailsScreen
 
 import android.content.BroadcastReceiver
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -14,21 +14,30 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.util.BatteryStateHolder
+import com.test.thecocktaildb.ui.cocktailsScreen.callback.DrinkProposalCallback
+import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragmentDirections
+import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
 
 class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>(), Injectable,
-    DrinkProposalCallback, BatteryStateCallback {
+    DrinkProposalCallback {
 
-    private lateinit var drinkProposalReceiver: BroadcastReceiver
-    private lateinit var batteryStateReceiver: BroadcastReceiver
+    companion object {
+        @JvmStatic
+        fun newInstance(): CocktailsFragment {
+            return CocktailsFragment()
+        }
+    }
 
-    override fun getLayoutId(): Int = R.layout.cocktails_fragment
+    override val layoutId: Int = R.layout.cocktails_fragment
 
     override fun getViewModelClass() = CocktailsViewModel::class.java
+
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels{delegatedViewModelFactory}
+
+    private lateinit var drinkProposalReceiver: BroadcastReceiver
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,56 +46,40 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        attachBindingVariable()
-
-        setupFab()
         setupNavigation()
         setupRecyclerView()
-        loadCocktails()
 
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
-        viewDataBinding.viewModel = this.viewModel
-    }
-
-    private fun setupFab() {
-        viewDataBinding.searchFab.setOnClickListener {
-            val action = CocktailsFragmentDirections
-                .actionCocktailsFragmentToSearchCocktailsFragment()
-            findNavController().navigate(action)
-        }
+    override fun configureDataBinding() {
+        super.configureDataBinding()
+        viewDataBinding.sharedViewModel = sharedHostViewModel
     }
 
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEventLiveData?.observe(
+        sharedHostViewModel.cocktailDetailsEvent.observe(
             viewLifecycleOwner,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
-                val action = CocktailsFragmentDirections
-                    .actionCocktailsFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
+                val action = HostFragmentDirections
+                    .actionHostFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
                 findNavController().navigate(action)
             })
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = CocktailsAdapter(viewModel)
+        val cocktailsAdapter = CocktailsAdapter(sharedHostViewModel)
         viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
     }
 
-    private fun loadCocktails() {
-        viewModel.loadCocktails()
-    }
-
     override fun onStart() {
         super.onStart()
 
         registerDrinkProposalReceiver()
-        registerBatteryStatusReceiver()
     }
 
     private fun registerDrinkProposalReceiver() {
@@ -98,40 +91,23 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         activity?.registerReceiver(drinkProposalReceiver, intentFilter)
     }
 
-    private fun registerBatteryStatusReceiver() {
-        batteryStateReceiver = BatteryStateReceiver(this)
-
-        val intentFilter = IntentFilter().apply {
-            addAction(Intent.ACTION_BATTERY_CHANGED)
-            addAction(Intent.ACTION_BATTERY_OKAY)
-            addAction(Intent.ACTION_BATTERY_LOW)
-        }
-        activity?.registerReceiver(batteryStateReceiver, intentFilter)
-    }
-
     override fun onStop() {
         super.onStop()
 
         activity?.unregisterReceiver(drinkProposalReceiver)
-        activity?.unregisterReceiver(batteryStateReceiver)
     }
 
     override fun proposeCocktail(selectedCocktailId: String) {
-        // show proposal snackbar only if there are at least 2 cocktail in history
-        if ((viewDataBinding.viewModel?.itemsLiveData?.value?.size ?: 0) > 1) {
+        if ((sharedHostViewModel.cocktailsLiveData.value?.size ?: 0) > 1) {
             val proposalSnackbar = Snackbar.make(
                 viewDataBinding.root,
                 getString(R.string.proposal_snackbar_message),
                 Snackbar.LENGTH_LONG
             )
             proposalSnackbar.setAction(getString(R.string.show_proposed_cocktail)) {
-                viewDataBinding.viewModel?.openProposedCocktail(selectedCocktailId)
+                sharedHostViewModel.openProposedCocktail(selectedCocktailId)
             }
             proposalSnackbar.show()
         }
-    }
-
-    override fun updateBatteryState(batteryState: BatteryStateHolder) {
-        viewDataBinding.viewModel?.updateBatteryState(batteryState)
     }
 }

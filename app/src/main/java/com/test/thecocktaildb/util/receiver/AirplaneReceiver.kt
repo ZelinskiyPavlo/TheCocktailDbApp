@@ -10,7 +10,7 @@ class AirplaneReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, airplaneModeIntent: Intent?) {
         Timber.i("onReceive method of AirplaneReceiver")
         val airplaneModeStatus = airplaneModeIntent?.getBooleanExtra("state", false) ?: false
-        if (airplaneModeStatus){
+        if (airplaneModeStatus) {
             val message = "Смакуйте маргаритку із відчуттям міри. І надіємося, що Ви не пілот під" +
                     "  час польоту"
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

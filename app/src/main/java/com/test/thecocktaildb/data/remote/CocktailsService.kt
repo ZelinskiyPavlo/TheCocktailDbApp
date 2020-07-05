@@ -9,4 +9,8 @@ interface CocktailsService {
 
     @GET("search.php")
     fun searchCocktails(@Query("s") searchQuery: String): Single<Cocktails>
+
+    @GET("lookup.php")
+    fun findCocktailsById(@Query("i") id: String): Single<Cocktails>
+
 }

@@ -8,12 +8,14 @@
         android:name=".CocktailsApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name_simplified"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity"
-            android:theme="@style/SplashTheme">
+        <activity android:name="com.test.thecocktaildb.ui.auth.AuthActivity"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +26,8 @@
             android:enabled="true"
             android:exported="false">
         </service>
+        <activity android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
