@@ -49,22 +49,15 @@ class ProfileFragment : Injectable,
         viewDataBinding.fragment = this
     }
 
-    private fun setOnClickListeners() {
-        open_test_fragment_btn.setOnClickListener {
-            val testFragment = TestFragment.newInstance(4, "TEST_STRING")
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.profile_fragment_container, testFragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-//      TODO: Extract to Data binding (in branch homework 7)
-        profile_fragment_log_out_btn.setOnClickListener { view ->
-            showLogOutBottomSheetDialog()
-        }
+    fun openTestFragment() {
+        val testFragment = TestFragment.newInstance(4, "TEST_STRING")
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.profile_fragment_container, testFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
-    private fun showLogOutBottomSheetDialog() {
+    fun showLogOutBottomSheetDialog() {
         RegularBottomSheetDialogFragment.newInstance {
             titleText = "Log Out"
             descriptionText = "Do you really want to exit?"
@@ -84,7 +77,8 @@ class ProfileFragment : Injectable,
                 when (buttonType) {
                     LeftDialogButton -> dialog.dismiss()
                     RightDialogButton -> {
-                        requireContext().startActivity(Intent(requireContext(), AuthActivity::class.java))
+                        requireContext()
+                            .startActivity(Intent(requireContext(), AuthActivity::class.java))
                     }
                 }
             }
