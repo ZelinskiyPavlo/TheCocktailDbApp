@@ -1,11 +1,11 @@
-package com.test.thecocktaildb.di.modules
+package com.test.thecocktaildb.di.module
 
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.data.local.CocktailsLocalDataSource
 import com.test.thecocktaildb.data.remote.CocktailsRemoteDataSource
-import com.test.thecocktaildb.util.schedulers.AppSchedulerProvider
-import com.test.thecocktaildb.util.schedulers.SchedulerProvider
+import com.test.thecocktaildb.util.scheduler.AppSchedulerProvider
+import com.test.thecocktaildb.util.scheduler.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

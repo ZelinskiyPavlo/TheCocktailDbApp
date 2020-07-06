@@ -2,7 +2,7 @@ package com.test.thecocktaildb.data
 
 import com.test.thecocktaildb.data.local.CocktailsLocalDataSource
 import com.test.thecocktaildb.data.remote.CocktailsRemoteDataSource
-import com.test.thecocktaildb.util.schedulers.AppSchedulerProvider
+import com.test.thecocktaildb.util.scheduler.AppSchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable

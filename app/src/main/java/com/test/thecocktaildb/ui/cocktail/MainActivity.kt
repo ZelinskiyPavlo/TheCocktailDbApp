@@ -20,27 +20,15 @@ import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
 import com.test.thecocktaildb.ui.profile.ProfileFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
-import com.test.thecocktaildb.util.vmfactory.DelegatedViewModelFactory
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 var lastSavedTime: Long? = null
 
-class CocktailsActivity @Inject constructor() : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
-    HasAndroidInjector,
+class MainActivity @Inject constructor() : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     override val contentLayoutResId: Int = R.layout.activity_main
-
-    //    TODO: extract all injects to BaseActivity()
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
 
     private val mainViewModel: MainViewModel by viewModels { delegatedViewModelFactory }
 
@@ -53,8 +41,6 @@ class CocktailsActivity @Inject constructor() : BaseActivity<ActivityMainBinding
     private lateinit var profileFragment: ProfileFragment
 
     private var cocktailOfTheDayDialog: RegularDialogFragment? = null
-
-    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)

@@ -29,7 +29,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/margin_8dp"
                 android:src="@drawable/ic_search_grey_24dp"
-                android:contentDescription="@string/search_field_icon_description" />
+                android:contentDescription="@null" />
 
             <EditText
                 android:id="@+id/search_field_edit_text"

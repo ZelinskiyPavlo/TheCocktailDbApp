@@ -5,10 +5,10 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.adapter.recyclerview.CustomActionListener
 import com.test.thecocktaildb.ui.adapter.recyclerview.base.BaseAdapter
-import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailsItemUserActionListener
+import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
 import com.test.thecocktaildb.ui.detail.Ingredient
 
-class IngredientsAdapter :
+class IngredientAdapter :
     BaseAdapter<Ingredient>() {
 
     override fun setData(items: List<Ingredient>?) {
@@ -21,12 +21,12 @@ class IngredientsAdapter :
     override fun getItemForPosition(position: Int): Ingredient = ingredientsList[position]
 
     override fun getLayoutIdForPosition(position: Int): Int =
-        R.layout.cocktail_details_ingredient_item
+        R.layout.item_cocktail_details_ingredient
 
     override fun getItemCount(): Int = ingredientsList.size
 
     override fun getItemClickListener(): CustomActionListener {
-        return object : CocktailsItemUserActionListener {
+        return object : CocktailItemUserActionListener {
             override fun onFavoriteIconClicked(cocktail: Cocktail) {
             }
 

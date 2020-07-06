@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.util.schedulers
+package com.test.thecocktaildb.util.scheduler
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

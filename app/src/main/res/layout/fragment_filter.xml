@@ -41,8 +41,8 @@
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="24dp"
+                android:paddingHorizontal="@dimen/padding_16dp"
+                android:paddingVertical="@dimen/padding_24dp"
                 tools:context=".ui.cocktail.filter.CocktailFilterFragment">
 
                 <TextView
@@ -121,14 +121,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="@dimen/padding_16dp"
             app:layout_dodgeInsetEdges="bottom">
 
             <Button
                 android:id="@+id/filter_button_reset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/margin_8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.resetFilters()}"
@@ -139,7 +139,7 @@
                 android:id="@+id/filter_button_apply"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/margin_8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.onApplyButtonClicked()}"

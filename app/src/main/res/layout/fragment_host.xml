@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@{viewModel.batteryPercent}"
+                        android:text="@{viewModel.batteryPercentLiveData}"
                         android:textAppearance="@style/TextRegular"
                         android:textColor="@color/text_white"
                         tools:text="50%" />
@@ -88,14 +88,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/ic_battery_24"
-                        bind:iv_batteryBar_tint="@{viewModel.isBatteryCharging()}"
-                        tools:ignore="ContentDescription" />
+                        bind:iv_batteryBar_tint="@{viewModel.isBatteryChargingLiveData()}"
+                        android:contentDescription="@null" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@{viewModel.batteryStatus}"
+                        android:text="@{viewModel.batteryStatusLiveData}"
                         android:textAppearance="@style/TextRegular"
                         android:textColor="@color/text_white"
                         tools:text="BATTERY_OKAY" />

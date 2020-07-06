@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.di.modules
+package com.test.thecocktaildb.di.module
 
 import com.test.thecocktaildb.data.remote.CocktailsService
 import dagger.Module

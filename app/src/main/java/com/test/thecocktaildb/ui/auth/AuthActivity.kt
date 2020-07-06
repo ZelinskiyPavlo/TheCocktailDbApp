@@ -11,11 +11,12 @@ import androidx.lifecycle.Observer
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.ui.cocktail.CocktailsActivity
+import com.test.thecocktaildb.ui.cocktail.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
 import kotlinx.android.synthetic.main.activity_auth.*
+import javax.inject.Inject
 
-class AuthActivity : BaseActivity<ActivityAuthBinding>() {
+class AuthActivity @Inject constructor(): BaseActivity<ActivityAuthBinding>() {
 
     override val contentLayoutResId: Int = R.layout.activity_auth
 
@@ -75,7 +76,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
         }
         if (viewModel.loginInputLiveData.value == login
             && viewModel.passwordInputLiveData.value == password) {
-            val intent = Intent(this, CocktailsActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             this.startActivity(intent)
             finish()
         } else {

@@ -1,15 +1,15 @@
-package com.test.thecocktaildb.di.modules
+package com.test.thecocktaildb.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.di.ViewModelKey
 import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteViewModel
 import com.test.thecocktaildb.ui.cocktail.filter.CocktailFilterViewModel
-import com.test.thecocktaildb.ui.cocktail.history.CocktailsViewModel
+import com.test.thecocktaildb.ui.cocktail.history.HistoryViewModel
 import com.test.thecocktaildb.ui.cocktail.host.HostViewModel
 import com.test.thecocktaildb.ui.detail.CocktailDetailsViewModel
 import com.test.thecocktaildb.ui.profile.ProfileViewModel
-import com.test.thecocktaildb.ui.search.SearchCocktailsViewModel
+import com.test.thecocktaildb.ui.search.SearchCocktailViewModel
 import com.test.thecocktaildb.util.vmfactory.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -20,9 +20,9 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CocktailsViewModel::class)
+    @ViewModelKey(HistoryViewModel::class)
     @Suppress("unused")
-    abstract fun bindsCocktailsViewModel(cocktailsViewModel: CocktailsViewModel): ViewModel
+    abstract fun bindsCocktailsViewModel(historyViewModel: HistoryViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -34,10 +34,10 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SearchCocktailsViewModel::class)
+    @ViewModelKey(SearchCocktailViewModel::class)
     @Suppress("unused")
     abstract fun bindsSearchCocktailsViewModel(
-        searchCocktailsViewModel: SearchCocktailsViewModel
+        searchCocktailViewModel: SearchCocktailViewModel
     ): ViewModel
 
     @Binds

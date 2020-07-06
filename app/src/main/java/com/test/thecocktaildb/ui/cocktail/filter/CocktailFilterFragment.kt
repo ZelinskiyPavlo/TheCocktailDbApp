@@ -10,14 +10,13 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.CocktailFilterFragmentBinding
+import com.test.thecocktaildb.databinding.FragmentFilterBinding
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
 
-class CocktailFilterFragment :
-    BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
+class CocktailFilterFragment : BaseFragment<FragmentFilterBinding, CocktailFilterViewModel>() {
 
     companion object {
         @JvmStatic
@@ -26,7 +25,7 @@ class CocktailFilterFragment :
         }
     }
 
-    override val layoutId: Int = R.layout.cocktail_filter_fragment
+    override val layoutId: Int = R.layout.fragment_filter
 
     override fun getViewModelClass(): Class<CocktailFilterViewModel> =
         CocktailFilterViewModel::class.java

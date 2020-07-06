@@ -4,7 +4,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.adapter.recyclerview.base.BaseAdapter
 
-abstract class BaseCocktailsAdapter<T> : BaseAdapter<Cocktail>() {
+abstract class BaseCocktailAdapter<T> : BaseAdapter<Cocktail>() {
 
     abstract override fun setData(items: List<Cocktail>?)
 
@@ -12,7 +12,7 @@ abstract class BaseCocktailsAdapter<T> : BaseAdapter<Cocktail>() {
 
     override fun getItemForPosition(position: Int): Cocktail = cocktailsList[position]
 
-    override fun getLayoutIdForPosition(position: Int): Int = R.layout.cocktail_item
+    override fun getLayoutIdForPosition(position: Int): Int = R.layout.item_cocktail
 
     override fun getItemCount(): Int = cocktailsList.size
 

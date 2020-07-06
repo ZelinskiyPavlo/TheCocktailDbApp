@@ -4,20 +4,20 @@ import android.view.View
 import android.widget.PopupMenu
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailsItemUserActionListener
-import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.base.BaseCocktailsAdapter
+import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
+import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.base.BaseCocktailAdapter
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 
-class CocktailsAdapter(private val viewModel: SharedHostViewModel) :
-    BaseCocktailsAdapter<Cocktail>() {
+class CocktailAdapter(private val viewModel: SharedHostViewModel) :
+    BaseCocktailAdapter<Cocktail>() {
 
     override fun setData(items: List<Cocktail>?) {
         cocktailsList = items ?: emptyList()
         notifyDataSetChanged()
     }
 
-    override fun getItemClickListener(): CocktailsItemUserActionListener {
-        return object : CocktailsItemUserActionListener {
+    override fun getItemClickListener(): CocktailItemUserActionListener {
+        return object : CocktailItemUserActionListener {
             override fun onFavoriteIconClicked(cocktail: Cocktail) {
                 viewModel.changeIsFavoriteState(cocktail)
             }

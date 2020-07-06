@@ -26,7 +26,7 @@ import com.test.thecocktaildb.ui.cocktail.adapter.viewpager.CocktailPagerAdapter
 import com.test.thecocktaildb.ui.cocktail.callback.BatteryStateCallback
 import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
 import com.test.thecocktaildb.ui.cocktail.filter.CocktailFilterFragment
-import com.test.thecocktaildb.ui.cocktail.history.CocktailsFragment
+import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
@@ -140,7 +140,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     }
 
     private fun setupViewPager() {
-        val historyFragment = CocktailsFragment.newInstance()
+        val historyFragment = HistoryFragment.newInstance()
         val favoriteFragment = FavoriteFragment.newInstance()
         fragmentList = arrayListOf(historyFragment, favoriteFragment)
 

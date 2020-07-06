@@ -12,19 +12,19 @@ import android.widget.EditText
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.SearchCocktailsFragmentBinding
+import com.test.thecocktaildb.databinding.FragmentSearchCocktailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.search.adapter.SearchCocktailsAdapter
+import com.test.thecocktaildb.ui.search.adapter.SearchCocktailAdapter
 import com.test.thecocktaildb.util.EventObserver
 
-class SearchCocktailsFragment : Injectable,
-    BaseFragment<SearchCocktailsFragmentBinding, SearchCocktailsViewModel>() {
+class SearchCocktailFragment : Injectable,
+    BaseFragment<FragmentSearchCocktailsBinding, SearchCocktailViewModel>() {
 
-    override val layoutId: Int = R.layout.search_cocktails_fragment
+    override val layoutId: Int = R.layout.fragment_search_cocktails
 
-    override fun getViewModelClass(): Class<SearchCocktailsViewModel> =
-        SearchCocktailsViewModel::class.java
+    override fun getViewModelClass(): Class<SearchCocktailViewModel> =
+        SearchCocktailViewModel::class.java
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,10 +47,10 @@ class SearchCocktailsFragment : Injectable,
     }
 
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEvent?.observe(
+        viewDataBinding.viewModel?.cocktailDetailsEventLiveData?.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
-                val action = SearchCocktailsFragmentDirections
+                val action = SearchCocktailFragmentDirections
                     .actionSearchCocktailsFragmentToCocktailDetailsFragment(
                         actionBarTitle, cocktailId
                     )
@@ -59,7 +59,7 @@ class SearchCocktailsFragment : Injectable,
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = SearchCocktailsAdapter(viewModel)
+        val cocktailsAdapter = SearchCocktailAdapter(viewModel)
         viewDataBinding.searchCocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)

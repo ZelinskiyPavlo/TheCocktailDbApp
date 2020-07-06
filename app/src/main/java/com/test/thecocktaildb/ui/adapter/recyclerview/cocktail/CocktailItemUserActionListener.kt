@@ -4,7 +4,7 @@ import android.view.View
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.adapter.recyclerview.CustomActionListener
 
-interface CocktailsItemUserActionListener : CustomActionListener {
+interface CocktailItemUserActionListener : CustomActionListener {
 
     fun onFavoriteIconClicked(cocktail: Cocktail)
 

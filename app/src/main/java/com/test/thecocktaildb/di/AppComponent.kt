@@ -1,9 +1,9 @@
 package com.test.thecocktaildb.di
 
 import android.app.Application
-import com.test.thecocktaildb.CocktailsApplication
-import com.test.thecocktaildb.di.modules.AppModule
-import com.test.thecocktaildb.di.modules.FragmentModule
+import com.test.thecocktaildb.CocktailApplication
+import com.test.thecocktaildb.di.module.AppModule
+import com.test.thecocktaildb.di.module.FragmentModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -12,11 +12,11 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AndroidInjectionModule::class, AppModule::class, FragmentModule::class])
-interface AppComponent : AndroidInjector<CocktailsApplication> {
+interface AppComponent : AndroidInjector<CocktailApplication> {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance application: CocktailsApplication): AppComponent
+        fun create(@BindsInstance application: CocktailApplication): AppComponent
     }
 
     fun inject(app: Application)

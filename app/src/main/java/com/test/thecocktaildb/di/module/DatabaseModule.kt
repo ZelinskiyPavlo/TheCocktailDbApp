@@ -1,7 +1,7 @@
-package com.test.thecocktaildb.di.modules
+package com.test.thecocktaildb.di.module
 
 import androidx.room.Room
-import com.test.thecocktaildb.CocktailsApplication
+import com.test.thecocktaildb.CocktailApplication
 import com.test.thecocktaildb.data.local.CocktailsDao
 import com.test.thecocktaildb.data.local.CocktailsDatabase
 import com.test.thecocktaildb.data.local.CocktailsLocalDataSource
@@ -14,7 +14,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideCocktailsDatabase(app: CocktailsApplication): CocktailsDatabase {
+    fun provideCocktailsDatabase(app: CocktailApplication): CocktailsDatabase {
         return Room.databaseBuilder(app, CocktailsDatabase::class.java, "CocktailsDatabase")
             .build()
     }

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/cocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.cocktail.history.CocktailsFragment"
+        android:name="com.test.thecocktaildb.ui.cocktail.history.HistoryFragment"
         android:label="@string/cocktail_app_title"
-        tools:layout="@layout/cocktails_fragment">
+        tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_cocktailsFragment_to_searchCocktailsFragment"
             app:destination="@id/searchCocktailsFragment" />
@@ -22,7 +22,7 @@
         android:id="@+id/cocktailDetailsFragment"
         android:name="com.test.thecocktaildb.ui.detail.CocktailDetailsFragment"
         android:label="{action_bar_title}"
-        tools:layout="@layout/cocktail_details_fragment">
+        tools:layout="@layout/fragment_cocktail_details">
         <argument
             android:name="action_bar_title"
             app:argType="string" />
@@ -34,9 +34,9 @@
 
     <fragment
         android:id="@+id/searchCocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.search.SearchCocktailsFragment"
+        android:name="com.test.thecocktaildb.ui.search.SearchCocktailFragment"
         android:label="@string/search_cocktail_fragment_title"
-        tools:layout="@layout/search_cocktails_fragment">
+        tools:layout="@layout/fragment_search_cocktails">
         <action
             android:id="@+id/action_searchCocktailsFragment_to_cocktailDetailsFragment"
             app:destination="@id/cocktailDetailsFragment" />
@@ -57,7 +57,7 @@
         android:id="@+id/favoriteFragment"
         android:name="com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment"
         android:label="favorite_fragment"
-        tools:layout="@layout/favorite_fragment" >
+        tools:layout="@layout/fragment_favorite" >
         <action
             android:id="@+id/action_favoriteFragment_to_cocktailDetailsFragment"
             app:destination="@id/cocktailDetailsFragment" />

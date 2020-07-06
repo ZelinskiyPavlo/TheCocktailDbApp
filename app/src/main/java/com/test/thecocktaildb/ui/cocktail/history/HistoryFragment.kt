@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.CocktailsFragmentBinding
+import com.test.thecocktaildb.databinding.FragmentHistoryBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktail.adapter.recyclerview.CocktailsAdapter
+import com.test.thecocktaildb.ui.cocktail.adapter.recyclerview.CocktailAdapter
 import com.test.thecocktaildb.ui.cocktail.callback.DrinkProposalCallback
 import com.test.thecocktaildb.ui.cocktail.host.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
@@ -22,19 +22,19 @@ import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
 
-class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewModel>(), Injectable,
+class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>(), Injectable,
     DrinkProposalCallback {
 
     companion object {
         @JvmStatic
-        fun newInstance(): CocktailsFragment {
-            return CocktailsFragment()
+        fun newInstance(): HistoryFragment {
+            return HistoryFragment()
         }
     }
 
-    override val layoutId: Int = R.layout.cocktails_fragment
+    override val layoutId: Int = R.layout.fragment_history
 
-    override fun getViewModelClass() = CocktailsViewModel::class.java
+    override fun getViewModelClass() = HistoryViewModel::class.java
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels{delegatedViewModelFactory}
 
@@ -59,7 +59,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     }
 
     private fun setupNavigation() {
-        sharedHostViewModel.cocktailDetailsEvent.observe(
+        sharedHostViewModel.cocktailDetailsEventLiveData.observe(
             viewLifecycleOwner,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
@@ -70,7 +70,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = CocktailsAdapter(sharedHostViewModel)
+        val cocktailsAdapter = CocktailAdapter(sharedHostViewModel)
         viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)

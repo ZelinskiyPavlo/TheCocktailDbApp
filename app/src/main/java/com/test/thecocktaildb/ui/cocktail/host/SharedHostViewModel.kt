@@ -24,16 +24,16 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
 
     private var allCocktailList: List<Cocktail>? = null
 
-    private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
+    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, String>>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEventLiveData
 
     private val _applyFilterEventLiveData = MutableLiveData<Event<Unit>>()
     val applyFilterEventLiveData: LiveData<Event<Unit>> = _applyFilterEventLiveData
 
-    val isCocktailListEmpty: LiveData<Boolean> =
+    val isCocktailListEmptyLiveData: LiveData<Boolean> =
         Transformations.map(_cocktailsLiveData) { it.isEmpty() }
 
-    val isFavoriteListEmpty: LiveData<Boolean> =
+    val isFavoriteListEmptyLiveData: LiveData<Boolean> =
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
     private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
@@ -121,7 +121,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+        _cocktailDetailsEventLiveData.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 
     fun openProposedCocktail(selectedCocktailId: String?) {

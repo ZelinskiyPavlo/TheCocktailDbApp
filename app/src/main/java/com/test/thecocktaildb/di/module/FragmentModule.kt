@@ -1,13 +1,14 @@
-package com.test.thecocktaildb.di.modules
+package com.test.thecocktaildb.di.module
 
-import com.test.thecocktaildb.ui.cocktail.CocktailsActivity
+import com.test.thecocktaildb.ui.auth.AuthActivity
+import com.test.thecocktaildb.ui.cocktail.MainActivity
 import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
 import com.test.thecocktaildb.ui.cocktail.filter.CocktailFilterFragment
-import com.test.thecocktaildb.ui.cocktail.history.CocktailsFragment
+import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
 import com.test.thecocktaildb.ui.cocktail.host.HostFragment
 import com.test.thecocktaildb.ui.detail.CocktailDetailsFragment
 import com.test.thecocktaildb.ui.profile.ProfileFragment
-import com.test.thecocktaildb.ui.search.SearchCocktailsFragment
+import com.test.thecocktaildb.ui.search.SearchCocktailFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -16,7 +17,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeCocktailsFragment(): CocktailsFragment
+    abstract fun contributeCocktailsFragment(): HistoryFragment
 
     @ContributesAndroidInjector
     @Suppress("unused")
@@ -24,7 +25,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeSearchCocktailsFragment(): SearchCocktailsFragment
+    abstract fun contributeSearchCocktailsFragment(): SearchCocktailFragment
 
     @ContributesAndroidInjector
     @Suppress("unused")
@@ -44,5 +45,9 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeCocktailsActivity(): CocktailsActivity
+    abstract fun contributeMainActivity(): MainActivity
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeAuthActivity(): AuthActivity
 }
