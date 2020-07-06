@@ -59,7 +59,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        initNavigation()
+        setupToolbar()
 
         setupNavigation()
         setupViewPager()
@@ -68,8 +68,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         attachObserver()
         loadCocktails()
 
-        viewModel.testMediatorLiveData.observe(viewLifecycleOwner, Observer {  })
-        setHasOptionsMenu(true)
         return viewDataBinding.root
     }
 
@@ -78,12 +76,50 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         viewDataBinding.viewModel = this.viewModel
     }
 
-    private fun initNavigation() {
-        (activity as AppCompatActivity).setSupportActionBar(viewDataBinding.hostToolbar)
+    private fun setupToolbar() {
+        viewDataBinding.hostFragmentToolbar.primaryOption.setOnClickListener {
+            sharedHostViewModel.isFilterFragmentOpened = true
+            val filterFragment = FilterFragment.newInstance()
+            childFragmentManager.beginTransaction()
+                .add(R.id.filter_fragment_container, filterFragment)
+                .addToBackStack(null)
+                .commit()
+        }
 
-        val navController = NavHostFragment.findNavController(this)
+        viewDataBinding.hostFragmentToolbar.secondaryOption.setOnClickListener {
+            val sortKeyTypeList = CocktailSortType.values().map { it.key }.toTypedArray()
+            MaterialAlertDialogBuilder(context)
+                .setTitle("Choose sort type")
+                .setItems(sortKeyTypeList) { _, i ->
+                    sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
+                }.show()
+        }
 
-        NavigationUI.setupWithNavController(viewDataBinding.hostToolbar, navController)
+        sharedHostViewModel.filterListLiveData.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty() && it != listOf(null, null))
+                viewDataBinding.hostFragmentToolbar
+                    .changePrimaryOptionImage(R.drawable.ic_filter_list_24_indicator)
+            else viewDataBinding.hostFragmentToolbar
+                .changePrimaryOptionImage(R.drawable.ic_filter_list_24)
+        })
+
+        sharedHostViewModel.sortingOrderLiveData.observe(viewLifecycleOwner, Observer {
+            if (it != null && it != CocktailSortType.RECENT)
+                viewDataBinding.hostFragmentToolbar
+                    .changeSecondaryOptionImage(R.drawable.ic_sort_24_indicator)
+            else viewDataBinding.hostFragmentToolbar
+                .changeSecondaryOptionImage(R.drawable.ic_sort_24)
+        })
+
+        viewDataBinding.hostFragmentToolbar.primaryOption.setOnLongClickListener {
+            sharedHostViewModel.resetFilters()
+            true
+        }
+
+        viewDataBinding.hostFragmentToolbar.secondaryOption.setOnLongClickListener {
+            sharedHostViewModel.sortingOrderLiveData.value = null
+            true
+        }
     }
 
     private fun setupNavigation() {
@@ -131,73 +167,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         sharedHostViewModel.loadCocktails()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.cocktail_fragment_menu, menu)
-
-        val filterMenuItem = menu.findItem(R.id.menu_filter)
-        val filterImageButton = ImageButton(activity)
-        filterImageButton.setImageResource(R.drawable.ic_filter_list_24)
-        filterImageButton.background = null
-        filterMenuItem.actionView = filterImageButton
-        filterMenuItem.actionView.setOnLongClickListener {
-            sharedHostViewModel.resetFilters()
-            true
-        }
-        filterMenuItem.actionView.setOnClickListener {
-            menu.performIdentifierAction(R.id.menu_filter, 0)
-        }
-
-        val sortMenuItem = menu.findItem(R.id.menu_sort)
-        val sortImageButton = ImageButton(activity)
-        sortImageButton.setImageResource(R.drawable.ic_sort_24)
-        sortImageButton.background = null
-        sortMenuItem.actionView = sortImageButton
-        sortMenuItem.actionView.setOnLongClickListener {
-            sharedHostViewModel.sortingOrderLiveData.value = null
-            true
-        }
-        sortMenuItem.actionView.setOnClickListener {
-            menu.performIdentifierAction(R.id.menu_sort, 1)
-        }
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-
-        val filterMenuItem: MenuItem = menu.findItem(R.id.menu_filter)
-        if (isFilterApplied) {
-            filterMenuItem.icon = ContextCompat
-                .getDrawable(requireActivity(), R.drawable.ic_filter_list_24_indicator)
-        } else {
-            filterMenuItem.icon = ContextCompat
-                .getDrawable(requireActivity(), R.drawable.ic_filter_list_24)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_filter -> {
-                sharedHostViewModel.isFilterFragmentOpened = true
-                val filterFragment = CocktailFilterFragment.newInstance()
-                childFragmentManager.beginTransaction()
-                    .add(R.id.filter_fragment_container, filterFragment)
-                    .addToBackStack(null)
-                    .commit()
-                true
-            }
-            R.id.menu_sort -> {
-                val sortKeyTypeList = CocktailSortType.values().map { it.key }.toTypedArray()
-                MaterialAlertDialogBuilder(context)
-                    .setTitle("Choose sort type")
-                    .setItems(sortKeyTypeList) { _, i ->
-                        sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
-                    }.show()
-                true
-            }
-            else -> false
-        }
-    }
-
     override fun onStart() {
         super.onStart()
 
@@ -223,10 +192,5 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
         viewDataBinding.viewModel?.updateBatteryState(batteryState)
-    }
-
-    private fun changeFilterIndicator(filterState: Boolean) {
-        isFilterApplied = filterState
-        activity?.invalidateOptionsMenu()
     }
 }
