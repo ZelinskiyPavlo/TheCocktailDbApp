@@ -18,15 +18,17 @@ import javax.inject.Inject
 class SearchCocktailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModel() {
 
-    private val _items = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
-    val items: LiveData<List<Cocktail>> = _items
+    private val _itemsLiveData = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
+    val itemsLiveData: LiveData<List<Cocktail>> = _itemsLiveData
 
-    private val _cocktailDetailsEvent = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailsEvent: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEvent
+    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, String>>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> =
+        _cocktailDetailsEventLiveData
 
     val searchQuerySubject = PublishSubject.create<String>()
 
-    val isSearchResultEmpty: LiveData<Boolean> = Transformations.map(_items) { it.isNullOrEmpty() }
+    val isSearchResultEmptyLiveData: LiveData<Boolean> =
+        Transformations.map(_itemsLiveData) { it.isNullOrEmpty() }
 
     private val disposable = CompositeDisposable()
 
@@ -44,7 +46,7 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
     private fun performSearch(query: String) {
         disposable.add(
             repository.searchCocktails(query).subscribeBy(onSuccess = {
-                _items.value = it.cocktailsList
+                _itemsLiveData.value = it.cocktailsList
                 Timber.d("Search performed with query $query")
             }, onError = { Timber.e("Error occurred when searching with $query, $it") })
         )
@@ -62,6 +64,6 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailsEvent.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+        _cocktailDetailsEventLiveData.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
     }
 }

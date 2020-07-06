@@ -6,15 +6,16 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
+import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
 import kotlinx.android.synthetic.main.activity_auth.*
 
-class AuthActivity : BaseActivity() {
+class AuthActivity : BaseActivity<ActivityAuthBinding>() {
+
+    override val contentLayoutResId: Int = R.layout.activity_auth
 
     val viewModel: AuthViewModel by viewModels()
 
@@ -22,15 +23,14 @@ class AuthActivity : BaseActivity() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
-//        TODO: implement in baseActivity (in branch_7)
-        DataBindingUtil.setContentView<ActivityAuthBinding>(this, R.layout.activity_auth).also {
-            it.lifecycleOwner = this
-            it.viewModel = this.viewModel
-            it.activity = this
-        }
-
         setWhiteSpaceFilter()
         viewModel.setInitialText()
+    }
+
+    override fun configureDataBinding() {
+        super.configureDataBinding()
+        dataBinding.viewModel = viewModel
+        dataBinding.activity = this
     }
 
     private fun setWhiteSpaceFilter() {
@@ -50,7 +50,7 @@ class AuthActivity : BaseActivity() {
             imm.hideSoftInputFromWindow(v.windowToken, 0)
         }
         if (viewModel.isLoginDataValidLiveData.value == true) {
-            val intent = Intent(this, CocktailsActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             this.startActivity(intent)
             finish()
         } else {

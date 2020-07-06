@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType" />
+
+        <variable
+            name="sharedViewModel"
+            type="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_background"
+        android:clickable="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        tools:context=".ui.cocktailScreen.favoriteScreen.FavoriteFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cocktails_favorite_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/margin_8dp"
+            android:paddingTop="@dimen/margin_16dp"
+            android:paddingEnd="@dimen/margin_8dp"
+            android:visibility="gone"
+            bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
+            bind:rv_cocktails="@{sharedViewModel.favoriteListLiveData}" />
+
+        <TextView
+            android:id="@+id/empty_favorite_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:text="@string/empty_favorite_text"
+            android:textAppearance="@style/TextHint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/empty_favorite_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{sharedViewModel.isFavoriteListEmptyLiveData ? View.VISIBLE : View.GONE}"
+            app:constraint_referenced_ids="empty_favorite_text" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/filled_favorite_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{sharedViewModel.isFavoriteListEmptyLiveData ? View.GONE : View.VISIBLE}"
+            app:constraint_referenced_ids="cocktails_favorite_rv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

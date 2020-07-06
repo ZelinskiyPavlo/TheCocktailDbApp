@@ -15,23 +15,23 @@ import javax.inject.Inject
 class CocktailDetailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModel() {
 
-    private val _cocktailPicture = MutableLiveData<String>()
-    val cocktailPicture: LiveData<String> = _cocktailPicture
+    private val _cocktailPictureLiveData = MutableLiveData<String>()
+    val cocktailPictureLiveData: LiveData<String> = _cocktailPictureLiveData
 
-    private val _cocktailName = MutableLiveData<String>()
-    val cocktailName: LiveData<String> = _cocktailName
+    private val _cocktailNameLiveData = MutableLiveData<String>()
+    val cocktailNameLiveData: LiveData<String> = _cocktailNameLiveData
 
-    private val _cocktailAlcoholic = MutableLiveData<String>()
-    val cocktailAlcoholic: LiveData<String> = _cocktailAlcoholic
+    private val _cocktailAlcoholicLiveData = MutableLiveData<String>()
+    val cocktailAlcoholicLiveData: LiveData<String> = _cocktailAlcoholicLiveData
 
-    private val _cocktailGlass = MutableLiveData<String>()
-    val cocktailGlass: LiveData<String> = _cocktailGlass
+    private val _cocktailGlassLiveData = MutableLiveData<String>()
+    val cocktailGlassLiveData: LiveData<String> = _cocktailGlassLiveData
 
-    private val _ingredientsList = MutableLiveData<List<Ingredient>>()
-    val ingredients: LiveData<List<Ingredient>> = _ingredientsList
+    private val _ingredientsListLiveData = MutableLiveData<List<Ingredient>>()
+    val ingredientsLiveData: LiveData<List<Ingredient>> = _ingredientsListLiveData
 
-    private val _cocktailInstruction = MutableLiveData<String>()
-    val cocktailInstruction: LiveData<String> = _cocktailInstruction
+    private val _cocktailInstructionLiveData = MutableLiveData<String>()
+    val cocktailInstructionLiveData: LiveData<String> = _cocktailInstructionLiveData
 
     private val _onBackPressedEventLiveData = MutableLiveData<Event<Unit>>()
     val onBackPressedEventLiveData: LiveData<Event<Unit>> = _onBackPressedEventLiveData
@@ -50,12 +50,12 @@ class CocktailDetailsViewModel @Inject constructor(private val repository: AppCo
     }
 
     private fun fillCocktailDetails(cocktail: Cocktail) {
-        _cocktailPicture.value = cocktail.strDrinkThumb
-        _cocktailName.value = cocktail.strDrink
-        _cocktailAlcoholic.value = cocktail.strAlcoholic
-        _cocktailGlass.value = cocktail.strGlass
-        _ingredientsList.value = cocktail.createNumberedIngredientsList()
-        _cocktailInstruction.value = cocktail.strInstructions
+        _cocktailPictureLiveData.value = cocktail.strDrinkThumb
+        _cocktailNameLiveData.value = cocktail.strDrink
+        _cocktailAlcoholicLiveData.value = cocktail.strAlcoholic
+        _cocktailGlassLiveData.value = cocktail.strGlass
+        _ingredientsListLiveData.value = cocktail.createNumberedIngredientsList()
+        _cocktailInstructionLiveData.value = cocktail.strInstructions
 
         cocktailId = cocktail.idDrink
     }

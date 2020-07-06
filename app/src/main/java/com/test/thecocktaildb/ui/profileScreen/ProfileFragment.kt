@@ -8,21 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.ProfileFragmentBinding
+import com.test.thecocktaildb.databinding.FragmentProfileBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.auth.AuthActivity
 import com.test.thecocktaildb.ui.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel
+import com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
-import kotlinx.android.synthetic.main.profile_fragment.*
 
-class ProfileFragment: Injectable,
-    BaseFragment<ProfileFragmentBinding, ProfileViewModel>(),
-    BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>
-{
+class ProfileFragment : Injectable,
+    BaseFragment<FragmentProfileBinding, ProfileViewModel>(),
+    BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     companion object {
+        @JvmStatic
         fun newInstance(): ProfileFragment {
             return ProfileFragment()
         }
@@ -30,7 +29,7 @@ class ProfileFragment: Injectable,
 
     private val sharedViewModel: SharedMainViewModel by activityViewModels()
 
-    override val layoutId: Int = R.layout.profile_fragment
+    override val layoutId: Int = R.layout.fragment_profile
 
     override fun getViewModelClass(): Class<ProfileViewModel> = ProfileViewModel::class.java
 
@@ -40,36 +39,25 @@ class ProfileFragment: Injectable,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
 
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.viewModel = sharedViewModel
+        viewDataBinding.fragment = this
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
+    fun openTestFragment() {
+        val testFragment = TestFragment.newInstance(4, "TEST_STRING")
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.profile_fragment_container, testFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
-    private fun setOnClickListeners() {
-        open_test_fragment_btn.setOnClickListener {
-            val testFragment = TestFragment.newInstance(4, "TEST_STRING")
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.profile_fragment_container, testFragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-//      TODO: Extract to Data binding (in branch homework 7)
-        profile_fragment_log_out_btn.setOnClickListener { view ->
-            showLogOutBottomSheetDialog()
-        }
-    }
-
-    private fun showLogOutBottomSheetDialog() {
+    fun showLogOutBottomSheetDialog() {
         RegularBottomSheetDialogFragment.newInstance {
             titleText = "Log Out"
             descriptionText = "Do you really want to exit?"
@@ -89,7 +77,8 @@ class ProfileFragment: Injectable,
                 when (buttonType) {
                     LeftDialogButton -> dialog.dismiss()
                     RightDialogButton -> {
-                        requireContext().startActivity(Intent(requireContext(), AuthActivity::class.java))
+                        requireContext()
+                            .startActivity(Intent(requireContext(), AuthActivity::class.java))
                     }
                 }
             }
