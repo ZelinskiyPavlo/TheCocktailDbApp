@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -41,7 +42,7 @@
                     android:layout_height="118dp"
                     android:contentDescription="@string/cocktail_item_image_description"
                     android:scaleType="centerCrop"
-                    app:image_url="@{obj.strDrinkThumb}" />
+                    bind:iv_imageUrl="@{obj.strDrinkThumb}" />
 
                 <TextView
                     android:id="@+id/cocktail_item_name"

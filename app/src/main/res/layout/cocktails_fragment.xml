@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
@@ -32,8 +33,8 @@
                 android:paddingTop="@dimen/margin_double"
                 android:paddingEnd="@dimen/margin_default"
                 android:visibility="gone"
-                app:adapter_tag="@{AdapterType.COCKTAIL_ADAPTER}"
-                app:items="@{sharedViewModel.cocktailsLiveData}"
+                bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
+                bind:rv_cocktails="@{sharedViewModel.cocktailsLiveData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

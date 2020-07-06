@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.cocktailsScreen.favoriteScreen.FavoriteFragment">
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
 
-        <import type="com.test.thecocktaildb.util.AdapterType"/>
+        <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType" />
 
         <variable
             name="sharedViewModel"
@@ -31,8 +31,8 @@
             android:paddingTop="@dimen/margin_double"
             android:paddingEnd="@dimen/margin_default"
             android:visibility="gone"
-            app:adapter_tag="@{AdapterType.COCKTAIL_ADAPTER}"
-            app:items="@{sharedViewModel.favoriteListLiveData}" />
+            bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
+            bind:rv_cocktails="@{sharedViewModel.favoriteListLiveData}" />
 
         <TextView
             android:id="@+id/empty_favorite_text"
