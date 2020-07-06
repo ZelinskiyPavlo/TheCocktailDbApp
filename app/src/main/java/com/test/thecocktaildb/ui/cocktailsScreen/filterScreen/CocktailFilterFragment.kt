@@ -23,6 +23,7 @@ class CocktailFilterFragment :
     BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
 
     companion object {
+        @JvmStatic
         fun newInstance(): CocktailFilterFragment {
             return CocktailFilterFragment()
         }
@@ -43,7 +44,6 @@ class CocktailFilterFragment :
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
 
         setupFilterPopMenu()
         setupFilterButtons()
@@ -51,7 +51,8 @@ class CocktailFilterFragment :
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.sharedViewModel = sharedHostViewModel
     }
 

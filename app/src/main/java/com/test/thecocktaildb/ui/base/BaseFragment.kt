@@ -28,7 +28,7 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(),
     @Inject
     lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
 
-    protected lateinit var viewDataBinding: VDB
+    protected open lateinit var viewDataBinding: VDB
     protected lateinit var viewModel: VM
 
     abstract val layoutId: Int
@@ -40,28 +40,26 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setupViewModel()
-        setupDataBinding(inflater, container)
+        viewModel = ViewModelProvider(this, viewModelFactory)[getViewModelClass()]
+
+        viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
+        configureDataBinding()
 
         return viewDataBinding.root
     }
 
+    protected open fun configureDataBinding() {}
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         configureView(savedInstanceState)
+        configureObserver()
     }
 
     protected open fun configureView(savedInstanceState: Bundle?) {
-        // stub
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory)[getViewModelClass()]
-    }
-
-    private fun setupDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-        return
+    protected open fun configureObserver() {
     }
 
     override fun onDialogFragmentDismiss(

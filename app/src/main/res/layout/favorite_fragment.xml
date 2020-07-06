@@ -20,7 +20,8 @@
         android:layout_height="match_parent"
         android:background="@color/app_background"
         android:clickable="true"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        tools:context=".ui.cocktailsScreen.favoriteScreen.FavoriteFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cocktails_favorite_rv"

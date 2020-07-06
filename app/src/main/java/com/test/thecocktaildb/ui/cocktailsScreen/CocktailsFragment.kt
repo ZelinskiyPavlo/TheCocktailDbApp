@@ -25,6 +25,7 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
     DrinkProposalCallback {
 
     companion object {
+        @JvmStatic
         fun newInstance(): CocktailsFragment {
             return CocktailsFragment()
         }
@@ -44,7 +45,6 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
 
         setupNavigation()
         setupRecyclerView()
@@ -52,7 +52,8 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.sharedViewModel = sharedHostViewModel
     }
 

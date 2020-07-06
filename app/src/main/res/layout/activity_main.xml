@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.cocktailsScreen.CocktailsActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/main_activity_bnv">
+        android:fitsSystemWindows="true"
+        tools:context=".ui.cocktailsScreen.CocktailsActivity">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/profile_fragment_container"
-            android:name="com.test.thecocktaildb.ui.profileScreen.ProfileFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"
-            tools:ignore="FragmentTagUsage" />
+            android:layout_above="@+id/main_activity_bnv">
 
-    </FrameLayout>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/profile_fragment_container"
+                android:name="com.test.thecocktaildb.ui.profileScreen.ProfileFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_activity_bnv"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom_navigation"
-        app:itemTextAppearanceActive="@style/TextBoldRegular"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <fragment
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph"
+                tools:ignore="FragmentTagUsage" />
 
-</RelativeLayout>
+        </FrameLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_activity_bnv"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/menu_bottom_navigation"
+            app:itemTextAppearanceActive="@style/TextBoldRegular"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</layout>

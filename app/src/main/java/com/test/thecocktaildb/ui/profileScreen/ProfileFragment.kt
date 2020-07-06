@@ -15,14 +15,13 @@ import com.test.thecocktaildb.ui.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
-import kotlinx.android.synthetic.main.profile_fragment.*
 
-class ProfileFragment: Injectable,
+class ProfileFragment : Injectable,
     BaseFragment<ProfileFragmentBinding, ProfileViewModel>(),
-    BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>
-{
+    BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     companion object {
+        @JvmStatic
         fun newInstance(): ProfileFragment {
             return ProfileFragment()
         }
@@ -40,18 +39,14 @@ class ProfileFragment: Injectable,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
 
         return viewDataBinding.root
     }
 
-    private fun attachBindingVariable() {
+    override fun configureDataBinding() {
+        super.configureDataBinding()
         viewDataBinding.viewModel = sharedViewModel
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
+        viewDataBinding.fragment = this
     }
 
     private fun setOnClickListeners() {
