@@ -4,68 +4,83 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType"/>
 
         <variable
-            name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" />
+            name="viewModel"
+            type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/cocktail_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <include
+                    android:id="@+id/search_field_layout"
+                    layout="@layout/layout_search_cocktails_toolbar" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/app_background"
-            android:clickable="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cocktails_rv"
+                android:id="@+id/search_cocktails_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingStart="@dimen/margin_default"
-                android:paddingTop="@dimen/margin_double"
-                android:paddingEnd="@dimen/margin_default"
-                android:visibility="gone"
-                bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
-                bind:rv_cocktails="@{sharedViewModel.cocktailsLiveData}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/empty_history_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="?attr/actionBarSize"
-                android:text="@string/empty_history_text"
-                android:textAppearance="@style/TextHint"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingTop="@dimen/margin_16dp"
+                bind:rv_adapterTag="@{AdapterType.SEARCH_ADAPTER}"
+                bind:rv_cocktails="@{viewModel.itemsLiveData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/empty_history_group"
+            <TextView
+                android:id="@+id/search_help_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="@{sharedViewModel.isCocktailListEmpty ? View.VISIBLE : View.GONE}"
-                app:constraint_referenced_ids="empty_history_text" />
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:gravity="center_vertical"
+                android:text="@string/search_help_text"
+                android:textAppearance="@style/TextHint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/filled_history_group"
+                android:id="@+id/search_find_data_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="@{sharedViewModel.isCocktailListEmpty ? View.GONE : View.VISIBLE}"
-                app:constraint_referenced_ids="cocktails_rv" />
+                android:visibility="@{viewModel.isSearchResultEmptyLiveData ? View.GONE : View.VISIBLE}"
+                app:constraint_referenced_ids="search_cocktails_rv" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/search_no_data_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isSearchResultEmptyLiveData ? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="search_help_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+		
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

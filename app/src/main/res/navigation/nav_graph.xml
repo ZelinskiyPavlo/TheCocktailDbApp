@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/cocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment"
+        android:name="com.test.thecocktaildb.ui.cocktailScreen.historyScreen.HistoryFragment"
         android:label="@string/cocktail_app_title"
-        tools:layout="@layout/cocktails_fragment">
+        tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_cocktailsFragment_to_searchCocktailsFragment"
             app:destination="@id/searchCocktailsFragment" />
@@ -22,7 +22,7 @@
         android:id="@+id/cocktailDetailsFragment"
         android:name="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment"
         android:label="{action_bar_title}"
-        tools:layout="@layout/cocktail_details_fragment">
+        tools:layout="@layout/fragment_cocktail_details">
         <argument
             android:name="action_bar_title"
             app:argType="string" />
@@ -36,14 +36,14 @@
         android:id="@+id/searchCocktailsFragment"
         android:name="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment"
         android:label="@string/search_cocktails_fragment_title"
-        tools:layout="@layout/search_cocktails_fragment">
+        tools:layout="@layout/fragment_search_cocktails">
         <action
             android:id="@+id/action_searchCocktailsFragment_to_cocktailDetailsFragment"
             app:destination="@id/cocktailDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/hostFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment"
+        android:name="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragment"
         android:label="@string/app_name_simplified"
         tools:layout="@layout/fragment_host">
         <action
@@ -55,9 +55,9 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment"
+        android:name="com.test.thecocktaildb.ui.cocktailScreen.favoriteScreen.FavoriteFragment"
         android:label="favorite_fragment"
-        tools:layout="@layout/favorite_fragment" >
+        tools:layout="@layout/fragment_favorite" >
         <action
             android:id="@+id/action_favoriteFragment_to_cocktailDetailsFragment"
             app:destination="@id/cocktailDetailsFragment" />

@@ -7,7 +7,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel" />
     </data>
 
 
@@ -26,9 +26,9 @@
                 android:background="?android:attr/windowBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="24dp"
-                tools:context=".ui.cocktailsScreen.filterScreen.CocktailFilterFragment">
+                android:paddingHorizontal="@dimen/padding_16dp"
+                android:paddingVertical="@dimen/padding_24dp"
+                tools:context=".ui.cocktailScreen.filterScreen.FilterFragment">
 
                 <Button
                     android:id="@+id/filter_btn_alcohol"
@@ -47,7 +47,7 @@
                     android:id="@+id/filter_btn_category"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/margin_24dp"
                     android:drawableEnd="@drawable/ic_arrow_down_24"
                     android:gravity="center_vertical|end"
                     android:text="@{sharedViewModel.categorySignLiveData, default=Обрати}"
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="@dimen/padding_16dp"
             app:layout_dodgeInsetEdges="bottom">
 
             <Button
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/margin_8dp"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.resetFilters()}"
                 android:text="@string/filter_button_reset"
@@ -84,7 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/margin_8dp"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.onApplyButtonClicked()}"
                 android:text="@string/filter_button_apply"
