@@ -11,16 +11,16 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.CocktailDetailsFragmentBinding
+import com.test.thecocktaildb.databinding.FragmentCocktailDetailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.service.DrinkProposalService
 
 class CocktailDetailsFragment : Injectable,
-    BaseFragment<CocktailDetailsFragmentBinding, CocktailDetailsViewModel>() {
+    BaseFragment<FragmentCocktailDetailsBinding, CocktailDetailsViewModel>() {
 
-    override val layoutId: Int = R.layout.cocktail_details_fragment
+    override val layoutId: Int = R.layout.fragment_cocktail_details
 
     override fun getViewModelClass(): Class<CocktailDetailsViewModel> =
         CocktailDetailsViewModel::class.java
@@ -56,7 +56,7 @@ class CocktailDetailsFragment : Injectable,
     }
 
     private fun setupIngredientsRecyclerView() {
-        val ingredientsAdapter = IngredientsAdapter()
+        val ingredientsAdapter = IngredientAdapter()
         viewDataBinding.ingredientsRv.apply {
             adapter = ingredientsAdapter
             layoutManager = LinearLayoutManager(activity)

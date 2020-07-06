@@ -1,19 +1,16 @@
-package com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen
+package com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen
 
 import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.*
-import android.widget.ImageButton
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
@@ -21,12 +18,12 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentHostBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailPagerAdapter
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.callback.BatteryStateCallback
-import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.sortType.CocktailSortType
+import com.test.thecocktaildb.ui.cocktailScreen.adapter.CocktailPagerAdapter
+import com.test.thecocktaildb.ui.cocktailScreen.callback.BatteryStateCallback
+import com.test.thecocktaildb.ui.cocktailScreen.favoriteScreen.FavoriteFragment
+import com.test.thecocktaildb.ui.cocktailScreen.filterScreen.FilterFragment
+import com.test.thecocktaildb.ui.cocktailScreen.historyScreen.HistoryFragment
+import com.test.thecocktaildb.ui.cocktailScreen.sortType.CocktailSortType
 import com.test.thecocktaildb.util.BatteryStateHolder
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
@@ -47,12 +44,10 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
 
-    lateinit var viewPager: ViewPager2
+    private lateinit var viewPager: ViewPager2
     private lateinit var fragmentList: ArrayList<Fragment>
 
     private lateinit var batteryStateReceiver: BroadcastReceiver
-
-    private var isFilterApplied: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,11 +124,15 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
     }
 
     private fun setupViewPager() {
-        val historyFragment = CocktailsFragment.newInstance()
+        val historyFragment = HistoryFragment.newInstance()
         val favoriteFragment = FavoriteFragment.newInstance()
         fragmentList = arrayListOf(historyFragment, favoriteFragment)
 
-        val cocktailPagerAdapter = CocktailPagerAdapter(fragmentList, this)
+        val cocktailPagerAdapter =
+            CocktailPagerAdapter(
+                fragmentList,
+                this
+            )
 
         viewPager = viewDataBinding.vpMainFragment.apply {
             adapter = cocktailPagerAdapter

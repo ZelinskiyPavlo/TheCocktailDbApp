@@ -7,16 +7,29 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
+import com.test.thecocktaildb.util.DelegatedViewModelFactory
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import javax.inject.Inject
 
-abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(),
+abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAndroidInjector,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseDialogFragment.OnDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>> {
 
+    @Inject
+    protected lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    @Inject
+    protected lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
+
     protected open lateinit var dataBinding: VDB
 
     abstract val contentLayoutResId: Int
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

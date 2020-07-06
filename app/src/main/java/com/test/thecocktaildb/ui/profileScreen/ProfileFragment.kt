@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.ProfileFragmentBinding
+import com.test.thecocktaildb.databinding.FragmentProfileBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.auth.AuthActivity
 import com.test.thecocktaildb.ui.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel
+import com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
 
 class ProfileFragment : Injectable,
-    BaseFragment<ProfileFragmentBinding, ProfileViewModel>(),
+    BaseFragment<FragmentProfileBinding, ProfileViewModel>(),
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     companion object {
@@ -29,7 +29,7 @@ class ProfileFragment : Injectable,
 
     private val sharedViewModel: SharedMainViewModel by activityViewModels()
 
-    override val layoutId: Int = R.layout.profile_fragment
+    override val layoutId: Int = R.layout.fragment_profile
 
     override fun getViewModelClass(): Class<ProfileViewModel> = ProfileViewModel::class.java
 

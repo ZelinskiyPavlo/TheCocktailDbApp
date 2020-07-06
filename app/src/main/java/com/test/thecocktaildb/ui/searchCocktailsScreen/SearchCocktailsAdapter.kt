@@ -3,7 +3,7 @@ package com.test.thecocktaildb.ui.searchCocktailsScreen
 import android.view.View
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
-import com.test.thecocktaildb.util.recyclerViewAdapters.BaseCocktailsAdapter
+import com.test.thecocktaildb.util.recyclerViewAdapter.BaseCocktailsAdapter
 
 class SearchCocktailsAdapter(private val searchCocktailsViewModel: SearchCocktailsViewModel) :
     BaseCocktailsAdapter<Cocktail>() {

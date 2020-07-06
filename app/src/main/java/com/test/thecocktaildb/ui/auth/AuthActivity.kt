@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
+import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
 import kotlinx.android.synthetic.main.activity_auth.*
 
@@ -50,7 +50,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
             imm.hideSoftInputFromWindow(v.windowToken, 0)
         }
         if (viewModel.isLoginDataValidLiveData.value == true) {
-            val intent = Intent(this, CocktailsActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             this.startActivity(intent)
             finish()
         } else {

@@ -2,6 +2,7 @@ package com.test.thecocktaildb.dataBinding.adapter
 
 import android.content.res.ColorStateList
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -14,10 +15,10 @@ fun ImageView.loadImage(url: String?) =
 @BindingAdapter("bind:iv_batteryBar_tint")
 fun ImageView.setTint(isCharging: Boolean) {
     if (isCharging) {
-        val colorConnected = this.context.getColor(R.color.battery_connected)
+        val colorConnected = ContextCompat.getColor(this.context, R.color.battery_connected)
         ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorConnected))
     } else {
-        val colorDisconnected = this.context.getColor(R.color.battery_disconnected)
+        val colorDisconnected = ContextCompat.getColor(this.context, R.color.battery_disconnected)
         ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorDisconnected))
     }
 }

@@ -27,7 +27,7 @@ class SearchCocktailsViewModel @Inject constructor(private val repository: AppCo
 
     val searchQuerySubject = PublishSubject.create<String>()
 
-    val isSearchResultEmpty: LiveData<Boolean> =
+    val isSearchResultEmptyLiveData: LiveData<Boolean> =
         Transformations.map(_itemsLiveData) { it.isNullOrEmpty() }
 
     private val disposable = CompositeDisposable()
