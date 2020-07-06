@@ -25,7 +25,8 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     private var allCocktailList: List<Cocktail>? = null
 
     private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> = _cocktailDetailsEventLiveData
+    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> =
+        _cocktailDetailsEventLiveData
 
     private val _applyFilterEventLiveData = MutableLiveData<Event<Unit>>()
     val applyFilterEventLiveData: LiveData<Event<Unit>> = _applyFilterEventLiveData

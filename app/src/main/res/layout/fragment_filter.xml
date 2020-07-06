@@ -43,7 +43,7 @@
                 android:focusable="true"
                 android:paddingHorizontal="@dimen/padding_16dp"
                 android:paddingVertical="@dimen/padding_24dp"
-                tools:context=".ui.cocktail.filter.CocktailFilterFragment">
+                tools:context=".ui.cocktail.filter.FilterFragment">
 
                 <TextView
                     android:id="@+id/filter_tv_alcohol_sign"

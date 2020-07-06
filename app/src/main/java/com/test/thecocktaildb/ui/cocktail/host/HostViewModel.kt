@@ -22,7 +22,7 @@ class HostViewModel @Inject constructor(): ViewModel() {
 
     private val batteryStateCache = BatteryStateCacheHolder()
 
-    val testMediatorLiveData = MediatorLiveData<Unit>().apply {
+    val viewPagerLiveData = MediatorLiveData<Unit>().apply {
 
         addSource(currentPageLiveData){
             value = Unit

@@ -25,7 +25,7 @@ import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktail.adapter.viewpager.CocktailPagerAdapter
 import com.test.thecocktaildb.ui.cocktail.callback.BatteryStateCallback
 import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktail.filter.CocktailFilterFragment
+import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
 import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.EventObserver
@@ -48,7 +48,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
 
-    lateinit var viewPager: ViewPager2
+    private lateinit var viewPager: ViewPager2
     private lateinit var fragmentList: ArrayList<Fragment>
 
     private lateinit var batteryStateReceiver: BroadcastReceiver
@@ -76,7 +76,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     private fun setupToolbar() {
         viewDataBinding.hostFragmentToolbar.primaryOption.setOnClickListener {
-            val filterFragment = CocktailFilterFragment.newInstance()
+            val filterFragment = FilterFragment.newInstance()
             childFragmentManager.beginTransaction()
                 .add(R.id.filter_fragment_container, filterFragment)
                 .addToBackStack(null)

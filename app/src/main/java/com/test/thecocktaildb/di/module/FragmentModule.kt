@@ -3,7 +3,7 @@ package com.test.thecocktaildb.di.module
 import com.test.thecocktaildb.ui.auth.AuthActivity
 import com.test.thecocktaildb.ui.cocktail.MainActivity
 import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktail.filter.CocktailFilterFragment
+import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
 import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
 import com.test.thecocktaildb.ui.cocktail.host.HostFragment
 import com.test.thecocktaildb.ui.detail.CocktailDetailsFragment
@@ -29,7 +29,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeFilterFragment(): CocktailFilterFragment
+    abstract fun contributeFilterFragment(): FilterFragment
 
     @ContributesAndroidInjector
     @Suppress("unused")

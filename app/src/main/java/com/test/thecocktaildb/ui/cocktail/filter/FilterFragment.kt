@@ -16,19 +16,19 @@ import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
 
-class CocktailFilterFragment : BaseFragment<FragmentFilterBinding, CocktailFilterViewModel>() {
+class FilterFragment : BaseFragment<FragmentFilterBinding, FilterViewModel>() {
 
     companion object {
         @JvmStatic
-        fun newInstance(): CocktailFilterFragment {
-            return CocktailFilterFragment()
+        fun newInstance(): FilterFragment {
+            return FilterFragment()
         }
     }
 
     override val layoutId: Int = R.layout.fragment_filter
 
-    override fun getViewModelClass(): Class<CocktailFilterViewModel> =
-        CocktailFilterViewModel::class.java
+    override fun getViewModelClass(): Class<FilterViewModel> =
+        FilterViewModel::class.java
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
 
