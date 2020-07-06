@@ -3,9 +3,10 @@
     package="com.test.thecocktaildb">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".CocktailsApplication"
+        android:name=".CocktailApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name_simplified"
@@ -26,7 +27,16 @@
             android:enabled="true"
             android:exported="false">
         </service>
-        <activity android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity"
+        <service android:name=".util.service.OnBootService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+        <receiver android:name=".util.receiver.OnBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <activity android:name="com.test.thecocktaildb.ui.cocktailScreen.CocktailsActivity"
             android:theme="@style/AppTheme" />
     </application>
 

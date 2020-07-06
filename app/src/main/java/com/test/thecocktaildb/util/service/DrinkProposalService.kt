@@ -13,7 +13,6 @@ class DrinkProposalService : Service() {
         val proposalIntent = Intent(ACTION_PROPOSE_DRINK)
         proposalIntent.putExtra(Intent.EXTRA_TEXT, intent?.getStringExtra(Intent.EXTRA_TEXT))
 
-//        TODO: review other Rx chains (so they better formatted, each operation in new line)
         Observable
             .timer(3, TimeUnit.SECONDS)
             .map { sendBroadcast(proposalIntent) }
