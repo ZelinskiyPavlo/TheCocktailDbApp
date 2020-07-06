@@ -6,8 +6,9 @@ import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.ui.cocktailsScreen.MainViewModel
 import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel
 import javax.inject.Inject
+import javax.inject.Singleton
 
-// TODO: напевно її треба зробити як Singleton (але перевірити чи все працює)
+@Singleton
 class DelegatedViewModelFactory @Inject constructor(private val repository: AppCocktailsRepository) :
     ViewModelProvider.Factory {
 
