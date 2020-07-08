@@ -1,8 +1,9 @@
 package com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen
 
 import androidx.lifecycle.*
-import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.CategoryDrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilter
@@ -13,10 +14,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 
-class SharedHostViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
-    ViewModel() {
+class SharedHostViewModel(handle: SavedStateHandle, private val repository: CocktailsRepository) :
+    BaseViewModel(handle) {
 
     private val _cocktailsLiveData = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
     val cocktailsLiveData: LiveData<List<Cocktail>> = _cocktailsLiveData

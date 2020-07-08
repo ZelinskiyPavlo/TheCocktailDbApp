@@ -6,6 +6,7 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,16 +15,22 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentCocktailDetailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
+import com.test.thecocktaildb.util.CocktailDetailsViewModelFactory
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
 import com.test.thecocktaildb.util.service.DrinkProposalService
+import javax.inject.Inject
 
 class CocktailDetailsFragment : Injectable,
-    BaseFragment<FragmentCocktailDetailsBinding, CocktailDetailsViewModel>() {
+    BaseFragment<FragmentCocktailDetailsBinding>() {
 
     override val layoutId: Int = R.layout.fragment_cocktail_details
 
-    override fun getViewModelClass(): Class<CocktailDetailsViewModel> =
-        CocktailDetailsViewModel::class.java
+    @Inject
+    lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
+
+    private val viewModel by viewModels<CocktailDetailsViewModel> {
+        GenericSavedStateViewModelFactory(cocktailDetailsVmFactory, this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

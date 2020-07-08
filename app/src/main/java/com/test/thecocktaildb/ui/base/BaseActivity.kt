@@ -7,7 +7,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import com.test.thecocktaildb.util.DelegatedViewModelFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -21,9 +20,6 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
 
     @Inject
     protected lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    protected lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
 
     protected open lateinit var dataBinding: VDB
 
@@ -45,7 +41,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         dialogType: DialogType<DialogButton>,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onDialogFragmentDismiss(dialog, dialogType, data)
     }
 
@@ -55,7 +51,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         buttonType: DialogButton,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onDialogFragmentClick(dialog, dialogType, buttonType, data)
     }
 
@@ -64,7 +60,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         type: DialogType<DialogButton>,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onBottomSheetDialogFragmentDismiss(dialog, type, data)
     }
 
@@ -74,7 +70,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         type: DialogType<DialogButton>,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onBottomSheetDialogFragmentClick(dialog, buttonType, type, data)
     }
 }

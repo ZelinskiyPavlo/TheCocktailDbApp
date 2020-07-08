@@ -3,17 +3,19 @@ package com.test.thecocktaildb.ui.cocktailDetailsScreen
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.test.thecocktaildb.data.AppCocktailsRepository
+import androidx.lifecycle.SavedStateHandle
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
-import javax.inject.Inject
 
-class CocktailDetailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
-    ViewModel() {
+class CocktailDetailsViewModel (
+    savedStateHandle: SavedStateHandle,
+    private val repository: CocktailsRepository) :
+    BaseViewModel(savedStateHandle) {
 
     private val _cocktailPictureLiveData = MutableLiveData<String>()
     val cocktailPictureLiveData: LiveData<String> = _cocktailPictureLiveData

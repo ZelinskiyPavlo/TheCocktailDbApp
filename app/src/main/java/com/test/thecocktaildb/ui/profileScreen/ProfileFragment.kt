@@ -17,7 +17,7 @@ import com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
 
 class ProfileFragment : Injectable,
-    BaseFragment<FragmentProfileBinding, ProfileViewModel>(),
+    BaseFragment<FragmentProfileBinding>(),
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     companion object {
@@ -30,8 +30,6 @@ class ProfileFragment : Injectable,
     private val sharedViewModel: SharedMainViewModel by activityViewModels()
 
     override val layoutId: Int = R.layout.fragment_profile
-
-    override fun getViewModelClass(): Class<ProfileViewModel> = ProfileViewModel::class.java
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -19,8 +19,11 @@ import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragmentD
 import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.MainViewModelFactory
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 var lastSavedTime: Long? = null
 
@@ -29,7 +32,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
 
     override val contentLayoutResId: Int = R.layout.activity_main
 
-    private val mainViewModel: MainViewModel by viewModels { delegatedViewModelFactory }
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModelFactory
+
+    private val mainViewModel: MainViewModel by viewModels {
+        GenericSavedStateViewModelFactory(mainViewModelFactory, this) }
 
     private val sharedMainViewModel: SharedMainViewModel by viewModels()
 

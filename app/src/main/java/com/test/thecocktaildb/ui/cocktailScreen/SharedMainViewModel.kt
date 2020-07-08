@@ -1,10 +1,10 @@
 package com.test.thecocktaildb.ui.cocktailScreen
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import javax.inject.Inject
+import androidx.lifecycle.SavedStateHandle
+import com.test.thecocktaildb.ui.base.BaseViewModel
 
-class SharedMainViewModel @Inject constructor(): ViewModel() {
+class SharedMainViewModel (stateHandle: SavedStateHandle) : BaseViewModel(stateHandle) {
 
     val isCheckBoxCheckedLiveData = MutableLiveData<Boolean>().apply { value = true }
 

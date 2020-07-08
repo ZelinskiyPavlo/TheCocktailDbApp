@@ -12,15 +12,18 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentFilterBinding
+import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.AlcoholDrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.CategoryDrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilterType
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SharedHostViewModelFactory
+import javax.inject.Inject
 
-class FilterFragment :
-    BaseFragment<FragmentFilterBinding, FilterViewModel>() {
+class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
 
     companion object {
         @JvmStatic
@@ -31,10 +34,12 @@ class FilterFragment :
 
     override val layoutId: Int = R.layout.fragment_filter
 
-    override fun getViewModelClass(): Class<FilterViewModel> =
-        FilterViewModel::class.java
+    @Inject
+    lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
-    private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
+        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+    }
 
     private lateinit var alcoholMenu: PopupMenu
     private lateinit var categoryMenu: PopupMenu

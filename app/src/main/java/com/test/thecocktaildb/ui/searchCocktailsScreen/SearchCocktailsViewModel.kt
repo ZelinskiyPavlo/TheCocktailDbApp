@@ -2,10 +2,11 @@ package com.test.thecocktaildb.ui.searchCocktailsScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -13,10 +14,11 @@ import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class SearchCocktailsViewModel @Inject constructor(private val repository: AppCocktailsRepository) :
-    ViewModel() {
+class SearchCocktailsViewModel (
+    stateHandle: SavedStateHandle,
+    private val repository: CocktailsRepository) :
+    BaseViewModel(stateHandle) {
 
     private val _itemsLiveData = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
     val itemsLiveData: LiveData<List<Cocktail>> = _itemsLiveData

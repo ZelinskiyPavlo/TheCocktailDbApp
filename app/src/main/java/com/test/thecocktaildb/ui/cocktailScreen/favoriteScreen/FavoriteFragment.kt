@@ -15,8 +15,11 @@ import com.test.thecocktaildb.ui.cocktailScreen.adapter.CocktailAdapter
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SharedHostViewModelFactory
+import javax.inject.Inject
 
-class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>(), Injectable {
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(), Injectable {
 
     companion object {
         @JvmStatic
@@ -25,9 +28,12 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel
 
     override val layoutId: Int = R.layout.fragment_favorite
 
-    override fun getViewModelClass(): Class<FavoriteViewModel> = FavoriteViewModel::class.java
+    @Inject
+    lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
-    private val sharedHostViewModel: SharedHostViewModel by activityViewModels{delegatedViewModelFactory}
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
+        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +53,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel
     }
 
     private fun setupNavigation() {
-        sharedHostViewModel.cocktailDetailsEventLiveData?.observe(
+        sharedHostViewModel.cocktailDetailsEventLiveData.observe(
             viewLifecycleOwner,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it

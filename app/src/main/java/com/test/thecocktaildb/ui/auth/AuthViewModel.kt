@@ -3,9 +3,10 @@ package com.test.thecocktaildb.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.SavedStateHandle
+import com.test.thecocktaildb.ui.base.BaseViewModel
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel (savedStateHandle: SavedStateHandle) : BaseViewModel(savedStateHandle) {
 
     private val login = "SomeLogin"
     private val password = "123456a"

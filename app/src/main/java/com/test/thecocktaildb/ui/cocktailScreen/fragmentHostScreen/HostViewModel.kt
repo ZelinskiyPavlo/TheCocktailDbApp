@@ -1,12 +1,17 @@
 package com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen
 
 import androidx.lifecycle.*
+import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.dataBinding.adapter.Page
+import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.BatteryStateCacheHolder
 import com.test.thecocktaildb.util.BatteryStateHolder
 import javax.inject.Inject
 
-class HostViewModel @Inject constructor(): ViewModel() {
+class HostViewModel(
+    stateHandle: SavedStateHandle,
+    private val repository: CocktailsRepository
+) : BaseViewModel(stateHandle) {
 
     val currentPageLiveData = MutableLiveData<Page>().apply { value = Page.HistoryPage }
 

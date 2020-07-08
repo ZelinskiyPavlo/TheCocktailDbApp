@@ -19,10 +19,13 @@ import com.test.thecocktaildb.ui.cocktailScreen.callback.DrinkProposalCallback
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
+import javax.inject.Inject
 
-class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>(), Injectable,
+class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
     DrinkProposalCallback {
 
     companion object {
@@ -34,9 +37,12 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>()
 
     override val layoutId: Int = R.layout.fragment_history
 
-    override fun getViewModelClass() = HistoryViewModel::class.java
+    @Inject
+    lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
-    private val sharedHostViewModel: SharedHostViewModel by activityViewModels{delegatedViewModelFactory}
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
+        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+    }
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver
 

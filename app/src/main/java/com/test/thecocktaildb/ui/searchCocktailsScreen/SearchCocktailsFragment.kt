@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.thecocktaildb.R
@@ -16,14 +17,20 @@ import com.test.thecocktaildb.databinding.FragmentSearchCocktailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SearchCocktailsViewModelFactory
+import javax.inject.Inject
 
 class SearchCocktailsFragment : Injectable,
-    BaseFragment<FragmentSearchCocktailsBinding, SearchCocktailsViewModel>() {
+    BaseFragment<FragmentSearchCocktailsBinding>() {
 
     override val layoutId: Int = R.layout.fragment_search_cocktails
 
-    override fun getViewModelClass(): Class<SearchCocktailsViewModel> =
-        SearchCocktailsViewModel::class.java
+    @Inject
+    lateinit var searchCocktailsViewModelFactory: SearchCocktailsViewModelFactory
+
+    val viewModel: SearchCocktailsViewModel by viewModels {
+        GenericSavedStateViewModelFactory(searchCocktailsViewModelFactory, this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
