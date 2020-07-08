@@ -2,6 +2,7 @@ package com.test.thecocktaildb.util
 
 import android.content.res.ColorStateList
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -42,10 +43,10 @@ fun RecyclerView.setIngredients(items: List<Ingredient>?) {
 @BindingAdapter("app:tint")
 fun ImageView.setTint(isCharging: Boolean) {
     if (isCharging) {
-        val colorConnected = this.context.getColor(R.color.battery_connected)
+        val colorConnected = ContextCompat.getColor(this.context, R.color.battery_connected)
         ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorConnected))
     } else {
-        val colorDisconnected = this.context.getColor(R.color.battery_disconnected)
+        val colorDisconnected = ContextCompat.getColor(this.context, R.color.battery_disconnected)
         ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorDisconnected))
     }
 }
