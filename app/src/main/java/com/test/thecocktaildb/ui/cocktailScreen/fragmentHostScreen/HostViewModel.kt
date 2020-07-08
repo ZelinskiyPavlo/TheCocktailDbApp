@@ -6,14 +6,14 @@ import com.test.thecocktaildb.dataBinding.adapter.Page
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.BatteryStateCacheHolder
 import com.test.thecocktaildb.util.BatteryStateHolder
-import javax.inject.Inject
+import com.test.thecocktaildb.util.liveDataStateHandle
 
 class HostViewModel(
     stateHandle: SavedStateHandle,
     private val repository: CocktailsRepository
 ) : BaseViewModel(stateHandle) {
 
-    val currentPageLiveData = MutableLiveData<Page>().apply { value = Page.HistoryPage }
+    val currentPageLiveData by liveDataStateHandle(initialValue = Page.HistoryPage)
 
     private val _batteryPercentLiveData = MutableLiveData<String>()
     val batteryPercentLiveData: LiveData<String> = _batteryPercentLiveData
@@ -29,7 +29,7 @@ class HostViewModel(
 
     val viewPagerLiveData = MediatorLiveData<Unit>().apply {
 
-        addSource(currentPageLiveData){
+        addSource(currentPageLiveData) {
             value = Unit
         }
     }

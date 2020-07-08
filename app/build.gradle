@@ -104,4 +104,9 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     implementation "androidx.collection:collection-ktx:1.1.0"
+
+    // Icepick
+    implementation 'frankiesardo:icepick:3.2.0'
+    kapt 'frankiesardo:icepick-processor:3.2.0'
+
 }

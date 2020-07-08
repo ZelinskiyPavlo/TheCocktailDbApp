@@ -22,6 +22,7 @@ import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
 import com.test.thecocktaildb.util.MainViewModelFactory
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
+import icepick.State
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -45,6 +46,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     private var navHost: Fragment? = null
 
     private lateinit var profileFragment: ProfileFragment
+
+    @JvmField
+    @State
+    var selectedTab: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -76,7 +81,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
 
     private fun setupBottomNavigation() {
         val bottomNavigation = main_activity_bnv
-        bottomNavigation.selectedItemId = R.id.bnv_main_fragment
 
         fun changeBottomNavTitleVisibility(isVisible: Boolean) {
             bottomNavigation.labelVisibilityMode =
@@ -93,6 +97,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
         bottomNavigation.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.bnv_main_fragment -> {
+                    selectedTab = R.id.bnv_main_fragment
                     supportFragmentManager.beginTransaction()
                         .hide(profileFragment)
                         .show(navHost!!)
@@ -102,6 +107,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
                 }
                 R.id.bnv_profile_fragment -> {
                     if (navHost != null) {
+                        selectedTab = R.id.bnv_profile_fragment
                         supportFragmentManager.beginTransaction()
                             .show(profileFragment)
                             .hide(navHost!!)
@@ -117,6 +123,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
         sharedMainViewModel.isCheckBoxCheckedLiveData.observe(this, Observer {
             changeBottomNavTitleVisibility(it)
         })
+
+        bottomNavigation.selectedItemId = selectedTab ?: R.id.bnv_main_fragment
     }
 
     override fun onStart() {

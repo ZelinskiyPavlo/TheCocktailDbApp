@@ -10,6 +10,7 @@ import com.test.thecocktaildb.ui.dialog.DialogType
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import icepick.Icepick
 import javax.inject.Inject
 
 abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAndroidInjector,
@@ -32,9 +33,16 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         dataBinding = DataBindingUtil.setContentView(this, contentLayoutResId) as VDB
         dataBinding.lifecycleOwner = this@BaseActivity
         configureDataBinding()
+
+        Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
     protected open fun configureDataBinding() {}
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
+    }
 
     override fun onDialogFragmentDismiss(
         dialog: DialogFragment,

@@ -11,8 +11,7 @@ import androidx.fragment.app.Fragment
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import com.test.thecocktaildb.util.DelegatedViewModelFactory
-import javax.inject.Inject
+import icepick.Icepick
 
 abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragment(), Injectable,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
@@ -33,6 +32,7 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         configureDataBinding()
 
+        Icepick.restoreInstanceState(this, savedInstanceState)
         return viewDataBinding.root
     }
 
@@ -47,6 +47,11 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
     }
 
     protected open fun configureObserver() {
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
     }
 
     override fun onDialogFragmentDismiss(
