@@ -3,15 +3,22 @@ package com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen
 import androidx.lifecycle.*
 import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.dataBinding.adapter.Page
+import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.BatteryStateCacheHolder
 import com.test.thecocktaildb.util.BatteryStateHolder
 import com.test.thecocktaildb.util.liveDataStateHandle
+import timber.log.Timber
 
 class HostViewModel(
     stateHandle: SavedStateHandle,
-    private val repository: CocktailsRepository
+    private val repository: CocktailsRepository,
+    private val newRepository: CocktailRepository
 ) : BaseViewModel(stateHandle) {
+
+    init {
+        Timber.i("Test ${newRepository.cocktailListLiveData.value}")
+    }
 
     val currentPageLiveData by liveDataStateHandle(initialValue = Page.HistoryPage)
 

@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.test.thecocktaildb.CocktailApplication
 import com.test.thecocktaildb.data.local.CocktailsDao
 import com.test.thecocktaildb.data.local.CocktailsDatabase
-import com.test.thecocktaildb.data.local.CocktailsLocalDataSource
+import com.test.thecocktaildb.data.local.CocktailsLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,6 +25,6 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideLocalDataSource(cocktailsDao: CocktailsDao): CocktailsLocalDataSource =
-        CocktailsLocalDataSource(cocktailsDao)
+    fun provideLocalDataSource(cocktailsDao: CocktailsDao): CocktailsLocalDataSourceImpl =
+        CocktailsLocalDataSourceImpl(cocktailsDao)
 }

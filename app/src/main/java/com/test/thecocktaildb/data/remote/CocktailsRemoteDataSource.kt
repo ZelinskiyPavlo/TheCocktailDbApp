@@ -2,13 +2,10 @@ package com.test.thecocktaildb.data.remote
 
 import com.test.thecocktaildb.data.Cocktails
 import io.reactivex.Single
-import javax.inject.Inject
 
-class CocktailsRemoteDataSource @Inject constructor(private val cocktailsService: CocktailsService) {
+interface CocktailsRemoteDataSource {
 
-    fun searchCocktails(searchQuery: String): Single<Cocktails> =
-        cocktailsService.searchCocktails(searchQuery)
+    fun searchCocktails(searchQuery: String): Single<Cocktails>
 
-    fun findCocktailById(id: String): Single<Cocktails> =
-        cocktailsService.findCocktailsById(id)
+    fun findCocktailById(id: String): Single<Cocktails>
 }

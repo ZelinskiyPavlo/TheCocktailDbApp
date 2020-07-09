@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
 import com.test.thecocktaildb.ui.cocktailScreen.MainViewModel
@@ -47,11 +48,15 @@ class CocktailDetailsViewModelFactory @Inject constructor(
     }
 }
 
+/**
+ *  Added CocktailRepositoryImpl
+ */
 class HostViewModelFactory @Inject constructor(
-    private val repository: CocktailsRepository
+    private val repository: CocktailsRepository,
+    private val newRepository: CocktailRepository
 ) : ViewModelAssistedFactory<HostViewModel> {
     override fun create(handle: SavedStateHandle): HostViewModel {
-        return HostViewModel(handle, repository)
+        return HostViewModel(handle, repository, newRepository)
     }
 }
 
