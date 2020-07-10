@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/searchCocktailsFragment"
         android:name="com.test.thecocktaildb.ui.search.SearchCocktailsFragment"
-        android:label="@string/search_cocktails_fragment_title"
+        android:label="@string/search_cocktail_fragment_title"
         tools:layout="@layout/search_cocktails_fragment">
         <action
             android:id="@+id/action_searchCocktailsFragment_to_cocktailDetailsFragment"

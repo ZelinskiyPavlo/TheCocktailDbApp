@@ -170,10 +170,10 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
             supportFragmentManager.findFragmentByTag("CocktailOfTheDayDialog") as? RegularDialogFragment
         if (cocktailOfTheDayDialog == null) {
             cocktailOfTheDayDialog = RegularDialogFragment.newInstance {
-                titleText = "Cocktail of the day"
-                descriptionText = "Do you want to see cocktail of the day"
-                leftButtonText = "No"
-                rightButtonText = "Yes"
+                titleText = getString(R.string.dialog_cocktail_of_the_day_title)
+                descriptionText = getString(R.string.dialog_cocktail_of_the_day_description)
+                leftButtonText = getString(R.string.dialog_cocktail_of_the_day_cancel)
+                rightButtonText = getString(R.string.dialog_cocktail_of_the_day_accept)
             }
         }
         if (!cocktailOfTheDayDialog!!.isVisible && !cocktailOfTheDayDialog!!.isAdded)

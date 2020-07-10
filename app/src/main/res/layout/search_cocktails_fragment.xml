@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:gravity="center_vertical"
-                android:text="@string/search_help_text"
+                android:text="@string/search_cocktail_hint"
                 android:textAppearance="@style/TextHint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

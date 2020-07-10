@@ -15,7 +15,6 @@ import java.util.*
 
 const val TEST_NUMBER = "test number"
 const val TEST_STRING = "test string"
-const val TEST_ID = "test id"
 
 class TestFragment : Fragment() {
 

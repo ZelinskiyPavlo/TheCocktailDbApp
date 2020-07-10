@@ -57,6 +57,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
 
     private lateinit var changeTextSuffix: String
     private lateinit var chooseTextSuffix: String
+    private lateinit var emptyResult: String
 
     private var cachedSortingOrder: CocktailSortType? = null
     var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
@@ -88,9 +89,9 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
                 val numberOfFavorite = favoriteListLiveData.value?.size
 
                 value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                    Event("Результаті відсутні")
+                    Event(emptyResult)
                 else
-                    Event("Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
+                    Event("Results (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
             }
             addSource(filterAndSortLiveData) {
                 determineResult()
@@ -151,9 +152,11 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         )
     }
 
-    fun setInitialText(chooseText: String, changeText: String) {
+    fun setInitialText(chooseText: String, changeText: String, emptyResultText: String) {
         changeTextSuffix = changeText
         chooseTextSuffix = chooseText
+
+        emptyResult = emptyResultText
 
         _filterListLiveData.value = listOf(null, null, null)
     }
@@ -175,7 +178,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
                     set(2, CocktailIngredient.values()[itemId])
                 }
             }
-            else -> throw IllegalArgumentException("unknown filter type was chosen")
+            else -> throw IllegalArgumentException("Unknown filter type was chosen")
         }
     }
 
@@ -200,7 +203,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
                                 .contains(filterType.key)
                         }
                 }
-                else -> throw IllegalArgumentException("unknown filter type was chosen")
+                else -> throw IllegalArgumentException("Unknown filter type was chosen")
             }
         }
     }

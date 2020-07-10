@@ -101,10 +101,10 @@ class CocktailsFragment : BaseFragment<CocktailsFragmentBinding, CocktailsViewMo
         if ((sharedHostViewModel.cocktailsLiveData.value?.size ?: 0) > 1) {
             val proposalSnackbar = Snackbar.make(
                 viewDataBinding.root,
-                getString(R.string.proposal_snackbar_message),
+                getString(R.string.snackbar_drink_proposal_title),
                 Snackbar.LENGTH_LONG
             )
-            proposalSnackbar.setAction(getString(R.string.show_proposed_cocktail)) {
+            proposalSnackbar.setAction(getString(R.string.snackbar_button_show_proposed_cocktail)) {
                 sharedHostViewModel.openProposedCocktail(selectedCocktailId)
             }
             proposalSnackbar.show()

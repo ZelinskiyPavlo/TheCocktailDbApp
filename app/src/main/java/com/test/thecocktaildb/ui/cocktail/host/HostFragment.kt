@@ -83,7 +83,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         viewDataBinding.hostFragmentToolbar.secondaryOption.setOnClickListener {
             val sortKeyTypeList = CocktailSortType.values().map { it.key }.toTypedArray()
             MaterialAlertDialogBuilder(context)
-                .setTitle("Choose sort type")
+                .setTitle(getString(R.string.dialog_cocktail_sorting_title))
                 .setItems(sortKeyTypeList) { _, i ->
                     sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
                 }.show()

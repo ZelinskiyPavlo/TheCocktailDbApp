@@ -89,9 +89,9 @@ class AuthActivity : BaseActivity() {
 
     private fun showErrorDialog() {
         RegularDialogFragment.newInstance {
-            titleText = "Sign in error"
-            rightButtonText = "Ok"
-            descriptionText = "Looks like you provided wrong login or password"
+            titleText = getString(R.string.dialog_sign_in_error_title)
+            descriptionText = getString(R.string.dialog_sign_in_error_description)
+            rightButtonText = getString(R.string.dialog_sign_in_error_accept)
         }.show(supportFragmentManager, "SignInErrorDialog")
     }
 
