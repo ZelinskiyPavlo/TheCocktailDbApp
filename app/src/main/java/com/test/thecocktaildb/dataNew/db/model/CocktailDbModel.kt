@@ -34,6 +34,8 @@ data class CocktailDbModel(
     val ingredients: List<String> = emptyList(),
 
     @ColumnInfo(name = "measures")
-    val measures: List<String> = emptyList()
+    val measures: List<String> = emptyList(),
 
+    @ColumnInfo(name = "is_favorite")
+    val isFavorite: Boolean = false
 )
