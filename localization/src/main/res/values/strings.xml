@@ -1,8 +1,15 @@
 <resources>
     <!--region High level text-->
-    <string name="app_name">TheCocktailDb</string>
+    <string name="app_name" translatable="false">TheCocktailDb</string>
     <string name="app_name_simplified">Pavlo Zelinskiy</string>
-    <string name="cocktail_app_title">Cocktail App</string>
+    <string name="cocktail_app_title" translatable="false">Cocktail App</string>
+    <!--endregion-->
+
+    <!--region Constant text-->
+    <string name="all_login">Login</string>
+    <string name="all_password">Password</string>
+    <string name="all_no">No</string>
+    <string name="all_yes">Yes</string>
     <!--endregion-->
 
     <!--region CocktailsFragment related-->
@@ -11,7 +18,7 @@
 
     <!--region SearchCocktailsFragment related-->
     <string name="search_cocktail_hint">Enter text to start search</string>
-    <string name="search_cocktail_fragment_title">SearchCocktailsFragment</string>
+    <string name="search_cocktail_fragment_label" translatable="false">SearchCocktailsFragment</string>
     <!--endregion-->
 
     <!--region CocktailDetailsFragment related-->
@@ -29,18 +36,15 @@
     <!--endregion-->
 
     <!--region AuthActivity-->
-    <string name="all_login">Login</string>
-    <string name="all_password">Password</string>
     <string name="auth_activity_button_login">Login</string>
     <!--endregion-->
 
     <!--region FilterFragment related-->
     <string name="filter_button_reset">Reset</string>
     <string name="filter_button_apply">Go to results</string>
-    <string name="filter_fragment_none_filter">None</string>
     <string name="filter_fragment_choose_filter">Choose</string>
     <string name="filter_fragment_change_filter">Change</string>
-    <string name="filter_fragment_undo_filters">UNDO</string>
+    <string name="filter_fragment_undo_filters">Undo</string>
     <!--endregion-->
 
     <!--region HostFragment related-->
@@ -81,15 +85,13 @@
 
     <!--region Cocktail of the day dialog-->
     <string name="dialog_cocktail_of_the_day_title">Cocktail of the day</string>
-    <string name="dialog_cocktail_of_the_day_description">Do you want to see cocktail of the day</string>
-    <string name="dialog_cocktail_of_the_day_cancel">No</string>
-    <string name="dialog_cocktail_of_the_day_accept">Yes</string>
+    <string name="dialog_cocktail_of_the_day_description">Do you want to see cocktail of the day?</string>
     <!--endregion-->
 
     <!--region Sign in error dialog-->
     <string name="dialog_cocktail_sorting_title">Choose sort type</string>
     <string name="dialog_sign_in_error_title">Sign in error</string>
-    <string name="dialog_sign_in_error_accept">OK</string>
+    <string name="dialog_sign_in_error_accept" translatable="false">OK</string>
     <string name="dialog_sign_in_error_description">Looks like you provided wrong login or password</string>
     <!--endregion-->
 
@@ -103,10 +105,9 @@
     <!--endregion-->
 
     <!--region Toast/Snackbar message-->
-    <string name="broadcast_receiver_airplane_status_toast">Смакуйте маргаритку із відчуттям міри. І надіємося, що Ви не пілот під час польоту</string>
-    <string name="service_on_boot_device_toast">On device boot message</string>
-    <string name="snackbar_drink_proposal_title">Хочете переглянути ще один напій із вашого
-        списку?</string>
+    <string name="broadcast_receiver_airplane_status_toast">Taste your margarita with moderation. We hope that you are not a pilot during flight</string>
+    <string name="service_on_boot_device_toast">Device has booted. Get ready for app launch</string>
+    <string name="snackbar_drink_proposal_title">Want to see other cocktail from your list?</string>
     <string name="snackbar_button_show_proposed_cocktail">Show</string>
     <string name="filter_fragment_snackbar_no_results">No result found</string>
     <!--endregion-->

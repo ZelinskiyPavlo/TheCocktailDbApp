@@ -166,8 +166,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
         RegularDialogFragment.newInstance {
             titleText = getString(R.string.dialog_cocktail_of_the_day_title)
             descriptionText = getString(R.string.dialog_cocktail_of_the_day_description)
-            leftButtonText = getString(R.string.dialog_cocktail_of_the_day_cancel)
-            rightButtonText = getString(R.string.dialog_cocktail_of_the_day_accept)
+            leftButtonText = getString(R.string.all_no)
+            rightButtonText = getString(R.string.all_yes)
         }.show(supportFragmentManager, "CocktailOfTheDayDialog")
     }
 

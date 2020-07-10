@@ -1,0 +1,108 @@
+<resources>
+    <!--region High level text-->
+    <!--endregion-->
+
+    <!--region CocktailsFragment related-->
+    <string name="history_fragment_empty_list">Історія порожня</string>
+    <!--endregion-->
+
+    <!--region SearchCocktailsFragment related-->
+    <string name="search_cocktail_hint">Введіть текст для пошуку</string>
+    <!--endregion-->
+
+    <!--region CocktailDetailsFragment related-->
+    <string name="cocktail_details_name_tag">Назва:</string>
+    <string name="cocktail_details_alcoholic_tag">Алкоголь:</string>
+    <string name="cocktail_details_glass_tag">Бокал:</string>
+    <string name="cocktail_details_ingredients_tag">Інгредієнти</string>
+    <string name="cocktail_details_instructions_tag">Інструкція</string>
+    <!--endregion-->
+
+    <!--region Content description-->
+    <string name="cocktail_image_description">Show image of selected cocktail</string>
+    <string name="cocktail_item_image_description">Зображення коктелю</string>
+    <string name="cocktail_logo_description">Лого додатку</string>
+    <!--endregion-->
+
+    <!--region AuthActivity-->
+    <string name="all_login">Логін</string>
+    <string name="all_password">Пароль</string>
+    <string name="auth_activity_button_login">Увійти</string>
+    <!--endregion-->
+
+    <!--region FilterFragment related-->
+    <string name="filter_button_reset">Скинути</string>
+    <string name="filter_button_apply">До результатів</string>
+    <string name="filter_fragment_choose_filter">Обрати</string>
+    <string name="filter_fragment_change_filter">Змінити</string>
+    <string name="filter_fragment_undo_filters">Відмінити</string>
+    <!--endregion-->
+
+    <!--region HostFragment related-->
+    <string name="tl_host_fragment_history_tab">Історія</string>
+    <string name="tl_host_fragment_favorite_tab">Улюблені</string>
+
+    <!--region Battery status-->
+    <!--endregion-->
+
+    <!--endregion-->
+
+    <!--region FavoriteFragment-->
+    <string name="favorite_fragment_empty_list">Список улюблених порожній</string>
+    <!--endregion-->
+
+    <!--region Cocktail Popup menu-->
+    <string name="menu_cocktail_history_open">Відкрити</string>
+    <string name="menu_cocktail_history_add_favorite">Додати до улюблених</string>
+    <string name="menu_cocktail_history_quick_preview">Попередній перегляд</string>
+    <string name="menu_cocktail_history_remove">Видалити</string>
+    <string name="menu_cocktail_history_remove_favorite">Прибрати з улюблених</string>
+    <!--endregion-->
+
+    <!--region ProfileFragment related-->
+    <string name="profile_fragment_show_nav_view_title">Показати заголовки іконок в рядку навігації</string>
+    <string name="profile_fragment_open_test_fragment">Відкрити TestFragment</string>
+    <string name="profile_fragment_button_log_out">Вийти</string>
+    <!--endregion-->
+
+    <!--region Bottom navigation view -->
+    <string name="bottom_navigation_main_fragment_title">Головна</string>
+    <string name="bottom_navigation_profile_fragment_title">Профіль</string>
+    <!--endregion-->
+
+    <!--region Dialog-->
+
+    <!--region Cocktail of the day dialog-->
+    <string name="dialog_cocktail_of_the_day_title">Напій дня</string>
+    <string name="dialog_cocktail_of_the_day_description">Чи хочете ви побачити напій дня?</string>
+    <string name="all_no">Ні</string>
+    <string name="all_yes">Так</string>
+    <!--endregion-->
+
+    <!--region Sign in error dialog-->
+    <string name="dialog_cocktail_sorting_title">Виберіть тип сортування</string>
+    <string name="dialog_sign_in_error_title">Помилка авторизації</string>
+    <string name="dialog_sign_in_error_description">Здається ви вказали неправильний логін або пароль</string>
+    <!--endregion-->
+
+    <!--region Log out dialog-->
+    <string name="dialog_log_out_description">Чи хочете ви дійсно вийти?</string>
+    <string name="dialog_log_out_cancel">Скасувати</string>
+    <string name="dialog_log_out_accept">Вийти</string>
+    <!--endregion-->
+
+    <!--endregion-->
+
+    <!--region Toast/Snackbar message-->
+    <string name="broadcast_receiver_airplane_status_toast">Смакуйте маргаритку із відчуттям міри. І надіємося, що Ви не пілот під час польоту</string>
+    <string name="service_on_boot_device_toast">Смартфон запустився, очікуйте запуск додатку</string>
+    <string name="snackbar_drink_proposal_title">Хочете переглянути інші коктелі зі списку?</string>
+    <string name="snackbar_button_show_proposed_cocktail">Показати</string>
+    <string name="filter_fragment_snackbar_no_results">Результатів не знайдено</string>
+    <string name="dialog_log_out_title">Вийти</string>
+    <string name="app_name_simplified">Павло Зелінський</string>
+    <string name="battery_status_battery_okay">Батарейці норм</string>
+    <string name="battery_status_battery_low">Батарейці плохо</string>
+    <!--endregion-->
+
+</resources>
