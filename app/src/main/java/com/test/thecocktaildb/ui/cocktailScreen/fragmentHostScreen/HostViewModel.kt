@@ -1,6 +1,9 @@
 package com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.dataBinding.adapter.Page
 import com.test.thecocktaildb.ui.base.BaseViewModel
@@ -19,8 +22,7 @@ class HostViewModel(
     val batteryPercentLiveData: LiveData<String> = _batteryPercentLiveData
 
     private val _batteryStatusLiveData = MutableLiveData<Boolean>()
-    val batteryStatusLiveData: LiveData<String> =
-        Transformations.map(_batteryStatusLiveData) { if (it) "BATTERY_OKAY" else "BATTERY_LOW" }
+    val batteryStatusLiveData: LiveData<Boolean> = _batteryStatusLiveData
 
     private val _isBatteryChargingLiveData = MutableLiveData<Boolean>()
     val isBatteryChargingLiveData: LiveData<Boolean> = _isBatteryChargingLiveData

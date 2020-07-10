@@ -57,10 +57,10 @@ class ProfileFragment : Injectable,
 
     fun showLogOutBottomSheetDialog() {
         RegularBottomSheetDialogFragment.newInstance {
-            titleText = "Log Out"
-            descriptionText = "Do you really want to exit?"
-            leftButtonText = "Cancel"
-            rightButtonText = "Exit"
+            titleText = getString(R.string.dialog_log_out_title)
+            descriptionText = getString(R.string.dialog_log_out_description)
+            leftButtonText = getString(R.string.dialog_log_out_cancel)
+            rightButtonText = getString(R.string.dialog_log_out_accept)
         }.show(childFragmentManager, "LogOutFragment")
     }
 

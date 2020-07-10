@@ -21,11 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/host_toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="?attr/actionBarSize" />-->
-
             <com.test.thecocktaildb.ui.custom.CustomToolbar
                 android:id="@+id/host_fragment_toolbar"
                 android:layout_width="match_parent"
@@ -101,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@{viewModel.batteryStatusLiveData}"
+                        android:text="@{viewModel.batteryStatusLiveData ? @string/battery_status_battery_okay : @string/battery_status_battery_low}"
                         android:textAppearance="@style/TextRegular"
                         android:textColor="@color/text_white"
                         tools:text="BATTERY_OKAY" />

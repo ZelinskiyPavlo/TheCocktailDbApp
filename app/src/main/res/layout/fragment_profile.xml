@@ -23,7 +23,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show_nav_view_title"
+            android:text="@string/profile_fragment_show_nav_view_title"
             android:checked="@={viewModel.isCheckBoxCheckedLiveData}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
             android:id="@+id/open_test_fragment_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/open_test_fragment"
+            android:text="@string/profile_fragment_open_test_fragment"
             android:textAppearance="@style/TextBoldRegular"
             android:textColor="@color/black"
             android:onClick="@{() -> fragment.openTestFragment()}"
@@ -46,7 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_32dp"
-            android:text="@string/log_out"
+            android:text="@string/profile_fragment_button_log_out"
             android:onClick="@{() -> fragment.showLogOutBottomSheetDialog()}"
             android:textAppearance="@style/TextBoldRegular"
             android:textColor="@color/black"

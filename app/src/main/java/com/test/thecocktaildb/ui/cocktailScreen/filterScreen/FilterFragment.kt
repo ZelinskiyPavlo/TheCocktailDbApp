@@ -53,6 +53,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
         setupFilterPopMenu()
         setupFilterButtons()
         setupResultSnackbar()
+        setInitialText()
         return viewDataBinding.root
     }
 
@@ -62,13 +63,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
     }
 
     private fun setupFilterPopMenu() {
-        val chooseText = "Обрати"
-        val changeText = "Змінити"
-        if(sharedHostViewModel.alcoholSignLiveData.value == null &&
-                sharedHostViewModel.categorySignLiveData.value == null){
-            sharedHostViewModel.setInitialText(chooseText, changeText)
-        }
-
         fun populateMenu(drinkFilterList: Array<out DrinkFilter>, popupMenu: PopupMenu) {
             drinkFilterList.forEachIndexed { index, drinkFilter ->
                 popupMenu.menu.add(
@@ -109,12 +103,23 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
             Observer { message ->
                 Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)
                     .apply {
-                        setAction("UNDO") {
+                        setAction(getString(R.string.filter_fragment_undo_filters)) {
                             sharedHostViewModel.resetFilters()
                         }
                         animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
                         show()
                     }
             })
+    }
+
+    private fun setInitialText() {
+        val chooseText = getString(R.string.filter_fragment_choose_filter)
+        val changeText = getString(R.string.filter_fragment_change_filter)
+        val emptyResultText = getString(R.string.filter_fragment_snackbar_no_results)
+
+        if(sharedHostViewModel.alcoholSignLiveData.value == null &&
+            sharedHostViewModel.categorySignLiveData.value == null){
+            sharedHostViewModel.setInitialText(chooseText, changeText, emptyResultText)
+        }
     }
 }

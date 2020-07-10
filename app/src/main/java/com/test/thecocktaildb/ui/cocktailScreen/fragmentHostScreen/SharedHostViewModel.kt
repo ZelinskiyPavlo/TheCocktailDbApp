@@ -60,6 +60,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
 
     private lateinit var changeTextSuffix: String
     private lateinit var chooseTextSuffix: String
+    private lateinit var emptyResult: String
 
     private var cachedSortingOrder: CocktailSortType? = null
 
@@ -91,7 +92,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                         filterTypeIndexArray?.set(1, filterType.key)
                         filterTypeIndexArray
                     }
-                    else -> throw IllegalArgumentException("unknown filter type was chosen")
+                    else -> throw IllegalArgumentException("Unknown filter type was chosen")
                 }
             }
         }
@@ -125,7 +126,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                 val numberOfFavorite = favoriteListLiveData.value?.size
 
                 value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                    "Результаті відсутні"
+                    emptyResult
                 else
                     "Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)"
             }
@@ -228,9 +229,11 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
         )
     }
 
-    fun setInitialText(chooseText: String, changeText: String) {
+    fun setInitialText(chooseText: String, changeText: String, emptyResultText: String) {
         changeTextSuffix = changeText
         chooseTextSuffix = chooseText
+
+        emptyResult = emptyResultText
     }
 
     fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
@@ -245,7 +248,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     set(1, CategoryDrinkFilter.values()[itemId])
                 }
             }
-            else -> throw IllegalArgumentException("unknown filter type was chosen")
+            else -> throw IllegalArgumentException("Unknown filter type was chosen")
         }
     }
 
@@ -262,7 +265,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     _cocktailsLiveData.value =
                         _cocktailsLiveData.value?.filter { it.strCategory == filterType.key }
                 }
-                else -> throw IllegalArgumentException("unknown filter type was chosen")
+                else -> throw IllegalArgumentException("Unknown filter type was chosen")
             }
         }
     }
