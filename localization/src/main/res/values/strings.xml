@@ -74,6 +74,7 @@
     <string name="profile_fragment_show_nav_view_title">Show Main Navigation Bar Titles</string>
     <string name="profile_fragment_open_test_fragment">Open TestFragment</string>
     <string name="profile_fragment_button_log_out">Log out</string>
+    <string name="profile_fragment_button_change_language">Change Language</string>
     <!--endregion-->
 
     <!--region Bottom navigation view -->
@@ -100,6 +101,10 @@
     <string name="dialog_log_out_description">Do you really want to exit?</string>
     <string name="dialog_log_out_cancel">Cancel</string>
     <string name="dialog_log_out_accept">Exit</string>
+    <!--endregion-->
+
+    <!--region Language dialog-->
+    <string name="dialog_language_title">Choose desired language</string>
     <!--endregion-->
 
     <!--endregion-->

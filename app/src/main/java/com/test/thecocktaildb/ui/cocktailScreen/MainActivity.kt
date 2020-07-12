@@ -22,6 +22,7 @@ import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
 import com.test.thecocktaildb.util.MainViewModelFactory
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
+import com.test.thecocktaildb.util.setLocale
 import icepick.State
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -37,7 +38,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     lateinit var mainViewModelFactory: MainViewModelFactory
 
     private val mainViewModel: MainViewModel by viewModels {
-        GenericSavedStateViewModelFactory(mainViewModelFactory, this) }
+        GenericSavedStateViewModelFactory(mainViewModelFactory, this)
+    }
 
     private val sharedMainViewModel: SharedMainViewModel by viewModels()
 
@@ -52,6 +54,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     var selectedTab: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setLocale(this)
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         initNavHost()

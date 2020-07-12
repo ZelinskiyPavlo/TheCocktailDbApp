@@ -103,6 +103,8 @@
     <string name="app_name_simplified">Павло Зелінський</string>
     <string name="battery_status_battery_okay">Батарейці норм</string>
     <string name="battery_status_battery_low">Батарейці плохо</string>
+    <string name="profile_fragment_button_change_language">Змінити мову</string>
+    <string name="dialog_language_title">Оберіть бажану мову</string>
     <!--endregion-->
 
 </resources>

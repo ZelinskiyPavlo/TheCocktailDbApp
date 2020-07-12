@@ -1,5 +1,6 @@
 package com.test.thecocktaildb.ui.profileScreen
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,10 @@ import com.test.thecocktaildb.ui.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
+import com.test.thecocktaildb.util.EXTRA_KEY_SELECTED_LANGUAGE
+import com.test.thecocktaildb.util.LANG_SHARED_PREFS
+import com.test.thecocktaildb.util.LanguageType
+import com.test.thecocktaildb.util.getSelectedLanguageIndex
 
 class ProfileFragment : Injectable,
     BaseFragment<FragmentProfileBinding>(),
@@ -64,6 +69,12 @@ class ProfileFragment : Injectable,
         }.show(childFragmentManager, "LogOutFragment")
     }
 
+    fun showChangeLanguageDialog() {
+        val localeIndex = getSelectedLanguageIndex(requireActivity())
+        LanguageListBottomSheetDialogFragment.newInstance(localeIndex)
+            .show(childFragmentManager, "LanguageDialog")
+    }
+
     override fun onBottomSheetDialogFragmentClick(
         dialog: DialogFragment,
         buttonType: DialogButton,
@@ -77,6 +88,22 @@ class ProfileFragment : Injectable,
                     RightDialogButton -> {
                         requireContext()
                             .startActivity(Intent(requireContext(), AuthActivity::class.java))
+                    }
+                }
+            }
+            LanguageDialogType -> {
+                when (buttonType) {
+                    ItemListDialogButton -> {
+                        val chosenLanguage = data as? LanguageType
+
+                        val sharedPref = activity?.getSharedPreferences(
+                            LANG_SHARED_PREFS, Context.MODE_PRIVATE
+                        ) ?: return
+                        with(sharedPref.edit()) {
+                            putInt(EXTRA_KEY_SELECTED_LANGUAGE, chosenLanguage!!.ordinal)
+                            apply()
+                        }
+                        activity?.recreate()
                     }
                 }
             }

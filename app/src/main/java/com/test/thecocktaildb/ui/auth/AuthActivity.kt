@@ -11,6 +11,7 @@ import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
+import com.test.thecocktaildb.util.setLocale
 import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : BaseActivity<ActivityAuthBinding>() {
@@ -20,6 +21,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
     val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setLocale(this)
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
