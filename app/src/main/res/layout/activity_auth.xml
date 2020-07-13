@@ -21,13 +21,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/colorPrimary"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:backgroundTint="@color/colorPrimary"
-            android:paddingStart="16dp"
-            android:paddingTop="32dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="32dp">
+            android:paddingHorizontal="@dimen/padding_16dp"
+            android:paddingVertical="@dimen/padding_32dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -50,10 +48,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_edit_text"
-                    android:text="@={viewModel.loginInputLiveData}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorPrimary" />
+                    android:backgroundTint="@color/app_background"
+                    android:text="@={viewModel.loginInputLiveData}"
+                    android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,11 +66,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"
-                    android:text="@={viewModel.passwordInputLiveData}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:inputType="textPassword" />
+                    android:backgroundTint="@color/app_background"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.passwordInputLiveData}"
+                    android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,11 +84,11 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:onClick="@{() -> activity.onLoginButtonClicked()}"
                 android:background="@{viewModel.isLoginDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
                 android:gravity="center"
+                android:onClick="@{() -> activity.onLoginButtonClicked()}"
                 android:text="@string/button_login"
-                android:textColor="#FFFF" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -12,8 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_mini"
-        android:layout_marginBottom="@dimen/margin_mini"
+        android:layout_marginTop="@dimen/margin_3dp"
+        android:layout_marginBottom="@dimen/margin_3dp"
         android:orientation="horizontal">
 
         <TextView

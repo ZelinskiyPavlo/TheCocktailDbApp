@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/margin_double"
+                android:paddingTop="@dimen/margin_16dp"
                 app:adapter_tag="@{AdapterType.SEARCH_ADAPTER}"
                 app:items="@{viewModel.items}"
                 app:layout_constraintEnd_toEndOf="parent"
