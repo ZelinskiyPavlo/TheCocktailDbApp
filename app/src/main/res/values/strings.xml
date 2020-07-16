@@ -59,5 +59,7 @@
     <string name="menu_cocktail_history_quick_preview">Quick Preview</string>
     <string name="menu_cocktail_history_remove">Remove</string>
     <string name="menu_cocktail_history_remove_favorite">Remove Favorite</string>
+    <string name="filter_fragment_alcohol_type">Alcohol type</string>
+    <string name="filter_fragment_category_type">Category type</string>
 
 </resources>

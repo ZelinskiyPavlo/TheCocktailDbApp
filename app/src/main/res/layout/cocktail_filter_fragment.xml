@@ -25,10 +25,22 @@
                 android:layout_height="match_parent"
                 android:background="?android:attr/windowBackground"
                 android:clickable="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:focusable="true"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="24dp"
                 tools:context=".ui.cocktailsScreen.filterScreen.CocktailFilterFragment">
+
+                <TextView
+                    android:id="@+id/filter_tv_alcohol_sign"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_fragment_alcohol_type"
+                    android:textAppearance="@style/TextRegular"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@+id/filter_btn_alcohol"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/filter_btn_alcohol"
@@ -41,13 +53,23 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_alcohol_sign" />
+
+                <TextView
+                    android:id="@+id/filter_tv_category_sign"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_fragment_category_type"
+                    android:textAppearance="@style/TextRegular"
+                    android:textSize="20sp"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    app:layout_constraintStart_toStartOf="@+id/filter_btn_category"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_btn_alcohol" />
 
                 <Button
                     android:id="@+id/filter_btn_category"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:drawableEnd="@drawable/ic_arrow_down_24"
                     android:gravity="center_vertical|end"
                     android:text="@{sharedViewModel.categorySignLiveData, default=Обрати}"
@@ -55,7 +77,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/filter_btn_alcohol" />
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_category_sign" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,24 +93,24 @@
             <Button
                 android:id="@+id/filter_button_reset"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.resetFilters()}"
                 android:text="@string/filter_button_reset"
-                android:textAppearance="@style/TextRegular"/>
+                android:textAppearance="@style/TextRegular" />
 
             <Button
                 android:id="@+id/filter_button_apply"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.onApplyButtonClicked()}"
                 android:text="@string/filter_button_apply"
-                android:textAppearance="@style/TextRegular"/>
+                android:textAppearance="@style/TextRegular" />
 
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
