@@ -90,6 +90,7 @@ class ProfileFragment: Injectable,
                     LeftDialogButton -> dialog.dismiss()
                     RightDialogButton -> {
                         requireContext().startActivity(Intent(requireContext(), AuthActivity::class.java))
+                        activity?.finish()
                     }
                 }
             }
