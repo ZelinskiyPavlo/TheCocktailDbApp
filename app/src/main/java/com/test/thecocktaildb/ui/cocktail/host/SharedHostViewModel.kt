@@ -39,8 +39,6 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     val isFavoriteListEmpty: LiveData<Boolean> =
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
-    var isFilterFragmentOpened = false
-
     private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
         .apply { value = listOf<DrinkFilter?>(null, null) }
     val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
@@ -78,19 +76,18 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         }
     }
 
-    val filterResultLiveData: LiveData<String> =
-        MediatorLiveData<String>().apply {
+    val filterResultLiveData: LiveData<Event<String>> =
+        MediatorLiveData<Event<String>>().apply {
             fun determineResult() {
-                if (!isFilterFragmentOpened) return
                 if (_filterListLiveData.value == listOf(null, null)) return
 
                 val numberOfHistory = cocktailsLiveData.value?.size
                 val numberOfFavorite = favoriteListLiveData.value?.size
 
                 value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                    "Результаті відсутні"
+                    Event("Результаті відсутні")
                 else
-                    "Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)"
+                    Event("Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
             }
             addSource(filterAndSortLiveData) {
                 determineResult()
@@ -197,7 +194,6 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     }
 
     fun onApplyButtonClicked() {
-        isFilterFragmentOpened = false
         _applyFilterEventLiveData.value = Event(Unit)
     }
 

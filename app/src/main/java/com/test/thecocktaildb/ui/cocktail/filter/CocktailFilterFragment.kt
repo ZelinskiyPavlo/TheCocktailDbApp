@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
@@ -18,6 +17,7 @@ import com.test.thecocktaildb.ui.cocktail.filtertype.CategoryDrinkFilter
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
+import com.test.thecocktaildb.util.EventObserver
 
 class CocktailFilterFragment :
     BaseFragment<CocktailFilterFragmentBinding, CocktailFilterViewModel>() {
@@ -100,7 +100,7 @@ class CocktailFilterFragment :
     private fun setupResultSnackbar() {
         sharedHostViewModel.filterResultLiveData.observe(
             viewLifecycleOwner,
-            Observer { message ->
+            EventObserver { message ->
                 Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)
                     .apply {
                         setAction("UNDO") {

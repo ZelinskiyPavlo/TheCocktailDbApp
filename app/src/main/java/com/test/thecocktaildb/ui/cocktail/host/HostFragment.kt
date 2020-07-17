@@ -75,7 +75,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     private fun setupToolbar() {
         viewDataBinding.hostFragmentToolbar.primaryOption.setOnClickListener {
-            sharedHostViewModel.isFilterFragmentOpened = true
             val filterFragment = CocktailFilterFragment.newInstance()
             childFragmentManager.beginTransaction()
                 .add(R.id.filter_fragment_container, filterFragment)
