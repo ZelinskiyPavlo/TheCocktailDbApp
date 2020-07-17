@@ -43,6 +43,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
 
     private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
         .apply { value = listOf<DrinkFilter?>(null, null) }
+    val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
 
     val alcoholSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
         if (it[0] == null) chooseTextSuffix
