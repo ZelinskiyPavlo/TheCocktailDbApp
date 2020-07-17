@@ -49,8 +49,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     private lateinit var batteryStateReceiver: BroadcastReceiver
 
-    private var isFilterApplied: Boolean = false
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

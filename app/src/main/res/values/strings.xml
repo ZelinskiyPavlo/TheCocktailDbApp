@@ -63,5 +63,8 @@
     <string name="filter_fragment_category_type">Category type</string>
     <string name="filter_fragment_toolbar_title">Choose filter</string>
     <string name="filter_fragment_ingredient_type">Ingredient type</string>
+    <string name="filter_fragment_initial_button_state">Обрати</string>
+    <string name="filter_fragment_modified_button_state">Змінити</string>
+    <string name="filter_fragment_snackbar_cancel">UNDO</string>
 
 </resources>

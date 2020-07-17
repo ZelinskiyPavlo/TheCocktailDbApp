@@ -46,7 +46,7 @@ class FavoriteFragment : BaseFragment<FavoriteFragmentBinding, FavoriteViewModel
     }
 
     private fun setupNavigation() {
-        sharedHostViewModel.cocktailDetailsEvent?.observe(
+        sharedHostViewModel.cocktailDetailsEvent.observe(
             viewLifecycleOwner,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it

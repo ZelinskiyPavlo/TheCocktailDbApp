@@ -61,8 +61,8 @@ class CocktailFilterFragment :
     }
 
     private fun setupFilterPopMenu() {
-        val chooseText = "Обрати"
-        val changeText = "Змінити"
+        val chooseText = getString(R.string.filter_fragment_initial_button_state)
+        val changeText = getString(R.string.filter_fragment_modified_button_state)
         if(sharedHostViewModel.alcoholSignLiveData.value == null
             && sharedHostViewModel.categorySignLiveData.value == null
             && sharedHostViewModel.ingredientSignLiveData.value == null){
@@ -117,7 +117,7 @@ class CocktailFilterFragment :
             EventObserver { message ->
                 Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)
                     .apply {
-                        setAction("UNDO") {
+                        setAction(getString(R.string.filter_fragment_snackbar_cancel)) {
                             sharedHostViewModel.resetFilters()
                         }
                         animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
