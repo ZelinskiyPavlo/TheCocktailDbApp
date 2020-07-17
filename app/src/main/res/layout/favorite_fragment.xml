@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.cocktailsScreen.favoriteScreen.FavoriteFragment">
+    tools:context=".ui.cocktail.favorite.FavoriteFragment">
 
     <data>
 
@@ -12,7 +12,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

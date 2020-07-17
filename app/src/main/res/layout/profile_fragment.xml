@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.SharedMainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

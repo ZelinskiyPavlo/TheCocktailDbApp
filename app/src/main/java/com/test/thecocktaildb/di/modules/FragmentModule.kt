@@ -1,13 +1,13 @@
 package com.test.thecocktaildb.di.modules
 
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.filterScreen.CocktailFilterFragment
-import com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment
-import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
-import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment
+import com.test.thecocktaildb.ui.cocktail.CocktailsActivity
+import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
+import com.test.thecocktaildb.ui.cocktail.filter.CocktailFilterFragment
+import com.test.thecocktaildb.ui.cocktail.history.CocktailsFragment
+import com.test.thecocktaildb.ui.cocktail.host.HostFragment
+import com.test.thecocktaildb.ui.detail.CocktailDetailsFragment
+import com.test.thecocktaildb.ui.profile.ProfileFragment
+import com.test.thecocktaildb.ui.search.SearchCocktailsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

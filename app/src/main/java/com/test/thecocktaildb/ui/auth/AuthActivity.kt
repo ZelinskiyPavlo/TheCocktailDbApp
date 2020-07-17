@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity
+import com.test.thecocktaildb.ui.cocktail.CocktailsActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
 import kotlinx.android.synthetic.main.activity_auth.*
 

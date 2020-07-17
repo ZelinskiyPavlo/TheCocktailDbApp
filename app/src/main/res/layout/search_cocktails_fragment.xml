@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
+            type="com.test.thecocktaildb.ui.search.SearchCocktailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

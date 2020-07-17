@@ -13,7 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import com.test.thecocktaildb.util.DelegatedViewModelFactory
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
+import com.test.thecocktaildb.util.vmfactory.DelegatedViewModelFactory
 import javax.inject.Inject
 
 abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(), Injectable,

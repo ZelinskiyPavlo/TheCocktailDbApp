@@ -7,7 +7,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
 
@@ -30,7 +30,7 @@
                 android:focusable="true"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="24dp"
-                tools:context=".ui.cocktailsScreen.filterScreen.CocktailFilterFragment">
+                tools:context=".ui.cocktail.filter.CocktailFilterFragment">
 
                 <TextView
                     android:id="@+id/filter_tv_alcohol_sign"
