@@ -15,10 +15,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.test.thecocktaildb.ui.custom.CustomToolbar
+                android:id="@+id/filter_fragment_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title_text="@string/filter_fragment_toolbar_title" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

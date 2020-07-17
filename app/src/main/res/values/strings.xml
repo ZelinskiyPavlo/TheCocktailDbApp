@@ -61,5 +61,6 @@
     <string name="menu_cocktail_history_remove_favorite">Remove from favorite</string>
     <string name="filter_fragment_alcohol_type">Alcohol type</string>
     <string name="filter_fragment_category_type">Category type</string>
+    <string name="filter_fragment_toolbar_title">Choose filter</string>
 
 </resources>

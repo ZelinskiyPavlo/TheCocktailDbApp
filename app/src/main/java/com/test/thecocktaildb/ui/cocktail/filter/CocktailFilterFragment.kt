@@ -44,6 +44,7 @@ class CocktailFilterFragment :
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         attachBindingVariable()
+        setupToolbar()
 
         setupFilterPopMenu()
         setupFilterButtons()
@@ -53,6 +54,12 @@ class CocktailFilterFragment :
 
     private fun attachBindingVariable() {
         viewDataBinding.sharedViewModel = sharedHostViewModel
+    }
+
+    private fun setupToolbar() {
+        viewDataBinding.filterFragmentToolbar.backButton.visibility = View.GONE
+        viewDataBinding.filterFragmentToolbar.primaryOption.visibility = View.GONE
+        viewDataBinding.filterFragmentToolbar.secondaryOption.visibility = View.GONE
     }
 
     private fun setupFilterPopMenu() {
