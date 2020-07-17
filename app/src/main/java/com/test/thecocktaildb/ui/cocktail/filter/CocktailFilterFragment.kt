@@ -12,10 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.CocktailFilterFragmentBinding
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktail.filtertype.AlcoholDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.CategoryDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
 
@@ -37,6 +34,7 @@ class CocktailFilterFragment :
 
     private lateinit var alcoholMenu: PopupMenu
     private lateinit var categoryMenu: PopupMenu
+    private lateinit var ingredientMenu: PopupMenu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,8 +63,9 @@ class CocktailFilterFragment :
     private fun setupFilterPopMenu() {
         val chooseText = "Обрати"
         val changeText = "Змінити"
-        if(sharedHostViewModel.alcoholSignLiveData.value == null &&
-                sharedHostViewModel.categorySignLiveData.value == null){
+        if(sharedHostViewModel.alcoholSignLiveData.value == null
+            && sharedHostViewModel.categorySignLiveData.value == null
+            && sharedHostViewModel.ingredientSignLiveData.value == null){
             sharedHostViewModel.setInitialText(chooseText, changeText)
         }
 
@@ -82,12 +81,15 @@ class CocktailFilterFragment :
 
         alcoholMenu = PopupMenu(context, viewDataBinding.filterBtnAlcohol)
         categoryMenu = PopupMenu(context, viewDataBinding.filterBtnCategory)
+        ingredientMenu = PopupMenu(context, viewDataBinding.filterBtnIngredient)
 
         val alcoholDrinkFilter = AlcoholDrinkFilter.values()
         val categoryDrinkFilter = CategoryDrinkFilter.values()
+        val ingredientDrinkFilter = CocktailIngredient.values().dropLast(1).toTypedArray()
 
         populateMenu(alcoholDrinkFilter, alcoholMenu)
         populateMenu(categoryDrinkFilter, categoryMenu)
+        populateMenu(ingredientDrinkFilter, ingredientMenu)
 
         alcoholMenu.setOnMenuItemClickListener { menuItem ->
             sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.ALCOHOL)
@@ -97,11 +99,16 @@ class CocktailFilterFragment :
             sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.CATEGORY)
             true
         }
+        ingredientMenu.setOnMenuItemClickListener { menuItem ->
+            sharedHostViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.INGREDIENT)
+            true
+        }
     }
 
     private fun setupFilterButtons() {
         viewDataBinding.filterBtnAlcohol.setOnClickListener { alcoholMenu.show() }
         viewDataBinding.filterBtnCategory.setOnClickListener { categoryMenu.show() }
+        viewDataBinding.filterBtnIngredient.setOnClickListener { ingredientMenu.show() }
     }
 
     private fun setupResultSnackbar() {

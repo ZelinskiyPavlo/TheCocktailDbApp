@@ -3,10 +3,7 @@ package com.test.thecocktaildb.ui.cocktail.host
 import androidx.lifecycle.*
 import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.ui.cocktail.filtertype.AlcoholDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.CategoryDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
@@ -40,7 +37,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
     private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
-        .apply { value = listOf<DrinkFilter?>(null, null) }
+        .apply { value = listOf<DrinkFilter?>(null, null, null) }
     val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
 
     val alcoholSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
@@ -53,6 +50,11 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         else "${it[1]?.key?.replace("\\/", "")}    $changeTextSuffix"
     }
 
+    val ingredientSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
+        if (it[2] == null) chooseTextSuffix
+        else "${it[2]?.key?.replace("\\/", "")}    $changeTextSuffix"
+    }
+
     private lateinit var changeTextSuffix: String
     private lateinit var chooseTextSuffix: String
 
@@ -62,7 +64,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     private val filterAndSortLiveData: LiveData<Unit> = MediatorLiveData<Unit>().apply {
         fun transformData() {
             allCocktailList?.let { _cocktailsLiveData.value = it }
-            applyFilter(_filterListLiveData.value ?: listOf(null, null))
+            applyFilter(_filterListLiveData.value ?: listOf(null, null, null))
             applySorting(sortingOrderLiveData.value)
             value = Unit
         }
@@ -79,7 +81,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
     val filterResultLiveData: LiveData<Event<String>> =
         MediatorLiveData<Event<String>>().apply {
             fun determineResult() {
-                if (_filterListLiveData.value == listOf(null, null)) return
+                if (_filterListLiveData.value == listOf(null, null, null)) return
 
                 val numberOfHistory = cocktailsLiveData.value?.size
                 val numberOfFavorite = favoriteListLiveData.value?.size
@@ -152,7 +154,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         changeTextSuffix = changeText
         chooseTextSuffix = chooseText
 
-        _filterListLiveData.value = listOf(null, null)
+        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
@@ -167,12 +169,17 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
                     set(1, CategoryDrinkFilter.values()[itemId])
                 }
             }
+            DrinkFilterType.INGREDIENT -> {
+                _filterListLiveData.value?.toMutableList()?.apply {
+                    set(2, CocktailIngredient.values()[itemId])
+                }
+            }
             else -> throw IllegalArgumentException("unknown filter type was chosen")
         }
     }
 
     private fun applyFilter(filterTypeList: List<DrinkFilter?>) {
-        if (filterTypeList == listOf(null, null)) return
+        if (filterTypeList == listOf(null, null, null)) return
 
         filterTypeList.filterNotNull().forEach { filterType ->
             when (filterType.type) {
@@ -184,13 +191,21 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
                     _cocktailsLiveData.value =
                         _cocktailsLiveData.value?.filter { it.strCategory == filterType.key }
                 }
+                DrinkFilterType.INGREDIENT -> {
+                    _cocktailsLiveData.value =
+                        _cocktailsLiveData.value?.filter {
+                            it.createIngredientsList()
+                                .map { ingredient -> ingredient.name }
+                                .contains(filterType.key)
+                        }
+                }
                 else -> throw IllegalArgumentException("unknown filter type was chosen")
             }
         }
     }
 
     fun resetFilters() {
-        _filterListLiveData.value = listOf(null, null)
+        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun onApplyButtonClicked() {

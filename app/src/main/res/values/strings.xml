@@ -62,5 +62,6 @@
     <string name="filter_fragment_alcohol_type">Alcohol type</string>
     <string name="filter_fragment_category_type">Category type</string>
     <string name="filter_fragment_toolbar_title">Choose filter</string>
+    <string name="filter_fragment_ingredient_type">Ingredient type</string>
 
 </resources>

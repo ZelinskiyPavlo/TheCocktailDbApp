@@ -92,7 +92,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         }
 
         sharedHostViewModel.filterListLiveData.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty() && it != listOf(null, null))
+            if (it.isNotEmpty() && it != listOf(null, null, null))
                 viewDataBinding.hostFragmentToolbar
                     .changePrimaryOptionImage(R.drawable.ic_filter_list_24_indicator)
             else viewDataBinding.hostFragmentToolbar
