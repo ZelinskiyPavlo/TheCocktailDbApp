@@ -15,9 +15,9 @@ class DelegatedViewModelFactory @Inject constructor(private val repository: AppC
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass.name) {
-            "com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" ->
+            "com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" ->
                 SharedHostViewModel(this.repository) as T
-            "com.test.thecocktaildb.ui.cocktailsScreen.MainViewModel" ->
+            "com.test.thecocktaildb.ui.cocktail.MainViewModel" ->
                 MainViewModel(this.repository) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")
         }
