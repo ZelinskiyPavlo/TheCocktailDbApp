@@ -107,8 +107,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
         activity?.unregisterReceiver(drinkProposalReceiver)
     }
 
-    override fun proposeCocktail(selectedCocktailId: String) {
-        if ((sharedHostViewModel.cocktailsLiveData.value?.size ?: 0) > 1) {
+    override fun proposeCocktail(selectedCocktailId: Long) {
+        if ((sharedHostViewModel.cocktailsLiveData.value?.size ?: 0) > 1
+            && selectedCocktailId != -1L
+        ) {
             val proposalSnackbar = Snackbar.make(
                 viewDataBinding.root,
                 getString(R.string.proposal_snackbar_message),

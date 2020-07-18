@@ -30,7 +30,8 @@ class CocktailDetailsFragment : Injectable,
     lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
 
     private val viewModel by viewModels<CocktailDetailsViewModel> {
-        GenericSavedStateViewModelFactory(cocktailDetailsVmFactory, this) }
+        GenericSavedStateViewModelFactory(cocktailDetailsVmFactory, this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -140,10 +141,15 @@ class CocktailDetailsFragment : Injectable,
     }
 
     private fun launchDrinkProposalService() {
-        val intentWithCocktail = Intent(activity, DrinkProposalService::class.java)
-        val selectedCocktailId = viewDataBinding.viewModel?.cocktailId
-        intentWithCocktail.putExtra(Intent.EXTRA_TEXT, selectedCocktailId)
+        val stopIntent = Intent(activity, DrinkProposalService::class.java)
+        stopIntent.action = DrinkProposalService.ACTION_STOP_SERVICE
+        activity?.startService(stopIntent)
 
-        activity?.startService(intentWithCocktail)
+        val startIntent = Intent(activity, DrinkProposalService::class.java)
+        startIntent.action = DrinkProposalService.ACTION_START_SERVICE
+        val selectedCocktailId = viewDataBinding.viewModel?.cocktailId
+        startIntent.putExtra(DrinkProposalService.SELECTED_COCKTAIL_ID, selectedCocktailId)
+        activity?.startService(startIntent)
+
     }
 }
