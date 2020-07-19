@@ -8,7 +8,7 @@
 
         <variable
             name="obj"
-            type="com.test.thecocktaildb.data.Cocktail" />
+            type="com.test.thecocktaildb.presentationNew.model.CocktailModel" />
 
         <variable
             name="listener"
@@ -42,7 +42,7 @@
                     android:layout_height="118dp"
                     android:contentDescription="@string/cocktail_item_image_description"
                     android:scaleType="centerCrop"
-                    bind:iv_imageUrl="@{obj.strDrinkThumb}" />
+                    bind:iv_imageUrl="@{obj.image}" />
 
                 <TextView
                     android:id="@+id/cocktail_item_name"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_8dp"
                     android:gravity="center_vertical"
-                    android:text="@{obj.strDrink}"
+                    android:text="@{obj.names.defaults}"
                     android:textAppearance="@style/TextRegular"
                     android:textSize="@dimen/text_small" />
             </LinearLayout>

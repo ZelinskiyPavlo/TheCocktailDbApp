@@ -17,7 +17,7 @@ import com.test.thecocktaildb.databinding.FragmentSearchCocktailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SearchCocktailsViewModelFactory
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class SearchCocktailsFragment : Injectable,
     lateinit var searchCocktailsViewModelFactory: SearchCocktailsViewModelFactory
 
     val viewModel: SearchCocktailsViewModel by viewModels {
-        GenericSavedStateViewModelFactory(searchCocktailsViewModelFactory, this) }
+        SavedStateViewModelFactory(searchCocktailsViewModelFactory, this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

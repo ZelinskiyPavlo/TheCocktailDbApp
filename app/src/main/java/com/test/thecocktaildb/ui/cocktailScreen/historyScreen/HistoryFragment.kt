@@ -19,7 +19,7 @@ import com.test.thecocktaildb.ui.cocktailScreen.callback.DrinkProposalCallback
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
@@ -41,7 +41,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+        SavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
     }
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver
@@ -70,7 +70,9 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = HostFragmentDirections
-                    .actionHostFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
+                    .actionHostFragmentToCocktailDetailsFragment(
+                        actionBarTitle, cocktailId
+                    )
                 findNavController().navigate(action)
             })
     }

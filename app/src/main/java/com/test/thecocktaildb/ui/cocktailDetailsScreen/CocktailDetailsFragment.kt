@@ -17,7 +17,7 @@ import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.CocktailDetailsViewModelFactory
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.service.DrinkProposalService
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class CocktailDetailsFragment : Injectable,
     lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
 
     private val viewModel by viewModels<CocktailDetailsViewModel> {
-        GenericSavedStateViewModelFactory(cocktailDetailsVmFactory, this)
+        SavedStateViewModelFactory(cocktailDetailsVmFactory, this)
     }
 
     override fun onCreateView(
@@ -80,11 +80,14 @@ class CocktailDetailsFragment : Injectable,
         val displayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val maxImageWidth = displayMetrics.widthPixels
-        val minImageWidth = (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
+        val minImageWidth =
+            (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
         var cachedImageWidth = maxImageWidth
 
-        val imageMarginStart = (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
-        val imageMarginTop = (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
+        val imageMarginStart =
+            (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
+        val imageMarginTop =
+            (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
 
         val marginParams =
             viewDataBinding.cocktailImage.layoutParams as ViewGroup.MarginLayoutParams
@@ -128,7 +131,7 @@ class CocktailDetailsFragment : Injectable,
         viewModel.getCocktailById(cocktailId)
     }
 
-    private fun getNavigationArgs(): Pair<String, String> {
+    private fun getNavigationArgs(): Pair<Long, String> {
         val args by navArgs<CocktailDetailsFragmentArgs>()
 
         return Pair(args.cocktailId, args.actionBarTitle)

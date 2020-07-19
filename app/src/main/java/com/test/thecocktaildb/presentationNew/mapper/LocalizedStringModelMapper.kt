@@ -13,7 +13,7 @@ class LocalizedStringModelMapper @Inject constructor() : BaseModelMapper<Localiz
 
     override fun mapTo(model: LocalizedStringRepoModel) = with(model) {
         LocalizedStringModel(
-            default = default,
+            defaults = defaults,
             defaultAlternate = defaultAlternate,
             es = es,
             de = de,
@@ -25,7 +25,7 @@ class LocalizedStringModelMapper @Inject constructor() : BaseModelMapper<Localiz
 
     override fun mapFrom(model: LocalizedStringModel) = with(model) {
         LocalizedStringRepoModel(
-            default = default,
+            defaults = defaults,
             defaultAlternate = defaultAlternate,
             es = es,
             de = de,

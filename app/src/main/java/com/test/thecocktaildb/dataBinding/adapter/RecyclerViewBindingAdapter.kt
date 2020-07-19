@@ -2,14 +2,14 @@ package com.test.thecocktaildb.dataBinding.adapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.IngredientAdapter
 import com.test.thecocktaildb.ui.cocktailScreen.adapter.CocktailAdapter
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsAdapter
 
 @BindingAdapter("bind:rv_cocktails", "bind:rv_adapterTag")
-fun RecyclerView.setItems(items: List<Cocktail>?, tag: AdapterType) {
+fun RecyclerView.setItems(items: List<CocktailModel>?, tag: AdapterType) {
     val recyclerViewAdapter = when (tag) {
         AdapterType.COCKTAIL_ADAPTER -> adapter as CocktailAdapter
         AdapterType.SEARCH_ADAPTER -> adapter as SearchCocktailsAdapter

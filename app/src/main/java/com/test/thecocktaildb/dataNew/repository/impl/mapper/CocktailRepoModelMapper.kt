@@ -18,7 +18,8 @@ class CocktailRepoModelMapper @Inject constructor(
             image = image,
             instructions = instructions.run(localizedStringRepoModelMapper::mapDbToRepo),
             ingredients = ingredients,
-            measures = measures
+            measures = measures,
+            isFavorite = isFavorite
         )
     }
 
@@ -32,7 +33,8 @@ class CocktailRepoModelMapper @Inject constructor(
             image = image,
             instructions = instructions.run(localizedStringRepoModelMapper::mapRepoToDb),
             ingredients = ingredients,
-            measures = measures
+            measures = measures,
+            isFavorite = isFavorite
         )
     }
 }

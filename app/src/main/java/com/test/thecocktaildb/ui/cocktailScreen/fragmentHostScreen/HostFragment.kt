@@ -45,14 +45,14 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
     lateinit var hostViewModelFactory: HostViewModelFactory
 
     private val viewModel: HostViewModel by viewModels {
-        GenericSavedStateViewModelFactory(hostViewModelFactory, this)
+        SavedStateViewModelFactory(hostViewModelFactory, this)
     }
 
     @Inject
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
+        SavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
     }
 
     private lateinit var viewPager: ViewPager2
@@ -72,7 +72,6 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
         setupTabLayout()
         setupFab()
         attachObserver()
-        loadCocktails()
 
         return viewDataBinding.root
     }
@@ -171,10 +170,6 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
 
     private fun attachObserver() {
         sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
-    }
-
-    private fun loadCocktails() {
-        sharedHostViewModel.loadCocktails()
     }
 
     override fun onStart() {

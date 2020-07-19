@@ -9,6 +9,7 @@ data class CocktailModel(
     val image: String = "",
     val instructions: LocalizedStringModel = LocalizedStringModel(),
     val ingredients: List<CocktailIngredient> = emptyList(),
-    val measures: List<String> = emptyList()/*,
+    val measures: List<String> = emptyList(),
+    val isFavorite: Boolean = false/*,
     val date: Date = Date()*/
 )

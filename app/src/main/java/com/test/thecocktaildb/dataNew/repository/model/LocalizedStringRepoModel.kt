@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.dataNew.repository.model
 
 class LocalizedStringRepoModel(
-    val default: String? = null,
+    val defaults: String? = null,
     val defaultAlternate: String? = null,
     val es: String? = null,
     val de: String? = null,

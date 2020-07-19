@@ -10,6 +10,7 @@ interface CocktailDbSource: BaseDbSource {
     suspend fun hasCocktails(): Boolean
     suspend fun getFirstCocktail(): CocktailDbModel?
     suspend fun getCocktailById(id: Long): CocktailDbModel?
+    suspend fun getCocktails(): List<CocktailDbModel>?
     suspend fun addOrReplaceCocktail(cocktail: CocktailDbModel)
     suspend fun addOrReplaceCocktails(vararg cocktail: CocktailDbModel)
     suspend fun replaceAllCocktails(vararg cocktail: CocktailDbModel)

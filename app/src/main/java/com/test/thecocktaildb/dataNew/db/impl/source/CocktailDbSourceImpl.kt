@@ -19,6 +19,8 @@ class CocktailDbSourceImpl @Inject constructor(
 
     override suspend fun getCocktailById(id: Long) = cocktailDao.getCocktailById(id)
 
+    override suspend fun getCocktails(): List<CocktailDbModel>? = cocktailDao.getCocktails()
+
     override suspend fun addOrReplaceCocktail(cocktail: CocktailDbModel) {
         cocktailDao.addOrReplaceCocktail(cocktail)
     }

@@ -10,6 +10,7 @@ interface CocktailRepository : BaseRepository {
     suspend fun hasCocktails(): Boolean
     suspend fun getFirstCocktail(): CocktailRepoModel?
     suspend fun getCocktailById(id: Long): CocktailRepoModel?
+    suspend fun getCocktails(): List<CocktailRepoModel>?
     suspend fun addOrReplaceCocktail(cocktail: CocktailRepoModel)
     suspend fun addOrReplaceCocktails(vararg cocktail: CocktailRepoModel)
     suspend fun replaceAllCocktails(vararg cocktail: CocktailRepoModel)

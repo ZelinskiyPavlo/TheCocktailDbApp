@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.test.thecocktaildb.dataNew.db.Table
 
 @Entity(tableName = Table.COCKTAIL)
-data class CocktailDbModel(
+data class CocktailDbModel @JvmOverloads constructor(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Long = -1L,

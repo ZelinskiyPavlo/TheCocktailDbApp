@@ -27,6 +27,9 @@ class CocktailRepositoryImpl @Inject constructor(
         return dbSource.getCocktailById(id)?.run(mapper::mapDbToRepo)
     }
 
+    override suspend fun getCocktails(): List<CocktailRepoModel>? =
+        dbSource.getCocktails()?.map(mapper::mapDbToRepo)
+
     override suspend fun addOrReplaceCocktail(cocktail: CocktailRepoModel) {
         dbSource.addOrReplaceCocktail(cocktail.run(mapper::mapRepoToDb))
     }

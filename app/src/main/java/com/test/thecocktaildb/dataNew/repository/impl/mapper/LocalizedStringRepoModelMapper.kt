@@ -9,7 +9,7 @@ class LocalizedStringRepoModelMapper  @Inject constructor():
     BaseRepoModelMapper<LocalizedStringRepoModel, LocalizedStringDbModel, Any /*CocktailNetModel*/>() {
     override fun mapDbToRepo(db: LocalizedStringDbModel) = with(db) {
         LocalizedStringRepoModel(
-            default = default,
+            defaults = defaults,
             defaultAlternate = defaultAlternate,
             es = es,
             de = de,
@@ -21,7 +21,7 @@ class LocalizedStringRepoModelMapper  @Inject constructor():
 
     override fun mapRepoToDb(repo: LocalizedStringRepoModel) = with(repo) {
         LocalizedStringDbModel(
-            default = default,
+            defaults = defaults,
             defaultAlternate = defaultAlternate,
             es = es,
             de = de,

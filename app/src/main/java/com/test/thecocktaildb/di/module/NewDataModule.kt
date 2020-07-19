@@ -7,7 +7,7 @@ import com.test.thecocktaildb.dataNew.db.Table
 import com.test.thecocktaildb.dataNew.db.impl.CocktailAppRoomDatabase
 import com.test.thecocktaildb.dataNew.db.impl.SharedPrefsHelper
 import com.test.thecocktaildb.dataNew.db.impl.dao.CocktailDao
-import com.test.thecocktaildb.dataNew.db.impl.source.AppSetingLocalSourceImpl
+import com.test.thecocktaildb.dataNew.db.impl.source.AppSettingLocalSourceImpl
 import com.test.thecocktaildb.dataNew.db.impl.source.CocktailDbSourceImpl
 import com.test.thecocktaildb.dataNew.db.source.AppSettingLocalSource
 import com.test.thecocktaildb.dataNew.db.source.CocktailDbSource
@@ -50,7 +50,7 @@ class NewDataModule {
     @Singleton
     @Provides
     fun provideAppSettingLocalSource(sharedPrefsHelper: SharedPrefsHelper): AppSettingLocalSource =
-        AppSetingLocalSourceImpl(sharedPrefsHelper)
+        AppSettingLocalSourceImpl(sharedPrefsHelper)
 
     @Singleton
     @Provides

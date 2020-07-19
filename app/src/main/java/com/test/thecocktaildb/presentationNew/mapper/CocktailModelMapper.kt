@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 
 class CocktailModelMapper @Inject constructor(
-    private val localizedStringModelMapper: LocalizedStringModelMapper,
+    private val localizedStringModelMapper: LocalizedStringModelMapper
 ) : BaseModelMapper<CocktailModel, CocktailRepoModel>() {
 
     override fun mapFrom(model: CocktailModel) = with(model) {
@@ -20,7 +20,8 @@ class CocktailModelMapper @Inject constructor(
             image = image,
             instructions = instructions.run(localizedStringModelMapper::mapFrom),
             ingredients = ingredients.map { it.key },
-            measures = measures
+            measures = measures,
+            isFavorite = isFavorite
         )
     }
 
@@ -34,7 +35,8 @@ class CocktailModelMapper @Inject constructor(
             image = image,
             instructions = instructions.run(localizedStringModelMapper::mapTo),
             ingredients = ingredients.map { ingredient ->  CocktailIngredient.values().firstOrNull { it.key == ingredient } ?: CocktailIngredient.UNDEFINED },
-            measures = measures
+            measures = measures,
+            isFavorite = isFavorite
         )
     }
 }

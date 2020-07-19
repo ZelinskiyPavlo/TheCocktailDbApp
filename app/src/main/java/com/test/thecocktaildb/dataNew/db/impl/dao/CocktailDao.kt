@@ -18,6 +18,9 @@ interface CocktailDao : BaseDao<CocktailDbModel> {
     @Query("SELECT * FROM ${Table.COCKTAIL} WHERE id = :id")
     fun getCocktailById(id: Long): CocktailDbModel?
 
+    @Query("SELECT * FROM ${Table.COCKTAIL}")
+    fun getCocktails(): List<CocktailDbModel>?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addOrReplaceCocktail(cocktail: CocktailDbModel)
 

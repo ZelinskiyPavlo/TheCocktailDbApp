@@ -8,6 +8,6 @@ abstract class BaseModelMapper<OutModel : Any, InModel : Any> {
     open fun mapFrom(model: OutModel): InModel =
         throw NotImplementedError("provide mapping for model ${model!!::class.java.simpleName}")
 
-    fun mapTo(model: List<InModel>): List<OutModel> = model.map { mapTo(it) }
-    fun mapFrom(model: List<OutModel>): List<InModel> = model.map { mapFrom(it) }
+    fun mapToList(model: List<InModel>): List<OutModel> = model.map { mapTo(it) }
+    fun mapFromList(model: List<OutModel>): List<InModel> = model.map { mapFrom(it) }
 }
