@@ -49,6 +49,8 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
 
     private lateinit var profileFragment: ProfileFragment
 
+    private var cocktailOfTheDayDialog: RegularDialogFragment? = null
+
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,13 +157,24 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
         lastSavedTime = System.currentTimeMillis()
     }
 
+    override fun onDestroy() {
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+        super.onDestroy()
+    }
+
     private fun showCocktailOfTheDayDialog() {
-        RegularDialogFragment.newInstance {
-            titleText = "Cocktail of the day"
-            descriptionText = "Do you want to see cocktail of the day"
-            leftButtonText = "No"
-            rightButtonText = "Yes"
-        }.show(supportFragmentManager, "CocktailOfTheDayDialog")
+        cocktailOfTheDayDialog =
+            supportFragmentManager.findFragmentByTag("CocktailOfTheDayDialog") as? RegularDialogFragment
+        if (cocktailOfTheDayDialog == null) {
+            cocktailOfTheDayDialog = RegularDialogFragment.newInstance {
+                titleText = "Cocktail of the day"
+                descriptionText = "Do you want to see cocktail of the day"
+                leftButtonText = "No"
+                rightButtonText = "Yes"
+            }
+        }
+        if (!cocktailOfTheDayDialog!!.isVisible)
+            cocktailOfTheDayDialog!!.show(supportFragmentManager, "CocktailOfTheDayDialog")
     }
 
     override fun onDialogFragmentClick(
