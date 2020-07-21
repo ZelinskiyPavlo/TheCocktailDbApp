@@ -78,6 +78,7 @@ class SharedHostViewModel @Inject constructor(private val repository: AppCocktai
         }
     }
 
+//    TODO: можна реалізувати через LiveData map і почитати ще про distinctUntilChanged
     val filterResultLiveData: LiveData<Event<String>> =
         MediatorLiveData<Event<String>>().apply {
             fun determineResult() {

@@ -153,6 +153,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         }
     }
 
+//    TODO: для чого це тут???
     private fun attachObserver() {
         sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
     }
