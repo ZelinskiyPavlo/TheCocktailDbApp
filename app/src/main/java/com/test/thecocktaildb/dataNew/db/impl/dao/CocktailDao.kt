@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.test.thecocktaildb.dataNew.db.Table
 import com.test.thecocktaildb.dataNew.db.model.*
+import java.util.*
 
 @Dao
 interface CocktailDao {
 
-    @get:Query("SELECT * FROM CocktailDbModel")
+    @get:Query("SELECT * FROM CocktailDbModel ORDER BY dateAdded DESC")
     val cocktailListLiveData: LiveData<List<CocktailDbModel>>
 
     @Query("SELECT * FROM CocktailDbModel LIMIT 1")
@@ -17,12 +18,14 @@ interface CocktailDao {
     @Query("SELECT * FROM CocktailDbModel WHERE id = :id")
     fun getCocktailById(id: Long): CocktailDbModel?
 
-    @Query("SELECT * FROM CocktailDbModel")
+    @Query("SELECT * FROM CocktailDbModel ORDER BY dateAdded DESC")
     fun getCocktails(): List<CocktailDbModel>?
 
-    fun addOrReplaceCocktails(vararg cocktail: CocktailDbModel) {
-        cocktail.forEach { addOrReplaceCocktail(it) }
-    }
+    @Query("UPDATE ${Table.COCKTAIL} SET date_added = :dateAdded WHERE id = :cocktailId")
+    fun updateCocktailDateAdded(dateAdded: Date, cocktailId: Long)
+
+    @Query("UPDATE ${Table.COCKTAIL} SET is_favorite = :isFavorite WHERE id = :cocktailId")
+    fun updateCocktailFavoriteState(cocktailId: Long, isFavorite: Boolean)
 
     @Transaction
     fun addOrReplaceCocktail(cocktail: CocktailDbModel) {
@@ -97,6 +100,10 @@ interface CocktailDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertIngredientJunction(ingredientJunction: CocktailIngredientJunction)
+
+    fun addOrReplaceCocktails(vararg cocktail: CocktailDbModel) {
+        cocktail.forEach { addOrReplaceCocktail(it) }
+    }
 
     @Transaction
     fun replaceAllCocktails(vararg cocktail: CocktailDbModel) {

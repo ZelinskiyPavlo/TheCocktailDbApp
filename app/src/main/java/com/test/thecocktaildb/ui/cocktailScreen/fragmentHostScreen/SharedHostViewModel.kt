@@ -188,7 +188,7 @@ class SharedHostViewModel(
 
     fun updateCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
         launchRequest {
-            cocktailRepo.addOrReplaceCocktail(cocktail.run(cocktailMapper::mapFrom))
+            cocktailRepo.updateCocktailDate(cocktail.id)
 
             withContext(Dispatchers.Main) {
                 navigateToCocktailDetailsFragment(cocktail)
@@ -212,8 +212,7 @@ class SharedHostViewModel(
 
     fun changeIsFavoriteState(cocktail: CocktailModel) {
         launchRequest {
-            val cocktailCopy = cocktail.copy(isFavorite = cocktail.isFavorite.not())
-            cocktailRepo.addOrReplaceCocktail(cocktailCopy.run(cocktailMapper::mapFrom))
+            cocktailRepo.updateCocktailFavoriteState(cocktail.id, cocktail.isFavorite.not())
         }
     }
 
@@ -276,8 +275,7 @@ class SharedHostViewModel(
 
         _cocktailsLiveData.value = when (cachedSortingOrder) {
             CocktailSortType.RECENT ->
-//                _cocktailsLiveData.value?.sortedByDescending { it.dateAdded }
-                _cocktailsLiveData.value
+                _cocktailsLiveData.value?.sortedByDescending { it.dateAdded }
             CocktailSortType.NAME_DESC ->
                 _cocktailsLiveData.value?.sortedByDescending { it.names.defaults }
             CocktailSortType.NAME_ASC ->
@@ -290,8 +288,7 @@ class SharedHostViewModel(
                 _cocktailsLiveData.value?.sortedByDescending { it.ingredients.size }
             CocktailSortType.INGREDIENT_ASC ->
                 _cocktailsLiveData.value?.sortedBy { it.ingredients.size }
-//            null -> _cocktailsLiveData.value?.sortedByDescending { it.dateAdded }
-            null -> _cocktailsLiveData.value
+            null -> _cocktailsLiveData.value?.sortedByDescending { it.dateAdded }
         }
     }
 }

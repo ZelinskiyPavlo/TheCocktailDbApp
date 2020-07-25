@@ -7,6 +7,7 @@ import com.test.thecocktaildb.dataNew.repository.impl.mapper.CocktailRepoModelMa
 import com.test.thecocktaildb.dataNew.repository.impl.source.base.BaseRepositoryImpl
 import com.test.thecocktaildb.dataNew.repository.model.CocktailRepoModel
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
+import java.util.*
 import javax.inject.Inject
 
 class CocktailRepositoryImpl @Inject constructor(
@@ -29,6 +30,12 @@ class CocktailRepositoryImpl @Inject constructor(
 
     override suspend fun getCocktails(): List<CocktailRepoModel>? =
         dbSource.getCocktails()?.map(mapper::mapDbToRepo)
+
+    override suspend fun updateCocktailDate(cocktailId: Long) =
+        dbSource.updateCocktailDate(Calendar.getInstance().time, cocktailId)
+
+    override suspend fun updateCocktailFavoriteState(cocktailId: Long, isFavorite: Boolean) =
+        dbSource.updateCocktailFavoriteState(cocktailId, isFavorite)
 
     override suspend fun addOrReplaceCocktail(cocktail: CocktailRepoModel) {
         dbSource.addOrReplaceCocktail(cocktail.run(mapper::mapRepoToDb))

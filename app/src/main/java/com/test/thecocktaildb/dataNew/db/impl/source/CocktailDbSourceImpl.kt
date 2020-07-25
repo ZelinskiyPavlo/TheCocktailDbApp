@@ -5,6 +5,7 @@ import androidx.lifecycle.map
 import com.test.thecocktaildb.dataNew.db.impl.dao.CocktailDao
 import com.test.thecocktaildb.dataNew.db.model.CocktailDbModel
 import com.test.thecocktaildb.dataNew.db.source.CocktailDbSource
+import java.util.*
 import javax.inject.Inject
 
 class CocktailDbSourceImpl @Inject constructor(
@@ -22,6 +23,12 @@ class CocktailDbSourceImpl @Inject constructor(
 
     override suspend fun getCocktails(): List<CocktailDbModel>? =
         cocktailDao.getCocktails()?.filter { cocktail -> cocktail.id != 0L }
+
+    override suspend fun updateCocktailDate(dateAdded: Date, cocktailId: Long) =
+        cocktailDao.updateCocktailDateAdded(dateAdded, cocktailId)
+
+    override suspend fun updateCocktailFavoriteState(cocktailId: Long, isFavorite: Boolean) =
+        cocktailDao.updateCocktailFavoriteState(cocktailId, isFavorite)
 
     override suspend fun addOrReplaceCocktail(cocktail: CocktailDbModel) {
         cocktailDao.addOrReplaceCocktail(cocktail)

@@ -2,8 +2,9 @@ package com.test.thecocktaildb.dataNew.db.source
 
 import androidx.lifecycle.LiveData
 import com.test.thecocktaildb.dataNew.db.model.CocktailDbModel
+import java.util.*
 
-interface CocktailDbSource: BaseDbSource {
+interface CocktailDbSource : BaseDbSource {
 
     val cocktailListLiveData: LiveData<List<CocktailDbModel>>
 
@@ -11,6 +12,8 @@ interface CocktailDbSource: BaseDbSource {
     suspend fun getFirstCocktail(): CocktailDbModel?
     suspend fun getCocktailById(id: Long): CocktailDbModel?
     suspend fun getCocktails(): List<CocktailDbModel>?
+    suspend fun updateCocktailDate(dateAdded: Date, cocktailId: Long)
+    suspend fun updateCocktailFavoriteState(cocktailId: Long, isFavorite: Boolean)
     suspend fun addOrReplaceCocktail(cocktail: CocktailDbModel)
     suspend fun addOrReplaceCocktails(vararg cocktail: CocktailDbModel)
     suspend fun replaceAllCocktails(vararg cocktail: CocktailDbModel)
