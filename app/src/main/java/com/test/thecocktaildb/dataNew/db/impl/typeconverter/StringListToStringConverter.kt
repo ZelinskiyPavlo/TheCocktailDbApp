@@ -1,8 +1,6 @@
 package com.test.thecocktaildb.dataNew.db.impl.typeconverter
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.util.*
 
 /**
@@ -12,18 +10,15 @@ import java.util.*
 @Suppress("unused")
 internal class StringListToStringConverter {
 
-    private val gson = Gson()
-    private val listType = object : TypeToken<List<String>>() {}.type
-
     @TypeConverter
     fun dataToList(data: String?): List<String> {
         data ?: return Collections.emptyList()
 
-        return gson.fromJson(data, listType)
+        return data.split(",")
     }
 
     @TypeConverter
     fun listToData(list: List<String>): String {
-        return gson.toJson(list)
+        return list.joinToString(",")
     }
 }

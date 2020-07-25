@@ -6,8 +6,9 @@ import com.test.thecocktaildb.dataNew.repository.model.LocalizedStringRepoModel
 import javax.inject.Inject
 
 class LocalizedStringRepoModelMapper  @Inject constructor():
-    BaseRepoModelMapper<LocalizedStringRepoModel, LocalizedStringDbModel, Any /*CocktailNetModel*/>() {
-    override fun mapDbToRepo(db: LocalizedStringDbModel) = with(db) {
+    BaseRepoModelMapper<LocalizedStringRepoModel, LocalizedStringDbModel?, Any /*CocktailNetModel*/>() {
+    override fun mapDbToRepo(db: LocalizedStringDbModel?) = with(db) {
+        this ?: return LocalizedStringRepoModel()
         LocalizedStringRepoModel(
             defaults = defaults,
             defaultAlternate = defaultAlternate,

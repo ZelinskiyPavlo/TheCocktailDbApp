@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.dataNew.db.impl.source
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.test.thecocktaildb.dataNew.db.impl.dao.CocktailDao
 import com.test.thecocktaildb.dataNew.db.model.CocktailDbModel
 import com.test.thecocktaildb.dataNew.db.source.CocktailDbSource
@@ -11,7 +12,7 @@ class CocktailDbSourceImpl @Inject constructor(
 ) : CocktailDbSource {
 
     override val cocktailListLiveData: LiveData<List<CocktailDbModel>> =
-        cocktailDao.cocktailListLiveData
+        cocktailDao.cocktailListLiveData.map { it.filter { cocktail -> cocktail.id != 0L } }
 
     override suspend fun hasCocktails() = cocktailDao.getFirstCocktail() != null
 
@@ -19,7 +20,8 @@ class CocktailDbSourceImpl @Inject constructor(
 
     override suspend fun getCocktailById(id: Long) = cocktailDao.getCocktailById(id)
 
-    override suspend fun getCocktails(): List<CocktailDbModel>? = cocktailDao.getCocktails()
+    override suspend fun getCocktails(): List<CocktailDbModel>? =
+        cocktailDao.getCocktails()?.filter { cocktail -> cocktail.id != 0L }
 
     override suspend fun addOrReplaceCocktail(cocktail: CocktailDbModel) {
         cocktailDao.addOrReplaceCocktail(cocktail)

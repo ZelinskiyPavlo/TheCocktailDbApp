@@ -7,19 +7,20 @@ import javax.inject.Inject
 
 class CocktailRepoModelMapper @Inject constructor(
     private val localizedStringRepoModelMapper: LocalizedStringRepoModelMapper
-): BaseRepoModelMapper<CocktailRepoModel, CocktailDbModel, Any /*CocktailNetModel*/>() {
+) : BaseRepoModelMapper<CocktailRepoModel, CocktailDbModel, Any /*CocktailNetModel*/>() {
+
     override fun mapDbToRepo(db: CocktailDbModel): CocktailRepoModel = with(db) {
         CocktailRepoModel(
             id = id,
             names = names.run(localizedStringRepoModelMapper::mapDbToRepo),
-            category = category,
-            alcoholType = alcoholType,
-            glass = glass,
-            image = image,
+            category = category ?: "",
+            alcoholType = alcoholType ?: "",
+            glass = glass ?: "",
+            image = image ?: "",
             instructions = instructions.run(localizedStringRepoModelMapper::mapDbToRepo),
             ingredients = ingredients,
             measures = measures,
-            isFavorite = isFavorite
+            isFavorite = isFavorite ?: false
         )
     }
 

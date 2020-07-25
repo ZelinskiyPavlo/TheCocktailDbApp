@@ -2,8 +2,8 @@ package com.test.thecocktaildb.dataNew.db.model
 
 import androidx.room.ColumnInfo
 
-data class LocalizedStringDbModel @JvmOverloads constructor(
-    @ColumnInfo(name = "default")
+data class LocalizedStringDbModel (
+    @ColumnInfo(name = "defaults")
     var defaults: String? = null,
 
     @ColumnInfo(name = "default_alternate")

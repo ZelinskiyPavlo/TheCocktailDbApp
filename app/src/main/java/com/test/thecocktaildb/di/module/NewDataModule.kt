@@ -26,7 +26,7 @@ class NewDataModule {
     @Singleton
     @Provides
     fun provideCocktailsAppDatabase(app: CocktailApplication): CocktailAppRoomDatabase {
-        return Room.databaseBuilder(app, CocktailAppRoomDatabase::class.java, Table.COCKTAIL)
+        return Room.databaseBuilder(app, CocktailAppRoomDatabase::class.java, Table.COCKTAIL_DB_NAME)
             .build()
     }
 
