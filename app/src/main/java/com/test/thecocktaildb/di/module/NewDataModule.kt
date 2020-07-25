@@ -27,6 +27,7 @@ class NewDataModule {
     @Provides
     fun provideCocktailsAppDatabase(app: CocktailApplication): CocktailAppRoomDatabase {
         return Room.databaseBuilder(app, CocktailAppRoomDatabase::class.java, Table.COCKTAIL_DB_NAME)
+            .addMigrations(CocktailAppRoomDatabase.MIGRATION_1_2)
             .build()
     }
 
