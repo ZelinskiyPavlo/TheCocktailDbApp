@@ -11,13 +11,21 @@ import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
+import com.test.thecocktaildb.util.AuthViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import kotlinx.android.synthetic.main.activity_auth.*
+import javax.inject.Inject
 
 class AuthActivity : BaseActivity<ActivityAuthBinding>() {
 
     override val contentLayoutResId: Int = R.layout.activity_auth
 
-    val viewModel: AuthViewModel by viewModels()
+    @Inject
+    lateinit var authViewModelFactory: AuthViewModelFactory
+
+    val viewModel: AuthViewModel by viewModels {
+        SavedStateViewModelFactory(authViewModelFactory, this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)

@@ -9,6 +9,7 @@ import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
 import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
+import com.test.thecocktaildb.ui.auth.AuthViewModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
 import com.test.thecocktaildb.ui.cocktailScreen.MainViewModel
@@ -34,6 +35,12 @@ interface ViewModelAssistedFactory<T : BaseViewModel> {
     fun create(handle: SavedStateHandle): T
 }
 
+class AuthViewModelFactory @Inject constructor() : ViewModelAssistedFactory<AuthViewModel> {
+    override fun create(handle: SavedStateHandle): AuthViewModel {
+        return AuthViewModel(handle)
+    }
+}
+
 class SharedHostViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper
@@ -46,7 +53,7 @@ class SharedHostViewModelFactory @Inject constructor(
 class CocktailDetailsViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
-    ) : ViewModelAssistedFactory<CocktailDetailsViewModel> {
+) : ViewModelAssistedFactory<CocktailDetailsViewModel> {
     override fun create(handle: SavedStateHandle): CocktailDetailsViewModel {
         return CocktailDetailsViewModel(handle, cocktailRepo, cocktailMapper)
     }
@@ -65,7 +72,7 @@ class MainViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
     private val oldCocktailMapper: CocktailMapper
-    ) : ViewModelAssistedFactory<MainViewModel> {
+) : ViewModelAssistedFactory<MainViewModel> {
     override fun create(handle: SavedStateHandle): MainViewModel {
         return MainViewModel(handle, repository, cocktailRepo, cocktailMapper, oldCocktailMapper)
     }
@@ -78,6 +85,8 @@ class SearchCocktailsViewModelFactory @Inject constructor(
     private val oldCocktailMapper: CocktailMapper
 ) : ViewModelAssistedFactory<SearchCocktailsViewModel> {
     override fun create(handle: SavedStateHandle): SearchCocktailsViewModel {
-        return SearchCocktailsViewModel(handle, repository, cocktailRepo, cocktailMapper, oldCocktailMapper)
+        return SearchCocktailsViewModel(
+            handle, repository, cocktailRepo, cocktailMapper, oldCocktailMapper
+        )
     }
 }
