@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.test.thecocktaildb.dataNew.db.Table
+import java.util.*
 
 @Entity(tableName = Table.COCKTAIL)
 data class CocktailEntity (
@@ -24,5 +25,8 @@ data class CocktailEntity (
     val image: String = "",
 
     @ColumnInfo(name = "is_favorite")
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+
+    @ColumnInfo(name = "date_added")
+    val dateAdded: Date = Calendar.getInstance().time
 )

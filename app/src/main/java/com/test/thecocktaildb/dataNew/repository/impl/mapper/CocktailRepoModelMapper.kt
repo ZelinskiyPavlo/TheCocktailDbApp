@@ -20,7 +20,8 @@ class CocktailRepoModelMapper @Inject constructor(
             instructions = instructions.run(localizedStringRepoModelMapper::mapDbToRepo),
             ingredients = ingredients,
             measures = measures,
-            isFavorite = isFavorite ?: false
+            isFavorite = isFavorite ?: false,
+            dateAdded = dateAdded
         )
     }
 
@@ -35,7 +36,8 @@ class CocktailRepoModelMapper @Inject constructor(
             instructions = instructions.run(localizedStringRepoModelMapper::mapRepoToDb),
             ingredients = ingredients,
             measures = measures,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            dateAdded = dateAdded
         )
     }
 }

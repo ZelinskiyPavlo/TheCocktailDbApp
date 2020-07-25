@@ -3,6 +3,7 @@ package com.test.thecocktaildb.dataNew.db.model
 import androidx.room.DatabaseView
 import androidx.room.Embedded
 import com.test.thecocktaildb.dataNew.db.Table
+import java.util.*
 
 @DatabaseView(
     """SELECT ${Table.COCKTAIL}.id AS id, 
@@ -20,7 +21,7 @@ ${Table.INSTRUCTION}.instruction_zn_hans AS instruction_zn_hans,
 ${Table.INSTRUCTION}.instruction_zn_hant AS instruction_zn_hant, 
 GROUP_CONCAT(${Table.INGREDIENT}.ingredient) AS ingredients, 
 GROUP_CONCAT(${Table.MEASURE}.measure) AS measures, 
-${Table.COCKTAIL}.is_favorite AS isFavorite 
+${Table.COCKTAIL}.is_favorite AS isFavorite, ${Table.COCKTAIL}.date_added AS dateAdded
 FROM ${Table.COCKTAIL} 
 INNER JOIN ${Table.COCKTAIL_INGREDIENT} ON ${Table.COCKTAIL}.id = ${Table.COCKTAIL_INGREDIENT}.cocktail_id 
 INNER JOIN ${Table.INGREDIENT} ON ${Table.COCKTAIL_INGREDIENT}.ingredient = ${Table.INGREDIENT}.ingredient 
@@ -43,6 +44,6 @@ class CocktailDbModel(
     val instructions: LocalizedStringDbModel? = LocalizedStringDbModel(),
     val ingredients: List<String> = emptyList(),
     val measures: List<String> = emptyList(),
-    val isFavorite: Boolean? = false/*,
-    val date: Date = Date()*/
+    val isFavorite: Boolean? = false,
+    val dateAdded: Date = Calendar.getInstance().time
 )

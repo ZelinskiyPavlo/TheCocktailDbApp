@@ -4,6 +4,7 @@ import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.presentationNew.mapper.base.BaseModelMapper
 import com.test.thecocktaildb.presentationNew.model.*
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
+import java.util.*
 import javax.inject.Inject
 
 class CocktailMapper @Inject constructor() : BaseModelMapper<Cocktail, CocktailModel>() {
@@ -30,7 +31,8 @@ class CocktailMapper @Inject constructor() : BaseModelMapper<Cocktail, CocktailM
                 if (it.measure != null) it.measure ?: ""
                 else ""
             },
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            dateAdded = dateAdded ?: Calendar.getInstance().time
         )
     }
 }

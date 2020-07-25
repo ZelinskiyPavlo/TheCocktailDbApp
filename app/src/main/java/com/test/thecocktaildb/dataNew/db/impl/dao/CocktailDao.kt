@@ -34,7 +34,8 @@ interface CocktailDao {
                     alcoholType ?: "",
                     glass ?: "",
                     image ?: "",
-                    isFavorite ?: false
+                    isFavorite ?: false,
+                    Calendar.getInstance().time
                 )
             )
 

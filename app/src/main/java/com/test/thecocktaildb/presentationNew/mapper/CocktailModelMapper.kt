@@ -21,7 +21,8 @@ class CocktailModelMapper @Inject constructor(
             instructions = instructions.run(localizedStringModelMapper::mapFrom),
             ingredients = ingredients.map { it.key },
             measures = measures,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            dateAdded = dateAdded
         )
     }
 
@@ -36,7 +37,8 @@ class CocktailModelMapper @Inject constructor(
             instructions = instructions.run(localizedStringModelMapper::mapTo),
             ingredients = ingredients.map { ingredient ->  CocktailIngredient.values().firstOrNull { it.key == ingredient } ?: CocktailIngredient.UNDEFINED },
             measures = measures,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            dateAdded = dateAdded
         )
     }
 }
