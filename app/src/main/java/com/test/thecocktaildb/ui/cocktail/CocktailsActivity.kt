@@ -173,7 +173,7 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
                 rightButtonText = "Yes"
             }
         }
-        if (!cocktailOfTheDayDialog!!.isVisible)
+        if (!cocktailOfTheDayDialog!!.isVisible && !cocktailOfTheDayDialog!!.isAdded)
             cocktailOfTheDayDialog!!.show(supportFragmentManager, "CocktailOfTheDayDialog")
     }
 
