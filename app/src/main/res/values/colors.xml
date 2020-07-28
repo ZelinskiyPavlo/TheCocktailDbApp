@@ -28,6 +28,8 @@
     <color name="toolbar_icon">@color/black</color>
     <color name="toolbar_icon_indicator">@color/green_a_400</color>
 
+    <color name="selected_cocktail_sort_type">@color/black</color>
+
     <!--region Palette colors. Colors for "internal use" only -->
 
     <!-- General palettes -->

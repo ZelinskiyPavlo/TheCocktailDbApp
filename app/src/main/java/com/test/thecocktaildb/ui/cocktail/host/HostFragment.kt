@@ -4,9 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.text.bold
+import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -81,7 +85,21 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         }
 
         viewDataBinding.hostFragmentToolbar.secondaryOption.setOnClickListener {
-            val sortKeyTypeList = CocktailSortType.values().map { it.key }.toTypedArray()
+            val selectedColor = ContextCompat
+                .getColor(requireActivity(), R.color.selected_cocktail_sort_type)
+            val sortKeyTypeList = CocktailSortType.values().mapIndexed { index, sortType ->
+                when {
+                    index == 0 && sharedHostViewModel.sortingOrderLiveData.value == null -> {
+                        SpannableStringBuilder()
+                            .bold { color(selectedColor) { append(CocktailSortType.RECENT.key) } }
+                    }
+                    sharedHostViewModel.sortingOrderLiveData.value?.key == sortType.key -> {
+                        SpannableStringBuilder()
+                            .bold { color(selectedColor) { append(sortType.key) } }
+                    }
+                    else -> sortType.key
+                }
+            }.toTypedArray()
             MaterialAlertDialogBuilder(context)
                 .setTitle(getString(R.string.dialog_cocktail_sorting_title))
                 .setItems(sortKeyTypeList) { _, i ->
