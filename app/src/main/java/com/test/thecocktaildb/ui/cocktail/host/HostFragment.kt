@@ -65,7 +65,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         setupViewPager()
         setupTabLayout()
         setupFab()
-        attachObserver()
         loadCocktails()
 
         return viewDataBinding.root
@@ -169,11 +168,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
             val action = HostFragmentDirections.actionHostFragmentToSearchCocktailsFragment()
             findNavController().navigate(action)
         }
-    }
-
-//    TODO: для чого це тут???
-    private fun attachObserver() {
-        sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
     }
 
     private fun loadCocktails() {
