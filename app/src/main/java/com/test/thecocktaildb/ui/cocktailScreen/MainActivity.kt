@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 var lastSavedTime: Long? = null
 
-class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), LifecycleObserver,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     override val contentLayoutResId: Int = R.layout.activity_main
@@ -37,6 +37,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     lateinit var mainViewModelFactory: MainViewModelFactory
 
     private val mainViewModel: MainViewModel by viewModels {
+        SavedStateViewModelFactory(mainViewModelFactory, this)
+    }
+
+//    TODO: only for testing purpose
+    override val testViewModel: MainViewModel by viewModels {
         SavedStateViewModelFactory(mainViewModelFactory, this)
     }
 

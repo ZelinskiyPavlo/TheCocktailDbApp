@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
 import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
@@ -35,9 +36,11 @@ interface ViewModelAssistedFactory<T : BaseViewModel> {
     fun create(handle: SavedStateHandle): T
 }
 
-class AuthViewModelFactory @Inject constructor() : ViewModelAssistedFactory<AuthViewModel> {
+class AuthViewModelFactory @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModelAssistedFactory<AuthViewModel> {
     override fun create(handle: SavedStateHandle): AuthViewModel {
-        return AuthViewModel(handle)
+        return AuthViewModel(handle, authRepository)
     }
 }
 

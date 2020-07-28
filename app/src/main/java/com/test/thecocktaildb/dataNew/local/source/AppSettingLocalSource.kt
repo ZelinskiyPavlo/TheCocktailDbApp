@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.dataNew.db.source
+package com.test.thecocktaildb.dataNew.local.source
 
 import androidx.lifecycle.MutableLiveData
 

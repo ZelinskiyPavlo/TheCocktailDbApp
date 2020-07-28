@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+// TODO: 27.07.2020 Old module
 @Module
 class DatabaseModule {
 

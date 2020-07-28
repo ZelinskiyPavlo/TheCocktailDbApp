@@ -1,8 +1,8 @@
-package com.test.thecocktaildb.dataNew.db.impl.source
+package com.test.thecocktaildb.dataNew.local.impl.source
 
 import androidx.lifecycle.MutableLiveData
-import com.test.thecocktaildb.dataNew.db.impl.SharedPrefsHelper
-import com.test.thecocktaildb.dataNew.db.source.AppSettingLocalSource
+import com.test.thecocktaildb.dataNew.local.impl.SharedPrefsHelper
+import com.test.thecocktaildb.dataNew.local.source.AppSettingLocalSource
 import javax.inject.Inject
 
 class AppSettingLocalSourceImpl @Inject constructor(private val sharedPrefsHelper: SharedPrefsHelper):

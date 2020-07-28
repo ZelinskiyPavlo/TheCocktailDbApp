@@ -6,6 +6,8 @@ import kotlin.coroutines.CoroutineContext
 
 open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
 
+    val errorLiveData: LiveData<java.lang.Exception?> = MutableLiveData()
+
     protected fun <T> launchRequest(
         liveData: LiveData<T>? = null,
         context: CoroutineContext = Dispatchers.IO,

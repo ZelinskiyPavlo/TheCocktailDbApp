@@ -6,15 +6,17 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.test.thecocktaildb.dataNew.db.impl.dao.CocktailDao
+import com.test.thecocktaildb.dataNew.db.impl.dao.UserDao
 import com.test.thecocktaildb.dataNew.db.impl.typeconverter.StringListToStringConverter
 import com.test.thecocktaildb.dataNew.db.model.*
 import com.test.thecocktaildb.util.DateConverter
 
+// TODO: написати міграцію на 3 версію, з додаванням таблиці User після того як все запрацює
 @Database(
     version = 2,
     entities = [CocktailEntity::class, NameEntity::class, InstructionEntity::class,
         IngredientEntity::class, CocktailIngredientJunction::class,
-        CocktailMeasureJunction::class, MeasureEntity::class],
+        CocktailMeasureJunction::class, MeasureEntity::class, UserDbModel::class],
     views = [CocktailDbModel::class],
     exportSchema = false
 )
@@ -22,6 +24,7 @@ import com.test.thecocktaildb.util.DateConverter
 abstract class CocktailAppRoomDatabase : RoomDatabase() {
 
     abstract fun cocktailDao(): CocktailDao
+    abstract fun userDao(): UserDao
 
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {

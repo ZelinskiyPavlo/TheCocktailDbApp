@@ -4,9 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.ui.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class AuthViewModel (savedStateHandle: SavedStateHandle) : BaseViewModel(savedStateHandle) {
+class AuthViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val authRepository: AuthRepository,
+) : BaseViewModel(savedStateHandle) {
 
     private val login = "SomeLogin"
     private val password = "123456a"
@@ -43,6 +50,19 @@ class AuthViewModel (savedStateHandle: SavedStateHandle) : BaseViewModel(savedSt
         }
         addSource(passwordInputLiveData) {
             invalidateTypedData()
+        }
+    }
+
+    init {
+        launchRequest {
+            val result = authRepository.signIn(
+                email = "romandrogom@gmail.com",
+                password = "password"
+            )
+
+            withContext(Dispatchers.Main) {
+                Timber.i("Login completed $result")
+            }
         }
     }
 

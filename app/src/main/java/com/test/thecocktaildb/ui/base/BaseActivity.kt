@@ -1,10 +1,12 @@
 package com.test.thecocktaildb.ui.base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import com.test.thecocktaildb.presentationNew.extension.observeNotNull
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
 import dagger.android.AndroidInjector
@@ -13,7 +15,8 @@ import dagger.android.HasAndroidInjector
 import icepick.Icepick
 import javax.inject.Inject
 
-abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAndroidInjector,
+abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel> : AppCompatActivity(),
+HasAndroidInjector,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseDialogFragment.OnDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
@@ -26,6 +29,8 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
 
     abstract val contentLayoutResId: Int
 
+    abstract val testViewModel: VM
+
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +40,15 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         configureDataBinding()
 
         Icepick.restoreInstanceState(this, savedInstanceState)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+
+        testViewModel.errorLiveData.observeNotNull (this@BaseActivity) {
+            //TODO handle error
+            Toast.makeText(this, "error = ${it.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     protected open fun configureDataBinding() {}

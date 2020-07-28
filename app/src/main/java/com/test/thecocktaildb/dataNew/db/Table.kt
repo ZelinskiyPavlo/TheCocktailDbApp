@@ -10,4 +10,6 @@ object Table {
     const val COCKTAIL_INGREDIENT = "cocktail_ingredient_junction"
     const val MEASURE = "measure_entity"
     const val COCKTAIL_MEASURE = "cocktail_measure_junction"
+
+    const val USER = "USER"
 }

@@ -16,13 +16,18 @@ import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import kotlinx.android.synthetic.main.activity_auth.*
 import javax.inject.Inject
 
-class AuthActivity : BaseActivity<ActivityAuthBinding>() {
+class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>() {
 
     override val contentLayoutResId: Int = R.layout.activity_auth
 
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
 
+    override val testViewModel: AuthViewModel by viewModels{
+        SavedStateViewModelFactory(authViewModelFactory, this)
+    }
+
+//    TODO: delete this VM and change name of testViewModel to viewModel
     val viewModel: AuthViewModel by viewModels {
         SavedStateViewModelFactory(authViewModelFactory, this)
     }

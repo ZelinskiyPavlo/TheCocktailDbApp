@@ -2,6 +2,7 @@ package com.test.thecocktaildb.dataNew.db.source
 
 import androidx.lifecycle.LiveData
 import com.test.thecocktaildb.dataNew.db.model.CocktailDbModel
+import com.test.thecocktaildb.dataNew.db.source.base.BaseDbSource
 import java.util.*
 
 interface CocktailDbSource : BaseDbSource {
