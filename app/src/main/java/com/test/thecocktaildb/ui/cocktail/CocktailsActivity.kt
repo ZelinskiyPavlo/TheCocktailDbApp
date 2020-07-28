@@ -147,7 +147,10 @@ class CocktailsActivity @Inject constructor() : BaseActivity(), LifecycleObserve
     fun checkLastClosedTime() {
         lastSavedTime?.let {
             val currentTime = System.currentTimeMillis()
-            if (currentTime - it > 10000) showCocktailOfTheDayDialog()
+            if (currentTime - it > 10000) {
+                showCocktailOfTheDayDialog()
+                lastSavedTime = null
+            }
         }
     }
 
