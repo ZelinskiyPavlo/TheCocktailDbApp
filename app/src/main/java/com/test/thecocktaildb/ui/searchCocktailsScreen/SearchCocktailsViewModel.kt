@@ -4,25 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
-import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
-import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.PublishSubject
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class SearchCocktailsViewModel(
     stateHandle: SavedStateHandle,
-    private val repository: CocktailsRepository,
     private val cocktailRepo: CocktailRepository,
-    private val cocktailMapper: CocktailModelMapper,
-    private val oldCocktailMapper: CocktailMapper
+    private val cocktailMapper: CocktailModelMapper
 ) : BaseViewModel(stateHandle) {
 
     private val _itemsLiveData = MutableLiveData<List<CocktailModel>>().apply { value = emptyList() }
@@ -51,17 +46,14 @@ class SearchCocktailsViewModel(
     }
 
     private fun performSearch(query: String) {
-        disposable.add(
-            repository.searchCocktails(query).subscribeBy(onSuccess = {
-                _itemsLiveData.value = it.cocktailsList?.run(oldCocktailMapper::mapFromList)
-                Timber.d("Search performed with query $query")
-            }, onError = { Timber.e("Error occurred when searching with $query, $it") })
-        )
+        launchRequest(_itemsLiveData) {
+            cocktailRepo.searchCocktails(query)?.map(cocktailMapper::mapTo) ?: emptyList()
+        }
     }
 
     fun saveCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
         launchRequest {
-            cocktailRepo.addOrReplaceCocktail(cocktailMapper.mapFrom(cocktail))
+            cocktailRepo.addOrReplaceCocktail(cocktail.run(cocktailMapper::mapFrom))
             navigateToCocktailDetailsFragment(cocktail)
         }
     }

@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.presentationNew.model
+package com.test.thecocktaildb.presentationNew.model.cocktail
 
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilterType

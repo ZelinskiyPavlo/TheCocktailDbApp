@@ -12,8 +12,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentFilterBinding
 import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentationNew.model.CocktailAlcoholType
-import com.test.thecocktaildb.presentationNew.model.CocktailCategory
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailAlcoholType
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailCategory
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilter
 import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilterType

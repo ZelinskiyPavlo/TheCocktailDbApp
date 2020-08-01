@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.dataNew.db
 
 object Table {
+    // TODO: 01.08.2020 change database name
     const val COCKTAIL_DB_NAME = "COCKTAIL_DB_NAME"
 
     const val COCKTAIL = "cocktail_entity"

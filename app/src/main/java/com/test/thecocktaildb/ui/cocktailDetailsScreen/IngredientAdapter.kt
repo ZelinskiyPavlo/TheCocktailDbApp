@@ -2,7 +2,7 @@ package com.test.thecocktaildb.ui.cocktailDetailsScreen
 
 import android.view.View
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
 import com.test.thecocktaildb.util.CustomActionListener
 import com.test.thecocktaildb.util.recyclerViewAdapter.BaseAdapter

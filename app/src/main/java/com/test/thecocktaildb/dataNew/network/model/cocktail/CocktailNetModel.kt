@@ -1,5 +1,7 @@
 package com.test.thecocktaildb.dataNew.network.model.cocktail
 
+import java.util.*
+
 data class CocktailNetModel(
     val id: Long = -1L,
     val names: LocalizedStringNetModel = LocalizedStringNetModel(),
@@ -10,4 +12,5 @@ data class CocktailNetModel(
     val instructions: LocalizedStringNetModel = LocalizedStringNetModel(),
     val ingredients: List<String> = emptyList(),
     val measures: List<String> = emptyList(),
+    val date: Date = Date()
 )

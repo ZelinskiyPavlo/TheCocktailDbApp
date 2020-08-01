@@ -3,7 +3,7 @@ package com.test.thecocktaildb.ui.cocktailScreen.adapter
 import android.view.View
 import android.widget.PopupMenu
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
 import com.test.thecocktaildb.util.recyclerViewAdapter.BaseCocktailsAdapter

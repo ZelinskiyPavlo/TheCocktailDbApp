@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.dataNew.db.model
+package com.test.thecocktaildb.dataNew.db.model.cocktail
 
 import androidx.room.DatabaseView
 import androidx.room.Embedded

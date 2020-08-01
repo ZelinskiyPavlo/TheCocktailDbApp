@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.util.recyclerViewAdapter
 
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 
 abstract class BaseCocktailsAdapter<T> : BaseAdapter<CocktailModel>() {
 

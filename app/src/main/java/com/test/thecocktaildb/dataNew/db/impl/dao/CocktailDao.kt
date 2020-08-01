@@ -3,7 +3,7 @@ package com.test.thecocktaildb.dataNew.db.impl.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.test.thecocktaildb.dataNew.db.Table
-import com.test.thecocktaildb.dataNew.db.model.*
+import com.test.thecocktaildb.dataNew.db.model.cocktail.*
 import java.util.*
 
 @Dao

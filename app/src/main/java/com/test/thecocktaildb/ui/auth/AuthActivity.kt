@@ -6,15 +6,11 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
-import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
-import com.test.thecocktaildb.util.AuthViewModelFactory
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
-import kotlinx.android.synthetic.main.activity_auth.*
-import javax.inject.Inject
 
 class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>() {
 

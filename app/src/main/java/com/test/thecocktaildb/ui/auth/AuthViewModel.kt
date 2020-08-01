@@ -42,32 +42,4 @@ class AuthViewModel(
 
             isDataCorrect = (typedLogin == login && typedPassword == password)
 
-            value = isDataCorrect
-        }
-
-        addSource(loginInputLiveData) {
-            invalidateTypedData()
-        }
-        addSource(passwordInputLiveData) {
-            invalidateTypedData()
-        }
-    }
-
-    init {
-        launchRequest {
-            val result = authRepository.signIn(
-                email = "romandrogom@gmail.com",
-                password = "password"
-            )
-
-            withContext(Dispatchers.Main) {
-                Timber.i("Login completed $result")
-            }
-        }
-    }
-
-    fun setInitialText() {
-        loginInputLiveData.value = "SomeLogin"
-        passwordInputLiveData.value = "123456a"
-    }
-}
+class AuthViewModel(savedStateHandle: SavedStateHandle) : BaseViewModel(savedStateHandle)

@@ -2,7 +2,7 @@ package com.test.thecocktaildb.presentationNew.mapper
 
 import com.test.thecocktaildb.dataNew.repository.model.LocalizedStringRepoModel
 import com.test.thecocktaildb.presentationNew.mapper.base.BaseModelMapper
-import com.test.thecocktaildb.presentationNew.model.LocalizedStringModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.LocalizedStringModel
 import javax.inject.Inject
 
 /**

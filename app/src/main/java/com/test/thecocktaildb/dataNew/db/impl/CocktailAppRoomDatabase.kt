@@ -8,7 +8,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.test.thecocktaildb.dataNew.db.impl.dao.CocktailDao
 import com.test.thecocktaildb.dataNew.db.impl.dao.UserDao
 import com.test.thecocktaildb.dataNew.db.impl.typeconverter.StringListToStringConverter
-import com.test.thecocktaildb.dataNew.db.model.*
+import com.test.thecocktaildb.dataNew.db.model.UserDbModel
+import com.test.thecocktaildb.dataNew.db.model.cocktail.*
 import com.test.thecocktaildb.util.DateConverter
 
 // TODO: написати міграцію на 3 версію, з додаванням таблиці User після того як все запрацює

@@ -8,7 +8,7 @@
 
         <variable
             name="obj"
-            type="com.test.thecocktaildb.presentationNew.model.CocktailModel" />
+            type="com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel" />
 
         <variable
             name="listener"

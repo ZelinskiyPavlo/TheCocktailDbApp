@@ -2,7 +2,7 @@ package com.test.thecocktaildb.dataBinding.adapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.IngredientAdapter
 import com.test.thecocktaildb.ui.cocktailScreen.adapter.CocktailAdapter

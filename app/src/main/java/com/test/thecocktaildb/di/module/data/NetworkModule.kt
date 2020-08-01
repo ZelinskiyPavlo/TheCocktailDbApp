@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.test.thecocktaildb.dataNew.network.NetConstant
 import com.test.thecocktaildb.dataNew.network.impl.deserializer.BooleanDeserializer
 import com.test.thecocktaildb.dataNew.network.impl.deserializer.Iso8601DateDeserializer
+import com.test.thecocktaildb.dataNew.network.impl.deserializer.model.CocktailNetModelDeserializer
 import com.test.thecocktaildb.dataNew.network.impl.extension.deserializeType
 import com.test.thecocktaildb.dataNew.network.impl.interceptor.*
 import com.test.thecocktaildb.dataNew.network.impl.service.AuthApiService
@@ -12,6 +13,7 @@ import com.test.thecocktaildb.dataNew.network.impl.service.UserApiService
 import com.test.thecocktaildb.dataNew.network.impl.source.AuthNetSourceImpl
 import com.test.thecocktaildb.dataNew.network.impl.source.CocktailNetSourceImpl
 import com.test.thecocktaildb.dataNew.network.impl.source.UserNetSourceImpl
+import com.test.thecocktaildb.dataNew.network.model.cocktail.CocktailNetModel
 import com.test.thecocktaildb.dataNew.network.source.AuthNetSource
 import com.test.thecocktaildb.dataNew.network.source.CocktailNetSource
 import com.test.thecocktaildb.dataNew.network.source.UserNetSource
@@ -20,6 +22,7 @@ import com.test.thecocktaildb.di.DiConstant
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
@@ -65,10 +68,27 @@ class NetworkModule {
         }
     }
 
-//    @Singleton
-//    @Provides
-//    @Named(DiConstant.COCKTAIL_RETROFIT)
-//    fun provideCocktailRetrofit(): Retrofit = TODO()
+    @Singleton
+    @Provides
+    @Named(DiConstant.COCKTAIL_RETROFIT)
+    fun provideCocktailRetrofit(): Retrofit {
+        val okHttpClientBuilder = provideOkHttpClientBuilder()
+        configureOkHttpInterceptors(okHttpClientBuilder)
+
+        with(Retrofit.Builder()) {
+            addConverterFactory(
+                GsonConverterFactory.create(
+                    baseGsonBuilder.registerTypeAdapter(
+                        deserializeType<CocktailNetModel>(), CocktailNetModelDeserializer()
+                    ).create()
+                )
+            )
+            client(okHttpClientBuilder.build())
+            baseUrl(NetConstant.Base_Url.COCKTAIL)
+
+            return build()
+        }
+    }
 
 //    @Singleton
 //    @Provides
@@ -158,10 +178,10 @@ class NetworkModule {
         okHttpClientBuilder: OkHttpClient.Builder
     ) {
 
-//        // OkHttp Logger
-//        val logger = HttpLoggingInterceptor()
-//        logger.level = HttpLoggingInterceptor.Level.BODY
-//        okHttpClientBuilder.addInterceptor(logger)
+        // OkHttp Logger
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        okHttpClientBuilder.addInterceptor(logger)
 
         // Postman Mock
         okHttpClientBuilder.addInterceptor(PostmanMockInterceptor())

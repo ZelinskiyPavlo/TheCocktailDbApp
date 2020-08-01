@@ -6,6 +6,4 @@ object DiConstant {
     const val COCKTAIL_RETROFIT = "COCKTAIL_RETROFIT"
     const val UPLOAD_RETROFIT = "UPLOAD_RETROFIT"
 
-    const val OLD_RETROFIT = "OLD_RETROFIT"
-
 }

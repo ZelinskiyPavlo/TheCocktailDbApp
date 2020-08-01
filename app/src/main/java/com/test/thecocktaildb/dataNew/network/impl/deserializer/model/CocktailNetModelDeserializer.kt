@@ -1,110 +1,70 @@
 package com.test.thecocktaildb.dataNew.network.impl.deserializer.model
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
+import com.google.gson.*
+import com.test.thecocktaildb.dataNew.network.impl.extension.deserializeType
 import com.test.thecocktaildb.dataNew.network.impl.extension.getMemberStringOrEmpty
 import com.test.thecocktaildb.dataNew.network.model.cocktail.CocktailNetModel
 import com.test.thecocktaildb.dataNew.network.model.cocktail.LocalizedStringNetModel
 import java.lang.reflect.Type
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 class CocktailNetModelDeserializer : JsonDeserializer<CocktailNetModel> {
+
+    private val dateType = deserializeType<Date>()
+    private val ingredientMap = LinkedHashMap<String, String>()
 
     @Throws(JsonParseException::class)
     override fun deserialize(
         json: JsonElement?, typeOfT: Type,
         context: JsonDeserializationContext
-    ): CocktailNetModel {
+    ) = json!!.asJsonObject!!.let { jsonObject ->
+        groupIngredient(jsonObject)
 
-        return json!!.asJsonObject!!.let { jsonObject ->
-            val drinksJsonArray = jsonObject.get("drinks").asJsonArray
-            val drinkJsonObject = drinksJsonArray.first().asJsonObject
+        CocktailNetModel(
+            id = jsonObject.get("idDrink").asLong,
+            names = LocalizedStringNetModel(
+                default = jsonObject.getMemberStringOrEmpty("strDrink"),
+                defaultAlternate = jsonObject.getMemberStringOrEmpty("strDrinkAlternate"),
+                es = jsonObject.getMemberStringOrEmpty("strDrinkES"),
+                de = jsonObject.getMemberStringOrEmpty("strDrinkDE"),
+                fr = jsonObject.getMemberStringOrEmpty("strDrinkFR"),
+                zhHans = jsonObject.getMemberStringOrEmpty("strDrinkZH-HANS"),
+                zhHant = jsonObject.getMemberStringOrEmpty("strDrinkZH-HANT")
+            ),
+            category = jsonObject.getMemberStringOrEmpty("strCategory"),
+            alcoholType = jsonObject.getMemberStringOrEmpty("strAlcoholic"),
+            glass = jsonObject.getMemberStringOrEmpty("strGlass"),
+            image = jsonObject.getMemberStringOrEmpty("strDrinkThumb"),
+            instructions = LocalizedStringNetModel(
+                default = jsonObject.getMemberStringOrEmpty("strInstructions"),
+                defaultAlternate = jsonObject.getMemberStringOrEmpty("strInstructionsAlternate"),
+                es = jsonObject.getMemberStringOrEmpty("strInstructionsES"),
+                de = jsonObject.getMemberStringOrEmpty("strInstructionsDE"),
+                fr = jsonObject.getMemberStringOrEmpty("strInstructionsFR"),
+                zhHans = jsonObject.getMemberStringOrEmpty("strInstructionsZH-HANS"),
+                zhHant = jsonObject.getMemberStringOrEmpty("strInstructionsZH-HANT"),
+            ),
+            ingredients = ingredientMap.keys.filter { it.isNotEmpty() },
+            measures = ingredientMap.values.take(
+                ingredientMap.keys.indexOf("")
+            ),
+            date = when {
+                jsonObject.has("dateModified") && !jsonObject.get("dateModified").isJsonNull -> {
+                    context.deserialize(jsonObject.get("dateModified"), dateType)
+                }
+                else -> Date()
+            }
+        )
+    }
 
-            CocktailNetModel(
-                id = drinkJsonObject.get("id").asLong,
-                names = LocalizedStringNetModel(
-                    drinkJsonObject.getMemberStringOrEmpty("strDrink"),
-                    drinkJsonObject.getMemberStringOrEmpty("strDrinkAlternate"),
-                    drinkJsonObject.getMemberStringOrEmpty("strDrinkES"),
-                    drinkJsonObject.getMemberStringOrEmpty("strDrinkDE"),
-                    drinkJsonObject.getMemberStringOrEmpty("strDrinkFR"),
-                    drinkJsonObject.getMemberStringOrEmpty("strDrinkZH-HANS"),
-                    drinkJsonObject.getMemberStringOrEmpty("strDrinkZH-HANT")
-                ),
-                category = drinkJsonObject.getMemberStringOrEmpty("strCategory"),
-                alcoholType = drinkJsonObject.getMemberStringOrEmpty("strAlcoholic"),
-                glass = drinkJsonObject.getMemberStringOrEmpty("strGlass"),
-                image = drinkJsonObject.getMemberStringOrEmpty("strDrinkThumb"),
-                instructions = LocalizedStringNetModel(
-                    default = drinkJsonObject.getMemberStringOrEmpty("strInstructions"),
-                    es = drinkJsonObject.getMemberStringOrEmpty("strInstructionsES"),
-                    de = drinkJsonObject.getMemberStringOrEmpty("strInstructionsDE"),
-                    fr = drinkJsonObject.getMemberStringOrEmpty("strInstructionsFR"),
-                    zhHans = drinkJsonObject.getMemberStringOrEmpty("strInstructionsZH-HANS"),
-                    zhHant = drinkJsonObject.getMemberStringOrEmpty("strInstructionsZH-HANT"),
-                ),
-                ingredients = mutableListOf<String>().apply {
-                    repeat(15) { i ->
-                        drinkJsonObject.getMemberStringOrEmpty("strIngredient${i + 1}")
-                    }
-                }.toList(),
-                measures = mutableListOf<String>().apply {
-                    repeat(15) { i ->
-                        drinkJsonObject.getMemberStringOrEmpty("strMeasure${i + 1}")
-                    }
-                }.toList()
-            )
+    private fun groupIngredient(jsonObject: JsonObject) {
+        ingredientMap.clear()
+        (1..15).forEach { i ->
+            val ingredientKey = jsonObject.getMemberStringOrEmpty("strIngredient${i}")
+            val measureValue = jsonObject.getMemberStringOrEmpty("strMeasure${i}")
+
+            ingredientMap[ingredientKey] = measureValue
         }
     }
 }
-//                Це напевно таким способом потрібно викликати якраз цей десеріалайзер
-//                list.add(context.deserialize(it, deserializeType<CocktailNetModel>()))
-
-
-//EXAMPLE
-//    @Throws(JsonParseException::class)
-//    override fun deserialize(json: JsonElement?, type: Type, context: JsonDeserializationContext): ClinicNetModel {
-//        return json!!.asJsonObject!!.let { jsonObject ->
-//            val checkMetroKey = if (jsonObject.has("metro_id")) "metro_id" else "metro_ids"
-//            val metroIds = jsonObject.getIfHasMember(checkMetroKey).let { element ->
-//                when {
-//                    element == null -> emptyList()
-//                    element.isJsonArray -> element.asJsonArray.map { if (it.isJsonPrimitive) it.asLong else -1L }
-//                        .filter { it > -1L }
-//                    element.isJsonPrimitive -> listOf(element.asLong)
-//                    else -> emptyList()
-//                }
-//            }
-//            val checkMetroStationsKey = if (jsonObject.has("metro_station")) "metro_station" else "metro_stations"
-//            val metroStations = jsonObject.getIfHasMember(checkMetroStationsKey).let { element ->
-//                when {
-//                    element == null -> emptyList()
-//                    element.isJsonArray -> element.asJsonArray.map { it.asStringOrEmpty() }.filter { it.isNotEmpty() }
-//                    else -> listOf(element.asStringOrEmpty()).filter { it.isNotEmpty() }
-//                }
-//            }
-//
-//            val id = jsonObject.get("id").asLong
-//            ClinicNetModel(
-//                id = id,
-//                cityId = jsonObject.get("city_id").asLong,
-//                name = jsonObject.getMemberStringOrEmpty("name"),
-//                image = jsonObject.getMemberStringOrEmpty("image"),
-//                address = jsonObject.getMemberStringOrEmpty("address"),
-//                districtId = jsonObject.getIfHasMember("district_id")?.asLong ?: -1L,
-//                neighbourhood = jsonObject.getMemberStringOrEmpty("neighbourhood"),
-//                metroIds = metroIds,
-//                metroStations = metroStations,
-//                latitude = jsonObject.get("location_lat").asDouble,
-//                longitude = jsonObject.get("location_lon").asDouble,
-//                rating = jsonObject.getIfHasMember("rating")?.asInt ?: 0,
-//                specialties = jsonObject.getIfHasMember("specialties")
-//                    ?.let {
-//                        context.deserialize<List<ClinicDoctorSpecialtyNetModel>>(it, clinicDoctorSpecialtyListType)
-//                            .apply { forEach { it.clinicId = id } }
-//                    }
-//                    ?: emptyList()
-//            )
-//        }
-//    }

@@ -24,4 +24,5 @@ abstract class BaseRepoModelMapper<RepoModel, DbModel, NetModel> {
 
     open fun mapDbToRepo(db: List<DbModel>): List<RepoModel> = db.map(::mapDbToRepo)
     open fun mapRepoToDb(repo: List<RepoModel>): List<DbModel> = repo.map(::mapRepoToDb)
+    open fun mapNetToRepo(repo: List<NetModel>): List<RepoModel> = repo.map(::mapNetToRepo)
 }

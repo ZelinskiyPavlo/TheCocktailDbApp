@@ -5,7 +5,7 @@ import com.test.thecocktaildb.dataNew.network.source.base.BaseNetSource
 
 interface CocktailNetSource: BaseNetSource {
 
-    fun searchCocktails(searchQuery: String): List<CocktailNetModel>
+    suspend fun searchCocktails(searchQuery: String): List<CocktailNetModel>
 
-    fun findCocktailById(id: String): CocktailNetModel
+    suspend fun findCocktailById(id: String): CocktailNetModel?
 }

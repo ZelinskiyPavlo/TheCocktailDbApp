@@ -9,11 +9,15 @@ import javax.inject.Inject
 class CocktailNetSourceImpl @Inject constructor(apiService: CocktailApiService):
     BaseNetSourceImpl<CocktailApiService>(apiService), CocktailNetSource {
 
-    override fun searchCocktails(searchQuery: String): List<CocktailNetModel> {
-        TODO()
+    override suspend fun searchCocktails(searchQuery: String): List<CocktailNetModel> {
+        return performRequest {
+            searchCocktails(searchQuery).drinks ?: emptyList()
+        }
     }
 
-    override fun findCocktailById(id: String): CocktailNetModel {
-        TODO("Not yet implemented")
+    override suspend fun findCocktailById(id: String): CocktailNetModel? {
+        return performRequest {
+            findCocktailById(id).drinks?.first()
+        }
     }
 }

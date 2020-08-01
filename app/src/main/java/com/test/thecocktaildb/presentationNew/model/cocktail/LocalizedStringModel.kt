@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.presentationNew.model
+package com.test.thecocktaildb.presentationNew.model.cocktail
 
 class LocalizedStringModel(
     val defaults: String? = null,

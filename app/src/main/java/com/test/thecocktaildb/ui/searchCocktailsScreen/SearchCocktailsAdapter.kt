@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.ui.searchCocktailsScreen
 
 import android.view.View
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 import com.test.thecocktaildb.util.CocktailsItemUserActionListener
 import com.test.thecocktaildb.util.recyclerViewAdapter.BaseCocktailsAdapter
 

@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.util
 
 import android.view.View
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 
 interface CocktailsItemUserActionListener : CustomActionListener {
 

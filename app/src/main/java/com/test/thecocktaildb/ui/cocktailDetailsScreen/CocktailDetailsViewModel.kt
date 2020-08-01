@@ -7,8 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
-import com.test.thecocktaildb.presentationNew.model.CocktailIngredient
-import com.test.thecocktaildb.presentationNew.model.CocktailModel
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailIngredient
+import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable

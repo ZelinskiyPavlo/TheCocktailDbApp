@@ -5,10 +5,8 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
-import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
 import com.test.thecocktaildb.ui.auth.AuthViewModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
@@ -62,34 +60,26 @@ class CocktailDetailsViewModelFactory @Inject constructor(
     }
 }
 
-class HostViewModelFactory @Inject constructor(
-    private val repository: CocktailsRepository
-) : ViewModelAssistedFactory<HostViewModel> {
+class HostViewModelFactory @Inject constructor() : ViewModelAssistedFactory<HostViewModel> {
     override fun create(handle: SavedStateHandle): HostViewModel {
-        return HostViewModel(handle, repository)
+        return HostViewModel(handle)
     }
 }
 
 class MainViewModelFactory @Inject constructor(
-    private val repository: CocktailsRepository,
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
-    private val oldCocktailMapper: CocktailMapper
 ) : ViewModelAssistedFactory<MainViewModel> {
     override fun create(handle: SavedStateHandle): MainViewModel {
-        return MainViewModel(handle, repository, cocktailRepo, cocktailMapper, oldCocktailMapper)
+        return MainViewModel(handle, cocktailRepo, cocktailMapper)
     }
 }
 
 class SearchCocktailsViewModelFactory @Inject constructor(
-    private val repository: CocktailsRepository,
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
-    private val oldCocktailMapper: CocktailMapper
 ) : ViewModelAssistedFactory<SearchCocktailsViewModel> {
     override fun create(handle: SavedStateHandle): SearchCocktailsViewModel {
-        return SearchCocktailsViewModel(
-            handle, repository, cocktailRepo, cocktailMapper, oldCocktailMapper
-        )
+        return SearchCocktailsViewModel(handle, cocktailRepo, cocktailMapper)
     }
 }

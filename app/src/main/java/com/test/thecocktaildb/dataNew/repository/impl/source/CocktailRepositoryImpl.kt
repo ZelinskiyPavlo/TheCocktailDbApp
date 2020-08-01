@@ -3,6 +3,7 @@ package com.test.thecocktaildb.dataNew.repository.impl.source
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.test.thecocktaildb.dataNew.db.source.CocktailDbSource
+import com.test.thecocktaildb.dataNew.network.source.CocktailNetSource
 import com.test.thecocktaildb.dataNew.repository.impl.mapper.CocktailRepoModelMapper
 import com.test.thecocktaildb.dataNew.repository.impl.source.base.BaseRepositoryImpl
 import com.test.thecocktaildb.dataNew.repository.model.CocktailRepoModel
@@ -12,11 +13,16 @@ import javax.inject.Inject
 
 class CocktailRepositoryImpl @Inject constructor(
     private val dbSource: CocktailDbSource,
+    private val netSource: CocktailNetSource,
     private val mapper: CocktailRepoModelMapper
 ) : BaseRepositoryImpl(), CocktailRepository {
 
     override val cocktailListLiveData: LiveData<List<CocktailRepoModel>> =
         dbSource.cocktailListLiveData.map(mapper::mapDbToRepo)
+
+    override suspend fun searchCocktails(query: String): List<CocktailRepoModel>? {
+        return netSource.searchCocktails(query).run(mapper::mapNetToRepo)
+    }
 
     override suspend fun hasCocktails() = dbSource.hasCocktails()
 
@@ -26,6 +32,17 @@ class CocktailRepositoryImpl @Inject constructor(
 
     override suspend fun getCocktailById(id: Long): CocktailRepoModel? {
         return dbSource.getCocktailById(id)?.run(mapper::mapDbToRepo)
+    }
+
+    override suspend fun findCocktailById(id: Long): CocktailRepoModel? {
+        return netSource.findCocktailById(id.toString())?.run(mapper::mapNetToRepo)
+    }
+
+    override suspend fun findAndAddCocktailById(id: Long): CocktailRepoModel? {
+        val cocktail = netSource.findCocktailById(id.toString())?.also {
+            addOrReplaceCocktail(it.run(mapper::mapNetToRepo))
+        }
+        return cocktail?.run(mapper::mapNetToRepo)
     }
 
     override suspend fun getCocktails(): List<CocktailRepoModel>? =

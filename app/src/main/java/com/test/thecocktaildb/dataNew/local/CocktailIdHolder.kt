@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.data
+package com.test.thecocktaildb.dataNew.local
 
 class CocktailIdHolder {
 
