@@ -5,6 +5,7 @@
         <attr name="primary_option_icon" format="reference"/>
         <attr name="secondary_option_icon" format="reference"/>
         <attr name="title_text" format="string"/>
+        <attr name="back_button_visible" format="boolean"/>
     </declare-styleable>
 
 </resources>

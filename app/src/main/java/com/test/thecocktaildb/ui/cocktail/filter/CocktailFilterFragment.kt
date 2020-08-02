@@ -56,7 +56,6 @@ class CocktailFilterFragment :
     }
 
     private fun setupToolbar() {
-        viewDataBinding.filterFragmentToolbar.backButton.visibility = View.GONE
         viewDataBinding.filterFragmentToolbar.primaryOption.visibility = View.GONE
         viewDataBinding.filterFragmentToolbar.secondaryOption.visibility = View.GONE
     }
