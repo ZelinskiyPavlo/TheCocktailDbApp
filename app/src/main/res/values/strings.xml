@@ -35,8 +35,13 @@
 
     <!--region AuthActivity-->
     <string name="login">Login</string>
+    <string name="all_email">Email</string>
+    <string name="all_name">Name</string>
+    <string name="all_last_name">Last name</string>
+    <string name="all_confirm_password">Confirm password</string>
+    <string name="register_fragment_sign_up">Sign up</string>
     <string name="password">Password</string>
-    <string name="button_login">Login</string>
+    <string name="login_fragment_sign_in_button">Sign in</string>
     <!--endregion-->
 
     <!--region FilterFragment related-->

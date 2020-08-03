@@ -1,10 +1,6 @@
 package com.test.thecocktaildb.ui.auth
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -16,62 +12,22 @@ class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>() {
 
     override val contentLayoutResId: Int = R.layout.activity_auth
 
-    @Inject
-    lateinit var authViewModelFactory: AuthViewModelFactory
+    private lateinit var navController: NavController
 
-    override val testViewModel: AuthViewModel by viewModels{
-        SavedStateViewModelFactory(authViewModelFactory, this)
-    }
-
-//    TODO: delete this VM and change name of testViewModel to viewModel
-    val viewModel: AuthViewModel by viewModels {
-        SavedStateViewModelFactory(authViewModelFactory, this)
-    }
+    override val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
-        setWhiteSpaceFilter()
-        viewModel.setInitialText()
+        initNavController()
     }
 
-    override fun configureDataBinding() {
-        super.configureDataBinding()
-        dataBinding.viewModel = viewModel
-        dataBinding.activity = this
+    private fun initNavController() {
+        navController = findNavController(R.id.auth_nav_host_fragment)
     }
 
-    private fun setWhiteSpaceFilter() {
-        val whiteSpaceFilter = InputFilter { source, _, _, _, _, _ ->
-            source.filterNot { char -> char.isWhitespace() }
-        }
-
-        login_edit_text.filters = login_edit_text.filters + whiteSpaceFilter
-        password_edit_text.filters = password_edit_text.filters + whiteSpaceFilter
-    }
-
-    fun onLoginButtonClicked() {
-        val view = this.currentFocus
-        view?.let { v ->
-            val imm =
-                this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(v.windowToken, 0)
-        }
-        if (viewModel.isLoginDataValidLiveData.value == true) {
-            val intent = Intent(this, MainActivity::class.java)
-            this.startActivity(intent)
-            finish()
-        } else {
-            showErrorDialog()
-        }
-    }
-
-    private fun showErrorDialog() {
-        RegularDialogFragment.newInstance {
-            titleText = "Sign in error"
-            rightButtonText = "Ok"
-            descriptionText = "Looks like you provided wrong login or password"
-        }.show(supportFragmentManager, "SignInErrorDialog")
+    companion object {
+        const val EXTRA_KEY_LOG_OUT_EVENT = "EXTRA_KEY_LOG_OUT_EVENT"
     }
 }

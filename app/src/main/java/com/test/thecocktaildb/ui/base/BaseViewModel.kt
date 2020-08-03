@@ -15,10 +15,14 @@ open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
     ): Job {
         return viewModelScope.launch {
             try {
-                withContext(context) { request() }.apply { liveData?.setValue(this) }
+                val result: T = withContext(context) { request() }
+                liveData?.setValue(result)
             } catch (e: Exception) {
                 e.printStackTrace()
-                throw e
+                withContext(Dispatchers.Main) {
+                    errorLiveData.setValue(e)
+                    errorLiveData.setValue(null)
+                }
             }
         }
     }

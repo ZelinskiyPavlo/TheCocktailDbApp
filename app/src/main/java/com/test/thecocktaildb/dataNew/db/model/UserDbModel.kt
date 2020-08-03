@@ -11,6 +11,9 @@ data class UserDbModel(
     @ColumnInfo(name = "id")
     val id: Long = 1L,
 
+    @ColumnInfo(name = "email")
+    val email: String = "",
+
     @ColumnInfo(name = "name")
     val name: String = "",
 

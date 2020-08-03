@@ -13,6 +13,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import icepick.Icepick
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel> : AppCompatActivity(),
@@ -29,7 +30,7 @@ HasAndroidInjector,
 
     abstract val contentLayoutResId: Int
 
-    abstract val testViewModel: VM
+    abstract val viewModel: VM
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
@@ -45,10 +46,22 @@ HasAndroidInjector,
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        testViewModel.errorLiveData.observeNotNull (this@BaseActivity) {
+        viewModel.errorLiveData.observeNotNull (this@BaseActivity) {
             //TODO handle error
             Toast.makeText(this, "error = ${it.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        Timber.i("OnStop called ${this@BaseActivity.javaClass.simpleName}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Timber.i("OnDestroy called ${this@BaseActivity.javaClass.simpleName}")
     }
 
     protected open fun configureDataBinding() {}

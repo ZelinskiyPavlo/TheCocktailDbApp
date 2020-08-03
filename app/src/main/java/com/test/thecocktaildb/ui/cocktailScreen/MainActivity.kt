@@ -36,12 +36,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
 
-    private val mainViewModel: MainViewModel by viewModels {
-        SavedStateViewModelFactory(mainViewModelFactory, this)
-    }
-
-//    TODO: only for testing purpose
-    override val testViewModel: MainViewModel by viewModels {
+    override val viewModel: MainViewModel by viewModels {
         SavedStateViewModelFactory(mainViewModelFactory, this)
     }
 
@@ -76,7 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
     }
 
     private fun setupNavigation() {
-        mainViewModel.cocktailDetailsEventLiveData.observe(this,
+        viewModel.cocktailDetailsEventLiveData.observe(this,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = HostFragmentDirections
@@ -191,7 +186,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
                 when (buttonType) {
                     LeftDialogButton -> dialog.dismiss()
                     RightDialogButton -> {
-                        mainViewModel.openCocktail()
+                        viewModel.openCocktail()
                     }
                 }
             }

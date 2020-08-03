@@ -11,6 +11,9 @@
     <color name="text_default">@color/black</color>
     <color name="text_hint">@color/gray_dove</color>
     <color name="text_white">@color/white</color>
+    <color name="text_link">@color/indigo_900</color>
+
+    <color name="error_text">#E53935</color>
 
     <color name="card_view_background">@color/white</color>
     <color name="section_divider_background">@color/mercury</color>
@@ -42,6 +45,8 @@
 
     <color name="teal_500">#009688</color>
     <color name="mercury">#e7e7e7</color>
+
+    <color name="indigo_900">#1A237E</color>
     <!--endregion-->
 
 </resources>

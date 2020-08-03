@@ -7,6 +7,9 @@ class UserNetModel(
     @SerializedName("id")
     val id: Long = 1L,
 
+    @SerializedName("email")
+    val email: String = "",
+
     @SerializedName("name")
     val name: String = "",
 

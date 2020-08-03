@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
+import com.test.thecocktaildb.dataNew.repository.source.UserRepository
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
-import com.test.thecocktaildb.ui.auth.AuthViewModel
+import com.test.thecocktaildb.ui.auth.login.LoginViewModel
+import com.test.thecocktaildb.ui.auth.register.RegisterViewModel
+import com.test.thecocktaildb.ui.auth.splash.SplashViewModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
 import com.test.thecocktaildb.ui.cocktailScreen.MainViewModel
@@ -34,11 +37,28 @@ interface ViewModelAssistedFactory<T : BaseViewModel> {
     fun create(handle: SavedStateHandle): T
 }
 
-class AuthViewModelFactory @Inject constructor(
+class SplashViewModelFactory @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val userRepo: UserRepository
+) : ViewModelAssistedFactory<SplashViewModel> {
+    override fun create(handle: SavedStateHandle): SplashViewModel {
+        return SplashViewModel(handle, authRepository, userRepo)
+    }
+}
+
+class LoginViewModelFactory @Inject constructor(
     private val authRepository: AuthRepository
-) : ViewModelAssistedFactory<AuthViewModel> {
-    override fun create(handle: SavedStateHandle): AuthViewModel {
-        return AuthViewModel(handle, authRepository)
+) : ViewModelAssistedFactory<LoginViewModel> {
+    override fun create(handle: SavedStateHandle): LoginViewModel {
+        return LoginViewModel(handle, authRepository)
+    }
+}
+
+class RegisterViewModelFactory @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModelAssistedFactory<RegisterViewModel> {
+    override fun create(handle: SavedStateHandle): RegisterViewModel {
+        return RegisterViewModel(handle, authRepository)
     }
 }
 

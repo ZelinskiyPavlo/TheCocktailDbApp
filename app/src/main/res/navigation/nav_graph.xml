@@ -41,6 +41,7 @@
             android:id="@+id/action_searchCocktailsFragment_to_cocktailDetailsFragment"
             app:destination="@id/cocktailDetailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/hostFragment"
         android:name="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragment"
@@ -52,7 +53,11 @@
         <action
             android:id="@+id/action_hostFragment_to_cocktailDetailsFragment"
             app:destination="@id/cocktailDetailsFragment" />
+        <action
+            android:id="@+id/action_hostFragment_to_authActivity"
+            app:destination="@id/authActivity" />
     </fragment>
+
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.test.thecocktaildb.ui.cocktailScreen.favoriteScreen.FavoriteFragment"
@@ -63,4 +68,21 @@
             app:destination="@id/cocktailDetailsFragment" />
     </fragment>
 
+    <activity
+        android:id="@+id/authActivity"
+        android:name="com.test.thecocktaildb.ui.auth.AuthActivity"
+        android:label="AuthActivity"
+        tools:layout="@layout/activity_auth">
+        <argument
+            android:name="logOutEvent"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </activity>
+    <fragment
+        android:id="@+id/splashFragment2"
+        android:name="com.test.thecocktaildb.ui.auth.splash.SplashFragment"
+        android:label="SplashFragment" />
+
 </navigation>
+
+<!--todo позабирати непотрібні action-->
