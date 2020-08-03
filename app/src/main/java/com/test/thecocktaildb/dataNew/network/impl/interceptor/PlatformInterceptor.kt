@@ -12,7 +12,7 @@ class PlatformInterceptor : Interceptor {
         val original = chain.request()
         return with(original.newBuilder()) {
             header(NetConstant.Header.PLATFORM, "android")
-            method(original.method(), original.body())
+            method(original.method, original.body)
             chain.proceed(build())
         }
     }

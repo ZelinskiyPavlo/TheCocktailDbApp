@@ -24,7 +24,7 @@ class TokenInterceptor(
             }
         }
 
-        request.method(original.method(), original.body())
+        request.method(original.method, original.body)
         return chain.proceed(request.build())
     }
 

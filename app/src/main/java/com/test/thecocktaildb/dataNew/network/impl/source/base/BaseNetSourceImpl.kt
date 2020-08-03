@@ -37,7 +37,7 @@ open class BaseNetSourceImpl<ApiService>(private val apiService: ApiService) {
 
         if (throwable is HttpException) {
 
-            val url = throwable.response()?.raw()?.request()?.url().toString()
+            val url = throwable.response()?.raw()?.request?.url.toString()
 
             val errorBody = throwable.response()?.errorBody()
                 ?: throw ApiException(

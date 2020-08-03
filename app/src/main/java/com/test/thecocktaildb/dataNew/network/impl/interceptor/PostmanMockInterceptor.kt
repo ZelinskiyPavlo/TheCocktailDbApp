@@ -11,9 +11,9 @@ class PostmanMockInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val original = chain.request()
         val builder = original.newBuilder()
-        if (original.method() != "GET")
+        if (original.method != "GET")
             builder.addHeader(NetConstant.Header.X_MOCK_MATCH_REQUEST_BODY, "true")
-        builder.method(original.method(), original.body())
+        builder.method(original.method, original.body)
         return chain.proceed(builder.build())
     }
 }

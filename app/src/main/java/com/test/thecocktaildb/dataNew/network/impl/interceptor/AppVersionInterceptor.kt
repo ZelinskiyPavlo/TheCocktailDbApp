@@ -13,7 +13,7 @@ class AppVersionInterceptor : Interceptor {
         val original = chain.request()
         return with(original.newBuilder()) {
             header(NetConstant.Header.APPLICATION_VERSION, BuildConfig.VERSION_NAME)
-            method(original.method(), original.body())
+            method(original.method, original.body)
             chain.proceed(build())
         }
     }

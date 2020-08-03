@@ -16,7 +16,7 @@ class PlatformVersionInterceptor : Interceptor {
                 NetConstant.Header.PLATFORM_VERSION,
                 Build.VERSION.RELEASE ?: "API ${Build.VERSION.SDK_INT}"
             )
-            method(original.method(), original.body())
+            method(original.method, original.body)
             chain.proceed(build())
         }
     }
