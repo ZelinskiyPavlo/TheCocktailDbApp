@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import kotlinx.android.synthetic.main.layout_dialog_simple.*
+import kotlinx.android.synthetic.main.layout_bottom_sheet_dialog.*
 
 abstract class SimpleBaseBottomSheetDialogFragment<
         Data,
@@ -21,7 +21,7 @@ abstract class SimpleBaseBottomSheetDialogFragment<
         Builder : SimpleBaseBottomSheetDialogFragment.SimpleBottomSheetDialogBuilder>
 protected constructor() : BaseBottomSheetDialogFragment<Data, ButtonType, Type>() {
 
-    override val contentLayoutResId = R.layout.layout_dialog_simple
+    override val contentLayoutResId = R.layout.layout_bottom_sheet_dialog
     protected open val extraContentLayoutResId: Int = 0
 
     protected open lateinit var dialogBuilder: Builder
