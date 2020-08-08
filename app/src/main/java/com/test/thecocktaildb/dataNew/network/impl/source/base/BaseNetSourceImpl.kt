@@ -4,6 +4,7 @@ import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.internal.bind.TypeAdapters
 import com.test.thecocktaildb.core.common.exception.ApiException
+import com.test.thecocktaildb.core.common.exception.NoInternetConnectionException
 import org.json.JSONException
 import retrofit2.HttpException
 import java.io.IOException
@@ -89,6 +90,7 @@ open class BaseNetSourceImpl<ApiService>(private val apiService: ApiService) {
                 is JsonParseException -> ApiException.JSON_PARSE
                 is ConnectException -> ApiException.SERVER_NOT_RESPONDING
                 is SocketTimeoutException -> ApiException.SOCKET_TIMEOUT
+                is NoInternetConnectionException -> ApiException.NO_INTERNET_CONNECTION
                 else -> throw throwable
             }
 

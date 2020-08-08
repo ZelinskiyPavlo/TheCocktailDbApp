@@ -7,6 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RegisterViewModel(
     savedStateHandle: SavedStateHandle,
@@ -93,20 +95,21 @@ class RegisterViewModel(
         addSource(confirmPasswordInputLiveData) { invalidateTypedData() }
     }
 
-    private val _registerEventLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val registerEventLiveData: LiveData<Event<Boolean>> = _registerEventLiveData
+    private val _registerEventLiveData: MutableLiveData<Event<Unit>> = MutableLiveData()
+    val registerEventLiveData: LiveData<Event<Unit>> = _registerEventLiveData
 
     fun registerUser() {
-//        launchRequest {
-//            val loginStatus = authRepository.signUp(
-//                email = emailInputLiveData.value,
-//                name = nameInputLiveData.value,
-//                lastName = lastNameInputLiveData.value,
-//                password = passwordInputLiveData.value
-//            )
-//            if (registerStatus)
-//                _loginEventLiveData.postValue(Event(loginStatus))
-//        }
+        launchRequest {
+            authRepository.signUp(
+                email = emailInputLiveData.value!!,
+                name = nameInputLiveData.value!!,
+                lastName = lastNameInputLiveData.value!!,
+                password = passwordInputLiveData.value!!
+            )
+            withContext(Dispatchers.Main) {
+                _registerEventLiveData.value = Event(Unit)
+            }
+        }
     }
 
 }

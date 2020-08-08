@@ -88,7 +88,7 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@{viewModel.isLoginDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
+                android:background="@{viewModel.isDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
                 android:gravity="center"
                 android:onClick="@{() -> fragment.onLoginButtonClicked()}"
                 android:text="@string/login_fragment_sign_in_button"

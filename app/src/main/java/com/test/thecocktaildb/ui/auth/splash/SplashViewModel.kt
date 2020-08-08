@@ -3,37 +3,59 @@ package com.test.thecocktaildb.ui.auth.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.dataNew.repository.source.UserRepository
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.net.ConnectException
+import java.net.InetSocketAddress
+import java.net.Socket
+import java.net.SocketAddress
 
 class SplashViewModel(
     savedStateHandle: SavedStateHandle,
-    private val authRepo: AuthRepository,
     private val userRepo: UserRepository
 ) : BaseViewModel(savedStateHandle) {
 
     private val _loginStatusEventLiveData = MutableLiveData<Event<Boolean>>()
     val loginStatusEventLiveData: LiveData<Event<Boolean>> = _loginStatusEventLiveData
 
-//    fun checkLoginStatus() {
-//        launchRequest {
-//            userRepo.getUser()?.let {
-//                val loginStatus = authRepo.signIn(
-//                    email = "zelinskiypavlo@gmail.com",
-//                    password = "password1"
-//                )
-//                if (loginStatus)
-//                    _loginStatusEventLiveData.postValue(Event(loginStatus))
-//            }
-//            // TODO: 01.08.2020 перевірити чи воно все добре виведе, чи не виведе воно спочатку друге, а потім перше
-//
-//        }
-//    }
+    private val _internetStatusEventLiveData = MutableLiveData<Event<Boolean>>()
+    val internetStatusEventLiveData: LiveData<Event<Boolean>> = _internetStatusEventLiveData
 
     fun checkLoginStatus() {
-//        _loginStatusEventLiveData.value = Event(false)
-        _loginStatusEventLiveData.value = Event(true)
+        launchRequest {
+            if (userRepo.hasUser()) {
+                userRepo.refreshUser()
+                _loginStatusEventLiveData.postValue(Event(true))
+            } else {
+                _loginStatusEventLiveData.postValue(Event(false))
+            }
+        }
+    }
+
+    fun checkInternetConnection() {
+        launchRequest {
+            runCatching {
+                val timeoutMs = 1500
+                val sock = Socket()
+                val sockAddress: SocketAddress = InetSocketAddress("8.8.8.8", 53)
+                sock.connect(sockAddress, timeoutMs)
+                sock.close()
+
+                withContext(Dispatchers.Main) {
+                    _internetStatusEventLiveData.value = Event(true)
+                }
+            }.onFailure { exception ->
+                when (exception) {
+                    is ConnectException ->
+                        withContext(Dispatchers.Main) {
+                            _internetStatusEventLiveData.value = Event(false)
+                        }
+                    else -> throw exception
+                }
+            }
+        }
     }
 }

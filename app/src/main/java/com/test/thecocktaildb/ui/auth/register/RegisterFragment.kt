@@ -80,10 +80,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
 
     private fun setupObserver() {
         viewModel.registerEventLiveData.observe(
-            viewLifecycleOwner, EventObserver { isRegisterSuccessful ->
-                if (isRegisterSuccessful) navigateToCocktailActivity()
-                else showErrorDialog()
+            viewLifecycleOwner, EventObserver {
+                navigateToCocktailActivity()
             })
+
         viewModel.clearErrorTextColorEventLiveData.observe(
             viewLifecycleOwner, EventObserver {
                 clearErrors()
@@ -122,7 +122,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
     }
 
     fun onRegisterButtonClicked() {
-        if (isTypedDataContainErrors()) return
+        if (isTypedDataContainErrors()) {
+            showInvalidInputDialog()
+            return
+        }
 
         val view = activity?.currentFocus
         view?.let { v ->
@@ -134,6 +137,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
     }
 
     private fun isTypedDataContainErrors(): Boolean {
+        if(viewModel.isDataValidLiveData.value == null) return true
         var error = false
 
         fun markFieldAsError(textField: TextInputEditText) {
@@ -178,11 +182,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
         clearFieldError(viewDataBinding.registerConfirmPasswordEt)
     }
 
-    private fun showErrorDialog() {
+    private fun showInvalidInputDialog() {
         RegularDialogFragment.newInstance {
             titleText = "Sign up error"
             rightButtonText = "Ok"
-            descriptionText = "Looks like you provided wrong login or password"
+            descriptionText = "Some of your data didn't match criteria"
         }.show(childFragmentManager, "SignInErrorDialog")
     }
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.test.thecocktaildb.R
@@ -76,7 +75,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
     }
 
     private fun setupObserver() {
-        viewModel.clearErrorTextColorEventLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.clearErrorTextColorEventLiveData.observe(viewLifecycleOwner, {
             clearErrors()
         })
 
@@ -84,7 +83,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
             viewLifecycleOwner,
             EventObserver { isLoggedSuccessful ->
                 if (isLoggedSuccessful) navigateToCocktailActivity()
-                else showErrorDialog()
             })
     }
 
@@ -100,7 +98,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
     }
 
     fun onLoginButtonClicked() {
-        if (isTypedDataContainErrors()) return
+        if (isTypedDataContainErrors()) {
+            showInvalidInputDialog()
+            return
+        }
 
         val view = activity?.currentFocus
         view?.let { v ->
@@ -112,6 +113,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
     }
 
     private fun isTypedDataContainErrors(): Boolean {
+        if(viewModel.isDataValidLiveData.value == null) return true
         var error = false
 
         fun markFieldAsError(textField: TextInputEditText) {
@@ -138,7 +140,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
         clearFieldError(viewDataBinding.passwordEditText)
     }
 
-    private fun showErrorDialog() {
+    private fun showInvalidInputDialog() {
         RegularDialogFragment.newInstance {
             titleText = "Sign in error"
             rightButtonText = "Ok"

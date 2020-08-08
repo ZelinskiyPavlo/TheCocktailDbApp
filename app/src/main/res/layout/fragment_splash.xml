@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.test.thecocktaildb.ui.auth.splash.SplashFragment" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{(view) -> fragment.checkInternetConnection()}">
 
         <ImageView
             android:layout_width="wrap_content"

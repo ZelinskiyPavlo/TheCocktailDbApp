@@ -38,11 +38,10 @@ interface ViewModelAssistedFactory<T : BaseViewModel> {
 }
 
 class SplashViewModelFactory @Inject constructor(
-    private val authRepository: AuthRepository,
     private val userRepo: UserRepository
 ) : ViewModelAssistedFactory<SplashViewModel> {
     override fun create(handle: SavedStateHandle): SplashViewModel {
-        return SplashViewModel(handle, authRepository, userRepo)
+        return SplashViewModel(handle, userRepo)
     }
 }
 

@@ -49,13 +49,21 @@ class NetworkModule {
     @Singleton
     @Provides
     @Named(DiConstant.AUTH_RETROFIT)
-    fun provideAuthRetrofit(tokenRepository: TokenRepository): Retrofit {
+    fun provideAuthRetrofit(
+        tokenRepository: TokenRepository,
+        app: CocktailApplication
+    ): Retrofit {
         val okHttpClientBuilder = provideOkHttpClientBuilder()
 
         okHttpClientBuilder.addInterceptor(TokenInterceptor { tokenRepository.token })
         okHttpClientBuilder.addInterceptor(AppVersionInterceptor())
         okHttpClientBuilder.addInterceptor(PlatformInterceptor())
         okHttpClientBuilder.addInterceptor(PlatformVersionInterceptor())
+        okHttpClientBuilder.addInterceptor(
+            NetworkConnectionInterceptor(
+                app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            )
+        )
 
         configureOkHttpInterceptors(okHttpClientBuilder)
 

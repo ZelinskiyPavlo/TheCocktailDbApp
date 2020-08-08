@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.core.common.exception.NoInternetConnectionError
 import com.test.thecocktaildb.databinding.FragmentSplashBinding
 import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.ui.auth.AuthActivity
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
@@ -34,25 +34,21 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(), Injectable {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        determineNextDestination()
+        setupObserver()
+        navigateToNextScreen()
         return viewDataBinding.root
     }
 
-    private fun determineNextDestination() {
-        if (!isLogOutEvent()) {
-            navigateToNextScreen()
-        }
+    override fun configureDataBinding() {
+        super.configureDataBinding()
+        viewDataBinding.fragment = this
     }
 
-    private fun isLogOutEvent(): Boolean {
-        requireActivity().intent?.extras?.getBoolean(AuthActivity.EXTRA_KEY_LOG_OUT_EVENT)
-            ?.let { logOutEvent ->
-                if (logOutEvent) {
-                    navigateToLoginFragment()
-                    return true
-                }
-            }
-        return false
+    private fun setupObserver() {
+        viewModel.internetStatusEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            if (it) navigateToNextScreen()
+            else handleNoInternetConnectionError(NoInternetConnectionError())
+        })
     }
 
     private fun navigateToNextScreen() {
@@ -73,5 +69,9 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(), Injectable {
         val action = SplashFragmentDirections.actionSplashFragmentToMainActivity()
         findNavController().navigate(action)
         activity?.finish()
+    }
+
+    fun checkInternetConnection() {
+        viewModel.checkInternetConnection()
     }
 }

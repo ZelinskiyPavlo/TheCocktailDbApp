@@ -24,7 +24,7 @@ class LoginViewModel(
 
     private var isDataCorrect = true
 
-    val isLoginDataValidLiveData: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+    val isDataValidLiveData: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         fun invalidateTypedData() {
             val typedEmail = emailInputLiveData.value ?: ""
             val typedPassword = passwordInputLiveData.value ?: ""
@@ -65,14 +65,14 @@ class LoginViewModel(
     }
 
     fun loginUser() {
-//        launchRequest {
-//            val loginStatus = authRepository.signIn(
-//                email = emailInputLiveData.value!!,
-//                password = passwordInputLiveData.value!!
-//            )
-//            if (loginStatus)
-//                _loginEventLiveData.postValue(Event(loginStatus))
-//        }
+        launchRequest {
+            val loginStatus = authRepository.signIn(
+                email = emailInputLiveData.value!!,
+                password = passwordInputLiveData.value!!
+            )
+            if (loginStatus)
+                _loginEventLiveData.postValue(Event(loginStatus))
+        }
     }
 
 }

@@ -26,8 +26,4 @@ class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>() {
     private fun initNavController() {
         navController = findNavController(R.id.auth_nav_host_fragment)
     }
-
-    companion object {
-        const val EXTRA_KEY_LOG_OUT_EVENT = "EXTRA_KEY_LOG_OUT_EVENT"
-    }
 }
