@@ -156,11 +156,6 @@ class CocktailsActivity @Inject constructor() : BaseActivity<ActivityMainBinding
         }
     }
 
-    override fun onDestroy() {
-        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
-        super.onDestroy()
-    }
-
     @Suppress("unused")
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun saveClosedTime() {

@@ -3,10 +3,10 @@ package com.test.thecocktaildb.dataBinding.adapter
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.IngredientsAdapter
-import com.test.thecocktaildb.ui.cocktailsScreen.CocktailsAdapter
-import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsAdapter
+import com.test.thecocktaildb.ui.cocktail.adapter.recyclerview.CocktailsAdapter
+import com.test.thecocktaildb.ui.detail.Ingredient
+import com.test.thecocktaildb.ui.detail.adapter.IngredientsAdapter
+import com.test.thecocktaildb.ui.search.adapter.SearchCocktailsAdapter
 
 @BindingAdapter("bind:rv_cocktails", "bind:rv_adapterTag")
 fun RecyclerView.setItems(items: List<Cocktail>?, tag: AdapterType) {

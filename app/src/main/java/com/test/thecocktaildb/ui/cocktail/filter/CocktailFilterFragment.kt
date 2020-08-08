@@ -42,7 +42,6 @@ class CocktailFilterFragment :
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        attachBindingVariable()
         setupToolbar()
 
         setupFilterPopMenu()
