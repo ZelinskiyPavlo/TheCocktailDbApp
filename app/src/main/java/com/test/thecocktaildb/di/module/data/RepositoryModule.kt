@@ -7,6 +7,7 @@ import com.test.thecocktaildb.dataNew.local.source.TokenLocalSource
 import com.test.thecocktaildb.dataNew.network.impl.source.CocktailNetSourceImpl
 import com.test.thecocktaildb.dataNew.network.source.AuthNetSource
 import com.test.thecocktaildb.dataNew.network.source.UserNetSource
+import com.test.thecocktaildb.dataNew.network.source.UserUploadNetSource
 import com.test.thecocktaildb.dataNew.repository.impl.mapper.CocktailRepoModelMapper
 import com.test.thecocktaildb.dataNew.repository.impl.mapper.UserRepoModelMapper
 import com.test.thecocktaildb.dataNew.repository.impl.source.*
@@ -50,8 +51,10 @@ class RepositoryModule {
     fun provideUserRepository(
         userDbSource: UserDbSource,
         userNetSource: UserNetSource,
+        userUploadNetSource: UserUploadNetSource,
         userModelMapper: UserRepoModelMapper,
-    ): UserRepository = UserRepositoryImpl(userDbSource, userNetSource, userModelMapper)
+    ): UserRepository =
+        UserRepositoryImpl(userDbSource, userNetSource, userUploadNetSource, userModelMapper)
 
     @Singleton
     @Provides

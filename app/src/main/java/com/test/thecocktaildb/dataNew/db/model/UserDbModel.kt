@@ -18,5 +18,8 @@ data class UserDbModel(
     val name: String = "",
 
     @ColumnInfo(name = "last_name")
-    val lastName: String = ""
+    val lastName: String = "",
+
+    @ColumnInfo(name = "avatar")
+    val avatar: String? = null
 )

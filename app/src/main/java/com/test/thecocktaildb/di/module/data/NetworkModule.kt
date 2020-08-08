@@ -1,6 +1,9 @@
 package com.test.thecocktaildb.di.module.data
 
+import android.content.Context
+import android.net.ConnectivityManager
 import com.google.gson.GsonBuilder
+import com.test.thecocktaildb.CocktailApplication
 import com.test.thecocktaildb.dataNew.network.NetConstant
 import com.test.thecocktaildb.dataNew.network.impl.deserializer.BooleanDeserializer
 import com.test.thecocktaildb.dataNew.network.impl.deserializer.Iso8601DateDeserializer
@@ -10,13 +13,16 @@ import com.test.thecocktaildb.dataNew.network.impl.interceptor.*
 import com.test.thecocktaildb.dataNew.network.impl.service.AuthApiService
 import com.test.thecocktaildb.dataNew.network.impl.service.CocktailApiService
 import com.test.thecocktaildb.dataNew.network.impl.service.UserApiService
+import com.test.thecocktaildb.dataNew.network.impl.service.UserUploadService
 import com.test.thecocktaildb.dataNew.network.impl.source.AuthNetSourceImpl
 import com.test.thecocktaildb.dataNew.network.impl.source.CocktailNetSourceImpl
 import com.test.thecocktaildb.dataNew.network.impl.source.UserNetSourceImpl
+import com.test.thecocktaildb.dataNew.network.impl.source.UserUploadNetSourceImpl
 import com.test.thecocktaildb.dataNew.network.model.cocktail.CocktailNetModel
 import com.test.thecocktaildb.dataNew.network.source.AuthNetSource
 import com.test.thecocktaildb.dataNew.network.source.CocktailNetSource
 import com.test.thecocktaildb.dataNew.network.source.UserNetSource
+import com.test.thecocktaildb.dataNew.network.source.UserUploadNetSource
 import com.test.thecocktaildb.dataNew.repository.source.TokenRepository
 import com.test.thecocktaildb.di.DiConstant
 import dagger.Module
@@ -98,10 +104,36 @@ class NetworkModule {
         }
     }
 
-//    @Singleton
-//    @Provides
-//    @Named(DiConstant.UPLOAD_RETROFIT)
-//    fun provideUploadRetrofit(): Retrofit = TODO()
+    @Singleton
+    @Provides
+    @Named(DiConstant.UPLOAD_RETROFIT)
+    fun provideUploadRetrofit(
+        tokenRepository: TokenRepository,
+        app: CocktailApplication
+    ): Retrofit {
+        val okHttpClientBuilder =
+            provideOkHttpClientBuilder(writeTimeoutSeconds = TimeUnit.MINUTES.toSeconds(5L))
+
+        okHttpClientBuilder.addInterceptor(TokenInterceptor { tokenRepository.token })
+        okHttpClientBuilder.addInterceptor(AppVersionInterceptor())
+        okHttpClientBuilder.addInterceptor(PlatformInterceptor())
+        okHttpClientBuilder.addInterceptor(PlatformVersionInterceptor())
+        okHttpClientBuilder.addInterceptor(
+            NetworkConnectionInterceptor(
+                app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            )
+        )
+
+        configureOkHttpInterceptors(okHttpClientBuilder)
+
+        with(Retrofit.Builder()) {
+            addConverterFactory(GsonConverterFactory.create(baseGsonBuilder.create()))
+            client(okHttpClientBuilder.build())
+            baseUrl(NetConstant.Base_Url.Auth)
+
+            return build()
+        }
+    }
 
 
     @Singleton
@@ -124,6 +156,12 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun provideUserUploadService(
+        @Named(DiConstant.UPLOAD_RETROFIT) retrofit: Retrofit
+    ): UserUploadService = retrofit.create(UserUploadService::class.java)
+
+    @Singleton
+    @Provides
     fun provideAuthNetSource(
         authApiService: AuthApiService
     ): AuthNetSource = AuthNetSourceImpl(authApiService)
@@ -139,6 +177,13 @@ class NetworkModule {
     fun provideUserNetSource(
         userApiService: UserApiService
     ): UserNetSource = UserNetSourceImpl(userApiService)
+
+    @Singleton
+    @Provides
+    fun provideUserUploadNetSource(
+        app: CocktailApplication,
+        userUploadService: UserUploadService
+    ): UserUploadNetSource = UserUploadNetSourceImpl(app, userUploadService)
 
     private fun provideOkHttpClientBuilder(
         readTimeoutSeconds: Long = 120,

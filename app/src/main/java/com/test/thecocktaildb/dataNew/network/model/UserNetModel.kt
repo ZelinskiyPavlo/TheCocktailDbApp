@@ -14,5 +14,8 @@ class UserNetModel(
     val name: String = "",
 
     @SerializedName("lastName")
-    val lastName: String = ""
+    val lastName: String = "",
+
+    @SerializedName("avatar")
+    val avatar: String?
 )

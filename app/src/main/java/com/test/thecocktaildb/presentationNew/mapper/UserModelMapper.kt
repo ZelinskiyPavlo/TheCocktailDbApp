@@ -11,7 +11,8 @@ class UserModelMapper @Inject constructor() : BaseModelMapper<UserModel, UserRep
         UserRepoModel(
             id = id,
             name = name,
-            lastName = lastName
+            lastName = lastName,
+            avatar = avatar
         )
     }
 
@@ -19,7 +20,8 @@ class UserModelMapper @Inject constructor() : BaseModelMapper<UserModel, UserRep
         UserModel(
             id = id,
             name = name,
-            lastName = lastName
+            lastName = lastName,
+            avatar = avatar
         )
     }
 }
