@@ -5,6 +5,7 @@ import com.test.thecocktaildb.dataNew.network.model.UserNetModel
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 
 interface UserApiService {
 
@@ -13,7 +14,7 @@ interface UserApiService {
     suspend fun getUser(): UserNetModel
 
     @Headers(TOKEN_HEADER)
-    @GET("users/profile")
+    @POST("users/profile")
     suspend fun updateUser(@Body user: UserNetModel)
 
 }

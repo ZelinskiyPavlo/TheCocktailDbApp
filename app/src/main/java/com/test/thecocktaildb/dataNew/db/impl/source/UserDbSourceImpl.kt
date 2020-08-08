@@ -9,7 +9,7 @@ class UserDbSourceImpl @Inject constructor(private val userDao: UserDao) : UserD
 
     override val userLiveData = userDao.userLiveData
 
-    override suspend fun getUser(): UserDbModel? = getUser()
+    override suspend fun getUser(): UserDbModel? = userDao.getUser()
 
     override suspend fun saveUser(user: UserDbModel) = userDao.saveUser(user)
 

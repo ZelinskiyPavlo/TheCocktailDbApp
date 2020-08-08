@@ -23,7 +23,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(), Injectable {
     @Inject
     lateinit var splashViewModelFactory: SplashViewModelFactory
 
-    private val viewModel: SplashViewModel by viewModels {
+    override val viewModel: SplashViewModel by viewModels {
         SavedStateViewModelFactory(splashViewModelFactory, this)
     }
 

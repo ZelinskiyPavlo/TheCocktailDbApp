@@ -44,7 +44,7 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
     @Inject
     lateinit var hostViewModelFactory: HostViewModelFactory
 
-    private val viewModel: HostViewModel by viewModels {
+    override val viewModel: HostViewModel by viewModels {
         SavedStateViewModelFactory(hostViewModelFactory, this)
     }
 

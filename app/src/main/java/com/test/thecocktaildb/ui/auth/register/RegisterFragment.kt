@@ -30,7 +30,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
     @Inject
     lateinit var registerViewModelFactory: RegisterViewModelFactory
 
-    val viewModel: RegisterViewModel by viewModels {
+    override val viewModel: RegisterViewModel by viewModels {
         SavedStateViewModelFactory(registerViewModelFactory, this)
     }
 

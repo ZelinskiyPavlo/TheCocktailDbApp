@@ -30,7 +30,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
     @Inject
     lateinit var loginViewModelFactory: LoginViewModelFactory
 
-    val viewModel: LoginViewModel by viewModels {
+    override val viewModel: LoginViewModel by viewModels {
         SavedStateViewModelFactory(loginViewModelFactory, this)
     }
 

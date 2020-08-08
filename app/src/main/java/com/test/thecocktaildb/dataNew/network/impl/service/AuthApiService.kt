@@ -11,4 +11,7 @@ interface AuthApiService {
     @POST("login")
     suspend fun signIn(@Body jsonObject: JsonObject): TokenNetModel
 
+    @POST("register")
+    suspend fun signUp(@Body jsonObject: JsonObject): TokenNetModel
+
 }

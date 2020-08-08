@@ -8,7 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.test.thecocktaildb.core.common.exception.*
 import com.test.thecocktaildb.di.Injectable
+import com.test.thecocktaildb.presentationNew.extension.observeNotNull
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
 import icepick.Icepick
@@ -22,6 +25,10 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
     protected open lateinit var viewDataBinding: VDB
 
     abstract val layoutId: Int
+
+    open val viewModel: BaseViewModel by viewModels()
+
+    private val errorHandler: SimpleErrorHandler by lazy { SimpleErrorHandler(childFragmentManager) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,15 +46,47 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
     protected open fun configureDataBinding() {}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        configureView(savedInstanceState)
-        configureObserver()
+        addViewModelErrorObserver(viewModel)
     }
 
-    protected open fun configureView(savedInstanceState: Bundle?) {
+    protected fun addViewModelErrorObserver(viewModel: BaseViewModel) {
+        viewModel.errorLiveData.observeNotNull(viewLifecycleOwner, {
+            handleError(it)
+        })
     }
 
-    protected open fun configureObserver() {
+    private fun handleError(e: RequestError) {
+        when (e) {
+            is LoginError -> handleLoginError(e)
+            is RegistrationError -> handleRegistrationError(e)
+            is ApiError -> handleApiError(e)
+            is UnAuthorizedAccessError -> handleUnAuthorizedAccessError(e)
+            is ServerError -> handleServerError(e)
+            is ServerRespondingError -> handleServerRespondingError(e)
+            is UnknownError -> handleUnknownError(e)
+            is CancellationError -> handleCancellationError(e)
+            is NoInternetConnectionError -> handleNoInternetConnectionError(e)
+        }
     }
+
+    protected open fun handleLoginError(e: LoginError) =
+        errorHandler.handleLoginError(e)
+    protected open fun handleRegistrationError(e: RegistrationError) =
+        errorHandler.handleRegistrationError(e)
+    protected open fun handleApiError(e: ApiError) =
+        errorHandler.handleApiError(e)
+    protected open fun handleUnAuthorizedAccessError(e: UnAuthorizedAccessError) =
+        errorHandler.handleUnAuthorizedAccessError(e)
+    protected open fun handleServerError(e: ServerError) =
+        errorHandler.handleServerError(e)
+    protected open fun handleServerRespondingError(e: ServerRespondingError) =
+        errorHandler.handleServerRespondingError(e)
+    protected open fun handleUnknownError(e: UnknownError) =
+        errorHandler.handleUnknownError(e)
+    protected open fun handleCancellationError(e: CancellationError) =
+        errorHandler.handleCancellationError(e)
+    protected open fun handleNoInternetConnectionError(e: NoInternetConnectionError) =
+        errorHandler.handleNoInternetConnectionError(e)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -74,7 +113,6 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
         type: DialogType<DialogButton>,
         data: Any?
     ) {
-
     }
 
     override fun onBottomSheetDialogFragmentClick(
@@ -83,6 +121,5 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
         type: DialogType<DialogButton>,
         data: Any?
     ) {
-
     }
 }

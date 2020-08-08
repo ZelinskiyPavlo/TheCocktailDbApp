@@ -19,4 +19,22 @@ class AuthNetSourceImpl @Inject constructor(apiService: AuthApiService) :
             ).token
         }
     }
+
+    override suspend fun signUp(
+        name: String,
+        lastName: String,
+        email: String,
+        password: String
+    ): String {
+        return performRequest {
+            signUp(
+                JsonObject().apply {
+                    addProperty("name", name)
+                    addProperty("lastName", lastName)
+                    addProperty("email", email)
+                    addProperty("password", password)
+                }
+            ).token
+        }
+    }
 }

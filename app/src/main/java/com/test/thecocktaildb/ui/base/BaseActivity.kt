@@ -1,12 +1,17 @@
 package com.test.thecocktaildb.ui.base
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LiveData
+import com.test.thecocktaildb.core.common.exception.RequestError
 import com.test.thecocktaildb.presentationNew.extension.observeNotNull
+import com.test.thecocktaildb.presentationNew.extension.observeNotNullOnce
+import com.test.thecocktaildb.presentationNew.extension.observeTillDestroy
+import com.test.thecocktaildb.presentationNew.extension.observeTillDestroyNotNull
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
 import dagger.android.AndroidInjector
@@ -16,8 +21,8 @@ import icepick.Icepick
 import timber.log.Timber
 import javax.inject.Inject
 
-abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel> : AppCompatActivity(),
-HasAndroidInjector,
+abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity(),
+    HasAndroidInjector,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseDialogFragment.OnDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
@@ -43,13 +48,32 @@ HasAndroidInjector,
         Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
+    protected open fun configureDataBinding() {
+        //stub
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        viewModel.errorLiveData.observeNotNull (this@BaseActivity) {
-            //TODO handle error
-            Toast.makeText(this, "error = ${it.message}", Toast.LENGTH_SHORT).show()
+        addViewModelErrorObserver(viewModel)
+    }
+
+    protected fun addViewModelErrorObserver(viewModel: BaseViewModel) {
+        viewModel.errorLiveData.observeNotNull {
+            handleError(it)
         }
+    }
+
+    protected open fun handleError(e: RequestError) {
+
+    }
+
+    protected open fun configureView(savedInstanceState: Bundle?) {
+        //stub
+    }
+
+    protected open fun configureObserver() {
+        //stub
     }
 
     override fun onStop() {
@@ -64,12 +88,37 @@ HasAndroidInjector,
         Timber.i("OnDestroy called ${this@BaseActivity.javaClass.simpleName}")
     }
 
-    protected open fun configureDataBinding() {}
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Icepick.saveInstanceState(this, outState)
     }
+
+    //region Convenient Observe Methods
+    @MainThread
+    protected inline fun <reified T> LiveData<T>.observe(noinline observer: (T) -> Unit) {
+        this.observe(this@BaseActivity, observer)
+    }
+
+    @MainThread
+    protected fun <T> LiveData<T?>.observeNotNull(observer: (T) -> Unit) {
+        this.observeNotNull(this@BaseActivity, observer)
+    }
+
+    @MainThread
+    protected inline fun <T> LiveData<T?>.observeTillDestroyNotNull(crossinline observer: (T) -> Unit) {
+        this.observeTillDestroyNotNull(this@BaseActivity, observer)
+    }
+
+    @MainThread
+    protected inline fun <T> LiveData<T>.observeTillDestroy(crossinline observer: (T) -> Unit) {
+        this.observeTillDestroy(this@BaseActivity, observer)
+    }
+
+    @MainThread
+    protected inline fun <T> LiveData<T>.observeNonNullOnce(crossinline observer: (T) -> Unit) {
+        this.observeNotNullOnce(this@BaseActivity, observer)
+    }
+    //endregion
 
     override fun onDialogFragmentDismiss(
         dialog: DialogFragment,

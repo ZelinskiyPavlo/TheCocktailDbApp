@@ -29,7 +29,7 @@ class SearchCocktailsFragment : Injectable,
     @Inject
     lateinit var searchCocktailsViewModelFactory: SearchCocktailsViewModelFactory
 
-    val viewModel: SearchCocktailsViewModel by viewModels {
+    override val viewModel: SearchCocktailsViewModel by viewModels {
         SavedStateViewModelFactory(searchCocktailsViewModelFactory, this) }
 
     override fun onCreateView(

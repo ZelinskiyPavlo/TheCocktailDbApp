@@ -29,7 +29,7 @@ class CocktailDetailsFragment : Injectable,
     @Inject
     lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
 
-    private val viewModel by viewModels<CocktailDetailsViewModel> {
+    override val viewModel by viewModels<CocktailDetailsViewModel> {
         SavedStateViewModelFactory(cocktailDetailsVmFactory, this)
     }
 

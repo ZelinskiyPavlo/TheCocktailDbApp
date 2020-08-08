@@ -22,8 +22,7 @@ data class ApiException(
      */
     override val cause: Throwable? = null
 ) : RuntimeException(
-    "Api error: method=[$method], code=[$code], details=[$details]",
-    cause
+    "Api error: method=[$method], code=[$code], details=[$details]", cause
 ) {
 
     companion object {
@@ -35,5 +34,7 @@ data class ApiException(
         const val SERVER_NOT_RESPONDING = 2
         const val SOCKET_TIMEOUT = 3
         const val SERVER_ERROR = 4
+
+        const val NO_INTERNET_CONNECTION = 5
     }
 }
