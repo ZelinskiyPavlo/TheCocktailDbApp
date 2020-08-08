@@ -21,19 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/host_toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="?attr/actionBarSize" />-->
-
             <com.test.thecocktaildb.ui.custom.CustomToolbar
                 android:id="@+id/host_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:title_text="@string/app_name_simplified"
                 app:primary_option_icon="@drawable/ic_filter_list_24"
-                app:secondary_option_icon="@drawable/ic_sort_24"
-                />
+                app:secondary_option_icon="@drawable/ic_sort_24" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -63,50 +57,6 @@
                     app:layout_constraintTop_toBottomOf="@id/tl_main_fragment"
                     bind:vp_page="@={Converter.convertPageToInt(viewModel.currentPageLiveData)}"
                     />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="@dimen/margin_16dp"
-                    android:layout_marginEnd="@dimen/margin_16dp"
-                    android:layout_marginBottom="@dimen/margin_16dp"
-                    android:background="@drawable/bg_battery_state_view"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/margin_16dp"
-                    android:paddingEnd="@dimen/margin_16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/search_fab"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/search_fab">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@{viewModel.batteryPercentLiveData}"
-                        android:textAppearance="@style/TextRegular"
-                        android:textColor="@color/text_white"
-                        tools:text="50%" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_battery_24"
-                        bind:iv_batteryBar_tint="@{viewModel.isBatteryChargingLiveData()}"
-                        android:contentDescription="@null" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@{viewModel.batteryStatusLiveData}"
-                        android:textAppearance="@style/TextRegular"
-                        android:textColor="@color/text_white"
-                        tools:text="BATTERY_OKAY" />
-
-                </LinearLayout>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/search_fab"

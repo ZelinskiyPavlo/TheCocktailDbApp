@@ -17,7 +17,7 @@ import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.base.BaseDialogFragment
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragmentDirections
 import com.test.thecocktaildb.ui.dialog.*
-import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
+import com.test.thecocktaildb.ui.setting.SettingFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.MainViewModelFactory
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
@@ -46,7 +46,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
 
     private var navHost: Fragment? = null
 
-    private lateinit var profileFragment: ProfileFragment
+    private lateinit var settingFragment: SettingFragment
 
     @JvmField
     @State
@@ -59,7 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
         attachLifecycleObserver()
 
         setupNavigation()
-        setupBottomNavigation()
+        setupBottomNavigation(savedInstanceState)
     }
 
     private fun initNavHost() {
@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
             })
     }
 
-    private fun setupBottomNavigation() {
+    private fun setupBottomNavigation(savedInstanceState: Bundle?) {
         val bottomNavigation = main_activity_bnv
 
         fun changeBottomNavTitleVisibility(isVisible: Boolean) {
@@ -89,30 +89,26 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
                 else LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
         }
 
-        profileFragment = ProfileFragment.newInstance()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.profile_fragment_container, profileFragment)
-            .hide(profileFragment)
-            .commit()
+        createOrRestoreSettingFragment(savedInstanceState)
 
         bottomNavigation.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.bnv_main_fragment -> {
                     selectedTab = R.id.bnv_main_fragment
                     supportFragmentManager.beginTransaction()
-                        .hide(profileFragment)
+                        .hide(settingFragment)
                         .show(navHost!!)
                         .setPrimaryNavigationFragment(navHost!!)
                         .commit()
                     true
                 }
-                R.id.bnv_profile_fragment -> {
+                R.id.bnv_setting_fragment -> {
                     if (navHost != null) {
-                        selectedTab = R.id.bnv_profile_fragment
+                        selectedTab = R.id.bnv_setting_fragment
                         supportFragmentManager.beginTransaction()
-                            .show(profileFragment)
+                            .show(settingFragment)
                             .hide(navHost!!)
-                            .setPrimaryNavigationFragment(profileFragment)
+                            .setPrimaryNavigationFragment(settingFragment)
                             .commit()
                     }
                     true
@@ -126,6 +122,28 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
         })
 
         bottomNavigation.selectedItemId = selectedTab ?: R.id.bnv_main_fragment
+    }
+
+    private fun createOrRestoreSettingFragment(savedInstanceState: Bundle?) {
+        settingFragment = SettingFragment.newInstance()
+        if (savedInstanceState != null) {
+            settingFragment.setInitialSavedState(
+                savedInstanceState.getParcelable(SettingFragment::class.java.name)
+            )
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.setting_fragment_container, settingFragment)
+            .hide(settingFragment)
+            .commit()
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelable(
+            SettingFragment::class.java.name,
+            supportFragmentManager.saveFragmentInstanceState(settingFragment)
+        )
+        super.onSaveInstanceState(outState)
     }
 
     override fun onStart() {
@@ -148,12 +166,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
     fun checkLastClosedTime() {
         lastSavedTime?.let {
             val currentTime = System.currentTimeMillis()
-            if (currentTime - it > 10000) showCocktailOfTheDayDialog()
+            if (currentTime - it > 10000 && checkSuitableFragment()) showCocktailOfTheDayDialog()
         }
     }
 
     override fun onDestroy() {
         ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+        lastSavedTime = null
         super.onDestroy()
     }
 
@@ -161,6 +180,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun saveClosedTime() {
         lastSavedTime = System.currentTimeMillis()
+    }
+
+    private fun checkSuitableFragment(): Boolean {
+        return supportFragmentManager.fragments.lastOrNull().let { fragment ->
+            return@let fragment != null && fragment.id != R.id.setting_fragment_container
+        }
     }
 
     // TODO: extract string resources

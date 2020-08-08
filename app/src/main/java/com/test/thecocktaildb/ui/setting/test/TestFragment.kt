@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.ui.profileScreen
+package com.test.thecocktaildb.ui.setting.test
 
 import android.content.Context
 import android.graphics.Color
@@ -88,7 +88,7 @@ class TestFragment : Fragment() {
             val testFragment1 = newInstance(testNumber!!.inc())
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.profile_fragment_container, testFragment1)
+                .add(R.id.setting_fragment_container, testFragment1)
                 .addToBackStack("transaction_1")
                 .apply { commit() }
 
@@ -97,8 +97,8 @@ class TestFragment : Fragment() {
             val testFragment3 = newInstance(testNumber!!.inc())
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.profile_fragment_container, testFragment2)
-                .add(R.id.profile_fragment_container, testFragment3)
+                .add(R.id.setting_fragment_container, testFragment2)
+                .add(R.id.setting_fragment_container, testFragment3)
                 .addToBackStack("transaction_2")
                 .apply { commit() }
 
@@ -106,8 +106,8 @@ class TestFragment : Fragment() {
             val testFragment5 = newInstance(testNumber!!, TEST_STRING)
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.profile_fragment_container, testFragment4)
-                .add(R.id.profile_fragment_container, testFragment5)
+                .add(R.id.setting_fragment_container, testFragment4)
+                .add(R.id.setting_fragment_container, testFragment5)
                 .apply { commit() }
 
             if (optionalString != null) {

@@ -3,10 +3,7 @@ package com.test.thecocktaildb.presentationNew.extension
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.MainThread
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 
 // TODO: розібратися у всіх цих розширеннях
 @MainThread
@@ -89,7 +86,10 @@ inline fun <reified T, reified R : Collection<T>> LiveData<R>.observeNotEmptyOnc
 }
 
 @MainThread
-inline fun <T> LiveData<T>.observeNotNullOnce(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
+inline fun <T> LiveData<T>.observeNotNullOnce(
+    owner: LifecycleOwner,
+    crossinline observer: (T) -> Unit
+) {
     observe(owner, object : Observer<T> {
         override fun onChanged(t: T) {
             if (t != null) {
@@ -114,7 +114,10 @@ inline fun <reified T, reified R> LiveData<T?>.mapNotNull(crossinline predicate:
 //        it.addSource(this) { newValue -> if (newValue != null) it.value = newValue.predicate() }
 //    }
 
-fun <T> LiveData<T>.mapWithPrevious(initialValue: T, predicate: (current: T, new: T) -> T): LiveData<T> =
+fun <T> LiveData<T>.mapWithPrevious(
+    initialValue: T,
+    predicate: (current: T, new: T) -> T
+): LiveData<T> =
     MediatorLiveData<T>().also {
         it.value = predicate(it.value ?: initialValue, this.value ?: initialValue)
         it.addSource(this) { newValue ->
@@ -151,35 +154,41 @@ fun <T> LiveData<T>.distinctNotNullValues(onDistinct: (current: T, new: T) -> Un
         }
     }
 
-//@MainThread
-//inline fun <T> LiveData<T?>.observeTillDestroyNotNull(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
-//    if (owner.lifecycle.currentState == Lifecycle.State.DESTROYED) return
-//
-//    val liveDataObserver = Observer<T?> {
-//        if (it != null && owner.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED))
-//            observer(it)
-//    }
-//
-//    owner.lifecycle.addObserver(
-//        onCreate = { observeForever(liveDataObserver) },
-//        onDestroy = { removeObserver(liveDataObserver) }
-//    )
-//}
-//
-//@MainThread
-//inline fun <T> LiveData<T>.observeTillDestroy(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
-//    if (owner.lifecycle.currentState == Lifecycle.State.DESTROYED) return
-//
-//    val liveDataObserver = Observer<T?> {
-//        if (it != null && owner.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED))
-//            observer(it)
-//    }
-//
-//    owner.lifecycle.addObserver(
-//        onCreate = { observeForever(liveDataObserver) },
-//        onDestroy = { removeObserver(liveDataObserver) }
-//    )
-//}
+@MainThread
+inline fun <T> LiveData<T?>.observeTillDestroyNotNull(
+    owner: LifecycleOwner,
+    crossinline observer: (T) -> Unit
+) {
+    if (owner.lifecycle.currentState == Lifecycle.State.DESTROYED) return
+
+    val liveDataObserver = Observer<T?> {
+        if (it != null && owner.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED))
+            observer(it)
+    }
+
+    owner.lifecycle.addObserver(
+        onCreate = { observeForever(liveDataObserver) },
+        onDestroy = { removeObserver(liveDataObserver) }
+    )
+}
+
+@MainThread
+inline fun <T> LiveData<T>.observeTillDestroy(
+    owner: LifecycleOwner,
+    crossinline observer: (T) -> Unit
+) {
+    if (owner.lifecycle.currentState == Lifecycle.State.DESTROYED) return
+
+    val liveDataObserver = Observer<T?> {
+        if (it != null && owner.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED))
+            observer(it)
+    }
+
+    owner.lifecycle.addObserver(
+        onCreate = { observeForever(liveDataObserver) },
+        onDestroy = { removeObserver(liveDataObserver) }
+    )
+}
 
 
 fun <T> LiveData<T>.debounce(duration: Long = 300L): LiveData<T> = MediatorLiveData<T>().also {
@@ -196,15 +205,16 @@ fun <T> LiveData<T>.debounce(duration: Long = 300L): LiveData<T> = MediatorLiveD
     }
 }
 
-fun <T> LiveData<T>.throttle(duration: Long = 300L): LiveData<T> = MediatorLiveData<T>().also { mld ->
+fun <T> LiveData<T>.throttle(duration: Long = 300L): LiveData<T> =
+    MediatorLiveData<T>().also { mld ->
 
-    val source = this
-    val throttle = Throttle(duration)
+        val source = this
+        val throttle = Throttle(duration)
 
-    mld.addSource(source) {
-        throttle.attempt(Runnable { mld.value = it })
+        mld.addSource(source) {
+            throttle.attempt(Runnable { mld.value = it })
+        }
     }
-}
 
 fun <T> mediatorLiveData(
     block: MediatorLiveData<T>.() -> Unit

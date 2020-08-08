@@ -7,6 +7,7 @@
     <color name="app_background">@color/seashell</color>
     <color name="toolbar_background">@color/gray_100</color>
     <color name="toolbar_search_background">@color/gray_50</color>
+    <color name="setting_row_background">@color/white</color>
 
     <color name="text_default">@color/black</color>
     <color name="text_hint">@color/gray_dove</color>
@@ -22,7 +23,7 @@
 
     <color name="battery_state_bg">@color/gray_900</color>
     <color name="battery_connected">@color/light_green_a_400</color>
-    <color name="battery_disconnected">@color/gray_50</color>
+    <color name="battery_disconnected">@color/gray_300</color>
 
     <color name="color_transparent">#00FFFFFF</color>
 

@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
+import com.test.thecocktaildb.dataNew.repository.source.TokenRepository
 import com.test.thecocktaildb.dataNew.repository.source.UserRepository
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
+import com.test.thecocktaildb.presentationNew.mapper.UserModelMapper
 import com.test.thecocktaildb.ui.auth.login.LoginViewModel
 import com.test.thecocktaildb.ui.auth.register.RegisterViewModel
 import com.test.thecocktaildb.ui.auth.splash.SplashViewModel
@@ -18,6 +20,8 @@ import com.test.thecocktaildb.ui.cocktailScreen.MainViewModel
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostViewModel
 import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
 import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
+import com.test.thecocktaildb.ui.setting.SettingViewModel
+import com.test.thecocktaildb.ui.setting.profile.ProfileViewModel
 import javax.inject.Inject
 
 class SavedStateViewModelFactory<out V : BaseViewModel>(
@@ -100,5 +104,22 @@ class SearchCocktailsViewModelFactory @Inject constructor(
 ) : ViewModelAssistedFactory<SearchCocktailsViewModel> {
     override fun create(handle: SavedStateHandle): SearchCocktailsViewModel {
         return SearchCocktailsViewModel(handle, cocktailRepo, cocktailMapper)
+    }
+}
+
+class ProfileViewModelFactory @Inject constructor(
+    private val tokenRepo: TokenRepository,
+    private val userRepo: UserRepository,
+    private val userMapper: UserModelMapper
+) : ViewModelAssistedFactory<ProfileViewModel> {
+    override fun create(handle: SavedStateHandle): ProfileViewModel {
+        return ProfileViewModel(handle, tokenRepo, userRepo, userMapper)
+    }
+}
+
+class SettingViewModelFactory @Inject constructor(
+) : ViewModelAssistedFactory<SettingViewModel> {
+    override fun create(handle: SavedStateHandle): SettingViewModel {
+        return SettingViewModel(handle)
     }
 }

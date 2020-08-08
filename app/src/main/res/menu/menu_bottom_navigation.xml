@@ -8,9 +8,9 @@
         android:icon="@drawable/ic_photo_24" />
 
     <item
-        android:id="@+id/bnv_profile_fragment"
+        android:id="@+id/bnv_setting_fragment"
         android:icon="@drawable/ic_profile_24"
         android:enabled="true"
-        android:title="@string/profile_fragment_title" />
+        android:title="@string/setting_fragment_title" />
 
 </menu>

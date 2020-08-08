@@ -45,6 +45,10 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
+    abstract fun contributeSettingFragment(): SettingFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
     abstract fun contributeProfileFragment(): ProfileFragment
 
     @ContributesAndroidInjector

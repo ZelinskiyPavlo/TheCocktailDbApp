@@ -75,7 +75,7 @@
 
     <!--region Bottom navigation view -->
     <string name="main_fragment_title">Main</string>
-    <string name="profile_fragment_title">Profile</string>
+    <string name="setting_fragment_title">Setting</string>
     <!--endregion-->
 
 </resources>

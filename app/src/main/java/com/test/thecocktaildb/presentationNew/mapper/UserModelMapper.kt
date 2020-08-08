@@ -10,6 +10,7 @@ class UserModelMapper @Inject constructor() : BaseModelMapper<UserModel, UserRep
     override fun mapFrom(model: UserModel) = with(model) {
         UserRepoModel(
             id = id,
+            email = email,
             name = name,
             lastName = lastName,
             avatar = avatar
@@ -19,6 +20,7 @@ class UserModelMapper @Inject constructor() : BaseModelMapper<UserModel, UserRep
     override fun mapTo(model: UserRepoModel)= with(model) {
         UserModel(
             id = id,
+            email = email,
             name = name,
             lastName = lastName,
             avatar = avatar

@@ -1,8 +1,5 @@
 package com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen
 
-import android.content.BroadcastReceiver
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,17 +17,17 @@ import com.test.thecocktaildb.databinding.FragmentHostBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktailScreen.adapter.CocktailPagerAdapter
-import com.test.thecocktaildb.ui.cocktailScreen.callback.BatteryStateCallback
 import com.test.thecocktaildb.ui.cocktailScreen.favoriteScreen.FavoriteFragment
 import com.test.thecocktaildb.ui.cocktailScreen.filterScreen.FilterFragment
 import com.test.thecocktaildb.ui.cocktailScreen.historyScreen.HistoryFragment
 import com.test.thecocktaildb.ui.cocktailScreen.sortType.CocktailSortType
-import com.test.thecocktaildb.util.*
-import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
+import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.HostViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
+import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import javax.inject.Inject
 
-class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
-    BatteryStateCallback {
+class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable/*, BatteryStateCallback*/ {
 
     companion object {
         @JvmStatic
@@ -57,8 +54,6 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
 
     private lateinit var viewPager: ViewPager2
     private lateinit var fragmentList: ArrayList<Fragment>
-
-    private lateinit var batteryStateReceiver: BroadcastReceiver
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -170,32 +165,5 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
 
     private fun attachObserver() {
         sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        registerBatteryStatusReceiver()
-    }
-
-    private fun registerBatteryStatusReceiver() {
-        batteryStateReceiver = BatteryStateReceiver(this)
-
-        val intentFilter = IntentFilter().apply {
-            addAction(Intent.ACTION_BATTERY_CHANGED)
-            addAction(Intent.ACTION_BATTERY_OKAY)
-            addAction(Intent.ACTION_BATTERY_LOW)
-        }
-        activity?.registerReceiver(batteryStateReceiver, intentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        activity?.unregisterReceiver(batteryStateReceiver)
-    }
-
-    override fun updateBatteryState(batteryState: BatteryStateHolder) {
-        viewDataBinding.viewModel?.updateBatteryState(batteryState)
     }
 }
