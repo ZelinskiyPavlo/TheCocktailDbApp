@@ -49,6 +49,7 @@
         android:background="?android:selectableItemBackground"
         android:contentDescription="@null"
         android:padding="4dp"
+        android:layout_marginEnd="@dimen/margin_8dp"
         tools:src="@drawable/ic_filter_list_24" />
 
 </RelativeLayout>
