@@ -3,7 +3,7 @@ package com.test.thecocktaildb.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
+import com.test.thecocktaildb.ui.detail.Ingredient
 import java.util.*
 
 
@@ -116,7 +116,7 @@ data class Cocktail @JvmOverloads constructor(
         return ingredientsList
     }
 
-    private fun createIngredientsList(): MutableList<Ingredient> {
+    fun createIngredientsList(): MutableList<Ingredient> {
 //        maybe better approach would be to somehow get Json string save it in Db and then parse it
 //        when populating data
         return mutableListOf<Ingredient>().apply {

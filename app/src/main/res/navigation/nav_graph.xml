@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsFragment"
+        android:name="com.test.thecocktaildb.ui.cocktail.history.CocktailsFragment"
         android:label="@string/cocktail_app_title"
         tools:layout="@layout/cocktails_fragment">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/cocktailDetailsFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment"
+        android:name="com.test.thecocktaildb.ui.detail.CocktailDetailsFragment"
         android:label="{action_bar_title}"
         tools:layout="@layout/cocktail_details_fragment">
         <argument
@@ -34,8 +34,8 @@
 
     <fragment
         android:id="@+id/searchCocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment"
-        android:label="@string/search_cocktails_fragment_title"
+        android:name="com.test.thecocktaildb.ui.search.SearchCocktailsFragment"
+        android:label="@string/search_cocktail_fragment_title"
         tools:layout="@layout/search_cocktails_fragment">
         <action
             android:id="@+id/action_searchCocktailsFragment_to_cocktailDetailsFragment"
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/hostFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostFragment"
+        android:name="com.test.thecocktaildb.ui.cocktail.host.HostFragment"
         android:label="@string/app_name_simplified"
         tools:layout="@layout/fragment_host">
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.test.thecocktaildb.ui.cocktailsScreen.favoriteScreen.FavoriteFragment"
+        android:name="com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment"
         android:label="favorite_fragment"
         tools:layout="@layout/favorite_fragment" >
         <action

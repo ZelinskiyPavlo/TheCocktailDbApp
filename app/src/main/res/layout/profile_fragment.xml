@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.SharedMainViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.SharedMainViewModel" />
 
         <variable
             name="fragment"
@@ -23,7 +23,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show Main Navigation Bar Titles"
+            android:text="@string/profile_fragment_show_nav_view_title"
             android:checked="@={viewModel.isCheckBoxCheckedLiveData}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
             android:id="@+id/open_test_fragment_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Open TestFragment"
+            android:text="@string/profile_fragment_open_test_fragment"
             android:textAppearance="@style/TextBoldRegular"
             android:textColor="@color/black"
             android:onClick="@{() -> fragment.openTestFragment()}"
@@ -45,8 +45,8 @@
             android:id="@+id/profile_fragment_log_out_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Log out"
+            android:layout_marginTop="@dimen/margin_32dp"
+            android:text="@string/profile_fragment_button_log_out"
             android:onClick="@{() -> fragment.showLogOutBottomSheetDialog()}"
             android:textAppearance="@style/TextBoldRegular"
             android:textColor="@color/black"

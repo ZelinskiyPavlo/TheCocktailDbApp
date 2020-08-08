@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.cocktailsScreen.CocktailsActivity">
+        tools:context=".ui.cocktail.CocktailsActivity">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -16,7 +16,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/profile_fragment_container"
-                android:name="com.test.thecocktaildb.ui.profileScreen.ProfileFragment"
+                android:name="com.test.thecocktaildb.ui.profile.ProfileFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -31,14 +31,17 @@
 
         </FrameLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_activity_bnv"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/menu_bottom_navigation"
-            app:itemTextAppearanceActive="@style/TextBoldRegular"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_activity_bnv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/text_default"
+        app:itemTextAppearanceActive="@style/TextBoldRegular"
+        app:itemTextAppearanceInactive="@style/TextRegular"
+        app:menu="@menu/menu_bottom_navigation"/>
 
     </RelativeLayout>
 </layout>

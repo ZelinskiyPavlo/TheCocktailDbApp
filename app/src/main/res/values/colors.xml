@@ -21,7 +21,14 @@
     <color name="battery_connected">@color/light_green_a_400</color>
     <color name="battery_disconnected">@color/gray_50</color>
 
+    <color name="error_text">#E53935</color>
+
     <color name="color_transparent">#00FFFFFF</color>
+
+    <color name="toolbar_icon">@color/black</color>
+    <color name="toolbar_icon_indicator">@color/green_a_400</color>
+
+    <color name="selected_cocktail_sort_type">@color/black</color>
 
     <!--region Palette colors. Colors for "internal use" only -->
 
@@ -37,7 +44,8 @@
     <color name="gray_dove">#727272</color>
     <color name="gray_900">#212121</color>
     <!--endregion-->
-    
+
+    <color name="green_a_400">#00e676</color>
     <color name="light_green_a_400">#76FF03</color>
 
     <color name="teal_500">#009688</color>

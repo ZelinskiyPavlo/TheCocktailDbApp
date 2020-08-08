@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
+            type="com.test.thecocktaildb.ui.search.SearchCocktailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -25,7 +25,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/cocktail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp">
 
                 <include
                     android:id="@+id/search_field_layout"
@@ -45,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/margin_double"
+                android:paddingTop="@dimen/margin_16dp"
                 bind:rv_adapterTag="@{AdapterType.SEARCH_ADAPTER}"
                 bind:rv_cocktails="@{viewModel.items}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:gravity="center_vertical"
-                android:text="@string/search_help_text"
+                android:text="@string/search_cocktail_hint"
                 android:textAppearance="@style/TextHint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

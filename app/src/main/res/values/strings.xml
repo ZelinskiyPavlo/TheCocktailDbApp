@@ -2,24 +2,24 @@
     <!--region High level text-->
     <string name="app_name">TheCocktailDb</string>
     <string name="app_name_simplified">Pavlo Zelinskiy</string>
-    <!--endregion-->
-
-    <!--region CocktailsFragment related-->
-    <string name="empty_history_text">History is empty</string>
     <string name="cocktail_app_title">Cocktail App</string>
     <!--endregion-->
 
+    <!--region CocktailsFragment related-->
+    <string name="history_fragment_empty_list">History is empty</string>
+    <!--endregion-->
+
     <!--region SearchCocktailsFragment related-->
-    <string name="search_help_text">Enter text to start search</string>
-    <string name="search_cocktails_fragment_title">SearchCocktailsFragment</string>
+    <string name="search_cocktail_hint">Enter text to start search</string>
+    <string name="search_cocktail_fragment_title">SearchCocktailsFragment</string>
     <!--endregion-->
 
     <!--region CocktailDetailsFragment related-->
-    <string name="cocktail_name_tag">Name:</string>
-    <string name="cocktail_alcoholic_tag">Alcoholic:</string>
-    <string name="cocktail_glass_tag">Glass:</string>
-    <string name="ingredients_tag">Ingredients</string>
-    <string name="instructions_tag">Instructions</string>
+    <string name="cocktail_details_name_tag">Name:</string>
+    <string name="cocktail_details_alcoholic_tag">Alcoholic:</string>
+    <string name="cocktail_details_glass_tag">Glass:</string>
+    <string name="cocktail_details_ingredients_tag">Ingredients</string>
+    <string name="cocktail_details_instructions_tag">Instructions</string>
     <!--endregion-->
 
     <!--region Content description-->
@@ -29,35 +29,91 @@
     <string name="cocktail_logo_description">Cocktail Database logo</string>
     <!--endregion-->
 
-    <string name="proposal_snackbar_message">Чи хочете ви переглянути ще якийсь напій із вашого
-        списку?</string>
-    <string name="show_proposed_cocktail">Показати</string>
-
     <!--region AuthActivity-->
-    <string name="login">Login</string>
-    <string name="password">Password</string>
-    <string name="button_login">Login</string>
+    <string name="all_login">Login</string>
+    <string name="all_password">Password</string>
+    <string name="auth_activity_button_login">Login</string>
     <!--endregion-->
 
     <!--region FilterFragment related-->
-    <string name="filter_button_reset">Скинути</string>
-    <string name="filter_button_apply">До результатів</string>
+    <string name="filter_fragment_toolbar_title">Choose filter</string>
+    <string name="filter_button_reset">Reset</string>
+    <string name="filter_button_apply">Go to results</string>
     <string name="filter_fragment_none_filter">None</string>
+    <string name="filter_fragment_choose_filter">Choose</string>
+    <string name="filter_fragment_change_filter">Change</string>
+    <string name="filter_fragment_undo_filters">UNDO</string>
+    <string name="filter_fragment_alcohol_type">Alcohol type</string>
+    <string name="filter_fragment_category_type">Category type</string>
+    <string name="filter_fragment_ingredient_type">Ingredient type</string>
     <!--endregion-->
 
     <!--region HostFragment related-->
     <string name="tl_host_fragment_history_tab">History</string>
     <string name="tl_host_fragment_favorite_tab">Favorite</string>
+
+    <!--region Battery status-->
+    <string name="battery_status_battery_okay">BATTERY_OKAY</string>
+    <string name="battery_status_battery_low">BATTERY_LOW</string>
+    <!--endregion-->
+
     <!--endregion-->
 
     <!--region FavoriteFragment-->
-    <string name="empty_favorite_text">Favorite is empty</string>
+    <string name="favorite_fragment_empty_list">Favorite is empty</string>
     <!--endregion-->
 
+    <!--region Cocktail Popup menu-->
     <string name="menu_cocktail_history_open">Open</string>
     <string name="menu_cocktail_history_add_favorite">Add Favorite</string>
     <string name="menu_cocktail_history_quick_preview">Quick Preview</string>
     <string name="menu_cocktail_history_remove">Remove</string>
     <string name="menu_cocktail_history_remove_favorite">Remove Favorite</string>
+    <!--endregion-->
+
+    <!--region ProfileFragment related-->
+    <string name="profile_fragment_show_nav_view_title">Show Main Navigation Bar Titles</string>
+    <string name="profile_fragment_open_test_fragment">Open TestFragment</string>
+    <string name="profile_fragment_button_log_out">Log out</string>
+    <!--endregion-->
+
+    <!--region Bottom navigation view -->
+    <string name="bottom_navigation_main_fragment_title">Main</string>
+    <string name="bottom_navigation_profile_fragment_title">Profile</string>
+    <!--endregion-->
+
+    <!--region Dialog-->
+
+    <!--region Cocktail of the day dialog-->
+    <string name="dialog_cocktail_of_the_day_title">Cocktail of the day</string>
+    <string name="dialog_cocktail_of_the_day_description">Do you want to see cocktail of the day</string>
+    <string name="dialog_cocktail_of_the_day_cancel">No</string>
+    <string name="dialog_cocktail_of_the_day_accept">Yes</string>
+    <!--endregion-->
+
+    <!--region Sign in error dialog-->
+    <string name="dialog_cocktail_sorting_title">Choose sort type</string>
+    <string name="dialog_sign_in_error_title">Sign in error</string>
+    <string name="dialog_sign_in_error_accept">OK</string>
+    <string name="dialog_sign_in_error_description">Looks like you provided wrong login or password</string>
+    <!--endregion-->
+
+    <!--region Log out dialog-->
+    <string name="dialog_log_out_title">Log Out</string>
+    <string name="dialog_log_out_description">Do you really want to exit?</string>
+    <string name="dialog_log_out_cancel">Cancel</string>
+    <string name="dialog_log_out_accept">Exit</string>
+    <!--endregion-->
+
+    <!--endregion-->
+
+    <!--region Toast/Snackbar message-->
+    <string name="broadcast_receiver_airplane_status_toast">Смакуйте маргаритку із відчуттям міри. І надіємося, що Ви не пілот під час польоту</string>
+    <string name="service_on_boot_device_toast">On device boot message</string>
+    <string name="snackbar_drink_proposal_title">Хочете переглянути ще один напій із вашого
+        списку?</string>
+    <string name="snackbar_button_show_proposed_cocktail">Show</string>
+    <string name="filter_fragment_snackbar_no_results">No result found</string>
+    <!--endregion-->
 
 </resources>

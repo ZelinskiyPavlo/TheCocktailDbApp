@@ -26,7 +26,7 @@
             android:enabled="true"
             android:exported="false">
         </service>
-        <activity android:name="com.test.thecocktaildb.ui.cocktailsScreen.CocktailsActivity"
+        <activity android:name="com.test.thecocktaildb.ui.cocktail.CocktailsActivity"
             android:theme="@style/AppTheme" />
     </application>
 

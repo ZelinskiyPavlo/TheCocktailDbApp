@@ -12,7 +12,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.SharedHostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,9 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingStart="@dimen/margin_default"
-            android:paddingTop="@dimen/margin_double"
-            android:paddingEnd="@dimen/margin_default"
+            android:paddingStart="@dimen/margin_8dp"
+            android:paddingTop="@dimen/margin_16dp"
+            android:paddingEnd="@dimen/margin_8dp"
             android:visibility="gone"
             bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
             bind:rv_cocktails="@{sharedViewModel.favoriteListLiveData}" />
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?attr/actionBarSize"
-            android:text="@string/empty_favorite_text"
+            android:text="@string/favorite_fragment_empty_list"
             android:textAppearance="@style/TextHint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

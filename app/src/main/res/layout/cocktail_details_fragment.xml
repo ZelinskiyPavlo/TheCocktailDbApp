@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel" />
+            type="com.test.thecocktaildb.ui.detail.CocktailDetailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -81,7 +81,7 @@
                     android:id="@+id/image_view_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_double"
+                    android:layout_marginTop="@dimen/margin_16dp"
                     app:cardCornerRadius="@dimen/corner_radius_default"
                     app:cardElevation="@dimen/elevation_none"
                     app:layout_constraintLeft_toLeftOf="@+id/second_column_guideline"
@@ -93,7 +93,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/cocktail_name_tag"
+                    android:text="@string/cocktail_details_name_tag"
                     android:textAppearance="@style/TextBoldRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
@@ -104,7 +104,7 @@
                     style="@style/TextSpacing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/cocktail_alcoholic_tag"
+                    android:text="@string/cocktail_details_alcoholic_tag"
                     android:textAppearance="@style/TextBoldRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
@@ -115,8 +115,8 @@
                     style="@style/TextSpacing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_default"
-                    android:text="@string/cocktail_glass_tag"
+                    android:layout_marginBottom="@dimen/margin_8dp"
+                    android:text="@string/cocktail_details_glass_tag"
                     android:textAppearance="@style/TextBoldRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="13dp"
-                    android:layout_marginBottom="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_8dp"
                     android:text="@{viewModel.cocktailGlass}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
@@ -161,7 +161,7 @@
                     android:id="@+id/ingredients_tag"
                     style="@style/SectionDivider"
                     android:layout_width="match_parent"
-                    android:text="@string/ingredients_tag"
+                    android:text="@string/cocktail_details_ingredients_tag"
                     android:textAppearance="@style/TextBoldTitle"
                     app:layout_constraintTop_toBottomOf="@+id/cocktail_glass"
                     tools:layout_editor_absoluteX="165dp" />
@@ -181,7 +181,7 @@
                     android:id="@+id/instructions_tag"
                     style="@style/SectionDivider"
                     android:layout_width="match_parent"
-                    android:text="@string/instructions_tag"
+                    android:text="@string/cocktail_details_instructions_tag"
                     android:textAppearance="@style/TextBoldTitle"
                     app:layout_constraintTop_toBottomOf="@+id/ingredients_rv"
                     tools:layout_editor_absoluteX="0dp" />
@@ -190,10 +190,10 @@
                     android:id="@+id/instructions_desc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_double"
+                    android:layout_marginEnd="@dimen/margin_16dp"
                     android:lineSpacingExtra="12sp"
                     android:paddingTop="13dp"
-                    android:paddingBottom="@dimen/margin_double"
+                    android:paddingBottom="@dimen/margin_16dp"
                     android:text="@{viewModel.cocktailInstruction}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"

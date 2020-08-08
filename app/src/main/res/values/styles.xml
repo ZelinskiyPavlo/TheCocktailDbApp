@@ -45,15 +45,15 @@
 
     <!--region Appearance style-->
     <style name="TextSpacing">
-        <item name="android:layout_marginTop">@dimen/margin_small</item>
-        <item name="android:layout_marginBottom">@dimen/margin_small</item>
+        <item name="android:layout_marginTop">@dimen/margin_6dp</item>
+        <item name="android:layout_marginBottom">@dimen/margin_6dp</item>
     </style>
     <!--endregion-->
 
     <!--endregion-->
 
     <style name="SectionDivider">
-        <item name="android:layout_marginTop">@dimen/margin_default</item>
+        <item name="android:layout_marginTop">@dimen/margin_8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:background">@color/section_divider_background</item>

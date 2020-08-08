@@ -9,33 +9,36 @@
         
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailsScreen.fragmentHostScreen.HostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.HostViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.cocktailsScreen.fragmentHostScreen.HostFragment">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/host_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <FrameLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            tools:context=".ui.cocktail.host.HostFragment">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.test.thecocktaildb.ui.custom.CustomToolbar
+                    android:id="@+id/host_fragment_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:primary_option_icon="@drawable/ic_filter_list_24"
+                    app:secondary_option_icon="@drawable/ic_sort_24"
+                    app:title_text="@string/app_name_simplified" />
+
+            </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tl_main_fragment"
@@ -58,14 +61,14 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="@dimen/margin_double"
-                    android:layout_marginEnd="@dimen/margin_double"
-                    android:layout_marginBottom="@dimen/margin_double"
+                    android:layout_marginStart="@dimen/margin_16dp"
+                    android:layout_marginEnd="@dimen/margin_16dp"
+                    android:layout_marginBottom="@dimen/margin_16dp"
                     android:background="@drawable/bg_battery_state_view"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="@dimen/margin_double"
-                    android:paddingEnd="@dimen/margin_double"
+                    android:paddingStart="@dimen/margin_16dp"
+                    android:paddingEnd="@dimen/margin_16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/search_fab"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,8 +106,8 @@
                     android:id="@+id/search_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_double"
-                    android:layout_marginBottom="@dimen/margin_double"
+                    android:layout_marginEnd="@dimen/margin_16dp"
+                    android:layout_marginBottom="@dimen/margin_16dp"
                     android:elevation="6dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -113,13 +116,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/filter_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        </FrameLayout>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/filter_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
 
 </layout>
