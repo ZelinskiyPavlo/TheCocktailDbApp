@@ -7,6 +7,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

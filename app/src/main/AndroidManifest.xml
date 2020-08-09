@@ -36,7 +36,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <activity android:name="com.test.thecocktaildb.ui.cocktailScreen.MainActivity"
+        <activity android:name="com.test.thecocktaildb.ui.cocktail.MainActivity"
             android:theme="@style/AppTheme" />
     </application>
 

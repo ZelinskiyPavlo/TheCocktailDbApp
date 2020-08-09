@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel" />
+            type="com.test.thecocktaildb.ui.detail.CocktailDetailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

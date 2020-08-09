@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
-import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
+import com.test.thecocktaildb.ui.cocktail.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
 import com.test.thecocktaildb.util.setLocale
 import kotlinx.android.synthetic.main.activity_auth.*

@@ -6,11 +6,11 @@
     <data>
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.SharedMainViewModel" />
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.ui.profileScreen.ProfileFragment" />
+            type="com.test.thecocktaildb.ui.profile.ProfileFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

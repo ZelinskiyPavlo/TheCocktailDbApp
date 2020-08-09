@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.ui.base.SimpleBaseDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.SimpleBaseDialogFragment
 
 class RegularDialogFragment :
     SimpleBaseDialogFragment<Any, RegularDialogButton, RegularDialogType, SimpleBaseDialogFragment
@@ -34,7 +34,7 @@ class RegularDialogFragment :
     }
 
     companion object {
-        fun newInstance(builder:SimpleBaseDialogFragment.SimpleBaseDialogFragmentBuilder.() ->
+        fun newInstance(builder: SimpleBaseDialogFragment.SimpleBaseDialogFragmentBuilder.() ->
         Unit): RegularDialogFragment {
             return getInstance(builder)
         }

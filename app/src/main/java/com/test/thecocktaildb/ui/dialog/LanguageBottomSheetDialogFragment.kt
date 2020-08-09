@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.CheckedTextView
 import androidx.core.os.bundleOf
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.ui.base.BaseDialogViewHolder
-import com.test.thecocktaildb.ui.base.DialogListDataAdapter
-import com.test.thecocktaildb.ui.base.ListBaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseDialogViewHolder
+import com.test.thecocktaildb.ui.dialog.base.DialogListDataAdapter
+import com.test.thecocktaildb.ui.dialog.base.ListBaseBottomSheetDialogFragment
 import com.test.thecocktaildb.util.LanguageType
 
 open class LanguageListBottomSheetDialogFragment :

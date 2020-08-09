@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.cocktailScreen.MainActivity">
+        tools:context=".ui.cocktail.MainActivity">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -16,7 +16,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/profile_fragment_container"
-                android:name="com.test.thecocktaildb.ui.profileScreen.ProfileFragment"
+                android:name="com.test.thecocktaildb.ui.profile.ProfileFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

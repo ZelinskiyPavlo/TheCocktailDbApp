@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.test.thecocktaildb.data.CocktailsRepository
 import com.test.thecocktaildb.ui.base.BaseViewModel
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.MainViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
-import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
+import com.test.thecocktaildb.ui.cocktail.MainViewModel
+import com.test.thecocktaildb.ui.cocktail.host.HostViewModel
+import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
+import com.test.thecocktaildb.ui.detail.CocktailDetailsViewModel
+import com.test.thecocktaildb.ui.search.SearchCocktailViewModel
 import javax.inject.Inject
 
 class GenericSavedStateViewModelFactory<out V : BaseViewModel>(
@@ -65,8 +65,8 @@ class MainViewModelFactory @Inject constructor(
 
 class SearchCocktailsViewModelFactory @Inject constructor(
     private val repository: CocktailsRepository
-) : ViewModelAssistedFactory<SearchCocktailsViewModel> {
-    override fun create(handle: SavedStateHandle): SearchCocktailsViewModel {
-        return SearchCocktailsViewModel(handle, repository)
+) : ViewModelAssistedFactory<SearchCocktailViewModel> {
+    override fun create(handle: SavedStateHandle): SearchCocktailViewModel {
+        return SearchCocktailViewModel(handle, repository)
     }
 }
