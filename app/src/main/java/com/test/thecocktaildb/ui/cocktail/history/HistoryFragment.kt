@@ -76,10 +76,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter =
-            CocktailAdapter(
-                sharedHostViewModel
-            )
+        val cocktailsAdapter = CocktailAdapter(sharedHostViewModel)
         viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)

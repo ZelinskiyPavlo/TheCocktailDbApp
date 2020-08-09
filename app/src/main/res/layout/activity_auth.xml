@@ -48,10 +48,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_edit_text"
-                    android:text="@={viewModel.loginInputLiveData}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/app_background" />
+                    android:backgroundTint="@color/app_background"
+                    android:text="@={viewModel.loginInputLiveData}"
+                    android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,11 +66,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"
-                    android:text="@={viewModel.passwordInputLiveData}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/app_background"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.passwordInputLiveData}"
+                    android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

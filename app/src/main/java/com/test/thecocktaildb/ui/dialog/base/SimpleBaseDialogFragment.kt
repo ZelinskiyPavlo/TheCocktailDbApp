@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.View
+import android.view.WindowManager.LayoutParams
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
@@ -12,7 +13,7 @@ import androidx.core.view.isVisible
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import kotlinx.android.synthetic.main.layout_dialog_simple.*
+import kotlinx.android.synthetic.main.layout_bottom_sheet_dialog.*
 
 
 abstract class SimpleBaseDialogFragment<
@@ -22,7 +23,7 @@ abstract class SimpleBaseDialogFragment<
         Builder : SimpleBaseDialogFragment.SimpleBaseDialogFragmentBuilder>
 protected constructor() : BaseDialogFragment<Data, ButtonType, Type>() {
 
-    override val contentLayoutResId = R.layout.layout_dialog_simple
+    override val contentLayoutResId = R.layout.layout_regular_dialog
     protected open val extraContentLayoutResId: Int = 0
 
     protected open lateinit var dialogBuilder: Builder
@@ -166,5 +167,10 @@ protected constructor() : BaseDialogFragment<Data, ButtonType, Type>() {
                 return arrayOfNulls(size)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 }

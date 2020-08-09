@@ -1,13 +1,9 @@
 package com.test.thecocktaildb.ui.cocktail.host
 
 import androidx.lifecycle.*
+import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
-import com.test.thecocktaildb.data.CocktailsRepository
-import com.test.thecocktaildb.ui.base.BaseViewModel
-import com.test.thecocktaildb.ui.cocktail.filtertype.AlcoholDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.CategoryDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.Event
 import com.test.thecocktaildb.util.stateHandle
@@ -41,12 +37,9 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     val isFavoriteListEmptyLiveData: LiveData<Boolean> =
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
-    var isFilterFragmentOpened = false
-
-    private val _filterListLiveData = MutableLiveData<List<DrinkFilter?>>()
+    private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
+        .apply { value = listOf<DrinkFilter?>(null, null, null) }
     val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
-
-    var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
 
     val alcoholSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
         if (it[0] == null) chooseTextSuffix
@@ -56,6 +49,11 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     val categorySignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
         if (it[1] == null) chooseTextSuffix
         else "${it[1]?.key?.replace("\\/", "")}    $changeTextSuffix"
+    }
+
+    val ingredientSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
+        if (it[2] == null) chooseTextSuffix
+        else "${it[2]?.key?.replace("\\/", "")}    $changeTextSuffix"
     }
 
     private lateinit var changeTextSuffix: String
@@ -72,7 +70,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     private val filterAndSortLiveData: LiveData<Unit> = MediatorLiveData<Unit>().apply {
         fun transformData() {
             allCocktailList?.let { _cocktailsLiveData.value = it }
-            applyFilter(_filterListLiveData.value ?: listOf(null, null))
+            applyFilter(_filterListLiveData.value ?: listOf(null, null, null))
             applySorting(sortingOrderLiveData.value)
             value = Unit
         }
@@ -116,19 +114,18 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
         }
     }
 
-    val filterResultLiveData: LiveData<String> =
-        MediatorLiveData<String>().apply {
+    val filterResultLiveData: LiveData<Event<String>> =
+        MediatorLiveData<Event<String>>().apply {
             fun determineResult() {
-                if (!isFilterFragmentOpened) return
-                if (_filterListLiveData.value == listOf(null, null)) return
+                if (_filterListLiveData.value == listOf(null, null, null)) return
 
                 val numberOfHistory = cocktailsLiveData.value?.size
                 val numberOfFavorite = favoriteListLiveData.value?.size
 
                 value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                    emptyResult
+                    Event(emptyResult)
                 else
-                    "Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)"
+                    Event("Results (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
             }
             addSource(filterAndSortLiveData) {
                 determineResult()
@@ -224,6 +221,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     }
                     _cocktailsLiveData.value = updatedCocktailList
                     allCocktailList = updatedCocktailList
+                    // TODO: не впевнений чи це тут має бути!
                     repeatTransformationsLiveData.value = Unit
                 })
         )
@@ -234,6 +232,8 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
         chooseTextSuffix = chooseText
 
         emptyResult = emptyResultText
+
+        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
@@ -248,12 +248,17 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     set(1, CategoryDrinkFilter.values()[itemId])
                 }
             }
+            DrinkFilterType.INGREDIENT -> {
+                _filterListLiveData.value?.toMutableList()?.apply {
+                    set(2, CocktailIngredient.values()[itemId])
+                }
+            }
             else -> throw IllegalArgumentException("Unknown filter type was chosen")
         }
     }
 
     private fun applyFilter(filterTypeList: List<DrinkFilter?>) {
-        if (filterTypeList == listOf(null, null)) return
+        if (filterTypeList == listOf(null, null, null)) return
 
         filterTypeList.filterNotNull().forEach { filterType ->
             when (filterType.type) {
@@ -265,17 +270,24 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     _cocktailsLiveData.value =
                         _cocktailsLiveData.value?.filter { it.strCategory == filterType.key }
                 }
+                DrinkFilterType.INGREDIENT -> {
+                    _cocktailsLiveData.value =
+                        _cocktailsLiveData.value?.filter {
+                            it.createIngredientsList()
+                                .map { ingredient -> ingredient.name }
+                                .contains(filterType.key)
+                        }
+                }
                 else -> throw IllegalArgumentException("Unknown filter type was chosen")
             }
         }
     }
 
     fun resetFilters() {
-        _filterListLiveData.value = listOf(null, null)
+        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun onApplyButtonClicked() {
-        isFilterFragmentOpened = false
         _applyFilterEventLiveData.value = Event(Unit)
     }
 

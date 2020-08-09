@@ -18,6 +18,9 @@
         android:layout_height="match_parent"
         android:background="@color/app_background"
         android:clickable="true"
+        android:focusable="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:padding="16dp">
 
         <CheckBox

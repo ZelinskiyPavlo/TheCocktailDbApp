@@ -141,10 +141,13 @@ class CocktailDetailsFragment : Injectable,
     }
 
     private fun launchDrinkProposalService() {
-        val intentWithCocktail = Intent(activity, DrinkProposalService::class.java)
-        val selectedCocktailId = viewDataBinding.viewModel?.cocktailId
-        intentWithCocktail.putExtra(Intent.EXTRA_TEXT, selectedCocktailId)
+        val stopIntent = Intent(activity, DrinkProposalService::class.java)
+        stopIntent.action = DrinkProposalService.ACTION_STOP_SERVICE
+        activity?.startService(stopIntent)
 
-        activity?.startService(intentWithCocktail)
+        val startIntent = Intent(activity, DrinkProposalService::class.java)
+        startIntent.action = DrinkProposalService.ACTION_START_SERVICE
+        activity?.startService(startIntent)
+
     }
 }
