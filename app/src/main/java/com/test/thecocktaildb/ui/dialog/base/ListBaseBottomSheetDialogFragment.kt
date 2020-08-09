@@ -16,7 +16,7 @@ abstract class ListBaseBottomSheetDialogFragment<
 protected constructor() :
     SimpleBaseBottomSheetDialogFragment<Data, ButtonType, Type, SimpleBaseBottomSheetDialogFragment.SimpleBottomSheetDialogBuilder>() {
 
-    override val contentLayoutResId = R.layout.layout_dialog_simple
+    override val contentLayoutResId = R.layout.layout_bottom_sheet_dialog
     override val extraContentLayoutResId: Int = R.layout.layout_dialog_list_component
 
     abstract val dialogListDataAdapter: DialogListDataAdapter<Data>

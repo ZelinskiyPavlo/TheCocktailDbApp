@@ -105,6 +105,21 @@
     <string name="battery_status_battery_low">Батарейці плохо</string>
     <string name="profile_fragment_button_change_language">Змінити мову</string>
     <string name="dialog_language_title">Оберіть бажану мову</string>
+    <string name="search_field_icon_description">іконка пошуку</string>
+    <string name="filter_fragment_toolbar_title">Виберіть фільтр</string>
+    <string name="filter_fragment_none_filter">Нічого</string>
+    <string name="filter_fragment_alcohol_type">Фільтр по алкоголю</string>
+    <string name="filter_fragment_category_type">Фільтр за категорією</string>
+    <string name="filter_fragment_ingredient_type">Фільтр по інгредієнтах</string>
+    <string name="dialog_cocktail_of_the_day_cancel">Ні</string>
+    <string name="dialog_cocktail_of_the_day_accept">Так</string>
+    <string name="sort_dialog_date">За датою</string>
+    <string name="sort_dialog_name_desc">За назвою по спадаючій</string>
+    <string name="sort_dialog_name_asc">За назвою по зростаючій</string>
+    <string name="sort_dialog_alcohol_first">Алкогольні спочатку</string>
+    <string name="sort_dialog_non_alcohol_first">Алкогольні вкінці</string>
+    <string name="sort_dialog_ingredient_count_desc">За кількість інгредієнтів по спадаючій</string>
+    <string name="sort_dialog_ingredient_count_asc">За кількість інгредієнтів по зростаючій</string>
     <!--endregion-->
 
 </resources>

@@ -13,6 +13,7 @@ import androidx.core.text.bold
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -29,10 +30,14 @@ import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
 import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.HostViewModelFactory
+import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
+import javax.inject.Inject
 
-class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injectable,
+class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
     BatteryStateCallback {
 
     companion object {
@@ -44,9 +49,19 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     override val layoutId: Int = R.layout.fragment_host
 
-    override fun getViewModelClass(): Class<HostViewModel> = HostViewModel::class.java
+    @Inject
+    lateinit var hostViewModelFactory: HostViewModelFactory
 
-    private val sharedHostViewModel: SharedHostViewModel by activityViewModels { delegatedViewModelFactory }
+    private val viewModel: HostViewModel by viewModels {
+        GenericSavedStateViewModelFactory(hostViewModelFactory, this)
+    }
+
+    @Inject
+    lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
+
+    private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
+        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
+    }
 
     private lateinit var viewPager: ViewPager2
     private lateinit var fragmentList: ArrayList<Fragment>
@@ -65,7 +80,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         setupTabLayout()
         setupFab()
         loadCocktails()
-
+        attachObserver()
         return viewDataBinding.root
     }
 
@@ -199,5 +214,9 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
         viewDataBinding.viewModel?.updateBatteryState(batteryState)
+    }
+
+    private fun attachObserver() {
+        sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
     }
 }

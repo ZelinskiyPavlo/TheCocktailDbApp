@@ -16,7 +16,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentSearchCocktailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.search.adapter.SearchCocktailsAdapter
+import com.test.thecocktaildb.ui.search.adapter.SearchCocktailAdapter
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
 import com.test.thecocktaildb.util.SearchCocktailsViewModelFactory
@@ -66,7 +66,7 @@ class SearchCocktailFragment : Injectable,
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = SearchCocktailsAdapter(viewModel)
+        val cocktailsAdapter = SearchCocktailAdapter(viewModel)
         viewDataBinding.searchCocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)

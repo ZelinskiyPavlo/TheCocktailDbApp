@@ -5,7 +5,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.ui.adapter.recyclerview.CustomActionListener
 import com.test.thecocktaildb.ui.adapter.recyclerview.base.BaseAdapter
-import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailsItemUserActionListener
+import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
 import com.test.thecocktaildb.ui.detail.Ingredient
 
 class IngredientAdapter :
@@ -26,7 +26,7 @@ class IngredientAdapter :
     override fun getItemCount(): Int = ingredientsList.size
 
     override fun getItemClickListener(): CustomActionListener {
-        return object : CocktailsItemUserActionListener {
+        return object : CocktailItemUserActionListener {
             override fun onFavoriteIconClicked(cocktail: Cocktail) {
             }
 

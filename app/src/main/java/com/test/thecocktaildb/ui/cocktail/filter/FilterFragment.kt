@@ -13,17 +13,12 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentFilterBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktail.filtertype.AlcoholDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.CategoryDrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
-import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
-import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
-import com.test.thecocktaildb.util.SharedHostViewModelFactory
-import javax.inject.Inject
 import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
+import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SharedHostViewModelFactory
+import javax.inject.Inject
 
 class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
 

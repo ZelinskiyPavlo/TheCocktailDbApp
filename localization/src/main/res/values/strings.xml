@@ -33,6 +33,7 @@
     <string name="cocktail_image_description">Show image of selected cocktail</string>
     <string name="cocktail_item_image_description">Cocktail item image</string>
     <string name="cocktail_logo_description">Cocktail Database logo</string>
+    <string name="search_field_icon_description">search icon</string>
     <!--endregion-->
 
     <!--region AuthActivity-->
@@ -40,11 +41,26 @@
     <!--endregion-->
 
     <!--region FilterFragment related-->
+    <string name="filter_fragment_toolbar_title">Choose filter</string>
     <string name="filter_button_reset">Reset</string>
     <string name="filter_button_apply">Go to results</string>
     <string name="filter_fragment_choose_filter">Choose</string>
     <string name="filter_fragment_change_filter">Change</string>
     <string name="filter_fragment_undo_filters">Undo</string>
+    <string name="filter_fragment_none_filter">None</string>
+    <string name="filter_fragment_alcohol_type">Alcohol type</string>
+    <string name="filter_fragment_category_type">Category type</string>
+    <string name="filter_fragment_ingredient_type">Ingredient type</string>
+    <!--endregion-->
+
+    <!--region Sort types -->
+    <string name="sort_dialog_date">Recent</string>
+    <string name="sort_dialog_name_desc">Name descending</string>
+    <string name="sort_dialog_name_asc">Name ascending</string>
+    <string name="sort_dialog_alcohol_first">Alcohol first</string>
+    <string name="sort_dialog_non_alcohol_first">Non alcohol first</string>
+    <string name="sort_dialog_ingredient_count_desc">Ingredient count descending</string>
+    <string name="sort_dialog_ingredient_count_asc">Ingredient count ascending</string>
     <!--endregion-->
 
     <!--region HostFragment related-->
@@ -87,6 +103,8 @@
     <!--region Cocktail of the day dialog-->
     <string name="dialog_cocktail_of_the_day_title">Cocktail of the day</string>
     <string name="dialog_cocktail_of_the_day_description">Do you want to see cocktail of the day?</string>
+    <string name="dialog_cocktail_of_the_day_cancel">No</string>
+    <string name="dialog_cocktail_of_the_day_accept">Yes</string>
     <!--endregion-->
 
     <!--region Sign in error dialog-->

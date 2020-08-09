@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktail.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
+import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.setLocale
 import kotlinx.android.synthetic.main.activity_auth.*
 
@@ -40,7 +42,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
     }
 
     private fun setupObserver() {
-        viewModel.clearErrorTextColorEventLiveData.observe(this, Observer {
+        viewModel.clearErrorTextColorEventLiveData.observe(this, EventObserver {
             changeEditTextColorToRed(false)
         })
     }

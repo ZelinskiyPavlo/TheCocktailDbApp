@@ -41,7 +41,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
     }
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver

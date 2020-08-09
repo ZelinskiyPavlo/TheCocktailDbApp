@@ -1,8 +1,9 @@
 package com.test.thecocktaildb.ui.cocktail.host
 
 import androidx.lifecycle.*
-import com.test.thecocktaildb.data.AppCocktailsRepository
 import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktail.filtertype.*
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.Event
@@ -37,8 +38,8 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     val isFavoriteListEmptyLiveData: LiveData<Boolean> =
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
-    private val _filterListLiveData = MediatorLiveData<List<DrinkFilter?>>()
-        .apply { value = listOf<DrinkFilter?>(null, null, null) }
+    private val _filterListLiveData = MutableLiveData<List<DrinkFilter?>>()
+//        .apply { value = listOf<DrinkFilter?>(null, null, null) }
     val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
 
     val alcoholSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
@@ -61,6 +62,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     private lateinit var emptyResult: String
 
     private var cachedSortingOrder: CocktailSortType? = null
+    var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
 
     private var sortingOrderIndex by stateHandle<Int?>()
     private var filterTypeIndexArray by stateHandle<Array<String?>>()
@@ -69,6 +71,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
 
     private val filterAndSortLiveData: LiveData<Unit> = MediatorLiveData<Unit>().apply {
         fun transformData() {
+            Timber.i("_cocktailsLiveData ${_cocktailsLiveData.value}")
             allCocktailList?.let { _cocktailsLiveData.value = it }
             applyFilter(_filterListLiveData.value ?: listOf(null, null, null))
             applySorting(sortingOrderLiveData.value)
@@ -88,6 +91,10 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     }
                     filterType.type == DrinkFilterType.CATEGORY -> {
                         filterTypeIndexArray?.set(1, filterType.key)
+                        filterTypeIndexArray
+                    }
+                    filterType.type == DrinkFilterType.INGREDIENT -> {
+                        filterTypeIndexArray?.set(2, filterType.key)
                         filterTypeIndexArray
                     }
                     else -> throw IllegalArgumentException("Unknown filter type was chosen")
@@ -146,8 +153,8 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
         @Suppress("IMPLICIT_CAST_TO_ANY")
         fun restoreFilters() {
             if (filterTypeIndexArray == null) {
-                _filterListLiveData.value = listOf(null, null)
-                filterTypeIndexArray = arrayOfNulls<String?>(2)
+                _filterListLiveData.value = listOf(null, null, null)
+                filterTypeIndexArray = arrayOfNulls<String?>(3)
             } else {
                 val extractedFilterList = filterTypeIndexArray!!
                     .mapIndexed { index, filterTypeKey ->
@@ -157,7 +164,9 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                                 .find { it.key == filterTypeKey }
                             index == 1 -> CategoryDrinkFilter.values()
                                 .find { it.key == filterTypeKey }
-                            index == 2 -> throw IndexOutOfBoundsException(
+                            index == 2 -> CocktailIngredient.values()
+                                .find { it.key == filterTypeKey }
+                            index == 3 -> throw IndexOutOfBoundsException(
                                 "Looks like you added new filter type" +
                                         " and forget to add extracting it's value"
                             )
@@ -284,6 +293,7 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     }
 
     fun resetFilters() {
+        Timber.i("Reset filter called")
         _filterListLiveData.value = listOf(null, null, null)
     }
 
