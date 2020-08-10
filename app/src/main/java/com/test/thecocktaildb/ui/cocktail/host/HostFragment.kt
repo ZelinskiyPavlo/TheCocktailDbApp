@@ -65,7 +65,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
         setupTabLayout()
         setupFab()
         loadCocktails()
-
+        attachObserver()
         return viewDataBinding.root
     }
 
@@ -199,5 +199,9 @@ class HostFragment : BaseFragment<FragmentHostBinding, HostViewModel>(), Injecta
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
         viewDataBinding.viewModel?.updateBatteryState(batteryState)
+    }
+
+    private fun attachObserver() {
+        sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
     }
 }
