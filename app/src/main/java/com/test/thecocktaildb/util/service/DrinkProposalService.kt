@@ -35,7 +35,6 @@ class DrinkProposalService : Service() {
                 .subscribe()
         } else {
             if (timerObservable?.isDisposed?.not() == true) {
-                // TODO: у 8 гілці наступного рядка нема
                 timerObservable?.dispose()
                 stopForeground(true)
                 stopSelf()

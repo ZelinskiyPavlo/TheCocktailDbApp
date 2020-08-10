@@ -1,17 +1,16 @@
 package com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.base
 
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.adapter.recyclerview.base.BaseAdapter
 
-// TODO: видалена в 9 гілці (версія з 8 гілки)
-abstract class BaseCocktailAdapter<T> : BaseAdapter<Cocktail>() {
+abstract class BaseCocktailAdapter<T> : BaseAdapter<CocktailModel>() {
 
-    abstract override fun setData(items: List<Cocktail>?)
+    abstract override fun setData(items: List<CocktailModel>?)
 
-    protected var cocktailsList: List<Cocktail> = emptyList()
+    protected var cocktailsList: List<CocktailModel> = emptyList()
 
-    override fun getItemForPosition(position: Int): Cocktail = cocktailsList[position]
+    override fun getItemForPosition(position: Int): CocktailModel = cocktailsList[position]
 
     override fun getLayoutIdForPosition(position: Int): Int = R.layout.item_cocktail
 

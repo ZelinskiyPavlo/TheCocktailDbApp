@@ -7,7 +7,7 @@
 package com.test.thecocktaildb.ui.cocktail.filtertype
 
 @Suppress("unused")
-enum class CocktailIngredient(override val type: DrinkFilterType, override val key: String) :
+enum class IngredientDrinkFilter(override val type: DrinkFilterType, override val key: String) :
     DrinkFilter {
     LIGHT_RUM(DrinkFilterType.INGREDIENT, "Light rum"),
     APPLEJACK(DrinkFilterType.INGREDIENT, "Applejack"),

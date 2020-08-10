@@ -16,7 +16,6 @@ import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktail.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
-import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.util.EXTRA_KEY_SELECTED_LANGUAGE
 import com.test.thecocktaildb.util.LANG_SHARED_PREFS
 import com.test.thecocktaildb.util.LanguageType

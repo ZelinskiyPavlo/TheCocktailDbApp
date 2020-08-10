@@ -9,8 +9,7 @@ import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
-import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
-import com.test.thecocktaildb.ui.cocktail.filtertype.*
+import com.test.thecocktaildb.ui.cocktail.filtertype.IngredientDrinkFilter
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.Event
 import com.test.thecocktaildb.util.stateHandle
@@ -178,7 +177,7 @@ class SharedHostViewModel(
                                 .find { it.key == filterTypeKey }
                             index == 1 -> CocktailCategory.values()
                                 .find { it.key == filterTypeKey }
-                            index == 2 -> CocktailIngredient.values()
+                            index == 2 -> IngredientDrinkFilter.values()
                                 .find { it.key == filterTypeKey }
                             index == 3 -> throw IndexOutOfBoundsException(
                                 "Looks like you added new filter type" +
@@ -232,9 +231,6 @@ class SharedHostViewModel(
         chooseTextSuffix = chooseText
 
         emptyResult = emptyResultText
-
-        // TODO: в 9 гілці цього рядка нема
-        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
@@ -251,7 +247,7 @@ class SharedHostViewModel(
             }
             DrinkFilterType.INGREDIENT -> {
                 _filterListLiveData.value?.toMutableList()?.apply {
-                    set(2, CocktailIngredient.values()[itemId])
+                    set(2, IngredientDrinkFilter.values()[itemId])
                 }
             }
             else -> throw IllegalArgumentException("Unknown filter type was chosen")
@@ -274,9 +270,10 @@ class SharedHostViewModel(
                 DrinkFilterType.INGREDIENT -> {
                     _cocktailsLiveData.value =
                         _cocktailsLiveData.value?.filter {
-                            it.createIngredientsList()
-                                .map { ingredient -> ingredient.name }
-                                .contains(filterType.key)
+                            it.ingredients.contains(filterType)
+//                                .createIngredientsList()
+//                                .map { ingredient -> ingredient.name }
+//                                .contains(filterType.key)
                         }
                 }
                 else -> throw IllegalArgumentException("Unknown filter type was chosen")

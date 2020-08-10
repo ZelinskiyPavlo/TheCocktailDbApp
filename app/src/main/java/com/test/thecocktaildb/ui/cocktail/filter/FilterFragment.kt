@@ -15,10 +15,12 @@ import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentationNew.model.CocktailAlcoholType
 import com.test.thecocktaildb.presentationNew.model.CocktailCategory
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktail.filtertype.*
+import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
+import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktail.filtertype.IngredientDrinkFilter
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import javax.inject.Inject
 
@@ -70,7 +72,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
 
     private fun setupFilterPopMenu() {
         fun populateMenu(drinkFilterList: Array<out DrinkFilter>, popupMenu: PopupMenu) {
-            drinkFilterList.forEachIndexed { index, drinkFilter ->
+            drinkFilterList.dropLast(1).forEachIndexed { index, drinkFilter ->
                 popupMenu.menu.add(
                     Menu.NONE, index, Menu.NONE, drinkFilter.key
                         .replace("_", " ")
@@ -85,7 +87,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
 
         val alcoholDrinkFilter = CocktailAlcoholType.values()
         val categoryDrinkFilter = CocktailCategory.values()
-        val ingredientDrinkFilter = CocktailIngredient.values().dropLast(1).toTypedArray()
+        val ingredientDrinkFilter = IngredientDrinkFilter.values().dropLast(1).toTypedArray()
 
         populateMenu(alcoholDrinkFilter, alcoholMenu)
         populateMenu(categoryDrinkFilter, categoryMenu)
