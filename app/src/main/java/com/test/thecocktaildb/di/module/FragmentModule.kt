@@ -4,13 +4,13 @@ import com.test.thecocktaildb.ui.auth.AuthActivity
 import com.test.thecocktaildb.ui.auth.login.LoginFragment
 import com.test.thecocktaildb.ui.auth.register.RegisterFragment
 import com.test.thecocktaildb.ui.auth.splash.SplashFragment
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment
-import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
-import com.test.thecocktaildb.ui.cocktailScreen.favoriteScreen.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktailScreen.filterScreen.FilterFragment
-import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragment
-import com.test.thecocktaildb.ui.cocktailScreen.historyScreen.HistoryFragment
-import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment
+import com.test.thecocktaildb.ui.cocktail.MainActivity
+import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
+import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
+import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
+import com.test.thecocktaildb.ui.cocktail.host.HostFragment
+import com.test.thecocktaildb.ui.detail.CocktailDetailsFragment
+import com.test.thecocktaildb.ui.search.SearchCocktailFragment
 import com.test.thecocktaildb.ui.setting.SettingFragment
 import com.test.thecocktaildb.ui.setting.profile.ProfileFragment
 import dagger.Module
@@ -29,7 +29,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeSearchCocktailsFragment(): SearchCocktailsFragment
+    abstract fun contributeSearchCocktailsFragment(): SearchCocktailFragment
 
     @ContributesAndroidInjector
     @Suppress("unused")

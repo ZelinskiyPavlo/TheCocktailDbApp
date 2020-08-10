@@ -9,13 +9,13 @@
         
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.HostViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.cocktailScreen.fragmentHostScreen.HostFragment">
+        tools:context=".ui.cocktail.host.HostFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

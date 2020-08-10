@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.presentationNew.model.cocktail
 
-import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilter
-import com.test.thecocktaildb.ui.cocktailScreen.drinkFilter.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
+import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
 
 @Suppress("unused")
 enum class CocktailGlass(override val type: DrinkFilterType, override val key: String) :

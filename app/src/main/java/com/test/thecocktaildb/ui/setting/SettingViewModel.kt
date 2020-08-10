@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
 import com.test.thecocktaildb.ui.base.BaseViewModel
-import com.test.thecocktaildb.util.BatteryStateCacheHolder
-import com.test.thecocktaildb.util.BatteryStateHolder
+import com.test.thecocktaildb.util.batterystate.BatteryStateCacheHolder
+import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
 
 class SettingViewModel(savedStateHandle: SavedStateHandle): BaseViewModel(savedStateHandle) {
 

@@ -12,7 +12,7 @@
 
         <variable
             name="listener"
-            type="com.test.thecocktaildb.util.CocktailsItemUserActionListener" />
+            type="com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener" />
 
     </data>
 

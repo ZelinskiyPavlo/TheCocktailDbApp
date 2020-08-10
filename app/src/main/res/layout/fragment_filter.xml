@@ -7,7 +7,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
 
@@ -28,7 +28,7 @@
                 android:focusable="true"
                 android:paddingHorizontal="@dimen/padding_16dp"
                 android:paddingVertical="@dimen/padding_24dp"
-                tools:context=".ui.cocktailScreen.filterScreen.FilterFragment">
+                tools:context=".ui.cocktail.filter.FilterFragment">
 
                 <Button
                     android:id="@+id/filter_btn_alcohol"

@@ -11,7 +11,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.SharedMainViewModel" />
 
         <variable
             name="fragment"

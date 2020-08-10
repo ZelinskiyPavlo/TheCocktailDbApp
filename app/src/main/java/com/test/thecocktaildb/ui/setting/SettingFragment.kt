@@ -13,17 +13,17 @@ import androidx.fragment.app.viewModels
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentSettingBinding
 import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.ui.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktailScreen.SharedMainViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.callback.BatteryStateCallback
+import com.test.thecocktaildb.ui.cocktail.SharedMainViewModel
+import com.test.thecocktaildb.ui.cocktail.callback.BatteryStateCallback
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.setting.profile.ProfileFragment
 import com.test.thecocktaildb.ui.setting.test.TestFragment
-import com.test.thecocktaildb.util.BatteryStateHolder
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SettingViewModelFactory
+import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
 import javax.inject.Inject
 

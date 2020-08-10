@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel" />
+            type="com.test.thecocktaildb.ui.search.SearchCocktailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

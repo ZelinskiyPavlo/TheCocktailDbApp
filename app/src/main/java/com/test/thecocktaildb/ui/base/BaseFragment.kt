@@ -14,6 +14,8 @@ import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentationNew.extension.observeNotNull
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
 import icepick.Icepick
 
 abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragment(), Injectable,
