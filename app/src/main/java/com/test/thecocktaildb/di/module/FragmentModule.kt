@@ -53,7 +53,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeCocktailsActivity(): MainActivity
+    abstract fun contributeMainActivity(): MainActivity
 
     @ContributesAndroidInjector
     @Suppress("unused")

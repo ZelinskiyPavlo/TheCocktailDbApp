@@ -26,6 +26,7 @@ class CocktailAdapter(private val viewModel: SharedHostViewModel) :
                 viewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
             }
 
+            // TODO: тут застаріла версія обробки лонг кліка
             override fun onItemLongClicked(view: View, cocktail: CocktailModel): Boolean {
                 PopupMenu(view.context, view).apply {
                     setOnMenuItemClickListener { menuItem ->

@@ -93,7 +93,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/cocktail_name_tag"
+                    android:text="@string/cocktail_details_name_tag"
                     android:textAppearance="@style/TextBoldRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
@@ -104,7 +104,7 @@
                     style="@style/TextSpacing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/cocktail_alcoholic_tag"
+                    android:text="@string/cocktail_details_alcoholic_tag"
                     android:textAppearance="@style/TextBoldRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
@@ -116,7 +116,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_8dp"
-                    android:text="@string/cocktail_glass_tag"
+                    android:text="@string/cocktail_details_glass_tag"
                     android:textAppearance="@style/TextBoldRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toLeftOf="@+id/second_column_guideline"
@@ -161,7 +161,7 @@
                     android:id="@+id/ingredients_tag"
                     style="@style/SectionDivider"
                     android:layout_width="match_parent"
-                    android:text="@string/ingredients_tag"
+                    android:text="@string/cocktail_details_ingredients_tag"
                     android:textAppearance="@style/TextBoldTitle"
                     app:layout_constraintTop_toBottomOf="@+id/cocktail_glass" />
 
@@ -180,7 +180,7 @@
                     android:id="@+id/instructions_tag"
                     style="@style/SectionDivider"
                     android:layout_width="match_parent"
-                    android:text="@string/instructions_tag"
+                    android:text="@string/cocktail_details_instructions_tag"
                     android:textAppearance="@style/TextBoldTitle"
                     app:layout_constraintTop_toBottomOf="@+id/ingredients_rv" />
 

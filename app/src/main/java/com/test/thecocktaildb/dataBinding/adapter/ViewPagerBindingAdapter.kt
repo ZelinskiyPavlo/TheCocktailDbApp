@@ -1,7 +1,9 @@
 package com.test.thecocktaildb.dataBinding.adapter
 
 import androidx.databinding.*
+import androidx.databinding.adapters.ListenerUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.test.thecocktaildb.R
 
 @BindingAdapter("bind:vp_page")
 fun ViewPager2.setCurrentPage(page: Int) {
@@ -13,19 +15,27 @@ fun ViewPager2.getCurrentPage(): Int {
     return currentItem
 }
 
-@BindingAdapter(/*"bind:vp_onPageChanged", */"bind:vp_pageAttrChanged")
-fun ViewPager2.linkerTemp(
-    inverseListener: InverseBindingListener
-) {
-    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            inverseListener.onChange()
-        }
-    })
-}
+@BindingAdapter("bind:vp_pageAttrChanged")
+fun ViewPager2.pageChangeListener(pageAttrChanged: InverseBindingListener?) {
+    val newListener: ViewPager2.OnPageChangeCallback?
 
-interface pageChangeListener
+    newListener = if (pageAttrChanged == null) {
+        null
+    } else {
+        object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                pageAttrChanged.onChange()
+            }
+        }
+    }
+
+    val oldListener =
+        ListenerUtil.trackListener(this, newListener, R.id.viewpager_page_change_listener)
+    oldListener?.let { unregisterOnPageChangeCallback(oldListener) }
+
+    newListener?.let { registerOnPageChangeCallback(newListener) }
+}
 
 object Converter {
 

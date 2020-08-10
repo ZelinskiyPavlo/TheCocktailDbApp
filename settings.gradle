@@ -1,2 +1,3 @@
+include ':localization'
 rootProject.name='TheCocktailDb'
 include ':app'

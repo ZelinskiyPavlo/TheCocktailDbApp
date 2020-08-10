@@ -1,4 +1,6 @@
 <resources>
+<!--    TODO: стрінги з 11 гілки, переглянути і додати нові стрінги-->
+
     <!--region High level text-->
     <string name="app_name">TheCocktailDb</string>
     <string name="app_name_simplified">Pavlo Zelinskiy</string>
