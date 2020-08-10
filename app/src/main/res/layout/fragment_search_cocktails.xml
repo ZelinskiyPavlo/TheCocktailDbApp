@@ -25,7 +25,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/cocktail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp">
 
                 <include
                     android:id="@+id/search_field_layout"
@@ -58,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:gravity="center_vertical"
-                android:text="@string/search_help_text"
+                android:text="@string/search_cocktail_hint"
                 android:textAppearance="@style/TextHint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -80,7 +81,7 @@
                 app:constraint_referenced_ids="search_help_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-		
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

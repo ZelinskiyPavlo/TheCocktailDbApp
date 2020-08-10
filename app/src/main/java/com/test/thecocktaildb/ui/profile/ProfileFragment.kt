@@ -1,5 +1,6 @@
 package com.test.thecocktaildb.ui.profile
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,11 @@ import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktail.SharedMainViewModel
 import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.util.EXTRA_KEY_SELECTED_LANGUAGE
+import com.test.thecocktaildb.util.LANG_SHARED_PREFS
+import com.test.thecocktaildb.util.LanguageType
+import com.test.thecocktaildb.util.getSelectedLanguageIndex
 
 class ProfileFragment : Injectable,
     BaseFragment<FragmentProfileBinding>(),
@@ -57,11 +63,17 @@ class ProfileFragment : Injectable,
 
     fun showLogOutBottomSheetDialog() {
         RegularBottomSheetDialogFragment.newInstance {
-            titleText = "Log Out"
-            descriptionText = "Do you really want to exit?"
-            leftButtonText = "Cancel"
-            rightButtonText = "Exit"
+            titleText = getString(R.string.dialog_log_out_title)
+            descriptionText = getString(R.string.dialog_log_out_description)
+            leftButtonText = getString(R.string.dialog_log_out_cancel)
+            rightButtonText = getString(R.string.dialog_log_out_accept)
         }.show(childFragmentManager, "LogOutFragment")
+    }
+
+    fun showChangeLanguageDialog() {
+        val localeIndex = getSelectedLanguageIndex(requireActivity())
+        LanguageListBottomSheetDialogFragment.newInstance(localeIndex)
+            .show(childFragmentManager, "LanguageDialog")
     }
 
     override fun onBottomSheetDialogFragmentClick(
@@ -77,6 +89,22 @@ class ProfileFragment : Injectable,
                     RightDialogButton -> {
                         requireContext()
                             .startActivity(Intent(requireContext(), AuthActivity::class.java))
+                    }
+                }
+            }
+            LanguageDialogType -> {
+                when (buttonType) {
+                    ItemListDialogButton -> {
+                        val chosenLanguage = data as? LanguageType
+
+                        val sharedPref = activity?.getSharedPreferences(
+                            LANG_SHARED_PREFS, Context.MODE_PRIVATE
+                        ) ?: return
+                        with(sharedPref.edit()) {
+                            putInt(EXTRA_KEY_SELECTED_LANGUAGE, chosenLanguage!!.ordinal)
+                            apply()
+                        }
+                        activity?.recreate()
                     }
                 }
             }

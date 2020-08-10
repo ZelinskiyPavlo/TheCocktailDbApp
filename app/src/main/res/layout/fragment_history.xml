@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?attr/actionBarSize"
-                android:text="@string/empty_history_text"
+                android:text="@string/history_fragment_empty_list"
                 android:textAppearance="@style/TextHint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

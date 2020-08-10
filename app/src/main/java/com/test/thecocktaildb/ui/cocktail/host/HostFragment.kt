@@ -4,9 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.text.bold
+import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -87,7 +91,6 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
 
     private fun setupToolbar() {
         viewDataBinding.hostFragmentToolbar.primaryOption.setOnClickListener {
-            sharedHostViewModel.isFilterFragmentOpened = true
             val filterFragment = FilterFragment.newInstance()
             childFragmentManager.beginTransaction()
                 .add(R.id.filter_fragment_container, filterFragment)
@@ -96,16 +99,30 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
         }
 
         viewDataBinding.hostFragmentToolbar.secondaryOption.setOnClickListener {
-            val sortKeyTypeList = CocktailSortType.values().map { it.key }.toTypedArray()
+            val selectedColor = ContextCompat
+                .getColor(requireActivity(), R.color.selected_cocktail_sort_type)
+            val sortKeyTypeList = CocktailSortType.values().mapIndexed { index, sortType ->
+                when {
+                    index == 0 && sharedHostViewModel.sortingOrderLiveData.value == null -> {
+                        SpannableStringBuilder()
+                            .bold { color(selectedColor) { append(CocktailSortType.RECENT.key) } }
+                    }
+                    sharedHostViewModel.sortingOrderLiveData.value?.key == sortType.key -> {
+                        SpannableStringBuilder()
+                            .bold { color(selectedColor) { append(sortType.key) } }
+                    }
+                    else -> sortType.key
+                }
+            }.toTypedArray()
             MaterialAlertDialogBuilder(context)
-                .setTitle("Choose sort type")
+                .setTitle(getString(R.string.dialog_cocktail_sorting_title))
                 .setItems(sortKeyTypeList) { _, i ->
                     sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
                 }.show()
         }
 
         sharedHostViewModel.filterListLiveData.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty() && it != listOf(null, null))
+            if (it.isNotEmpty() && it != listOf(null, null, null))
                 viewDataBinding.hostFragmentToolbar
                     .changePrimaryOptionImage(R.drawable.ic_filter_list_24_indicator)
             else viewDataBinding.hostFragmentToolbar
@@ -142,11 +159,7 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
         val favoriteFragment = FavoriteFragment.newInstance()
         fragmentList = arrayListOf(historyFragment, favoriteFragment)
 
-        val cocktailPagerAdapter =
-            CocktailPagerAdapter(
-                fragmentList,
-                this
-            )
+        val cocktailPagerAdapter = CocktailPagerAdapter(fragmentList, this)
 
         viewPager = viewDataBinding.vpMainFragment.apply {
             adapter = cocktailPagerAdapter

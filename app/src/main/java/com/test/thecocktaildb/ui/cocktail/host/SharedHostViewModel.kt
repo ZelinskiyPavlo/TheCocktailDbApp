@@ -10,6 +10,8 @@ import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
+import com.test.thecocktaildb.ui.cocktail.filtertype.*
+import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.Event
 import com.test.thecocktaildb.util.stateHandle
 import io.reactivex.disposables.CompositeDisposable
@@ -49,8 +51,6 @@ class SharedHostViewModel(
     val isFavoriteListEmptyLiveData: LiveData<Boolean> =
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
-    var isFilterFragmentOpened = false
-
     private val _filterListLiveData = MutableLiveData<List<DrinkFilter?>>()
     val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
 
@@ -66,8 +66,14 @@ class SharedHostViewModel(
         else "${it[1]?.key?.replace("\\/", "")}    $changeTextSuffix"
     }
 
+    val ingredientSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
+        if (it[2] == null) chooseTextSuffix
+        else "${it[2]?.key?.replace("\\/", "")}    $changeTextSuffix"
+    }
+
     private lateinit var changeTextSuffix: String
     private lateinit var chooseTextSuffix: String
+    private lateinit var emptyResult: String
 
     private var cachedSortingOrder: CocktailSortType? = null
 
@@ -77,7 +83,7 @@ class SharedHostViewModel(
     private val filterAndSortLiveData: LiveData<Unit> = MediatorLiveData<Unit>().apply {
         fun transformData() {
             allCocktailList?.let { _cocktailsLiveData.value = it }
-            applyFilter(_filterListLiveData.value ?: listOf(null, null))
+            applyFilter(_filterListLiveData.value ?: listOf(null, null, null))
             applySorting(sortingOrderLiveData.value)
             value = Unit
         }
@@ -97,7 +103,11 @@ class SharedHostViewModel(
                         filterTypeIndexArray?.set(1, filterType.key)
                         filterTypeIndexArray
                     }
-                    else -> throw IllegalArgumentException("unknown filter type was chosen")
+                    filterType.type == DrinkFilterType.INGREDIENT -> {
+                        filterTypeIndexArray?.set(2, filterType.key)
+                        filterTypeIndexArray
+                    }
+                    else -> throw IllegalArgumentException("Unknown filter type was chosen")
                 }
             }
         }
@@ -125,19 +135,18 @@ class SharedHostViewModel(
         }
     }
 
-    val filterResultLiveData: LiveData<String> =
-        MediatorLiveData<String>().apply {
+    val filterResultLiveData: LiveData<Event<String>> =
+        MediatorLiveData<Event<String>>().apply {
             fun determineResult() {
-                if (!isFilterFragmentOpened) return
-                if (_filterListLiveData.value == listOf(null, null)) return
+                if (_filterListLiveData.value == listOf(null, null, null)) return
 
                 val numberOfHistory = cocktailsLiveData.value?.size
                 val numberOfFavorite = favoriteListLiveData.value?.size
 
                 value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                    "Результаті відсутні"
+                    Event(emptyResult)
                 else
-                    "Результати (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)"
+                    Event("Results (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
             }
             addSource(filterAndSortLiveData) {
                 determineResult()
@@ -158,8 +167,8 @@ class SharedHostViewModel(
         @Suppress("IMPLICIT_CAST_TO_ANY")
         fun restoreFilters() {
             if (filterTypeIndexArray == null) {
-                _filterListLiveData.value = listOf(null, null)
-                filterTypeIndexArray = arrayOfNulls<String?>(2)
+                _filterListLiveData.value = listOf(null, null, null)
+                filterTypeIndexArray = arrayOfNulls<String?>(3)
             } else {
                 val extractedFilterList = filterTypeIndexArray!!
                     .mapIndexed { index, filterTypeKey ->
@@ -169,7 +178,9 @@ class SharedHostViewModel(
                                 .find { it.key == filterTypeKey }
                             index == 1 -> CocktailCategory.values()
                                 .find { it.key == filterTypeKey }
-                            index == 2 -> throw IndexOutOfBoundsException(
+                            index == 2 -> CocktailIngredient.values()
+                                .find { it.key == filterTypeKey }
+                            index == 3 -> throw IndexOutOfBoundsException(
                                 "Looks like you added new filter type" +
                                         " and forget to add extracting it's value"
                             )
@@ -216,9 +227,14 @@ class SharedHostViewModel(
         }
     }
 
-    fun setInitialText(chooseText: String, changeText: String) {
+    fun setInitialText(chooseText: String, changeText: String, emptyResultText: String) {
         changeTextSuffix = changeText
         chooseTextSuffix = chooseText
+
+        emptyResult = emptyResultText
+
+        // TODO: в 9 гілці цього рядка нема
+        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
@@ -233,12 +249,17 @@ class SharedHostViewModel(
                     set(1, CocktailCategory.values()[itemId])
                 }
             }
-            else -> throw IllegalArgumentException("unknown filter type was chosen")
+            DrinkFilterType.INGREDIENT -> {
+                _filterListLiveData.value?.toMutableList()?.apply {
+                    set(2, CocktailIngredient.values()[itemId])
+                }
+            }
+            else -> throw IllegalArgumentException("Unknown filter type was chosen")
         }
     }
 
     private fun applyFilter(filterTypeList: List<DrinkFilter?>) {
-        if (filterTypeList == listOf(null, null)) return
+        if (filterTypeList == listOf(null, null, null)) return
 
         filterTypeList.filterNotNull().forEach { filterType ->
             when (filterType.type) {
@@ -250,17 +271,24 @@ class SharedHostViewModel(
                     _cocktailsLiveData.value =
                         _cocktailsLiveData.value?.filter { it.category == filterType }
                 }
-                else -> throw IllegalArgumentException("unknown filter type was chosen")
+                DrinkFilterType.INGREDIENT -> {
+                    _cocktailsLiveData.value =
+                        _cocktailsLiveData.value?.filter {
+                            it.createIngredientsList()
+                                .map { ingredient -> ingredient.name }
+                                .contains(filterType.key)
+                        }
+                }
+                else -> throw IllegalArgumentException("Unknown filter type was chosen")
             }
         }
     }
 
     fun resetFilters() {
-        _filterListLiveData.value = listOf(null, null)
+        _filterListLiveData.value = listOf(null, null, null)
     }
 
     fun onApplyButtonClicked() {
-        isFilterFragmentOpened = false
         _applyFilterEventLiveData.value = Event(Unit)
     }
 

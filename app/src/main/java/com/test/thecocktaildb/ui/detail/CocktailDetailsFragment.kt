@@ -81,14 +81,11 @@ class CocktailDetailsFragment : Injectable,
         val displayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val maxImageWidth = displayMetrics.widthPixels
-        val minImageWidth =
-            (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
+        val minImageWidth = (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
         var cachedImageWidth = maxImageWidth
 
-        val imageMarginStart =
-            (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
-        val imageMarginTop =
-            (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
+        val imageMarginStart = (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
+        val imageMarginTop = (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
 
         val marginParams =
             viewDataBinding.cocktailImage.layoutParams as ViewGroup.MarginLayoutParams

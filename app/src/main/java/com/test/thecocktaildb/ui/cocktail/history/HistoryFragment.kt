@@ -70,18 +70,13 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = HostFragmentDirections
-                    .actionHostFragmentToCocktailDetailsFragment(
-                        actionBarTitle, cocktailId
-                    )
+                    .actionHostFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
                 findNavController().navigate(action)
             })
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter =
-            CocktailAdapter(
-                sharedHostViewModel
-            )
+        val cocktailsAdapter = CocktailAdapter(sharedHostViewModel)
         viewDataBinding.cocktailsRv.apply {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
@@ -115,10 +110,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
         ) {
             val proposalSnackbar = Snackbar.make(
                 viewDataBinding.root,
-                getString(R.string.proposal_snackbar_message),
+                getString(R.string.snackbar_drink_proposal_title),
                 Snackbar.LENGTH_LONG
             )
-            proposalSnackbar.setAction(getString(R.string.show_proposed_cocktail)) {
+            proposalSnackbar.setAction(getString(R.string.snackbar_button_show_proposed_cocktail)) {
                 sharedHostViewModel.openProposedCocktail(selectedCocktailId)
             }
             proposalSnackbar.show()

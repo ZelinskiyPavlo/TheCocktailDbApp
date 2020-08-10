@@ -22,6 +22,7 @@ import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.MainViewModelFactory
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
+import com.test.thecocktaildb.util.setLocale
 import icepick.State
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -52,7 +53,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     @State
     var selectedTab: Int? = null
 
+    private var cocktailOfTheDayDialog: RegularDialogFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setLocale(this)
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         initNavHost()
@@ -148,13 +152,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     fun checkLastClosedTime() {
         lastSavedTime?.let {
             val currentTime = System.currentTimeMillis()
-            if (currentTime - it > 10000) showCocktailOfTheDayDialog()
+            if (currentTime - it > 10000) {
+                showCocktailOfTheDayDialog()
+                lastSavedTime = null
+            }
         }
-    }
-
-    override fun onDestroy() {
-        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
-        super.onDestroy()
     }
 
     @Suppress("unused")
@@ -163,14 +165,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
         lastSavedTime = System.currentTimeMillis()
     }
 
-    // TODO: extract string resources
+    override fun onDestroy() {
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+        super.onDestroy()
+    }
+
     private fun showCocktailOfTheDayDialog() {
-        RegularDialogFragment.newInstance {
-            titleText = "Cocktail of the day"
-            descriptionText = "Do you want to see cocktail of the day"
-            leftButtonText = "No"
-            rightButtonText = "Yes"
-        }.show(supportFragmentManager, "CocktailOfTheDayDialog")
+        cocktailOfTheDayDialog =
+            supportFragmentManager.findFragmentByTag("CocktailOfTheDayDialog") as? RegularDialogFragment
+        if (cocktailOfTheDayDialog == null) {
+            cocktailOfTheDayDialog = RegularDialogFragment.newInstance {
+                titleText = getString(R.string.dialog_cocktail_of_the_day_title)
+                descriptionText = getString(R.string.dialog_cocktail_of_the_day_description)
+                leftButtonText = getString(R.string.all_no)
+                rightButtonText = getString(R.string.all_yes)
+            }
+        }
+        if (!cocktailOfTheDayDialog!!.isVisible && !cocktailOfTheDayDialog!!.isAdded)
+            cocktailOfTheDayDialog!!.show(supportFragmentManager, "CocktailOfTheDayDialog")
     }
 
     override fun onDialogFragmentClick(

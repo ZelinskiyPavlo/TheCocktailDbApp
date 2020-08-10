@@ -8,6 +8,7 @@ import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserA
 import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.base.BaseCocktailAdapter
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 
+// TODO: видалена в 8 гілці (версія з 9 гілки)
 class CocktailAdapter(private val viewModel: SharedHostViewModel) :
     BaseCocktailAdapter<CocktailModel>() {
 
