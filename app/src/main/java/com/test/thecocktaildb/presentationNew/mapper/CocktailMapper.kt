@@ -3,7 +3,7 @@ package com.test.thecocktaildb.presentationNew.mapper
 import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.presentationNew.mapper.base.BaseModelMapper
 import com.test.thecocktaildb.presentationNew.model.*
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.Ingredient
+import com.test.thecocktaildb.ui.detail.Ingredient
 import java.util.*
 import javax.inject.Inject
 

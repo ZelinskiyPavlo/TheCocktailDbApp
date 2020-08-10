@@ -1,14 +1,14 @@
 package com.test.thecocktaildb.di.module
 
 import com.test.thecocktaildb.ui.auth.AuthActivity
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsFragment
-import com.test.thecocktaildb.ui.cocktailScreen.MainActivity
-import com.test.thecocktaildb.ui.cocktailScreen.favoriteScreen.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktailScreen.filterScreen.FilterFragment
-import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostFragment
-import com.test.thecocktaildb.ui.cocktailScreen.historyScreen.HistoryFragment
-import com.test.thecocktaildb.ui.profileScreen.ProfileFragment
-import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsFragment
+import com.test.thecocktaildb.ui.cocktail.MainActivity
+import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
+import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
+import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
+import com.test.thecocktaildb.ui.cocktail.host.HostFragment
+import com.test.thecocktaildb.ui.detail.CocktailDetailsFragment
+import com.test.thecocktaildb.ui.profile.ProfileFragment
+import com.test.thecocktaildb.ui.search.SearchCocktailFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,7 +25,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
-    abstract fun contributeSearchCocktailsFragment(): SearchCocktailsFragment
+    abstract fun contributeSearchCocktailsFragment(): SearchCocktailFragment
 
     @ContributesAndroidInjector
     @Suppress("unused")

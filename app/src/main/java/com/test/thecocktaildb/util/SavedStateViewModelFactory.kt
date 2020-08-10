@@ -11,11 +11,11 @@ import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
 import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
 import com.test.thecocktaildb.ui.auth.AuthViewModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
-import com.test.thecocktaildb.ui.cocktailDetailsScreen.CocktailDetailsViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.MainViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.HostViewModel
-import com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel
-import com.test.thecocktaildb.ui.searchCocktailsScreen.SearchCocktailsViewModel
+import com.test.thecocktaildb.ui.cocktail.MainViewModel
+import com.test.thecocktaildb.ui.cocktail.host.HostViewModel
+import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
+import com.test.thecocktaildb.ui.detail.CocktailDetailsViewModel
+import com.test.thecocktaildb.ui.search.SearchCocktailViewModel
 import javax.inject.Inject
 
 class SavedStateViewModelFactory<out V : BaseViewModel>(
@@ -83,9 +83,9 @@ class SearchCocktailsViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
     private val oldCocktailMapper: CocktailMapper
-) : ViewModelAssistedFactory<SearchCocktailsViewModel> {
-    override fun create(handle: SavedStateHandle): SearchCocktailsViewModel {
-        return SearchCocktailsViewModel(
+) : ViewModelAssistedFactory<SearchCocktailViewModel> {
+    override fun create(handle: SavedStateHandle): SearchCocktailViewModel {
+        return SearchCocktailViewModel(
             handle, repository, cocktailRepo, cocktailMapper, oldCocktailMapper
         )
     }
