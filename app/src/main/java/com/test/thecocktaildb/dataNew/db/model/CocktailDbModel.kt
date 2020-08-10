@@ -19,17 +19,27 @@ ${Table.INSTRUCTION}.instruction_es AS instruction_de,
 ${Table.INSTRUCTION}.instruction_fr AS instruction_fr, 
 ${Table.INSTRUCTION}.instruction_zn_hans AS instruction_zn_hans, 
 ${Table.INSTRUCTION}.instruction_zn_hant AS instruction_zn_hant, 
-GROUP_CONCAT(${Table.INGREDIENT}.ingredient) AS ingredients, 
-GROUP_CONCAT(${Table.MEASURE}.measure) AS measures, 
+ingredients, 
+measures, 
 ${Table.COCKTAIL}.is_favorite AS isFavorite, ${Table.COCKTAIL}.date_added AS dateAdded
 FROM ${Table.COCKTAIL} 
-INNER JOIN ${Table.COCKTAIL_INGREDIENT} ON ${Table.COCKTAIL}.id = ${Table.COCKTAIL_INGREDIENT}.cocktail_id 
-INNER JOIN ${Table.INGREDIENT} ON ${Table.COCKTAIL_INGREDIENT}.ingredient = ${Table.INGREDIENT}.ingredient 
-INNER JOIN ${Table.COCKTAIL_MEASURE} ON ${Table.COCKTAIL}.id = ${Table.COCKTAIL_MEASURE}.cocktail_id 
-INNER JOIN ${Table.MEASURE} ON ${Table.COCKTAIL_MEASURE}.measure = ${Table.MEASURE}.measure 
+INNER JOIN (
+SELECT ${Table.COCKTAIL}.id, GROUP_CONCAT(${Table.INGREDIENT}.ingredient) AS ingredients
+FROM ${Table.COCKTAIL} 
+INNER JOIN ${Table.COCKTAIL_INGREDIENT} ON ${Table.COCKTAIL}.id = ${Table.COCKTAIL_INGREDIENT}.cocktail_id
+INNER JOIN ${Table.INGREDIENT} ON ${Table.COCKTAIL_INGREDIENT}.ingredient = ${Table.INGREDIENT}.ingredient
+GROUP BY ${Table.COCKTAIL}.id
+) AS ingredient_join ON ${Table.COCKTAIL}.id = ingredient_join.id
+INNER JOIN (
+SELECT ${Table.COCKTAIL}.id, GROUP_CONCAT(${Table.MEASURE}.measure) AS measures
+FROM ${Table.COCKTAIL} 
+INNER JOIN ${Table.COCKTAIL_MEASURE} ON ${Table.COCKTAIL}.id = ${Table.COCKTAIL_MEASURE}.cocktail_id
+INNER JOIN ${Table.MEASURE} ON ${Table.COCKTAIL_MEASURE}.measure = ${Table.MEASURE}.measure
+GROUP BY ${Table.COCKTAIL}.id
+) AS measure_join ON ${Table.COCKTAIL}.id = measure_join.id
 INNER JOIN ${Table.NAME} ON ${Table.COCKTAIL}.id = ${Table.NAME}.cocktail_id 
 INNER JOIN ${Table.INSTRUCTION} ON ${Table.COCKTAIL}.id = ${Table.INSTRUCTION}.cocktail_id 
-WHERE ${Table.NAME}.cocktail_id = id AND ${Table.INSTRUCTION}.cocktail_id = id 
+WHERE ${Table.NAME}.cocktail_id = ${Table.COCKTAIL}.id AND ${Table.INSTRUCTION}.cocktail_id = ${Table.COCKTAIL}.id 
 GROUP BY ${Table.COCKTAIL}.id"""
 )
 class CocktailDbModel(

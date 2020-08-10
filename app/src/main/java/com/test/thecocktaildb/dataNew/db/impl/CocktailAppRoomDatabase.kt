@@ -46,17 +46,27 @@ instruction_entity.instruction_es AS instruction_de,
 instruction_entity.instruction_fr AS instruction_fr, 
 instruction_entity.instruction_zn_hans AS instruction_zn_hans, 
 instruction_entity.instruction_zn_hant AS instruction_zn_hant, 
-GROUP_CONCAT(ingredient_entity.ingredient) AS ingredients, 
-GROUP_CONCAT(measure_entity.measure) AS measures, 
+ingredients, 
+measures, 
 cocktail_entity.is_favorite AS isFavorite, cocktail_entity.date_added AS dateAdded
 FROM cocktail_entity 
-INNER JOIN cocktail_ingredient_junction ON cocktail_entity.id = cocktail_ingredient_junction.cocktail_id 
-INNER JOIN ingredient_entity ON cocktail_ingredient_junction.ingredient = ingredient_entity.ingredient 
-INNER JOIN cocktail_measure_junction ON cocktail_entity.id = cocktail_measure_junction.cocktail_id 
-INNER JOIN measure_entity ON cocktail_measure_junction.measure = measure_entity.measure 
+INNER JOIN (
+SELECT cocktail_entity.id, GROUP_CONCAT(ingredient_entity.ingredient) AS ingredients
+FROM cocktail_entity 
+INNER JOIN cocktail_ingredient_junction ON cocktail_entity.id = cocktail_ingredient_junction.cocktail_id
+INNER JOIN ingredient_entity ON cocktail_ingredient_junction.ingredient = ingredient_entity.ingredient
+GROUP BY cocktail_entity.id
+) AS ingredient_join ON cocktail_entity.id = ingredient_join.id
+INNER JOIN (
+SELECT cocktail_entity.id, GROUP_CONCAT(measure_entity.measure) AS measures
+FROM cocktail_entity 
+INNER JOIN cocktail_measure_junction ON cocktail_entity.id = cocktail_measure_junction.cocktail_id
+INNER JOIN measure_entity ON cocktail_measure_junction.measure = measure_entity.measure
+GROUP BY cocktail_entity.id
+) AS measure_join ON cocktail_entity.id = measure_join.id
 INNER JOIN name_entity ON cocktail_entity.id = name_entity.cocktail_id 
 INNER JOIN instruction_entity ON cocktail_entity.id = instruction_entity.cocktail_id 
-WHERE name_entity.cocktail_id = id AND instruction_entity.cocktail_id = id 
+WHERE name_entity.cocktail_id = cocktail_entity.id AND instruction_entity.cocktail_id = cocktail_entity.id 
 GROUP BY cocktail_entity.id"""
                 )
             }
