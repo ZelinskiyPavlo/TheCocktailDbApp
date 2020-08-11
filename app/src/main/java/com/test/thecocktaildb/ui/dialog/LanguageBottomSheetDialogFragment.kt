@@ -1,9 +1,11 @@
 package com.test.thecocktaildb.ui.dialog
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.View
-import android.widget.CheckedTextView
+import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.text.bold
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.dialog.base.BaseDialogViewHolder
 import com.test.thecocktaildb.ui.dialog.base.DialogListDataAdapter
@@ -38,7 +40,7 @@ open class LanguageListBottomSheetDialogFragment :
 
     override fun getButtonType(view: View): ListDialogButton {
         return when (view.id) {
-            R.id.btn_item_dialog -> ItemListDialogButton
+            R.id.dialog_list_item -> ItemListDialogButton
             else -> throw NotImplementedError("handle another dialog button types")
         }
     }
@@ -53,12 +55,17 @@ open class LanguageListBottomSheetDialogFragment :
     protected inner class LanguageListAdapter : DialogListAdapter(), View.OnClickListener {
 
         override fun convert(helper: BaseDialogViewHolder, position: Int) {
-            with(helper.itemView as CheckedTextView) {
-                text = dialogListDataAdapter.getName(listData[position])
+            with(helper.itemView as TextView) {
+                text = if (listData[position] != selectedLanguage)
+                    dialogListDataAdapter.getName(listData[position])
+                else markTextSelected(dialogListDataAdapter.getName(listData[position]).toString())
                 tag = listData[position]
-                isChecked = (listData[position] == selectedLanguage)
                 setOnClickListener(this@LanguageListAdapter)
             }
+        }
+
+        private fun markTextSelected(text: String): SpannableStringBuilder {
+            return SpannableStringBuilder().bold { append(text) }
         }
     }
 
