@@ -37,8 +37,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUser(user: UserRepoModel) {
-        userDbSource.saveUser(user.run(userModelMapper::mapRepoToDb))
         userNetSource.updateUser(user.run(userModelMapper::mapRepoToNet))
+        userDbSource.saveUser(user.run(userModelMapper::mapRepoToDb))
     }
 
     override suspend fun updateUserAvatar(avatar: File, onUploadProgress: (Float) -> Unit): String {
