@@ -2,11 +2,11 @@ package com.test.thecocktaildb.dataBinding.adapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel
-import com.test.thecocktaildb.ui.cocktail.adapter.recyclerview.CocktailAdapter
-import com.test.thecocktaildb.ui.detail.Ingredient
-import com.test.thecocktaildb.ui.detail.adapter.IngredientAdapter
-import com.test.thecocktaildb.ui.search.adapter.SearchCocktailAdapter
+import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
+import com.test.thecocktaildb.presentation.ui.cocktail.adapter.recyclerview.CocktailAdapter
+import com.test.thecocktaildb.presentation.ui.detail.Ingredient
+import com.test.thecocktaildb.presentation.ui.detail.adapter.IngredientAdapter
+import com.test.thecocktaildb.presentation.ui.search.adapter.SearchCocktailAdapter
 
 @BindingAdapter("bind:rv_cocktails", "bind:rv_adapterTag")
 fun RecyclerView.setItems(items: List<CocktailModel>?, tag: AdapterType) {

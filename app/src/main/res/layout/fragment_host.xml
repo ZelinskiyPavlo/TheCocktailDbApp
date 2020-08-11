@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.cocktail.host.HostViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.cocktail.host.HostViewModel" />
     </data>
 
     <FrameLayout
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.test.thecocktaildb.ui.custom.CustomToolbar
+                <com.test.thecocktaildb.presentation.ui.custom.CustomToolbar
                     android:id="@+id/host_fragment_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

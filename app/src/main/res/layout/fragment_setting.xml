@@ -7,15 +7,15 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.setting.SettingViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.setting.SettingViewModel" />
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktail.SharedMainViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.cocktail.SharedMainViewModel" />
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.ui.setting.SettingFragment" />
+            type="com.test.thecocktaildb.presentation.ui.setting.SettingFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.test.thecocktaildb.ui.custom.CustomToolbar
+            <com.test.thecocktaildb.presentation.ui.custom.CustomToolbar
                 android:id="@+id/host_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:orientation="vertical"
                 android:showDividers="middle">
 
-                <com.test.thecocktaildb.ui.custom.SettingRow
+                <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
@@ -59,14 +59,14 @@
                     android:onClick="@{(view) -> fragment.openProfileFragment()}"
                     app:main_text="@string/setting_fragment_profile_view_title" />
 
-                <com.test.thecocktaildb.ui.custom.SettingRow
+                <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:icon_src="@drawable/ic_remove_circle_28"
                     app:main_text="@string/setting_fragment_test_fragment_view_title"
                     android:onClick="@{(view) -> fragment.openTestFragment()}" />
 
-                <com.test.thecocktaildb.ui.custom.SettingRow
+                <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_language_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     app:icon_src="@drawable/ic_language_28"
                     app:main_text="@string/setting_fragment_language_view_title" />
 
-                <com.test.thecocktaildb.ui.custom.SettingRow
+                <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_battery_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

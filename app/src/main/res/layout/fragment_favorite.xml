@@ -12,7 +12,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

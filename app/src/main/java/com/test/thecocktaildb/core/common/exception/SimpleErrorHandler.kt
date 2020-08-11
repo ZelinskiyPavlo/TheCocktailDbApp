@@ -3,7 +3,7 @@ package com.test.thecocktaildb.core.common.exception
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
+import com.test.thecocktaildb.presentation.ui.dialog.RegularDialogFragment
 
 class SimpleErrorHandler(
     private val fragmentManager: FragmentManager,

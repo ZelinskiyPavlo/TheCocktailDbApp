@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.test.thecocktaildb.ui.auth.splash.SplashFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.auth.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.test.thecocktaildb.ui.auth.login.LoginFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.auth.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.test.thecocktaildb.ui.auth.register.RegisterFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.auth.register.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
@@ -46,7 +46,7 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.test.thecocktaildb.ui.cocktail.MainActivity"
+        android:name="com.test.thecocktaildb.presentation.ui.cocktail.MainActivity"
         android:label="MainActivity"
         tools:layout="@layout/activity_main"/>
 

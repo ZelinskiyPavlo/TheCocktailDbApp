@@ -5,7 +5,7 @@
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.ui.auth.splash.SplashFragment" />
+            type="com.test.thecocktaildb.presentation.ui.auth.splash.SplashFragment" />
     </data>
 
     <LinearLayout

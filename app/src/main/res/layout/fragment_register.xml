@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.auth.register.RegisterViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.auth.register.RegisterViewModel" />
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.ui.auth.register.RegisterFragment" />
+            type="com.test.thecocktaildb.presentation.ui.auth.register.RegisterFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView

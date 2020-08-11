@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.cocktail.history.HistoryFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.cocktail.history.HistoryFragment"
         android:label="@string/cocktail_app_title"
         tools:layout="@layout/fragment_history">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/cocktailDetailsFragment"
-        android:name="com.test.thecocktaildb.ui.detail.CocktailDetailsFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.detail.CocktailDetailsFragment"
         android:label="{action_bar_title}"
         tools:layout="@layout/fragment_cocktail_details">
         <argument
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/searchCocktailsFragment"
-        android:name="com.test.thecocktaildb.ui.search.SearchCocktailFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.search.SearchCocktailFragment"
         android:label="@string/search_cocktail_fragment_label"
         tools:layout="@layout/fragment_search_cocktails">
         <action
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/hostFragment"
-        android:name="com.test.thecocktaildb.ui.cocktail.host.HostFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.cocktail.host.HostFragment"
         android:label="@string/app_name_simplified"
         tools:layout="@layout/fragment_host">
         <action
@@ -60,7 +60,7 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.cocktail.favorite.FavoriteFragment"
         android:label="favorite_fragment"
         tools:layout="@layout/fragment_favorite" >
         <action
@@ -70,7 +70,7 @@
 
     <activity
         android:id="@+id/authActivity"
-        android:name="com.test.thecocktaildb.ui.auth.AuthActivity"
+        android:name="com.test.thecocktaildb.presentation.ui.auth.AuthActivity"
         android:label="AuthActivity"
         tools:layout="@layout/activity_auth">
         <argument
@@ -80,7 +80,7 @@
     </activity>
     <fragment
         android:id="@+id/splashFragment2"
-        android:name="com.test.thecocktaildb.ui.auth.splash.SplashFragment"
+        android:name="com.test.thecocktaildb.presentation.ui.auth.splash.SplashFragment"
         android:label="SplashFragment" />
 
 </navigation>

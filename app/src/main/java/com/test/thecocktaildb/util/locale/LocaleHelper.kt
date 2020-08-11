@@ -3,8 +3,8 @@ package com.test.thecocktaildb.util.locale
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
-import com.test.thecocktaildb.dataNew.local.LocalConstant
-import com.test.thecocktaildb.dataNew.local.impl.source.AppSettingLocalSourceImpl
+import com.test.thecocktaildb.data.local.LocalConstant
+import com.test.thecocktaildb.data.local.impl.source.AppSettingLocalSourceImpl
 import java.util.*
 
 fun setLocale(context: Context) {

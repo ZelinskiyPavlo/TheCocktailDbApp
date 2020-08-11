@@ -2,12 +2,12 @@ package com.test.thecocktaildb.di.module.data
 
 import android.content.Context
 import com.test.thecocktaildb.CocktailApplication
-import com.test.thecocktaildb.dataNew.local.LocalConstant
-import com.test.thecocktaildb.dataNew.local.impl.SharedPrefsHelper
-import com.test.thecocktaildb.dataNew.local.impl.source.AppSettingLocalSourceImpl
-import com.test.thecocktaildb.dataNew.local.impl.source.TokenLocalSourceImpl
-import com.test.thecocktaildb.dataNew.local.source.AppSettingLocalSource
-import com.test.thecocktaildb.dataNew.local.source.TokenLocalSource
+import com.test.thecocktaildb.data.local.LocalConstant
+import com.test.thecocktaildb.data.local.impl.SharedPrefsHelper
+import com.test.thecocktaildb.data.local.impl.source.AppSettingLocalSourceImpl
+import com.test.thecocktaildb.data.local.impl.source.TokenLocalSourceImpl
+import com.test.thecocktaildb.data.local.source.AppSettingLocalSource
+import com.test.thecocktaildb.data.local.source.TokenLocalSource
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -1,0 +1,3 @@
+package com.test.thecocktaildb.presentation.ui.adapter.recyclerview
+
+interface CustomActionListener

@@ -7,7 +7,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
 
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.test.thecocktaildb.ui.custom.CustomToolbar
+            <com.test.thecocktaildb.presentation.ui.custom.CustomToolbar
                 android:id="@+id/filter_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

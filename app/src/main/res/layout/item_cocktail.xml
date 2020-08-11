@@ -8,11 +8,11 @@
 
         <variable
             name="obj"
-            type="com.test.thecocktaildb.presentationNew.model.cocktail.CocktailModel" />
+            type="com.test.thecocktaildb.presentation.model.cocktail.CocktailModel" />
 
         <variable
             name="listener"
-            type="com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener" />
+            type="com.test.thecocktaildb.presentation.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener" />
 
     </data>
 
