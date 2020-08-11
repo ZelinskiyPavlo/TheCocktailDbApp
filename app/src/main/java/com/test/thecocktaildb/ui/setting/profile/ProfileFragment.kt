@@ -176,18 +176,18 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun showLogOutBottomSheetDialog() {
         RegularBottomSheetDialogFragment.newInstance {
-            titleText = "Log Out"
-            descriptionText = "Do you really want to exit?"
-            leftButtonText = "Cancel"
-            rightButtonText = "Exit"
-        }.show(childFragmentManager, "LogOutFragment")
+            titleTextResId = R.string.dialog_log_out_title
+            descriptionTextResId = R.string.dialog_log_out_description
+            leftButtonTextResId = R.string.all_cancel
+            rightButtonTextResId = R.string.all_exit
+        }.show(childFragmentManager, "LogOutDialog")
     }
 
     private fun showInvalidInputDialog() {
         RegularDialogFragment.newInstance {
-            titleText = "Invalid data error"
-            rightButtonText = "Ok"
-            descriptionText = "Your new data didn't match criteria"
+            titleTextResId = R.string.invalid_new_user_data_dialog_title
+            descriptionTextResId = R.string.invalid_new_user_data_dialog_description
+            rightButtonTextResId = R.string.all_ok
         }.show(childFragmentManager, "InvalidDataDialog")
     }
 
@@ -272,10 +272,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         when (requestCode) {
             REQUEST_CODE_IMAGE_CHOOSER_PERMISSION -> {
                 if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                    // permissions granted
                     openGalleryImageChooser()
                 } else {
-                    // user does not grand permissions
                     showNoPermissionGrantedDialog()
                 }
             }
@@ -284,10 +282,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun showNoPermissionGrantedDialog() {
         RegularDialogFragment.newInstance {
-            titleText = "Storage permission required"
-            descriptionText =
-                "Please provide storage permission to be able to choose profile picture"
-            rightButtonText = "Ok"
+            titleTextResId = R.string.no_permission_dialog_title
+            descriptionTextResId = R.string.no_permission_dialog_description
+            rightButtonTextResId = R.string.all_ok
         }.show(parentFragmentManager, "ShowPermissionDialog")
     }
 }

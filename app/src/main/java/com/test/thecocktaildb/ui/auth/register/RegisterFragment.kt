@@ -75,7 +75,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
 
     private fun addLinkedText() {
         viewDataBinding.registerSignInTv
-            .addLinkedText("Sign in") { navigateToLoginFragment() }
+            .addLinkedText(this.getString(R.string.all_sign_in)) { navigateToLoginFragment() }
     }
 
     private fun setupObserver() {
@@ -184,10 +184,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
 
     private fun showInvalidInputDialog() {
         RegularDialogFragment.newInstance {
-            titleText = "Sign up error"
-            rightButtonText = "Ok"
-            descriptionText = "Some of your data didn't match criteria"
-        }.show(childFragmentManager, "SignInErrorDialog")
+            titleTextResId = R.string.invalid_register_input_dialog_title
+            descriptionTextResId = R.string.invalid_register_input_dialog_description
+            rightButtonTextResId = R.string.all_ok
+        }.show(childFragmentManager, "SignUpErrorDialog")
     }
 
 }

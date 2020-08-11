@@ -30,7 +30,8 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
 
     open val viewModel: BaseViewModel by viewModels()
 
-    private val errorHandler: SimpleErrorHandler by lazy { SimpleErrorHandler(childFragmentManager) }
+    private val errorHandler: SimpleErrorHandler
+            by lazy { SimpleErrorHandler(childFragmentManager, requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

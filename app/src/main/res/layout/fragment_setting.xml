@@ -31,7 +31,7 @@
                 android:id="@+id/host_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:title_text="Setting" />
+                app:title_text="@string/setting_fragment_toolbar_title" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -57,13 +57,13 @@
                     android:layout_marginTop="@dimen/margin_16dp"
                     app:icon_src="@drawable/ic_account_circle_28"
                     android:onClick="@{(view) -> fragment.openProfileFragment()}"
-                    app:main_text="Profile" />
+                    app:main_text="@string/setting_fragment_profile_view_title" />
 
                 <com.test.thecocktaildb.ui.custom.SettingRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:icon_src="@drawable/ic_remove_circle_28"
-                    app:main_text="Test Fragment"
+                    app:main_text="@string/setting_fragment_test_fragment_view_title"
                     android:onClick="@{(view) -> fragment.openTestFragment()}" />
 
                 <com.test.thecocktaildb.ui.custom.SettingRow
@@ -74,7 +74,7 @@
                     app:additional_text="ENG"
                     android:onClick="@{(view) -> fragment.openLanguagePicker()}"
                     app:icon_src="@drawable/ic_language_28"
-                    app:main_text="Language" />
+                    app:main_text="@string/setting_fragment_language_view_title" />
 
                 <com.test.thecocktaildb.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_battery_row"
@@ -98,7 +98,7 @@
                         android:paddingEnd="16dp"
                         android:textAppearance="@style/TextBoldRegular"
                         android:checked="@={sharedViewModel.shouldShowMainNavigationTitlesLiveData}"
-                        android:text="@string/profile_fragment_show_nav_view_title"
+                        android:text="@string/setting_fragment_show_nav_view_title"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 app:back_button_visible="true"
                 app:primary_option_icon="@drawable/ic_exit_to_app_24"
-                app:title_text="Profile" />
+                app:title_text="@string/profile_fragment_toolbar_title" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,7 +39,7 @@
             android:id="@+id/profile_fragment_avatar"
             android:layout_width="124dp"
             android:layout_height="124dp"
-            android:contentDescription="User Avatar"
+            android:contentDescription="@string/user_avatar_description"
             android:elevation="4dp"
             android:onClick="@{(view) -> fragment.changeAvatar()}"
             app:layout_anchor="@+id/profile_appBarLayout"
@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_8dp"
                     android:labelFor="@+id/profile_fragment_change_name_et"
-                    android:text="name:"
+                    android:text="@string/profile_fragment_name_tv"
                     android:textAppearance="@style/TextBoldRegular"
                     android:textSize="16sp"
                     android:textStyle="italic"
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_8dp"
                     android:labelFor="@id/profile_fragment_change_last_name_et"
-                    android:text="last name:"
+                    android:text="@string/profile_fragment_last_name_tv"
                     android:textAppearance="@style/TextBoldRegular"
                     android:textSize="16sp"
                     android:textStyle="italic"
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_8dp"
                     android:labelFor="@id/profile_fragment_change_email_et"
-                    android:text="email:"
+                    android:text="@string/profile_fragment_email_tv"
                     android:textAppearance="@style/TextBoldRegular"
                     android:textSize="16sp"
                     android:textStyle="italic"

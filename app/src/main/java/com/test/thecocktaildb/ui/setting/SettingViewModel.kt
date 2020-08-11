@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
+import com.test.thecocktaildb.R
 import com.test.thecocktaildb.dataNew.local.source.AppSettingLocalSource
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.batterystate.BatteryStateCacheHolder
@@ -19,8 +20,10 @@ class SettingViewModel(
     val batteryPercentLiveData: LiveData<String> = _batteryPercentLiveData
 
     private val _batteryStatusLiveData = MutableLiveData<Boolean>()
-    val batteryStatusLiveData: LiveData<String> =
-        Transformations.map(_batteryStatusLiveData) { if (it) "BATTERY_OKAY" else "BATTERY_LOW" }
+    val batteryStatusLiveData: LiveData<Int> =
+        Transformations.map(_batteryStatusLiveData) {
+            if (it) R.string.battery_status_battery_okay else R.string.battery_status_battery_low
+        }
 
     private val _isBatteryChargingLiveData = MutableLiveData<Boolean>()
     val isBatteryChargingLiveData: LiveData<Boolean> = _isBatteryChargingLiveData

@@ -64,7 +64,7 @@
                 android:id="@+id/password_edit_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
+                android:hint="@string/all_password"
                 app:endIconMode="password_toggle"
                 app:hintTextColor="@color/text_hint">
 
@@ -91,7 +91,7 @@
                 android:background="@{viewModel.isDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
                 android:gravity="center"
                 android:onClick="@{() -> fragment.onLoginButtonClicked()}"
-                android:text="@string/login_fragment_sign_in_button"
+                android:text="@string/all_sign_in"
                 android:textColor="@color/white" />
 
             <TextView
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_16dp"
-                android:text="You have no account? Sign up"
+                android:text="@string/login_fragment_no_account_tv"
                 android:textAppearance="@style/TextRegular"
                 android:textColor="@color/text_hint" />
 

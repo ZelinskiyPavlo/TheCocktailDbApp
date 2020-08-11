@@ -89,7 +89,7 @@ class SettingFragment : Injectable, BatteryStateCallback,
 
         viewModel.batteryStatusLiveData.observe(viewLifecycleOwner, { status ->
             if (status != null) {
-                batteryStateView.changeMainText(status)
+                batteryStateView.changeMainText(getString(status))
             }
         })
 
