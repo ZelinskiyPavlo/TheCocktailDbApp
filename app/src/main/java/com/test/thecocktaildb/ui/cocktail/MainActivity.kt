@@ -121,7 +121,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
             }
         }
 
-        sharedMainViewModel.isCheckBoxCheckedLiveData.observe(this, Observer {
+        sharedMainViewModel.shouldShowMainNavigationTitlesLiveData.observe(this, Observer {
             changeBottomNavTitleVisibility(it)
         })
 

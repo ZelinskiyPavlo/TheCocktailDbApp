@@ -6,6 +6,6 @@ import com.test.thecocktaildb.ui.base.BaseViewModel
 
 class SharedMainViewModel (stateHandle: SavedStateHandle) : BaseViewModel(stateHandle) {
 
-    val isCheckBoxCheckedLiveData = MutableLiveData<Boolean>().apply { value = true }
+    val shouldShowMainNavigationTitlesLiveData = MutableLiveData<Boolean>().apply { value = true }
 
 }
