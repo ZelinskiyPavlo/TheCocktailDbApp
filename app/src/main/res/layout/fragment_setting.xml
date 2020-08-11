@@ -97,7 +97,7 @@
                         android:paddingEnd="16dp"
                         android:textAppearance="@style/TextBoldRegular"
                         android:checked="@={sharedViewModel.isCheckBoxCheckedLiveData}"
-                        android:text="@string/show_nav_view_title"
+                        android:text="@string/profile_fragment_show_nav_view_title"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

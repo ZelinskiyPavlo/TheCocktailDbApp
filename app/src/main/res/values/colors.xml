@@ -25,8 +25,6 @@
     <color name="battery_connected">@color/light_green_a_400</color>
     <color name="battery_disconnected">@color/gray_300</color>
 
-    <color name="error_text">#E53935</color>
-
     <color name="color_transparent">#00FFFFFF</color>
 
     <color name="toolbar_icon">@color/black</color>

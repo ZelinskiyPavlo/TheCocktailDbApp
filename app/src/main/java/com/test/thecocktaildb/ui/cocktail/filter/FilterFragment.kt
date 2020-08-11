@@ -17,7 +17,7 @@ import com.test.thecocktaildb.presentationNew.model.cocktail.CocktailCategory
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
 import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
-import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
+import com.test.thecocktaildb.ui.cocktail.filtertype.IngredientDrinkFilter
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.SavedStateViewModelFactory

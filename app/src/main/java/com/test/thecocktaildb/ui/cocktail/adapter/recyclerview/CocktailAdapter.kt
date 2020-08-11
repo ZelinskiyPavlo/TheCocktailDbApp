@@ -26,21 +26,35 @@ class CocktailAdapter(private val viewModel: SharedHostViewModel) :
                 viewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
             }
 
-            // TODO: тут застаріла версія обробки лонг кліка
             override fun onItemLongClicked(view: View, cocktail: CocktailModel): Boolean {
-                PopupMenu(view.context, view).apply {
-                    setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.menu_cocktail_history_open -> {
-                                viewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
-                                true
-                            }
-                            else -> false
+                val shortcutMenu = PopupMenu(view.context, view)
+                shortcutMenu.inflate(R.menu.menu_drink_item_shortcut)
+                if (cocktail.isFavorite)
+                    shortcutMenu.menu.findItem(R.id.menu_cocktail_history_add_favorite)
+                        .isVisible = false
+                else
+                    shortcutMenu.menu.findItem(R.id.menu_cocktail_history_remove_favorite)
+                        .isVisible = false
+
+                shortcutMenu.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.menu_cocktail_history_open -> {
+                            viewModel.updateCocktailAndNavigateDetailsFragment(cocktail)
+                            true
                         }
+                        R.id.menu_cocktail_history_add_favorite -> {
+                            viewModel.changeIsFavoriteState(cocktail)
+                            true
+                        }
+                        R.id.menu_cocktail_history_remove_favorite -> {
+                            viewModel.changeIsFavoriteState(cocktail)
+                            true
+                        }
+                        else -> false
                     }
-                    inflate(R.menu.menu_drink_item_shortcut)
-                    show()
                 }
+                shortcutMenu.show()
+
                 return true
             }
         }
