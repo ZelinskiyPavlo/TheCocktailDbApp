@@ -72,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_24dp"
                     app:additional_text="ENG"
+                    android:onClick="@{(view) -> fragment.openLanguagePicker()}"
                     app:icon_src="@drawable/ic_language_28"
                     app:main_text="Language" />
 

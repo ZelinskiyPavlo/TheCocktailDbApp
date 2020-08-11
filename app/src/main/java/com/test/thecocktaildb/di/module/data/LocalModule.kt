@@ -2,6 +2,7 @@ package com.test.thecocktaildb.di.module.data
 
 import android.content.Context
 import com.test.thecocktaildb.CocktailApplication
+import com.test.thecocktaildb.dataNew.local.LocalConstant
 import com.test.thecocktaildb.dataNew.local.impl.SharedPrefsHelper
 import com.test.thecocktaildb.dataNew.local.impl.source.AppSettingLocalSourceImpl
 import com.test.thecocktaildb.dataNew.local.impl.source.TokenLocalSourceImpl
@@ -27,6 +28,11 @@ class LocalModule {
     @Singleton
     @Provides
     fun provideSharedPrefsHelper(app: CocktailApplication): SharedPrefsHelper =
-        SharedPrefsHelper(app.applicationContext.getSharedPreferences("TEST", Context.MODE_PRIVATE))
+        SharedPrefsHelper(
+            app.applicationContext.getSharedPreferences(
+                LocalConstant.SHARED_PREFS,
+                Context.MODE_PRIVATE
+            )
+        )
 
 }

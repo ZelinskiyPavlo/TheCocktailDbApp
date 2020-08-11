@@ -19,7 +19,19 @@ class AppSettingLocalSourceImpl @Inject constructor(private val sharedPrefsHelpe
             }
         }
 
+    override val currentLanguageLiveData: MutableLiveData<Int> =
+        object : MutableLiveData<Int>(sharedPrefsHelper.getInt(EXTRA_KEY_SELECTED_LANGUAGE, 0)) {
+            override fun setValue(value: Int?) {
+                super.setValue(value)
+                return  sharedPrefsHelper.putInt(EXTRA_KEY_SELECTED_LANGUAGE, value ?: 0)
+            }
+            override fun getValue(): Int? {
+                return sharedPrefsHelper.getInt(EXTRA_KEY_SELECTED_LANGUAGE, 0)
+            }
+        }
+
     companion object Keys {
         private const val EXTRA_KEY_SHOW_NAV_TITLE = "EXTRA_KEY_SHOW_NAV_TITLE"
+        const val EXTRA_KEY_SELECTED_LANGUAGE = "EXTRA_KEY_SELECTED_LANGUAGE"
     }
 }

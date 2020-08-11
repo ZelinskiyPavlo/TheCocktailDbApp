@@ -1,22 +1,17 @@
-package com.test.thecocktaildb.util
+package com.test.thecocktaildb.util.locale
 
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
+import com.test.thecocktaildb.dataNew.local.LocalConstant
+import com.test.thecocktaildb.dataNew.local.impl.source.AppSettingLocalSourceImpl
 import java.util.*
 
-const val LANG_SHARED_PREFS = "language_shared_preferences"
-const val EXTRA_KEY_SELECTED_LANGUAGE = "extra_key_selected_language"
-
-fun getSelectedLanguageIndex(context: Context): Int {
-    val sharedPreferences = context
-        .getSharedPreferences(LANG_SHARED_PREFS, Context.MODE_PRIVATE)
-    return sharedPreferences.getInt(EXTRA_KEY_SELECTED_LANGUAGE, 0)
-}
-
-
 fun setLocale(context: Context) {
-    val languageIndex = getSelectedLanguageIndex(context)
+    val sharedPreferences =
+        context.getSharedPreferences(LocalConstant.SHARED_PREFS, Context.MODE_PRIVATE)
+    val languageIndex =
+        sharedPreferences.getInt(AppSettingLocalSourceImpl.EXTRA_KEY_SELECTED_LANGUAGE, 0)
 
     val localeCode = when (LanguageType.values()[languageIndex]) {
         LanguageType.ENGLISH -> "en"

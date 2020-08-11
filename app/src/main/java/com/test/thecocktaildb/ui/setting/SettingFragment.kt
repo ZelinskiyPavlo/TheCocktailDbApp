@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.test.thecocktaildb.R
@@ -16,14 +17,14 @@ import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.cocktail.SharedMainViewModel
 import com.test.thecocktaildb.ui.cocktail.callback.BatteryStateCallback
-import com.test.thecocktaildb.ui.dialog.DialogButton
-import com.test.thecocktaildb.ui.dialog.DialogType
+import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.ui.setting.profile.ProfileFragment
 import com.test.thecocktaildb.ui.setting.test.TestFragment
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SettingViewModelFactory
 import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
+import com.test.thecocktaildb.util.locale.LanguageType
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
 import javax.inject.Inject
 
@@ -100,9 +101,13 @@ class SettingFragment : Injectable, BatteryStateCallback,
     }
 
     private fun setupSelectedLanguageObserver() {
-//        val selectedLanguageView = viewDataBinding.settingFragmentLanguageRow
-//        stub
-//        viewDataBinding.settingFragmentLanguageRow.changeAdditionalText("")
+        viewModel.currentLanguageLiveData.observe(viewLifecycleOwner, {languageIndex ->
+            viewDataBinding.settingFragmentLanguageRow.changeAdditionalText(
+                when (LanguageType.values()[languageIndex]) {
+                LanguageType.ENGLISH -> "ENG"
+                LanguageType.UKRAINIAN -> "UKR"
+            })
+        })
     }
 
     private fun restorePreviouslyOpenedFragment(savedInstanceState: Bundle?) {
@@ -138,6 +143,12 @@ class SettingFragment : Injectable, BatteryStateCallback,
             .commit()
     }
 
+    fun openLanguagePicker() {
+        LanguageListBottomSheetDialogFragment.newInstance(
+            viewModel.currentLanguageLiveData.value ?: 0
+        ).show(childFragmentManager, "LanguageDialog")
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -163,5 +174,27 @@ class SettingFragment : Injectable, BatteryStateCallback,
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
         viewDataBinding.viewModel?.updateBatteryState(batteryState)
+    }
+
+    override fun onBottomSheetDialogFragmentClick(
+        dialog: DialogFragment,
+        buttonType: DialogButton,
+        type: DialogType<DialogButton>,
+        data: Any?
+    ) {
+        when (type) {
+            LanguageDialogType -> {
+                when (buttonType) {
+                    ItemListDialogButton -> {
+                        changeLanguage(data as? LanguageType)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun changeLanguage(chosenLanguage: LanguageType?) {
+        viewModel.changeLanguage(chosenLanguage)
+        activity?.recreate()
     }
 }

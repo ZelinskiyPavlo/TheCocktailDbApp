@@ -21,8 +21,8 @@ import com.test.thecocktaildb.ui.setting.SettingFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.MainViewModelFactory
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
+import com.test.thecocktaildb.util.locale.setLocale
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
-import com.test.thecocktaildb.util.setLocale
 import icepick.State
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject

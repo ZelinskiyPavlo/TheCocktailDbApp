@@ -5,6 +5,7 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
+import com.test.thecocktaildb.dataNew.local.source.AppSettingLocalSource
 import com.test.thecocktaildb.dataNew.repository.source.AuthRepository
 import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
 import com.test.thecocktaildb.dataNew.repository.source.TokenRepository
@@ -118,8 +119,9 @@ class ProfileViewModelFactory @Inject constructor(
 }
 
 class SettingViewModelFactory @Inject constructor(
+    private val settingLocalSource: AppSettingLocalSource
 ) : ViewModelAssistedFactory<SettingViewModel> {
     override fun create(handle: SavedStateHandle): SettingViewModel {
-        return SettingViewModel(handle)
+        return SettingViewModel(handle, settingLocalSource)
     }
 }

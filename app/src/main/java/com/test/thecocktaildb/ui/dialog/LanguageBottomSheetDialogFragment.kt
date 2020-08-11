@@ -8,7 +8,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.ui.dialog.base.BaseDialogViewHolder
 import com.test.thecocktaildb.ui.dialog.base.DialogListDataAdapter
 import com.test.thecocktaildb.ui.dialog.base.ListBaseBottomSheetDialogFragment
-import com.test.thecocktaildb.util.LanguageType
+import com.test.thecocktaildb.util.locale.LanguageType
 
 open class LanguageListBottomSheetDialogFragment :
     ListBaseBottomSheetDialogFragment<LanguageType?, ListDialogButton, LanguageDialogType>() {

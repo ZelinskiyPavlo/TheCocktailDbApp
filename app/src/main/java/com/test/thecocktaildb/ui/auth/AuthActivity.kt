@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
+import com.test.thecocktaildb.util.locale.setLocale
 
 class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>() {
 
@@ -17,6 +18,7 @@ class AuthActivity : BaseActivity<ActivityAuthBinding, AuthViewModel>() {
     override val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setLocale(this)
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
