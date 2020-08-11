@@ -1,6 +1,9 @@
 package com.test.thecocktaildb.ui.cocktail.host
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.test.thecocktaildb.dataBinding.adapter.Page
 import com.test.thecocktaildb.util.batterystate.BatteryStateCacheHolder
 import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
@@ -22,12 +25,7 @@ class HostViewModel @Inject constructor(): ViewModel() {
 
     private val batteryStateCache = BatteryStateCacheHolder()
 
-    val viewPagerLiveData = MediatorLiveData<Unit>().apply {
-
-        addSource(currentPageLiveData){
-            value = Unit
-        }
-    }
+    val viewPagerLiveData = Transformations.map(currentPageLiveData) { Unit }
 
     fun updateBatteryState(stateHolder: BatteryStateHolder) {
         fun determineBatteryStatus(): Boolean {
