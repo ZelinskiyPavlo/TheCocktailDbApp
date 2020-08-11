@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
-import com.test.thecocktaildb.core.common.exception.RequestError
+import com.test.thecocktaildb.core.common.exception.*
 import com.test.thecocktaildb.presentationNew.extension.observeNotNull
 import com.test.thecocktaildb.presentationNew.extension.observeNotNullOnce
 import com.test.thecocktaildb.presentationNew.extension.observeTillDestroy
@@ -41,6 +41,9 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
 
+    private val errorHandler: SimpleErrorHandler
+            by lazy { SimpleErrorHandler(supportFragmentManager, this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, contentLayoutResId) as VDB
@@ -66,9 +69,38 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
         }
     }
 
-    protected open fun handleError(e: RequestError) {
-
+    private fun handleError(e: RequestError) {
+        when (e) {
+            is LoginError -> handleLoginError(e)
+            is RegistrationError -> handleRegistrationError(e)
+            is ApiError -> handleApiError(e)
+            is UnAuthorizedAccessError -> handleUnAuthorizedAccessError(e)
+            is ServerError -> handleServerError(e)
+            is ServerRespondingError -> handleServerRespondingError(e)
+            is UnknownError -> handleUnknownError(e)
+            is CancellationError -> handleCancellationError(e)
+            is NoInternetConnectionError -> handleNoInternetConnectionError(e)
+        }
     }
+
+    protected open fun handleLoginError(e: LoginError) =
+        errorHandler.handleLoginError(e)
+    protected open fun handleRegistrationError(e: RegistrationError) =
+        errorHandler.handleRegistrationError(e)
+    protected open fun handleApiError(e: ApiError) =
+        errorHandler.handleApiError(e)
+    protected open fun handleUnAuthorizedAccessError(e: UnAuthorizedAccessError) =
+        errorHandler.handleUnAuthorizedAccessError(e)
+    protected open fun handleServerError(e: ServerError) =
+        errorHandler.handleServerError(e)
+    protected open fun handleServerRespondingError(e: ServerRespondingError) =
+        errorHandler.handleServerRespondingError(e)
+    protected open fun handleUnknownError(e: UnknownError) =
+        errorHandler.handleUnknownError(e)
+    protected open fun handleCancellationError(e: CancellationError) =
+        errorHandler.handleCancellationError(e)
+    protected open fun handleNoInternetConnectionError(e: NoInternetConnectionError) =
+        errorHandler.handleNoInternetConnectionError(e)
 
     protected open fun configureView(savedInstanceState: Bundle?) {
         //stub

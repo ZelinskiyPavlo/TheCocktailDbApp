@@ -32,11 +32,11 @@ open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
         if (e is ApiException) {
             val error = when {
                 e.code == HttpException.BAD_REQUEST
-                        && e.method == NetConstant.Base_Url.Auth.plus("login") -> {
+                        && e.method == NetConstant.BaseUrl.Auth.plus("login") -> {
                     LoginError(e.method, e.code, e.details, e.httpCode, e.cause)
                 }
                 e.code == HttpException.BAD_REQUEST
-                        && e.method == NetConstant.Base_Url.Auth.plus("avatar") -> {
+                        && e.method == NetConstant.BaseUrl.Auth.plus("avatar") -> {
                     UploadAvatarError(e.method, e.code, e.details, e.httpCode, e.cause)
                 }
                 e.code == HttpException.UNAUTHORIZED -> {

@@ -11,7 +11,7 @@ object NetConstant {
         const val TOKEN_HEADER = "$AUTHORIZATION: token for replace"
     }
 
-    object Base_Url {
+    object BaseUrl {
         const val COCKTAIL = "https://www.thecocktaildb.com/api/json/v1/1/"
 
         const val Auth = "https://devlightschool.ew.r.appspot.com/"

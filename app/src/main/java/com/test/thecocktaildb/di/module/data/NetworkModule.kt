@@ -76,7 +76,7 @@ class NetworkModule {
         with(Retrofit.Builder()) {
             addConverterFactory(GsonConverterFactory.create(baseGsonBuilder.create()))
             client(okHttpClientBuilder.build())
-            baseUrl(NetConstant.Base_Url.Auth)
+            baseUrl(NetConstant.BaseUrl.Auth)
 
             return build()
         }
@@ -98,7 +98,7 @@ class NetworkModule {
                 )
             )
             client(okHttpClientBuilder.build())
-            baseUrl(NetConstant.Base_Url.COCKTAIL)
+            baseUrl(NetConstant.BaseUrl.COCKTAIL)
 
             return build()
         }
@@ -129,7 +129,7 @@ class NetworkModule {
         with(Retrofit.Builder()) {
             addConverterFactory(GsonConverterFactory.create(baseGsonBuilder.create()))
             client(okHttpClientBuilder.build())
-            baseUrl(NetConstant.Base_Url.Auth)
+            baseUrl(NetConstant.BaseUrl.Auth)
 
             return build()
         }
