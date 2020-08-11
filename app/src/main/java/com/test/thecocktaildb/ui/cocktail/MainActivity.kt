@@ -190,9 +190,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
     }
 
     private fun checkSuitableFragment(): Boolean {
-        return supportFragmentManager.fragments.lastOrNull().let { fragment ->
-            return@let fragment != null && fragment.id != R.id.setting_fragment_container
-        }
+        return supportFragmentManager.findFragmentById(R.id.setting_fragment_container)
+            ?.isHidden ?: false
     }
 
     private fun showCocktailOfTheDayDialog() {
@@ -206,7 +205,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
                 rightButtonText = getString(R.string.all_yes)
             }
         }
-        if (!cocktailOfTheDayDialog!!.isVisible && !cocktailOfTheDayDialog!!.isAdded)
+        if (!cocktailOfTheDayDialog!!.isVisible)
             cocktailOfTheDayDialog!!.show(supportFragmentManager, "CocktailOfTheDayDialog")
     }
 
