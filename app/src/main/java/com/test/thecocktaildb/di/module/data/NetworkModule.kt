@@ -85,8 +85,15 @@ class NetworkModule {
     @Singleton
     @Provides
     @Named(DiConstant.COCKTAIL_RETROFIT)
-    fun provideCocktailRetrofit(): Retrofit {
+    fun provideCocktailRetrofit(app: CocktailApplication): Retrofit {
         val okHttpClientBuilder = provideOkHttpClientBuilder()
+
+        okHttpClientBuilder.addInterceptor(
+            NetworkConnectionInterceptor(
+                app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            )
+        )
+
         configureOkHttpInterceptors(okHttpClientBuilder)
 
         with(Retrofit.Builder()) {
