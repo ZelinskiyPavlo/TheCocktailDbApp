@@ -7,7 +7,6 @@ import com.test.thecocktaildb.ui.cocktail.adapter.recyclerview.CocktailAdapter
 import com.test.thecocktaildb.ui.detail.Ingredient
 import com.test.thecocktaildb.ui.detail.adapter.IngredientAdapter
 import com.test.thecocktaildb.ui.search.adapter.SearchCocktailAdapter
-import timber.log.Timber
 
 @BindingAdapter("bind:rv_cocktails", "bind:rv_adapterTag")
 fun RecyclerView.setItems(items: List<Cocktail>?, tag: AdapterType) {
@@ -15,8 +14,6 @@ fun RecyclerView.setItems(items: List<Cocktail>?, tag: AdapterType) {
         AdapterType.COCKTAIL_ADAPTER -> adapter as CocktailAdapter
         AdapterType.SEARCH_ADAPTER -> adapter as SearchCocktailAdapter
     }
-    Timber.i("Binding adapter with items")
-    items?.forEach { Timber.i("$items \n ") }
     recyclerViewAdapter.setData(items ?: emptyList())
 }
 

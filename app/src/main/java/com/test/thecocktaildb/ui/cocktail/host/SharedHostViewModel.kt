@@ -39,7 +39,6 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
         Transformations.map(favoriteListLiveData) { it.isEmpty() }
 
     private val _filterListLiveData = MutableLiveData<List<DrinkFilter?>>()
-//        .apply { value = listOf<DrinkFilter?>(null, null, null) }
     val filterListLiveData: LiveData<List<DrinkFilter?>> = _filterListLiveData
 
     val alcoholSignLiveData: LiveData<String> = Transformations.map(_filterListLiveData) {
@@ -71,7 +70,6 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
 
     private val filterAndSortLiveData: LiveData<Unit> = MediatorLiveData<Unit>().apply {
         fun transformData() {
-            Timber.i("_cocktailsLiveData ${_cocktailsLiveData.value}")
             allCocktailList?.let { _cocktailsLiveData.value = it }
             applyFilter(_filterListLiveData.value ?: listOf(null, null, null))
             applySorting(sortingOrderLiveData.value)
@@ -230,7 +228,6 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
                     }
                     _cocktailsLiveData.value = updatedCocktailList
                     allCocktailList = updatedCocktailList
-                    // TODO: не впевнений чи це тут має бути!
                     repeatTransformationsLiveData.value = Unit
                 })
         )
@@ -293,7 +290,6 @@ class SharedHostViewModel(handle: SavedStateHandle, private val repository: Cock
     }
 
     fun resetFilters() {
-        Timber.i("Reset filter called")
         _filterListLiveData.value = listOf(null, null, null)
     }
 
