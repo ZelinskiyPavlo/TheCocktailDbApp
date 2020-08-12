@@ -85,6 +85,7 @@
                     app:main_text="BATTERY_OKAY" />
 
                 <LinearLayout
+                    android:id="@+id/setting_fragment_show_nav_titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/setting_row_background"

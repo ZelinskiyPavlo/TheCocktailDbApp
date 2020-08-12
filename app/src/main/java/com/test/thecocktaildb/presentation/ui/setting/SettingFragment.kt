@@ -63,6 +63,7 @@ class SettingFragment : Injectable, BatteryStateCallback,
 
         setupBatteryStateObserver()
         setupSelectedLanguageObserver()
+        configureViewFromRemoteConfig()
         restorePreviouslyOpenedFragment(savedInstanceState)
         return viewDataBinding.root
     }
@@ -101,12 +102,21 @@ class SettingFragment : Injectable, BatteryStateCallback,
     }
 
     private fun setupSelectedLanguageObserver() {
-        viewModel.currentLanguageLiveData.observe(viewLifecycleOwner, {languageIndex ->
+        viewModel.currentLanguageLiveData.observe(viewLifecycleOwner, { languageIndex ->
             viewDataBinding.settingFragmentLanguageRow.changeAdditionalText(
                 when (LanguageType.values()[languageIndex]) {
-                LanguageType.ENGLISH -> "ENG"
-                LanguageType.UKRAINIAN -> "UKR"
-            })
+                    LanguageType.ENGLISH -> "ENG"
+                    LanguageType.UKRAINIAN -> "UKR"
+                }
+            )
+        })
+    }
+
+    private fun configureViewFromRemoteConfig() {
+        sharedViewModel.showNavTitlesViewVisibilityLiveData.observe(viewLifecycleOwner, {
+            viewDataBinding.settingFragmentShowNavTitles.visibility =
+                if (it) View.VISIBLE
+                else View.GONE
         })
     }
 

@@ -163,6 +163,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
         super.onSaveInstanceState(outState)
     }
 
+    private fun getDataFromRemoteConfig() {
+        sharedMainViewModel.getDataFromRemoteConfig()
+    }
+
     override fun onStart() {
         super.onStart()
 
