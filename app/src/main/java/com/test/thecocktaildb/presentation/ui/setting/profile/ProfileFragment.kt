@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ViewSwitcher
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import coil.Coil
@@ -20,12 +21,14 @@ import coil.request.LoadRequest
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.core.common.firebase.Analytics
 import com.test.thecocktaildb.databinding.FragmentProfileBinding
 import com.test.thecocktaildb.extension.isAllPermissionGranted
 import com.test.thecocktaildb.presentation.extension.BitmapHelper.Companion.convertMbToBinaryBytes
 import com.test.thecocktaildb.presentation.extension.BitmapHelper.Companion.getBitmap
 import com.test.thecocktaildb.presentation.extension.convertBitmapToFile
 import com.test.thecocktaildb.presentation.extension.observeNotNull
+import com.test.thecocktaildb.presentation.extension.observeUntil
 import com.test.thecocktaildb.presentation.extension.scaleToSize
 import com.test.thecocktaildb.presentation.ui.auth.AuthActivity
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
@@ -105,6 +108,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         })
 
         viewModel.updateUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            firebaseAnalytics.logEvent(
+                Analytics.PROFILE_DATA_CHANGE,
+                bundleOf(
+                    Analytics.PROFILE_DATA_CHANGE_KEY to viewModel.userFullNameLiveData.value
+                )
+            )
+
             viewSwitcher.showNext()
         })
 
@@ -231,6 +241,24 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        fun logAvatarChangeEvent(oldAvatarUrl: String) {
+            viewModel.userAvatarLiveData.observeUntil(
+                viewLifecycleOwner,
+                { newAvatarUrl -> oldAvatarUrl != newAvatarUrl },
+                { newAvatarUrl ->
+                    firebaseAnalytics.logEvent(
+                        Analytics.PROFILE_AVATAR_CHANGE,
+                        bundleOf(
+                            Analytics.PROFILE_AVATAR_CHANGE_AVATAR_KEY to newAvatarUrl,
+                            Analytics.PROFILE_AVATAR_CHANGE_NAME_KEY to
+                                    viewModel.userFullNameLiveData.value
+                        )
+                    )
+                }
+            )
+        }
+
         when {
             resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null -> {
                 val uri = data.data ?: return
@@ -256,6 +284,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 // we need to write to this file
                 bitmap.convertBitmapToFile(imageFile)
 
+                logAvatarChangeEvent(viewModel.userAvatarLiveData.value ?: "")
                 viewModel.uploadAvatar(imageFile) { fraction ->
                     Timber.i("LOG PROGRESS = fraction=$fraction, percent=${fraction * 100.0F}%")
                 }

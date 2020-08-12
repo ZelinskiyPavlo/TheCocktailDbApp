@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.thecocktaildb.core.common.exception.*
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentation.extension.observeNotNull
@@ -17,6 +18,7 @@ import com.test.thecocktaildb.presentation.ui.dialog.DialogType
 import com.test.thecocktaildb.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.thecocktaildb.presentation.ui.dialog.base.BaseDialogFragment
 import icepick.Icepick
+import javax.inject.Inject
 
 abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragment(), Injectable,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
@@ -32,6 +34,9 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
 
     private val errorHandler: SimpleErrorHandler
             by lazy { SimpleErrorHandler(childFragmentManager, requireContext()) }
+
+    @Inject
+    protected lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -6,12 +6,14 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.core.common.firebase.Analytics
 import com.test.thecocktaildb.databinding.ActivityMainBinding
 import com.test.thecocktaildb.presentation.ui.base.BaseActivity
 import com.test.thecocktaildb.presentation.ui.cocktail.host.HostFragmentDirections
@@ -64,6 +66,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
 
         setupNavigation()
         setupBottomNavigation(savedInstanceState)
+        getDataFromRemoteConfig()
     }
 
     private fun initNavHost() {
@@ -104,6 +107,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
                         .show(navHost!!)
                         .setPrimaryNavigationFragment(navHost!!)
                         .commit()
+
+                    firebaseAnalytics.logEvent(
+                        Analytics.MAIN_TAB_CHANGE,
+                        bundleOf(Analytics.MAIN_TAB_CHANGE_KEY to "main")
+                    )
                     true
                 }
                 R.id.bnv_setting_fragment -> {
@@ -114,6 +122,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
                             .hide(navHost!!)
                             .setPrimaryNavigationFragment(settingFragment)
                             .commit()
+
+                        firebaseAnalytics.logEvent(
+                            Analytics.MAIN_TAB_CHANGE,
+                            bundleOf(Analytics.MAIN_TAB_CHANGE_KEY to "profile")
+                        )
                     }
                     true
                 }

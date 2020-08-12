@@ -6,12 +6,14 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.core.common.firebase.Analytics
 import com.test.thecocktaildb.databinding.FragmentCocktailDetailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
@@ -43,10 +45,11 @@ class CocktailDetailsFragment : Injectable,
         setupNavigation()
         setupIngredientsRecyclerView()
         setActionBarTitle()
-
         setCollapsingToolbarListener()
 
         getCocktail()
+
+        logFirebaseEvent()
         return viewDataBinding.root
     }
 
@@ -81,11 +84,14 @@ class CocktailDetailsFragment : Injectable,
         val displayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val maxImageWidth = displayMetrics.widthPixels
-        val minImageWidth = (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
+        val minImageWidth =
+            (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
         var cachedImageWidth = maxImageWidth
 
-        val imageMarginStart = (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
-        val imageMarginTop = (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
+        val imageMarginStart =
+            (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
+        val imageMarginTop =
+            (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
 
         val marginParams =
             viewDataBinding.cocktailImage.layoutParams as ViewGroup.MarginLayoutParams
@@ -133,6 +139,13 @@ class CocktailDetailsFragment : Injectable,
         val args by navArgs<CocktailDetailsFragmentArgs>()
 
         return Pair(args.cocktailId, args.actionBarTitle)
+    }
+
+    private fun logFirebaseEvent() {
+        firebaseAnalytics.logEvent(
+            Analytics.COCKTAIL_DETAIL_OPEN,
+            bundleOf(Analytics.COCKTAIL_DETAIL_OPEN_KEY to viewModel.cocktailId)
+        )
     }
 
     override fun onDestroyView() {

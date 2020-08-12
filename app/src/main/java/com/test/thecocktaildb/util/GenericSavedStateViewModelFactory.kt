@@ -68,10 +68,12 @@ class RegisterViewModelFactory @Inject constructor(
 
 class SharedHostViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
-    private val cocktailMapper: CocktailModelMapper
+    private val userRepo: UserRepository,
+    private val cocktailMapper: CocktailModelMapper,
+    private val userMapper: UserModelMapper
 ) : ViewModelAssistedFactory<SharedHostViewModel> {
     override fun create(handle: SavedStateHandle): SharedHostViewModel {
-        return SharedHostViewModel(handle, cocktailRepo, cocktailMapper)
+        return SharedHostViewModel(handle, cocktailRepo, userRepo, cocktailMapper, userMapper)
     }
 }
 

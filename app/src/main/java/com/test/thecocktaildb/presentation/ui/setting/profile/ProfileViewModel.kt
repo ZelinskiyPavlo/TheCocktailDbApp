@@ -22,13 +22,13 @@ class ProfileViewModel(
         it?.run(userMapper::mapTo)
     }
 
-    private val _userNameLiveData = userModelLiveData.map{ it?.name }
+    private val _userNameLiveData = userModelLiveData.map { it?.name }
     val userNameLiveData: LiveData<String?> = _userNameLiveData
 
-    private val _userLastNameLiveData = userModelLiveData.map{ it?.lastName }
+    private val _userLastNameLiveData = userModelLiveData.map { it?.lastName }
     val userLastNameLiveData: LiveData<String?> = _userLastNameLiveData
 
-    private val _userEmailLiveData = userModelLiveData.map{ it?.email }
+    private val _userEmailLiveData = userModelLiveData.map { it?.email }
     val userEmailLiveData: LiveData<String?> = _userEmailLiveData
 
     val userFullNameLiveData = MediatorLiveData<String>().apply {
@@ -59,9 +59,10 @@ class ProfileViewModel(
     val logOutUserEventLiveData: LiveData<Event<Unit>> = _logOutUserEventLiveData
 
     fun isUserDataChanged(): Boolean {
-        if(userNameLiveData.value == nameInputLiveData.value
+        if (userNameLiveData.value == nameInputLiveData.value
             && userLastNameLiveData.value == lastNameInputLiveData.value
-            && userEmailLiveData.value == emailInputLiveData.value) return false
+            && userEmailLiveData.value == emailInputLiveData.value
+        ) return false
         return true
     }
 
@@ -108,7 +109,7 @@ class ProfileViewModel(
         launchRequest {
             tokenRepo.token = null
             userRepo.deleteUser()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 _logOutUserEventLiveData.value = Event(Unit)
             }
         }
