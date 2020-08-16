@@ -1,6 +1,6 @@
 package com.test.thecocktaildb.core.common.firebase
 
-object Analytics {
+object Analytic {
 
     const val MAIN_TAB_CHANGE = "main_tab_change"
     const val MAIN_TAB_CHANGE_KEY = "main_tab_name"

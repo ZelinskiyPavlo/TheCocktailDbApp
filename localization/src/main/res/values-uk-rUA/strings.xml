@@ -149,6 +149,8 @@
     <string name="setting_fragment_language_view_title">Мова</string>
     <string name="setting_fragment_show_nav_view_title">Показати заголовки іконок в рядку навігації</string>
     <string name="profile_fragment_toolbar_title">Профіль</string>
+    <string name="dialog_no_cocktail_found_title">Коктель не знайдений</string>
+    <string name="dialog_no_cocktail_found_description">Жодного коктелю не знайдено з вказаним ідентифікатором:</string>
     <!--endregion-->
 
 </resources>

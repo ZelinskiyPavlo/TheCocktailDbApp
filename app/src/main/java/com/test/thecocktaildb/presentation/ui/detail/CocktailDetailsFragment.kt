@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.core.common.firebase.Analytics
+import com.test.thecocktaildb.core.common.firebase.Analytic
 import com.test.thecocktaildb.databinding.FragmentCocktailDetailsBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
@@ -143,8 +143,8 @@ class CocktailDetailsFragment : Injectable,
 
     private fun logFirebaseEvent() {
         firebaseAnalytics.logEvent(
-            Analytics.COCKTAIL_DETAIL_OPEN,
-            bundleOf(Analytics.COCKTAIL_DETAIL_OPEN_KEY to viewModel.cocktailId)
+            Analytic.COCKTAIL_DETAIL_OPEN,
+            bundleOf(Analytic.COCKTAIL_DETAIL_OPEN_KEY to viewModel.cocktailId)
         )
     }
 

@@ -21,7 +21,7 @@ import coil.request.LoadRequest
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.core.common.firebase.Analytics
+import com.test.thecocktaildb.core.common.firebase.Analytic
 import com.test.thecocktaildb.databinding.FragmentProfileBinding
 import com.test.thecocktaildb.extension.isAllPermissionGranted
 import com.test.thecocktaildb.presentation.extension.BitmapHelper.Companion.convertMbToBinaryBytes
@@ -248,10 +248,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 { newAvatarUrl -> oldAvatarUrl != newAvatarUrl },
                 { newAvatarUrl ->
                     firebaseAnalytics.logEvent(
-                        Analytics.PROFILE_AVATAR_CHANGE,
+                        Analytic.PROFILE_AVATAR_CHANGE,
                         bundleOf(
-                            Analytics.PROFILE_AVATAR_CHANGE_AVATAR_KEY to newAvatarUrl,
-                            Analytics.PROFILE_AVATAR_CHANGE_NAME_KEY to
+                            Analytic.PROFILE_AVATAR_CHANGE_AVATAR_KEY to newAvatarUrl,
+                            Analytic.PROFILE_AVATAR_CHANGE_NAME_KEY to
                                     viewModel.userFullNameLiveData.value
                         )
                     )
