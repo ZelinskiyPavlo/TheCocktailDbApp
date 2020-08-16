@@ -143,7 +143,7 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable/*, BatteryS
 
     private fun setupNavigation() {
         sharedHostViewModel.applyFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            if (it != null) {
+            if (it != null && it.first.isNotEmpty()) {
                 firebaseAnalytics.logEvent(
                     Analytic.COCKTAIL_FILTER_APPLY,
                     bundleOf(

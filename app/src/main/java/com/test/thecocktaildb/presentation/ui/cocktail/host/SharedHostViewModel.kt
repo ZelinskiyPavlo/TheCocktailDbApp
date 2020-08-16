@@ -42,7 +42,7 @@ class SharedHostViewModel(
     private val cocktailDbListLiveData: LiveData<List<CocktailModel>> =
         cocktailRepo.cocktailListLiveData.map(cocktailMapper::mapToList)
 
-    private val userLiveData: LiveData<UserModel?> = userRepo.userLiveData.map{
+    private val userLiveData: LiveData<UserModel?> = userRepo.userLiveData.map {
         it?.run(userMapper::mapTo)
     }
 
@@ -310,12 +310,13 @@ class SharedHostViewModel(
 
     fun onApplyButtonClicked() {
         val filterList = _filterListLiveData.value
-        if(filterList != listOf(null, null, null) && filterList != null) {
+        if (filterList != listOf(null, null, null) && filterList != null) {
             val selectedFiltersList = filterList.map { it?.key ?: "None" }
             val selectedFiltersTypeList = filterList.filterNotNull().map { it.type.name }
-            _applyFilterEventLiveData.value = Event(Pair(selectedFiltersList, selectedFiltersTypeList))
+            _applyFilterEventLiveData.value =
+                Event(Pair(selectedFiltersList, selectedFiltersTypeList))
         } else {
-        _applyFilterEventLiveData.value = Event(null)
+            _applyFilterEventLiveData.value = Event(Pair(emptyList(), emptyList()))
         }
     }
 
