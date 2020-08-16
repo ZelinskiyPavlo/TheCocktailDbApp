@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.core.common.exception.NoInternetConnectionError
 import com.test.thecocktaildb.databinding.FragmentSplashBinding
 import com.test.thecocktaildb.di.Injectable
+import com.test.thecocktaildb.presentation.ui.auth.AuthViewModel
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
@@ -26,6 +28,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(), Injectable {
     override val viewModel: SplashViewModel by viewModels {
         SavedStateViewModelFactory(splashViewModelFactory, this)
     }
+
+    private val sharedViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +70,10 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(), Injectable {
     }
 
     private fun navigateToCocktailActivity() {
-        val action = SplashFragmentDirections.actionSplashFragmentToMainActivity()
+        val (notificationType, cocktailId) = sharedViewModel.firebaseData
+
+        val action = SplashFragmentDirections
+            .actionSplashFragmentToMainActivity(notificationType, cocktailId)
         findNavController().navigate(action)
         activity?.finish()
     }

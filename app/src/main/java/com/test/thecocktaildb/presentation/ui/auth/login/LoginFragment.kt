@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
@@ -15,6 +16,7 @@ import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentLoginBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentation.extension.addLinkedText
+import com.test.thecocktaildb.presentation.ui.auth.AuthViewModel
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
 import com.test.thecocktaildb.presentation.ui.dialog.RegularDialogFragment
 import com.test.thecocktaildb.util.EventObserver
@@ -32,6 +34,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
     override val viewModel: LoginViewModel by viewModels {
         SavedStateViewModelFactory(loginViewModelFactory, this)
     }
+
+    private val sharedViewModel: AuthViewModel by activityViewModels()
 
     private val errorTextColor
             by lazy { ContextCompat.getColor(requireActivity(), R.color.error_text) }
@@ -92,7 +96,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
     }
 
     private fun navigateToCocktailActivity() {
-        val action = LoginFragmentDirections.actionLoginFragmentToMainActivity2()
+        val (notificationType, cocktailId) = sharedViewModel.firebaseData
+
+        val action = LoginFragmentDirections
+            .actionLoginFragmentToMainActivity(notificationType, cocktailId)
         findNavController().navigate(action)
         activity?.finish()
     }

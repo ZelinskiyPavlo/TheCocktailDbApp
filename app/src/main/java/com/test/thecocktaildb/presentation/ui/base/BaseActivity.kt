@@ -68,6 +68,7 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
+        configureObserver()
         addViewModelErrorObserver(viewModel)
     }
 
