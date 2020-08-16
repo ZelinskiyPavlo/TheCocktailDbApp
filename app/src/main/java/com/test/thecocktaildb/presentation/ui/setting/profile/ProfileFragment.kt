@@ -107,11 +107,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             activity?.finish()
         })
 
-        viewModel.updateUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
+        viewModel.userDataChangedLiveData.observeNotNull(viewLifecycleOwner, {
             firebaseAnalytics.logEvent(
-                Analytics.PROFILE_DATA_CHANGE,
+                Analytic.PROFILE_DATA_CHANGE,
                 bundleOf(
-                    Analytics.PROFILE_DATA_CHANGE_KEY to viewModel.userFullNameLiveData.value
+                    Analytic.PROFILE_DATA_CHANGE_KEY to viewModel.userFullNameLiveData.value
                 )
             )
 

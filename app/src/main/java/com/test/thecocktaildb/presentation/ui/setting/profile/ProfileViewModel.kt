@@ -3,6 +3,7 @@ package com.test.thecocktaildb.presentation.ui.setting.profile
 import androidx.lifecycle.*
 import com.test.thecocktaildb.data.repository.source.TokenRepository
 import com.test.thecocktaildb.data.repository.source.UserRepository
+import com.test.thecocktaildb.presentation.extension.distinctNotNullValues
 import com.test.thecocktaildb.presentation.mapper.UserModelMapper
 import com.test.thecocktaildb.presentation.model.UserModel
 import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
@@ -45,15 +46,13 @@ class ProfileViewModel(
             generateFullName()
         }
     }
+    val userDataChangedLiveData = userFullNameLiveData.distinctNotNullValues()
 
     val userAvatarLiveData = userModelLiveData.map { it?.avatar }.distinctUntilChanged()
 
     val nameInputLiveData = MutableLiveData<String>()
     val lastNameInputLiveData = MutableLiveData<String>()
     val emailInputLiveData = MutableLiveData<String>()
-
-    private val _updateUserEventLiveData = MutableLiveData<Event<Unit>>()
-    val updateUserEventLiveData: LiveData<Event<Unit>> = _updateUserEventLiveData
 
     private val _logOutUserEventLiveData = MutableLiveData<Event<Unit>>()
     val logOutUserEventLiveData: LiveData<Event<Unit>> = _logOutUserEventLiveData
@@ -75,10 +74,6 @@ class ProfileViewModel(
                 avatar = userAvatarLiveData.value
             )
             userRepo.updateUser(updatedUser.run(userMapper::mapFrom))
-
-            withContext(Dispatchers.Main) {
-                _updateUserEventLiveData.value = Event(Unit)
-            }
         }
     }
 
