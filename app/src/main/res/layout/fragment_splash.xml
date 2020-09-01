@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cocktail_logo_description"
+            android:contentDescription="@string/content_description_cocktail_logo"
             android:src="@drawable/ic_logo" />
 
     </LinearLayout>

@@ -39,11 +39,11 @@
     <!--endregion-->
 
     <!--region Content description-->
-    <string name="cocktail_image_description">Show image of selected cocktail</string>
-    <string name="cocktail_item_image_description">Cocktail item image</string>
-    <string name="cocktail_logo_description">Cocktail Database logo</string>
-    <string name="search_field_icon_description">search icon</string>
-    <string name="user_avatar_description">User Avatar</string>
+    <string name="content_description_cocktail_image">Show image of selected cocktail</string>
+    <string name="content_description_cocktail_item_image">Cocktail item image</string>
+    <string name="content_description_cocktail_logo">Cocktail Database logo</string>
+    <string name="content_description_search_field_icon">search icon</string>
+    <string name="content_description_user_avatar">User Avatar</string>
     <!--endregion-->
 
     <!--region AuthActivity-->
@@ -228,6 +228,9 @@
     <string name="filter_fragment_snackbar_no_results">No result found</string>
     <string name="dialog_no_cocktail_found_title">No cocktail found</string>
     <string name="dialog_no_cocktail_found_description">No cocktail found with such id:</string>
+    <string name="item_cocktail_favorite_drink_type">Type:</string>
+    <string name="item_cocktail_favorite_drink_alcohol">Alcohol:</string>
+    <string name="item_cocktail_favorite_drink_glass">Glass:</string>
     <!--endregion-->
 
 </resources>

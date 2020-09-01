@@ -19,9 +19,9 @@
     <!--endregion-->
 
     <!--region Content description-->
-    <string name="cocktail_image_description">Show image of selected cocktail</string>
-    <string name="cocktail_item_image_description">Зображення коктелю</string>
-    <string name="cocktail_logo_description">Лого додатку</string>
+    <string name="content_description_cocktail_image">Show image of selected cocktail</string>
+    <string name="content_description_cocktail_item_image">Зображення коктелю</string>
+    <string name="content_description_cocktail_logo">Лого додатку</string>
     <!--endregion-->
 
     <!--region AuthActivity-->
@@ -93,7 +93,7 @@
     <string name="battery_status_battery_okay">Батарейці норм</string>
     <string name="battery_status_battery_low">Батарейці плохо</string>
     <string name="dialog_language_title">Оберіть бажану мову</string>
-    <string name="search_field_icon_description">іконка пошуку</string>
+    <string name="content_description_search_field_icon">іконка пошуку</string>
     <string name="filter_fragment_toolbar_title">Виберіть фільтр</string>
     <string name="filter_fragment_none_filter">Нічого</string>
     <string name="filter_fragment_alcohol_type">Фільтр по алкоголю</string>
@@ -114,7 +114,7 @@
     <string name="all_sign_up">Зареєструватися</string>
     <string name="all_cancel">Відмінити</string>
     <string name="all_exit">Вийти</string>
-    <string name="user_avatar_description">Аватар користувача</string>
+    <string name="content_description_user_avatar">Аватар користувача</string>
     <string name="login_fragment_no_account_tv">У вас нема аккаунта? Зареєструватися</string>
     <string name="register_fragment_account_presented_tv">Уже маєте аккаунт? Увійти</string>
     <string name="login_error_dialog_title">Помилка входу</string>
