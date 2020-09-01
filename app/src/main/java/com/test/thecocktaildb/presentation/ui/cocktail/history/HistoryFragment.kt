@@ -8,13 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentHistoryBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
 import com.test.thecocktaildb.presentation.ui.cocktail.adapter.recyclerview.CocktailAdapter
+import com.test.thecocktaildb.presentation.ui.cocktail.adapter.recyclerview.CocktailItemDecoration
+import com.test.thecocktaildb.presentation.ui.cocktail.adapter.recyclerview.CocktailLayoutManager
 import com.test.thecocktaildb.presentation.ui.cocktail.callback.DrinkProposalCallback
 import com.test.thecocktaildb.presentation.ui.cocktail.host.HostFragmentDirections
 import com.test.thecocktaildb.presentation.ui.cocktail.host.SharedHostViewModel
@@ -76,11 +77,18 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = CocktailAdapter(sharedHostViewModel)
-        viewDataBinding.cocktailsRv.apply {
-            adapter = cocktailsAdapter
-            layoutManager = GridLayoutManager(activity, 2)
-        }
+        val adapter = CocktailAdapter(sharedHostViewModel)
+        val recyclerView = viewDataBinding.cocktailsRv
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            CocktailItemDecoration(
+                context= requireContext(),
+                horizontalDpOffSet = R.dimen.margin_8dp,
+                verticalDpOffSet = R.dimen.margin_16dp
+            )
+        )
+        recyclerView.layoutManager = CocktailLayoutManager(requireContext(), 2, adapter)
+
     }
 
     override fun onStart() {

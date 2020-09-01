@@ -4,23 +4,33 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
 import com.test.thecocktaildb.presentation.ui.cocktail.adapter.recyclerview.CocktailAdapter
+import com.test.thecocktaildb.presentation.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.presentation.ui.detail.Ingredient
 import com.test.thecocktaildb.presentation.ui.detail.adapter.IngredientAdapter
 import com.test.thecocktaildb.presentation.ui.search.adapter.SearchCocktailAdapter
 
-@BindingAdapter("bind:rv_cocktails", "bind:rv_adapterTag")
-fun RecyclerView.setItems(items: List<CocktailModel>?, tag: AdapterType) {
-    val recyclerViewAdapter = when (tag) {
-        AdapterType.COCKTAIL_ADAPTER -> adapter as CocktailAdapter
-        AdapterType.SEARCH_ADAPTER -> adapter as SearchCocktailAdapter
+@BindingAdapter("bind:rv_cocktails", "bind:rv_adapterTag", "bind:rv_sortType")
+fun RecyclerView.setItems(
+    oldItems: List<CocktailModel>?,
+    oldTag: AdapterType?,
+    oldCocktailSortType: CocktailSortType?,
+    newItems: List<CocktailModel>?,
+    tag: AdapterType?,
+    cocktailSortType: CocktailSortType?
+) {
+    when (tag) {
+        AdapterType.SEARCH_ADAPTER ->
+            (adapter as SearchCocktailAdapter).setData(newItems ?: emptyList())
+        AdapterType.COCKTAIL_ADAPTER ->
+            (adapter as CocktailAdapter).setData(
+                oldItems, newItems, cocktailSortType ?: CocktailSortType.RECENT
+            )
     }
-
-    recyclerViewAdapter.setData(items ?: emptyList())
 }
 
 enum class AdapterType {
-    COCKTAIL_ADAPTER,
     SEARCH_ADAPTER,
+    COCKTAIL_ADAPTER
 }
 
 @BindingAdapter("bind:rv_cocktailDetailFragment_ingredients")
