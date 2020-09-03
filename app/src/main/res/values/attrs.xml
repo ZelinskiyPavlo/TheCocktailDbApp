@@ -34,4 +34,8 @@
         <attr name="asfl_min_height" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="HeightProportionAppBarLayout">
+        <attr name="hpab_max_height_proportion" format="integer"/>
+    </declare-styleable>
+
 </resources>

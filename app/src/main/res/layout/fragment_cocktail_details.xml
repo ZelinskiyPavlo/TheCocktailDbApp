@@ -15,15 +15,16 @@
         android:layout_height="match_parent"
         android:background="@color/app_background">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.test.thecocktaildb.presentation.ui.custom.HeightProportionAppBarLayout
             android:id="@+id/abl_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            app:hpab_max_height_proportion="3">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/ctl_detail"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
                 app:expandedTitleGravity="bottom"
                 app:expandedTitleMarginBottom="@dimen/margin_32dp"
                 app:expandedTitleMarginStart="@dimen/margin_24dp"
@@ -33,19 +34,25 @@
                 <LinearLayout
                     android:id="@+id/image_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:orientation="vertical"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.5">
 
-                    <ImageView
+                    <com.test.thecocktaildb.presentation.ui.custom.RoundedFrameLayout
                         android:id="@+id/cocktail_image"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="@string/content_description_cocktail_image"
-                        android:scaleType="fitXY"
-                        bind:iv_imageUrl="@{viewModel.cocktailPictureLiveData}" />
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="@string/content_description_cocktail_image"
+                            android:scaleType="centerCrop"
+                            bind:iv_imageUrl="@{viewModel.cocktailPictureLiveData}" />
+                    </com.test.thecocktaildb.presentation.ui.custom.RoundedFrameLayout>
                 </LinearLayout>
 
                 <androidx.appcompat.widget.Toolbar
@@ -66,7 +73,7 @@
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.test.thecocktaildb.presentation.ui.custom.HeightProportionAppBarLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

@@ -2,16 +2,17 @@ package com.test.thecocktaildb.presentation.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.math.MathUtils.lerp
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.core.common.firebase.Analytic
 import com.test.thecocktaildb.databinding.FragmentCocktailDetailsBinding
@@ -23,6 +24,7 @@ import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.service.DrinkProposalService
 import javax.inject.Inject
+import kotlin.math.max
 
 class CocktailDetailsFragment : Injectable,
     BaseFragment<FragmentCocktailDetailsBinding>() {
@@ -35,6 +37,20 @@ class CocktailDetailsFragment : Injectable,
     override val viewModel by viewModels<CocktailDetailsViewModel> {
         SavedStateViewModelFactory(cocktailDetailsVmFactory, this)
     }
+
+    private val maxImageWidth: Int by lazy { viewDataBinding.cocktailImage.width }
+    private val imageContainerHeight: Int by lazy { viewDataBinding.imageContainer.height }
+    private val minImageWidth: Float by lazy { resources.displayMetrics.density * 32F }
+    private val imageMarginHorizontal: Float by lazy { resources.displayMetrics.density * 56F }
+    private val imageMarginVertical: Float by lazy { resources.displayMetrics.density * 16F }
+    private val layoutParams: LinearLayout.LayoutParams
+            by lazy { viewDataBinding.cocktailImage.layoutParams as LinearLayout.LayoutParams }
+
+    private var cachedImageWidth: Int? = null
+    private val maxRadius: Float by lazy {
+        max(viewDataBinding.ablDetails.width, viewDataBinding.ablDetails.height).toFloat() / 2.0F
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,52 +97,43 @@ class CocktailDetailsFragment : Injectable,
     }
 
     private fun setCollapsingToolbarListener() {
-        val displayMetrics = DisplayMetrics()
-        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-        val maxImageWidth = displayMetrics.widthPixels
-        val minImageWidth =
-            (resources.getDimension(R.dimen.cocktail_image_detail_min_width)).toInt()
-        var cachedImageWidth = maxImageWidth
-
-        val imageMarginStart =
-            (resources.getDimension(R.dimen.cocktail_image_detail_margin_start)).toInt()
-        val imageMarginTop =
-            (resources.getDimension(R.dimen.cocktail_image_detail_margin_top)).toInt()
-
-        val marginParams =
-            viewDataBinding.cocktailImage.layoutParams as ViewGroup.MarginLayoutParams
-
         var setupFlag = true
 
         viewDataBinding.ablDetails.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-
                 if (setupFlag) {
-                    viewDataBinding.imageContainer.layoutParams.height = viewDataBinding
-                        .cocktailImage.layoutParams.height
+                    viewDataBinding.imageContainer.layoutParams.height =
+                        viewDataBinding.cocktailImage.height
+                    cachedImageWidth = maxImageWidth
                     viewDataBinding.imageContainer.requestLayout()
 
                     setupFlag = false
                 }
 
-                val totalScrollRange = appBarLayout.totalScrollRange
-                val offSetScale = (-verticalOffset).toFloat() / totalScrollRange
-                val scaleFactor = 1F - offSetScale
+                val fraction = (-verticalOffset).toFloat() / appBarLayout.totalScrollRange.toFloat()
 
                 val currentImageWidth =
-                    minImageWidth + ((maxImageWidth - minImageWidth) * scaleFactor)
-                viewDataBinding.cocktailImage.layoutParams.width = currentImageWidth.toInt()
+                    lerp(maxImageWidth.toFloat(), minImageWidth, fraction).toInt()
+                val currentMarginVertical =
+                    lerp(0f, (imageContainerHeight / 2 - imageMarginVertical), fraction).toInt()
+                val currentMarginHorizontal =
+                    lerp(0f, imageMarginHorizontal, fraction).toInt()
 
-                if (viewDataBinding.cocktailImage.layoutParams.width != cachedImageWidth) {
-                    cachedImageWidth = currentImageWidth.toInt()
-                    viewDataBinding.cocktailImage.requestLayout()
-                    viewDataBinding.cocktailImage.layoutParams = marginParams
+                with(layoutParams) {
+                    width = currentImageWidth
+                    setMargins(
+                        currentMarginHorizontal,
+                        currentMarginVertical,
+                        currentMarginHorizontal,
+                        currentMarginVertical
+                    )
                 }
 
-                marginParams.topMargin =
-                    (((maxImageWidth / 2) - imageMarginTop) * offSetScale).toInt()
-                marginParams.marginStart = (imageMarginStart * offSetScale).toInt()
-
+                if (layoutParams.width != cachedImageWidth) {
+                    cachedImageWidth = currentImageWidth
+                    viewDataBinding.cocktailImage.layoutParams = layoutParams
+                    viewDataBinding.cocktailImage.cornerRadius = lerp(0.0F, maxRadius, fraction)
+                }
             })
     }
 
