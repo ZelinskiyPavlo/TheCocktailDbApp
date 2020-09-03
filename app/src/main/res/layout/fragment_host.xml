@@ -29,9 +29,9 @@
                     android:id="@+id/host_fragment_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:primary_option_icon="@drawable/ic_filter_list_24"
-                    app:secondary_option_icon="@drawable/ic_sort_24"
-                    app:title_text="@string/app_name_simplified" />
+                    app:toolbar_primary_option_icon="@drawable/ic_filter_list_24"
+                    app:toolbar_secondary_option_icon="@drawable/ic_sort_24"
+                    app:toolbar_title_text="@string/app_name_simplified" />
 
             </com.google.android.material.appbar.AppBarLayout>
 

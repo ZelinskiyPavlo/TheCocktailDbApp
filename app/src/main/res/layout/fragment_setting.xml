@@ -31,7 +31,7 @@
                 android:id="@+id/host_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:title_text="@string/setting_fragment_toolbar_title" />
+                app:toolbar_title_text="@string/setting_fragment_toolbar_title" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
