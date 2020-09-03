@@ -55,15 +55,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
-                    app:icon_src="@drawable/ic_account_circle_28"
+                    app:sr_icon_src="@drawable/ic_account_circle_28"
                     android:onClick="@{(view) -> fragment.openProfileFragment()}"
-                    app:main_text="@string/setting_fragment_profile_view_title" />
+                    app:sr_main_text="@string/setting_fragment_profile_view_title" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:icon_src="@drawable/ic_remove_circle_28"
-                    app:main_text="@string/setting_fragment_test_fragment_view_title"
+                    app:sr_icon_src="@drawable/ic_remove_circle_28"
+                    app:sr_main_text="@string/setting_fragment_test_fragment_view_title"
                     android:onClick="@{(view) -> fragment.openTestFragment()}" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
@@ -71,18 +71,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_24dp"
-                    app:additional_text="ENG"
+                    app:sr_additional_text="ENG"
                     android:onClick="@{(view) -> fragment.openLanguagePicker()}"
-                    app:icon_src="@drawable/ic_language_28"
-                    app:main_text="@string/setting_fragment_language_view_title" />
+                    app:sr_icon_src="@drawable/ic_language_28"
+                    app:sr_main_text="@string/setting_fragment_language_view_title" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_battery_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:additional_text="70%"
-                    app:icon_src="@drawable/ic_battery_28"
-                    app:main_text="BATTERY_OKAY" />
+                    app:sr_additional_text="70%"
+                    app:sr_icon_src="@drawable/ic_battery_28"
+                    app:sr_main_text="BATTERY_OKAY" />
 
                 <LinearLayout
                     android:id="@+id/setting_fragment_show_nav_titles"

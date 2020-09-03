@@ -8,9 +8,30 @@
     </declare-styleable>
 
     <declare-styleable name="SettingRow">
-        <attr name="icon_src" format="reference"/>
-        <attr name="main_text" format="string"/>
-        <attr name="additional_text" format="string"/>
+        <attr name="sr_icon_src" format="reference"/>
+        <attr name="sr_main_text" format="string"/>
+        <attr name="sr_additional_text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="RoundedFrameLayout">
+        <attr name="rfl_corners_radius" format="dimension|reference" />
+        <attr name="rfl_corners" format="flags">
+            <flag name="all" value="0" />
+            <flag name="left_top" value="1" />
+            <flag name="right_top" value="2" />
+            <flag name="left_bottom" value="4" />
+            <flag name="right_bottom" value="8" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioFrameLayout">
+        <attr name="asfl_aspect_ratio" format="float|reference"/>
+        <attr name="asfl_mode" format="enum">
+            <enum name="width" value="0"/>
+            <enum name="height" value="1"/>
+        </attr>
+        <attr name="asfl_min_width" format="dimension"/>
+        <attr name="asfl_min_height" format="dimension"/>
     </declare-styleable>
 
 </resources>
