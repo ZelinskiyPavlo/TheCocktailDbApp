@@ -113,6 +113,7 @@
                     android:onClick="@{(view) -> fragment.saveUserChange()}"
                     android:paddingVertical="@dimen/padding_8dp"
                     android:src="@drawable/ic_check_circle_24"
+                    style="@style/DefaultButtonStyle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

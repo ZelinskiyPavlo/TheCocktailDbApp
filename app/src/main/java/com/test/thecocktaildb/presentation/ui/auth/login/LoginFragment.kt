@@ -88,6 +88,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
             EventObserver { isLoggedSuccessful ->
                 if (isLoggedSuccessful) navigateToCocktailActivity()
             })
+
+        viewModel.isDataValidLiveData.observe(viewLifecycleOwner, {isAvailable ->
+            viewDataBinding.loginButton.isEnabled = isAvailable
+        })
     }
 
     private fun navigateToRegisterFragment() {

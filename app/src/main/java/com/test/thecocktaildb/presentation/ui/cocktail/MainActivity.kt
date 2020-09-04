@@ -322,8 +322,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), Lifecyc
     }
 
     private fun checkSuitableFragment(): Boolean {
-        return supportFragmentManager.findFragmentById(R.id.setting_fragment_container)
-            ?.isHidden ?: false
+        return main_activity_bnv.selectedItemId == R.id.bnv_main_fragment
     }
 
     private fun showCocktailOfTheDayDialog() {

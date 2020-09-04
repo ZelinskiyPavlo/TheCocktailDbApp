@@ -134,6 +134,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.resetFilters()}"
+                style="@style/DefaultButtonStyle"
                 android:text="@string/filter_button_reset"
                 android:textAppearance="@style/TextRegular" />
 
@@ -145,6 +146,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> sharedViewModel.onApplyButtonClicked()}"
+                style="@style/DefaultButtonStyle"
                 android:text="@string/filter_button_apply"
                 android:textAppearance="@style/TextRegular" />
 

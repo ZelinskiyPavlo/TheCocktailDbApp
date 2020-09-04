@@ -81,6 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:sr_additional_text="70%"
+                    android:onClick="@{(view) -> void}"
                     app:sr_icon_src="@drawable/ic_battery_28"
                     app:sr_main_text="BATTERY_OKAY" />
 
@@ -89,7 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/setting_row_background"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:clickable="false">
 
                     <CheckBox
                         android:layout_marginStart="22dp"
