@@ -231,6 +231,7 @@
     <string name="item_cocktail_favorite_drink_type">Type:</string>
     <string name="item_cocktail_favorite_drink_alcohol">Alcohol:</string>
     <string name="item_cocktail_favorite_drink_glass">Glass:</string>
+    <string name="setting_fragment_cube_view_title">Animation cube view</string>
     <!--endregion-->
 
 </resources>

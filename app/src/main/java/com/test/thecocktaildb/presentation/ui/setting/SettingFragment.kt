@@ -19,6 +19,7 @@ import com.test.thecocktaildb.presentation.ui.cocktail.SharedMainViewModel
 import com.test.thecocktaildb.presentation.ui.cocktail.callback.BatteryStateCallback
 import com.test.thecocktaildb.presentation.ui.dialog.*
 import com.test.thecocktaildb.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.presentation.ui.setting.cube.CubeFragment
 import com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment
 import com.test.thecocktaildb.presentation.ui.setting.test.TestFragment
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
@@ -141,6 +142,14 @@ class SettingFragment : Injectable, BatteryStateCallback,
         val testFragment = TestFragment.newInstance(4, "TEST_STRING")
         parentFragmentManager.beginTransaction()
             .replace(R.id.setting_fragment_container, testFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun openCubeView() {
+        val cubeFragment = CubeFragment.newInstance()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.setting_fragment_container, cubeFragment)
             .addToBackStack(null)
             .commit()
     }

@@ -67,6 +67,13 @@
                     android:onClick="@{(view) -> fragment.openTestFragment()}" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sr_icon_src="@drawable/ic_cube"
+                    app:sr_main_text="@string/setting_fragment_cube_view_title"
+                    android:onClick="@{(view) -> fragment.openCubeView()}"/>
+
+                <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_language_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

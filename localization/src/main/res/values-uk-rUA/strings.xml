@@ -151,6 +151,10 @@
     <string name="profile_fragment_toolbar_title">Профіль</string>
     <string name="dialog_no_cocktail_found_title">Коктель не знайдений</string>
     <string name="dialog_no_cocktail_found_description">Жодного коктелю не знайдено з вказаним ідентифікатором:</string>
+    <string name="item_cocktail_favorite_drink_type">Тип:</string>
+    <string name="item_cocktail_favorite_drink_alcohol">Алкоголь:</string>
+    <string name="item_cocktail_favorite_drink_glass">Бокал:</string>
+    <string name="setting_fragment_cube_view_title">Анімований куб</string>
     <!--endregion-->
 
 </resources>
