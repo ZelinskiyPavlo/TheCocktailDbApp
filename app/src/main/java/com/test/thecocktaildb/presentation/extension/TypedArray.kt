@@ -22,3 +22,8 @@ fun TypedArray.getBooleanAttributeOrNull(index: Int): Boolean? {
     return if (hasValue(index)) getBoolean(index, false)
     else null
 }
+
+fun TypedArray.getIntegerAttributeOrNull(index: Int): Int? {
+    return if (hasValue(index)) getInteger(index, 0)
+    else null
+}

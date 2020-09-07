@@ -232,6 +232,8 @@
     <string name="item_cocktail_favorite_drink_alcohol">Alcohol:</string>
     <string name="item_cocktail_favorite_drink_glass">Glass:</string>
     <string name="setting_fragment_cube_view_title">Animation cube view</string>
+    <string name="setting_fragment_range_seek_bar_title">Range seek bar</string>
+    <string name="seek_bar_fragment_button_set_range">Set range from 20 to 50</string>
     <!--endregion-->
 
 </resources>

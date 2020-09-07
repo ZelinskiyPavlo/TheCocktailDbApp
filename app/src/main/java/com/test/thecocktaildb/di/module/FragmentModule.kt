@@ -14,6 +14,7 @@ import com.test.thecocktaildb.presentation.ui.search.SearchCocktailFragment
 import com.test.thecocktaildb.presentation.ui.setting.SettingFragment
 import com.test.thecocktaildb.presentation.ui.setting.cube.CubeFragment
 import com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment
+import com.test.thecocktaildb.presentation.ui.setting.rangeseekbar.RangeSeekBarFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -75,4 +76,8 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     @Suppress("unused")
     abstract fun contributeCubeFragment(): CubeFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeRangeSeekBarFragment(): RangeSeekBarFragment
 }

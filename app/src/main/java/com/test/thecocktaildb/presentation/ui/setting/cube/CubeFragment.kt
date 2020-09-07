@@ -38,5 +38,4 @@ class CubeFragment : Injectable, BaseFragment<FragmentCubeBinding>() {
         return viewDataBinding.root
     }
 
-
 }

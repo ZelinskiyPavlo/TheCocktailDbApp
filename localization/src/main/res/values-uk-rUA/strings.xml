@@ -155,6 +155,8 @@
     <string name="item_cocktail_favorite_drink_alcohol">Алкоголь:</string>
     <string name="item_cocktail_favorite_drink_glass">Бокал:</string>
     <string name="setting_fragment_cube_view_title">Анімований куб</string>
+    <string name="setting_fragment_range_seek_bar_title">Двосторонній слайдер</string>
+    <string name="seek_bar_fragment_button_set_range">Проміжок з 20 до 50</string>
     <!--endregion-->
 
 </resources>

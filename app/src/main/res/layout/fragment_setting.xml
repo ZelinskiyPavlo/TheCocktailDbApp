@@ -55,31 +55,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
-                    app:sr_icon_src="@drawable/ic_account_circle_28"
                     android:onClick="@{(view) -> fragment.openProfileFragment()}"
+                    app:sr_icon_src="@drawable/ic_account_circle_28"
                     app:sr_main_text="@string/setting_fragment_profile_view_title" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="@{(view) -> fragment.openTestFragment()}"
                     app:sr_icon_src="@drawable/ic_remove_circle_28"
-                    app:sr_main_text="@string/setting_fragment_test_fragment_view_title"
-                    android:onClick="@{(view) -> fragment.openTestFragment()}" />
+                    app:sr_main_text="@string/setting_fragment_test_fragment_view_title" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="@{(view) -> fragment.openCubeView()}"
                     app:sr_icon_src="@drawable/ic_cube"
-                    app:sr_main_text="@string/setting_fragment_cube_view_title"
-                    android:onClick="@{(view) -> fragment.openCubeView()}"/>
+                    app:sr_main_text="@string/setting_fragment_cube_view_title" />
+
+                <com.test.thecocktaildb.presentation.ui.custom.SettingRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(view) -> fragment.openRangeSeekBarFragment()}"
+                    app:sr_icon_src="@drawable/ic_range_seek_bar"
+                    app:sr_main_text="@string/setting_fragment_range_seek_bar_title" />
 
                 <com.test.thecocktaildb.presentation.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_language_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_24dp"
-                    app:sr_additional_text="ENG"
                     android:onClick="@{(view) -> fragment.openLanguagePicker()}"
+                    app:sr_additional_text="ENG"
                     app:sr_icon_src="@drawable/ic_language_28"
                     app:sr_main_text="@string/setting_fragment_language_view_title" />
 
@@ -87,8 +94,8 @@
                     android:id="@+id/setting_fragment_battery_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:sr_additional_text="70%"
                     android:onClick="@{(view) -> void}"
+                    app:sr_additional_text="70%"
                     app:sr_icon_src="@drawable/ic_battery_28"
                     app:sr_main_text="BATTERY_OKAY" />
 
@@ -97,18 +104,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/setting_row_background"
-                    android:orientation="horizontal"
-                    android:clickable="false">
+                    android:clickable="false"
+                    android:orientation="horizontal">
 
                     <CheckBox
-                        android:layout_marginStart="22dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="22dp"
+                        android:checked="@={sharedViewModel.shouldShowMainNavigationTitlesLiveData}"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:textAppearance="@style/TextBoldRegular"
-                        android:checked="@={sharedViewModel.shouldShowMainNavigationTitlesLiveData}"
                         android:text="@string/setting_fragment_show_nav_view_title"
+                        android:textAppearance="@style/TextBoldRegular"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
