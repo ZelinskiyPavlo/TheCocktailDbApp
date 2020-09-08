@@ -5,6 +5,7 @@ import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
 import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.base.BaseCocktailAdapter
 import com.test.thecocktaildb.ui.search.SearchCocktailViewModel
+import kotlinx.android.synthetic.main.item_cocktail.view.*
 
 class SearchCocktailAdapter(private val searchCocktailViewModel: SearchCocktailViewModel) :
     BaseCocktailAdapter<CocktailModel>() {
@@ -12,6 +13,11 @@ class SearchCocktailAdapter(private val searchCocktailViewModel: SearchCocktailV
     override fun setData(items: List<CocktailModel>?) {
         cocktailsList = items ?: emptyList()
         notifyDataSetChanged()
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        holder.itemView.cocktail_item_favorite_btn.visibility = View.GONE
     }
 
     override fun getItemClickListener(): CocktailItemUserActionListener {

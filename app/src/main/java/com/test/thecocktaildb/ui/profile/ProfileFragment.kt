@@ -94,19 +94,21 @@ class ProfileFragment : Injectable,
             LanguageDialogType -> {
                 when (buttonType) {
                     ItemListDialogButton -> {
-                        val chosenLanguage = data as? LanguageType
-
-                        val sharedPref = activity?.getSharedPreferences(
-                            LANG_SHARED_PREFS, Context.MODE_PRIVATE
-                        ) ?: return
-                        with(sharedPref.edit()) {
-                            putInt(EXTRA_KEY_SELECTED_LANGUAGE, chosenLanguage!!.ordinal)
-                            apply()
-                        }
-                        activity?.recreate()
+                        changeLanguage(data as? LanguageType)
                     }
                 }
             }
         }
+    }
+
+    private fun changeLanguage(chosenLanguage: LanguageType?) {
+        val sharedPref = activity?.getSharedPreferences(
+            LANG_SHARED_PREFS, Context.MODE_PRIVATE
+        ) ?: return
+        with(sharedPref.edit()) {
+            putInt(EXTRA_KEY_SELECTED_LANGUAGE, chosenLanguage!!.ordinal)
+            apply()
+        }
+        activity?.recreate()
     }
 }
