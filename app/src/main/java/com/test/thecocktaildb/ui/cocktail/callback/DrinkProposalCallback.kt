@@ -2,5 +2,5 @@ package com.test.thecocktaildb.ui.cocktail.callback
 
 interface DrinkProposalCallback {
 
-    fun proposeCocktail(selectedCocktailId: String)
+    fun proposeCocktail(selectedCocktailId: Long)
 }

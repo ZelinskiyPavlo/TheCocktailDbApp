@@ -15,7 +15,7 @@ import com.test.thecocktaildb.ui.cocktail.adapter.recyclerview.CocktailAdapter
 import com.test.thecocktaildb.ui.cocktail.host.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(), Injectable {
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+        SavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
     }
 
     override fun onCreateView(
@@ -58,7 +58,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(), Injectable {
             EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = HostFragmentDirections
-                    .actionHostFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId)
+                    .actionHostFragmentToCocktailDetailsFragment(actionBarTitle, cocktailId.toLong())
                 findNavController().navigate(action)
             })
     }

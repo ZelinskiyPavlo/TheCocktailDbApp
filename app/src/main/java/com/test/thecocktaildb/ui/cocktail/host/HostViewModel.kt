@@ -13,7 +13,7 @@ import com.test.thecocktaildb.util.liveDataStateHandle
 
 class HostViewModel(
     stateHandle: SavedStateHandle,
-    private val repository: CocktailsRepository
+    private val repository: CocktailsRepository,
 ) : BaseViewModel(stateHandle) {
 
     val currentPageLiveData by liveDataStateHandle(initialValue = Page.HistoryPage)

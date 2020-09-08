@@ -4,27 +4,32 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
-import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
+import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
+import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
+import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
-import java.util.*
 import java.util.concurrent.TimeUnit
 
-class SearchCocktailViewModel (
+class SearchCocktailViewModel(
     stateHandle: SavedStateHandle,
-    private val repository: CocktailsRepository) :
-    BaseViewModel(stateHandle) {
+    private val repository: CocktailsRepository,
+    private val cocktailRepo: CocktailRepository,
+    private val cocktailMapper: CocktailModelMapper,
+    private val oldCocktailMapper: CocktailMapper
+) : BaseViewModel(stateHandle) {
 
-    private val _itemsLiveData = MutableLiveData<List<Cocktail>>().apply { value = emptyList() }
-    val itemsLiveData: LiveData<List<Cocktail>> = _itemsLiveData
+    private val _itemsLiveData = MutableLiveData<List<CocktailModel>>().apply { value = emptyList() }
+    val itemsLiveData: LiveData<List<CocktailModel>> = _itemsLiveData
 
-    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> =
+    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, Long>>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
         _cocktailDetailsEventLiveData
 
     val searchQuerySubject = PublishSubject.create<String>()
@@ -48,24 +53,21 @@ class SearchCocktailViewModel (
     private fun performSearch(query: String) {
         disposable.add(
             repository.searchCocktails(query).subscribeBy(onSuccess = {
-                _itemsLiveData.value = it.cocktailsList
+                _itemsLiveData.value = it.cocktailsList?.run(oldCocktailMapper::mapFromList)
                 Timber.d("Search performed with query $query")
             }, onError = { Timber.e("Error occurred when searching with $query, $it") })
         )
     }
 
-    fun saveCocktailAndNavigateDetailsFragment(cocktail: Cocktail) {
-        cocktail.dateAdded = Calendar.getInstance().time
-        disposable.add(
-            repository.saveCocktail(cocktail)
-                .subscribeBy(onComplete = {
-                    navigateToCocktailDetailsFragment(cocktail)
-                    Timber.d("Cocktail with date added saved, switching to another fragment")
-                }, onError = { Timber.e("Error occurred when updating cocktail, $it") })
-        )
+    fun saveCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
+        launchRequest {
+            cocktailRepo.addOrReplaceCocktail(cocktailMapper.mapFrom(cocktail))
+            navigateToCocktailDetailsFragment(cocktail)
+        }
     }
 
-    private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailsEventLiveData.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+    private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
+        _cocktailDetailsEventLiveData
+            .postValue(Event(Pair(cocktail.names.defaults ?: "", cocktail.id)))
     }
 }

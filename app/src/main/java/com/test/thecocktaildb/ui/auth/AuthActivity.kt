@@ -12,15 +12,23 @@ import com.test.thecocktaildb.databinding.ActivityAuthBinding
 import com.test.thecocktaildb.ui.base.BaseActivity
 import com.test.thecocktaildb.ui.cocktail.MainActivity
 import com.test.thecocktaildb.ui.dialog.RegularDialogFragment
+import com.test.thecocktaildb.util.AuthViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.EventObserver
 import com.test.thecocktaildb.util.setLocale
 import kotlinx.android.synthetic.main.activity_auth.*
+import javax.inject.Inject
 
 class AuthActivity : BaseActivity<ActivityAuthBinding>() {
 
     override val contentLayoutResId: Int = R.layout.activity_auth
 
-    private val viewModel: AuthViewModel by viewModels()
+    @Inject
+    lateinit var authViewModelFactory: AuthViewModelFactory
+
+    val viewModel: AuthViewModel by viewModels {
+        SavedStateViewModelFactory(authViewModelFactory, this)
+    }
 
     private val login = "SomeLogin"
     private val password = "123456a"

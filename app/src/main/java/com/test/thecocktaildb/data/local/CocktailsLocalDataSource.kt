@@ -4,22 +4,16 @@ import com.test.thecocktaildb.data.Cocktail
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class CocktailsLocalDataSource @Inject constructor(private val cocktailsDao: CocktailsDao) {
+interface CocktailsLocalDataSource {
 
-    fun getCocktail(cocktailId: String): Maybe<Cocktail> =
-        cocktailsDao.getCocktail(cocktailId)
+    fun getCocktail(cocktailId: String): Maybe<Cocktail>
 
-    fun saveCocktail(cocktail: Cocktail): Completable =
-        cocktailsDao.saveCocktail(cocktail)
+    fun saveCocktail(cocktail: Cocktail): Completable
 
-    fun getCocktails(): Maybe<List<Cocktail>> =
-        cocktailsDao.getCocktails()
+    fun getCocktails(): Maybe<List<Cocktail>>
 
-    fun getNumberOfItems(): Observable<Long> =
-        cocktailsDao.getNumberOfItems()
+    fun getNumberOfItems(): Observable<Long>
 
-    fun updateFavoriteState(cocktailId: String, state: Boolean): Completable =
-        cocktailsDao.updateFavoriteState(cocktailId, state)
+    fun updateFavoriteState(cocktailId: String, state: Boolean): Completable
 }

@@ -1,14 +1,14 @@
 package com.test.thecocktaildb.ui.adapter.recyclerview.cocktail
 
 import android.view.View
-import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.adapter.recyclerview.CustomActionListener
 
 interface CocktailItemUserActionListener : CustomActionListener {
 
-    fun onFavoriteIconClicked(cocktail: Cocktail)
+    fun onFavoriteIconClicked(cocktail: CocktailModel)
 
-    fun onItemClicked(cocktail: Cocktail)
+    fun onItemClicked(cocktail: CocktailModel)
 
-    fun onItemLongClicked(view: View, cocktail: Cocktail): Boolean
+    fun onItemLongClicked(view: View, cocktail: CocktailModel): Boolean
 }

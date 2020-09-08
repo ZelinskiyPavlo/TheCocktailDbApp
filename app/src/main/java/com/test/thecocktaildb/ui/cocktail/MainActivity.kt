@@ -19,8 +19,8 @@ import com.test.thecocktaildb.ui.dialog.*
 import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
 import com.test.thecocktaildb.ui.profile.ProfileFragment
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
 import com.test.thecocktaildb.util.MainViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.receiver.AirplaneReceiver
 import com.test.thecocktaildb.util.setLocale
 import icepick.State
@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), LifecycleObserver,
     lateinit var mainViewModelFactory: MainViewModelFactory
 
     private val mainViewModel: MainViewModel by viewModels {
-        GenericSavedStateViewModelFactory(mainViewModelFactory, this)
+        SavedStateViewModelFactory(mainViewModelFactory, this)
     }
 
     private val sharedMainViewModel: SharedMainViewModel by viewModels()

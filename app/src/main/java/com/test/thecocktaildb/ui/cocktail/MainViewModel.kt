@@ -3,25 +3,30 @@ package com.test.thecocktaildb.ui.cocktail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.test.thecocktaildb.data.Cocktail
 import com.test.thecocktaildb.data.CocktailsRepository
+import com.test.thecocktaildb.dataNew.repository.source.CocktailRepository
+import com.test.thecocktaildb.presentationNew.mapper.CocktailMapper
+import com.test.thecocktaildb.presentationNew.mapper.CocktailModelMapper
+import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.CocktailOfTheDay
 import com.test.thecocktaildb.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
-import java.util.*
 
-class MainViewModel (
+class MainViewModel(
     stateHandle: SavedStateHandle,
-    private val repository: CocktailsRepository) :
-    BaseViewModel(stateHandle) {
+    private val repository: CocktailsRepository,
+    private val cocktailRepo: CocktailRepository,
+    private val cocktailMapper: CocktailModelMapper,
+    private val oldCocktailMapper: CocktailMapper
+) : BaseViewModel(stateHandle) {
 
     private val cocktailOfTheDayId = CocktailOfTheDay().getCocktailId()
 
-    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, String>>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, String>>> =
+    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, Long>>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
         _cocktailDetailsEventLiveData
 
     private val disposable = CompositeDisposable()
@@ -33,19 +38,18 @@ class MainViewModel (
             repository.findCocktailById(cocktailOfTheDayId.toString())
                 .map {
                     val cocktail = it.cocktailsList!!.first()
-                    cocktail.dateAdded = Calendar.getInstance().time
-                    repository.saveCocktail(cocktail)
-                        .subscribeBy(onError = { error ->
-                            Timber.e("Error during saving cocktail of the day to DB, $error")
-                        })
                     cocktail
-                }.subscribeBy(onSuccess = {
-                    navigateToCocktailDetailsFragment(it)
+                }.subscribeBy(onSuccess = {cocktail ->
+                    val cocktailModel = cocktail.run(oldCocktailMapper::mapFrom)
+                    launchRequest {
+                        cocktailRepo.addOrReplaceCocktail(cocktailModel.run(cocktailMapper::mapFrom))
+                    }
+                    navigateToCocktailDetailsFragment(cocktailModel)
                 }, onError = { Timber.e("Error during getting cocktail of the day $it") })
         )
     }
 
-    private fun navigateToCocktailDetailsFragment(cocktail: Cocktail) {
-        _cocktailDetailsEventLiveData.value = Event(Pair(cocktail.strDrink, cocktail.idDrink))
+    private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
+        _cocktailDetailsEventLiveData.value = Event(Pair(cocktail.names.defaults ?: "", cocktail.id))
     }
 }

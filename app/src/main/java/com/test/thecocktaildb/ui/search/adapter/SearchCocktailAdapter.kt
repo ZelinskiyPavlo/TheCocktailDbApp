@@ -1,16 +1,16 @@
 package com.test.thecocktaildb.ui.search.adapter
 
 import android.view.View
-import com.test.thecocktaildb.data.Cocktail
+import com.test.thecocktaildb.presentationNew.model.CocktailModel
 import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
 import com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.base.BaseCocktailAdapter
 import com.test.thecocktaildb.ui.search.SearchCocktailViewModel
 import kotlinx.android.synthetic.main.item_cocktail.view.*
 
 class SearchCocktailAdapter(private val searchCocktailViewModel: SearchCocktailViewModel) :
-    BaseCocktailAdapter<Cocktail>() {
+    BaseCocktailAdapter<CocktailModel>() {
 
-    override fun setData(items: List<Cocktail>?) {
+    override fun setData(items: List<CocktailModel>?) {
         cocktailsList = items ?: emptyList()
         notifyDataSetChanged()
     }
@@ -22,14 +22,14 @@ class SearchCocktailAdapter(private val searchCocktailViewModel: SearchCocktailV
 
     override fun getItemClickListener(): CocktailItemUserActionListener {
         return object : CocktailItemUserActionListener {
-            override fun onFavoriteIconClicked(cocktail: Cocktail) {
+            override fun onFavoriteIconClicked(cocktail: CocktailModel) {
             }
 
-            override fun onItemClicked(cocktail: Cocktail) {
+            override fun onItemClicked(cocktail: CocktailModel) {
                 searchCocktailViewModel.saveCocktailAndNavigateDetailsFragment(cocktail)
             }
 
-            override fun onItemLongClicked(view: View, cocktail: Cocktail): Boolean {
+            override fun onItemLongClicked(view: View, cocktail: CocktailModel): Boolean {
                 return true
             }
         }

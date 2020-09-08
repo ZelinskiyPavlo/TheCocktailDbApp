@@ -18,7 +18,7 @@ import com.test.thecocktaildb.ui.base.BaseFragment
 import com.test.thecocktaildb.ui.detail.adapter.IngredientAdapter
 import com.test.thecocktaildb.util.CocktailDetailsViewModelFactory
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.service.DrinkProposalService
 import javax.inject.Inject
 
@@ -31,7 +31,8 @@ class CocktailDetailsFragment : Injectable,
     lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
 
     private val viewModel by viewModels<CocktailDetailsViewModel> {
-        GenericSavedStateViewModelFactory(cocktailDetailsVmFactory, this) }
+        SavedStateViewModelFactory(cocktailDetailsVmFactory, this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -128,7 +129,7 @@ class CocktailDetailsFragment : Injectable,
         viewModel.getCocktailById(cocktailId)
     }
 
-    private fun getNavigationArgs(): Pair<String, String> {
+    private fun getNavigationArgs(): Pair<Long, String> {
         val args by navArgs<CocktailDetailsFragmentArgs>()
 
         return Pair(args.cocktailId, args.actionBarTitle)
@@ -147,6 +148,8 @@ class CocktailDetailsFragment : Injectable,
 
         val startIntent = Intent(activity, DrinkProposalService::class.java)
         startIntent.action = DrinkProposalService.ACTION_START_SERVICE
+        val selectedCocktailId = viewDataBinding.viewModel?.cocktailId
+        startIntent.putExtra(DrinkProposalService.SELECTED_COCKTAIL_ID, selectedCocktailId)
         activity?.startService(startIntent)
 
     }

@@ -19,7 +19,7 @@ import com.test.thecocktaildb.ui.cocktail.callback.DrinkProposalCallback
 import com.test.thecocktaildb.ui.cocktail.host.HostFragmentDirections
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import com.test.thecocktaildb.util.receiver.DrinkProposalReceiver
 import com.test.thecocktaildb.util.service.ACTION_PROPOSE_DRINK
@@ -41,7 +41,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
+        SavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
     }
 
     private lateinit var drinkProposalReceiver: BroadcastReceiver
@@ -104,8 +104,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(), Injectable,
         activity?.unregisterReceiver(drinkProposalReceiver)
     }
 
-    override fun proposeCocktail(selectedCocktailId: String) {
-        if ((sharedHostViewModel.cocktailsLiveData.value?.size ?: 0) > 1) {
+    override fun proposeCocktail(selectedCocktailId: Long) {
+        if ((sharedHostViewModel.cocktailsLiveData.value?.size ?: 0) > 1
+            && selectedCocktailId != -1L
+        ) {
             val proposalSnackbar = Snackbar.make(
                 viewDataBinding.root,
                 getString(R.string.snackbar_drink_proposal_title),

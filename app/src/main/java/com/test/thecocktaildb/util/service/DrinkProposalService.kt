@@ -16,7 +16,9 @@ class DrinkProposalService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val proposalIntent = Intent(ACTION_PROPOSE_DRINK)
-        proposalIntent.putExtra(Intent.EXTRA_TEXT, intent?.getStringExtra(Intent.EXTRA_TEXT))
+        proposalIntent.putExtra(
+            SELECTED_COCKTAIL_ID, intent?.getLongExtra(SELECTED_COCKTAIL_ID, -1L)
+        )
 
         when (intent?.action) {
             ACTION_STOP_SERVICE -> serviceStopFlag = false
@@ -33,6 +35,7 @@ class DrinkProposalService : Service() {
                 .subscribe()
         } else {
             if (timerObservable?.isDisposed?.not() == true) {
+                timerObservable?.dispose()
                 stopForeground(true)
                 stopSelf()
             }
@@ -53,5 +56,7 @@ class DrinkProposalService : Service() {
     companion object {
         const val ACTION_START_SERVICE = "ACTION_START_SERVICE"
         const val ACTION_STOP_SERVICE = "ACTION_STOP_SERVICE"
+
+        const val SELECTED_COCKTAIL_ID = "SELECTED_COCKTAIL_ID"
     }
 }

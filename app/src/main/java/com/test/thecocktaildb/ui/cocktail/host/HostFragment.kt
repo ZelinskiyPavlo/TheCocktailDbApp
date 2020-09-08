@@ -30,8 +30,8 @@ import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
 import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
 import com.test.thecocktaildb.ui.cocktail.sorttype.CocktailSortType
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
 import com.test.thecocktaildb.util.HostViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
 import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
@@ -53,14 +53,14 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
     lateinit var hostViewModelFactory: HostViewModelFactory
 
     private val viewModel: HostViewModel by viewModels {
-        GenericSavedStateViewModelFactory(hostViewModelFactory, this)
+        SavedStateViewModelFactory(hostViewModelFactory, this)
     }
 
     @Inject
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
+        SavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity())
     }
 
     private lateinit var viewPager: ViewPager2
@@ -79,8 +79,8 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
         setupViewPager()
         setupTabLayout()
         setupFab()
-        setupObserver()
-        loadCocktails()
+        attachObserver()
+
         return viewDataBinding.root
     }
 
@@ -185,12 +185,8 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable,
         }
     }
 
-    private fun setupObserver() {
+    private fun attachObserver() {
         sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
-    }
-
-    private fun loadCocktails() {
-        sharedHostViewModel.loadCocktails()
     }
 
     override fun onStart() {

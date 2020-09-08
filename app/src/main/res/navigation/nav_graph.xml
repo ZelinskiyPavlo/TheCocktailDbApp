@@ -28,7 +28,7 @@
             app:argType="string" />
         <argument
             android:name="cocktailId"
-            app:argType="string" />
+            app:argType="long" />
 
     </fragment>
 

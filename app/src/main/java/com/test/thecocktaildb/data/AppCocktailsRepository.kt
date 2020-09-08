@@ -10,43 +10,43 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class AppCocktailsRepository @Inject constructor(
-    private val cocktailsRemoteDataSource: CocktailsRemoteDataSource,
-    private val cocktailsLocalDataSource: CocktailsLocalDataSource,
+    private val cocktailsRemoteDataSourceImpl: CocktailsRemoteDataSource,
+    private val cocktailsLocalDataSourceImpl: CocktailsLocalDataSource,
     private val scheduler: AppSchedulerProvider
 ) : CocktailsRepository {
 
     override fun searchCocktails(searchQuery: String): Single<Cocktails> {
-        return cocktailsRemoteDataSource.searchCocktails(searchQuery)
+        return cocktailsRemoteDataSourceImpl.searchCocktails(searchQuery)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
     override fun saveCocktail(cocktail: Cocktail): Completable {
-        return cocktailsLocalDataSource.saveCocktail(cocktail)
+        return cocktailsLocalDataSourceImpl.saveCocktail(cocktail)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
     override fun getCocktail(cocktailId: String): Maybe<Cocktail> {
-        return cocktailsLocalDataSource.getCocktail(cocktailId)
+        return cocktailsLocalDataSourceImpl.getCocktail(cocktailId)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
     override fun getCocktails(): Maybe<List<Cocktail>> {
-        return cocktailsLocalDataSource.getCocktails()
+        return cocktailsLocalDataSourceImpl.getCocktails()
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
     override fun getNumberOfItems(): Observable<Long> {
-        return cocktailsLocalDataSource.getNumberOfItems()
+        return cocktailsLocalDataSourceImpl.getNumberOfItems()
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
     override fun updateFavoriteState(cocktailId: String, state: Boolean): Completable {
-        return cocktailsLocalDataSource.updateFavoriteState(cocktailId, state)
+        return cocktailsLocalDataSourceImpl.updateFavoriteState(cocktailId, state)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 
     override fun findCocktailById(id: String): Single<Cocktails> {
-        return cocktailsRemoteDataSource.findCocktailById(id)
+        return cocktailsRemoteDataSourceImpl.findCocktailById(id)
             .subscribeOn(scheduler.io()).observeOn(scheduler.ui())
     }
 }

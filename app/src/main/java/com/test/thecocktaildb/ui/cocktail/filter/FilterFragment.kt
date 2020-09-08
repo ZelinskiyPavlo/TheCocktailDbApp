@@ -12,11 +12,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentFilterBinding
 import com.test.thecocktaildb.di.Injectable
+import com.test.thecocktaildb.presentationNew.model.CocktailAlcoholType
+import com.test.thecocktaildb.presentationNew.model.CocktailCategory
 import com.test.thecocktaildb.ui.base.BaseFragment
-import com.test.thecocktaildb.ui.cocktail.filtertype.*
+import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilter
+import com.test.thecocktaildb.ui.cocktail.filtertype.DrinkFilterType
+import com.test.thecocktaildb.ui.cocktail.filtertype.IngredientDrinkFilter
 import com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel
 import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.GenericSavedStateViewModelFactory
+import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SharedHostViewModelFactory
 import javax.inject.Inject
 
@@ -35,7 +39,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
     lateinit var sharedHostViewModelFactory: SharedHostViewModelFactory
 
     private val sharedHostViewModel: SharedHostViewModel by activityViewModels {
-        GenericSavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
+        SavedStateViewModelFactory(sharedHostViewModelFactory, requireActivity(), null)
     }
 
     private lateinit var alcoholMenu: PopupMenu
@@ -68,7 +72,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
 
     private fun setupFilterPopMenu() {
         fun populateMenu(drinkFilterList: Array<out DrinkFilter>, popupMenu: PopupMenu) {
-            drinkFilterList.forEachIndexed { index, drinkFilter ->
+            drinkFilterList.dropLast(1).forEachIndexed { index, drinkFilter ->
                 popupMenu.menu.add(
                     Menu.NONE, index, Menu.NONE, drinkFilter.key
                         .replace("_", " ")
@@ -81,9 +85,9 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
         categoryMenu = PopupMenu(context, viewDataBinding.filterBtnCategory)
         ingredientMenu = PopupMenu(context, viewDataBinding.filterBtnIngredient)
 
-        val alcoholDrinkFilter = AlcoholDrinkFilter.values()
-        val categoryDrinkFilter = CategoryDrinkFilter.values()
-        val ingredientDrinkFilter = CocktailIngredient.values().dropLast(1).toTypedArray()
+        val alcoholDrinkFilter = CocktailAlcoholType.values()
+        val categoryDrinkFilter = CocktailCategory.values()
+        val ingredientDrinkFilter = IngredientDrinkFilter.values().dropLast(1).toTypedArray()
 
         populateMenu(alcoholDrinkFilter, alcoholMenu)
         populateMenu(categoryDrinkFilter, categoryMenu)
