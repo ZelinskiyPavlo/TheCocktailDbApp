@@ -43,7 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:contentDescription="@string/cocktail_image_description"
+                        android:contentDescription="@string/content_description_cocktail_image"
                         android:scaleType="fitXY"
                         bind:iv_imageUrl="@{viewModel.cocktailPictureLiveData}" />
                 </LinearLayout>

@@ -107,7 +107,7 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable/*, BatteryS
                     else -> sortType.key
                 }
             }.toTypedArray()
-            MaterialAlertDialogBuilder(context)
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.dialog_cocktail_sorting_title))
                 .setItems(sortKeyTypeList) { _, i ->
                     sharedHostViewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]

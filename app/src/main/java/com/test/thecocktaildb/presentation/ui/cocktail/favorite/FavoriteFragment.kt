@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.FragmentFavoriteBinding
 import com.test.thecocktaildb.di.Injectable
@@ -64,10 +66,17 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(), Injectable {
     }
 
     private fun setupRecyclerView() {
-        val cocktailsAdapter = CocktailAdapter(sharedHostViewModel)
-        viewDataBinding.cocktailsFavoriteRv.apply {
-            adapter = cocktailsAdapter
-            layoutManager = GridLayoutManager(activity, 2)
-        }
+        val adapter = CocktailAdapter(sharedHostViewModel).asFavorite
+        val recyclerView = viewDataBinding.cocktailsFavoriteRv
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.item_cocktail_favorite_divider)!!)
+            }
+        )
+
+        recyclerView.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.VERTICAL, false
+        )
     }
 }

@@ -48,6 +48,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/margin_16dp"
+                bind:rv_sortType="@{null}"
                 bind:rv_adapterTag="@{AdapterType.SEARCH_ADAPTER}"
                 bind:rv_cocktails="@{viewModel.itemsLiveData}"
                 app:layout_constraintEnd_toEndOf="parent"

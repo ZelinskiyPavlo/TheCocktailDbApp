@@ -35,6 +35,7 @@
                 android:visibility="gone"
                 bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
                 bind:rv_cocktails="@{sharedViewModel.cocktailsLiveData}"
+                bind:rv_sortType="@{sharedViewModel.sortingOrderLiveData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

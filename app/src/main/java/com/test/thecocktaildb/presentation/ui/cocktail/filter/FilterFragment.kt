@@ -57,6 +57,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(), Injectable {
         setupFilterButtons()
         setupResultSnackbar()
         setInitialText()
+
         return viewDataBinding.root
     }
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="obj"
+            type="String" />
+
+        <variable
+            name="listener"
+            type="com.test.thecocktaildb.presentation.ui.cocktail.adapter.recyclerview.listener.source.HeaderItemUserActionListener" />
+    </data>
+
+    <TextView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cocktail_item_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(view) -> listener.onHeaderClicked(obj)}"
+        android:paddingStart="@dimen/margin_24dp"
+        android:paddingEnd="@dimen/margin_24dp"
+        android:text="@{obj}"
+        android:textAppearance="@style/TextBoldTitle"
+        android:textSize="22sp"
+        tools:text="A" />
+
+</layout>
