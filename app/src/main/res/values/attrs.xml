@@ -38,4 +38,34 @@
         <attr name="hpab_max_height_proportion" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="CubeView">
+        <attr name="android:backgroundTint"/>
+        <attr name="cv_line_color" format="color"/>
+        <attr name="cv_line_width" format="dimension"/>
+        <attr name="cv_point_color" format="color"/>
+        <attr name="cv_point_radius" format="dimension"/>
+        <attr name="cv_play_only_triangle" format="boolean"/>
+        <attr name="cv_play_only_cube" format="boolean"/>
+        <attr name="cv_triangle_duration" format="float"/>
+        <attr name="cv_cube_duration" format="float"/>
+        <attr name="cv_delay_between_anim" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="SeekBarView">
+        <attr name="sbv_min_value" format="integer" />
+        <attr name="sbv_max_value" format="integer" />
+        <attr name="sbv_progress_background" format="color" />
+        <attr name="sbv_is_rounded_corners" format="boolean" />
+        <attr name="sbv_progress_foreground" format="color" />
+        <attr name="sbv_thumb_active_color" format="color" />
+        <attr name="sbv_thumb_active_size" format="dimension" />
+        <attr name="sbv_thumb_inactive_color" format="color" />
+        <attr name="sbv_thumb_inactive_size" format="dimension" />
+
+        <attr name="sbv_left_background_gradient_color" format="color" />
+        <attr name="sbv_right_background_gradient_color" format="color" />
+        <attr name="sbv_left_foreground_gradient_color" format="color" />
+        <attr name="sbv_right_foreground_gradient_color" format="color" />
+    </declare-styleable>
+
 </resources>

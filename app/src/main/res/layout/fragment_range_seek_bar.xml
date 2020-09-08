@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.test.thecocktaildb.presentation.ui.setting.rangeseekbar.RangeSeekBarFragment" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_background">
+
+
+        <com.test.thecocktaildb.presentation.ui.custom.SeekBarView
+            android:id="@+id/seek_bar_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="112dp"
+            app:sbv_thumb_active_color="#00E676"
+            app:sbv_thumb_inactive_color="@color/colorAccent"
+            />
+
+        <TextView
+            android:id="@+id/seek_bar_view_left_indicator"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_gravity="start|center" />
+
+        <TextView
+            android:id="@+id/seek_bar_view_right_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_gravity="end|center" />
+
+        <Button
+            android:id="@+id/seek_bar_view_button"
+            android:text="@string/seek_bar_fragment_button_set_range"
+            android:layout_width="wrap_content"
+            android:textAppearance="@style/TextBoldRegular"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view) -> fragment.setRange()}"
+            android:layout_gravity="center"
+            tools:text="Set range from 20 to 50"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

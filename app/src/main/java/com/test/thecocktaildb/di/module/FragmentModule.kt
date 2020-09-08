@@ -12,7 +12,9 @@ import com.test.thecocktaildb.presentation.ui.cocktail.host.HostFragment
 import com.test.thecocktaildb.presentation.ui.detail.CocktailDetailsFragment
 import com.test.thecocktaildb.presentation.ui.search.SearchCocktailFragment
 import com.test.thecocktaildb.presentation.ui.setting.SettingFragment
+import com.test.thecocktaildb.presentation.ui.setting.cube.CubeFragment
 import com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment
+import com.test.thecocktaildb.presentation.ui.setting.rangeseekbar.RangeSeekBarFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -70,4 +72,12 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     @Suppress("unused")
     abstract fun contributeRegisterFragment(): RegisterFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeCubeFragment(): CubeFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeRangeSeekBarFragment(): RangeSeekBarFragment
 }

@@ -19,7 +19,9 @@ import com.test.thecocktaildb.presentation.ui.cocktail.SharedMainViewModel
 import com.test.thecocktaildb.presentation.ui.cocktail.callback.BatteryStateCallback
 import com.test.thecocktaildb.presentation.ui.dialog.*
 import com.test.thecocktaildb.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.presentation.ui.setting.cube.CubeFragment
 import com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment
+import com.test.thecocktaildb.presentation.ui.setting.rangeseekbar.RangeSeekBarFragment
 import com.test.thecocktaildb.presentation.ui.setting.test.TestFragment
 import com.test.thecocktaildb.util.SavedStateViewModelFactory
 import com.test.thecocktaildb.util.SettingViewModelFactory
@@ -137,6 +139,14 @@ class SettingFragment : Injectable, BatteryStateCallback,
         super.onSaveInstanceState(outState)
     }
 
+    fun openProfileFragment() {
+        val profileFragment = ProfileFragment.newInstance()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.setting_fragment_container, profileFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     fun openTestFragment() {
         val testFragment = TestFragment.newInstance(4, "TEST_STRING")
         parentFragmentManager.beginTransaction()
@@ -145,10 +155,18 @@ class SettingFragment : Injectable, BatteryStateCallback,
             .commit()
     }
 
-    fun openProfileFragment() {
-        val profileFragment = ProfileFragment.newInstance()
+    fun openCubeView() {
+        val cubeFragment = CubeFragment.newInstance()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.setting_fragment_container, profileFragment)
+            .replace(R.id.setting_fragment_container, cubeFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun openRangeSeekBarFragment() {
+        val rangeSeekBarFragment = RangeSeekBarFragment.newInstance()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.setting_fragment_container, rangeSeekBarFragment)
             .addToBackStack(null)
             .commit()
     }
