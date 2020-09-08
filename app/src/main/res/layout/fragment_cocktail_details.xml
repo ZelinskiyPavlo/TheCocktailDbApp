@@ -7,12 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.ui.detail.CocktailDetailsViewModel" />
+            type="com.test.thecocktaildb.presentation.ui.detail.CocktailDetailsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/app_background">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/abl_details"

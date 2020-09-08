@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.widget.Toast
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.ui.auth.AuthActivity
+import com.test.thecocktaildb.presentation.ui.auth.AuthActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy

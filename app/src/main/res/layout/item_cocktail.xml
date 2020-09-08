@@ -8,11 +8,11 @@
 
         <variable
             name="obj"
-            type="com.test.thecocktaildb.presentationNew.model.CocktailModel" />
+            type="com.test.thecocktaildb.presentation.model.cocktail.CocktailModel" />
 
         <variable
             name="listener"
-            type="com.test.thecocktaildb.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener" />
+            type="com.test.thecocktaildb.presentation.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener" />
 
     </data>
 
@@ -56,7 +56,7 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/cocktail_item_favorite_btn"
+                android:id="@+id/item_cocktail_favorite_btn"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="top|end"

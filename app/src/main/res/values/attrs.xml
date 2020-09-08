@@ -8,4 +8,10 @@
         <attr name="back_button_visible" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="SettingRow">
+        <attr name="icon_src" format="reference"/>
+        <attr name="main_text" format="string"/>
+        <attr name="additional_text" format="string"/>
+    </declare-styleable>
+
 </resources>

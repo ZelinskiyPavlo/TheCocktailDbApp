@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.test.thecocktaildb">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".CocktailApplication"
@@ -13,10 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.test.thecocktaildb.ui.auth.AuthActivity"
-            android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="adjustResize"
-            >
+        <activity android:name="com.test.thecocktaildb.presentation.ui.auth.AuthActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +37,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <activity android:name="com.test.thecocktaildb.ui.cocktail.MainActivity"
+        <activity android:name="com.test.thecocktaildb.presentation.ui.cocktail.MainActivity"
             android:theme="@style/AppTheme" />
     </application>
 

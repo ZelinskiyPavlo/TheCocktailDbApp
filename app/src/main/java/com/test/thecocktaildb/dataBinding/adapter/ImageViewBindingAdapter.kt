@@ -1,14 +1,10 @@
 package com.test.thecocktaildb.dataBinding.adapter
 
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
-import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.test.thecocktaildb.R
 
 @BindingAdapter(
     value = ["bind:iv_imageUrl", "bind:placeholderUrl", "bind:placeholderResId",
@@ -33,13 +29,6 @@ fun ImageView.loadImage(
     }
 }
 
-@BindingAdapter("bind:iv_batteryBar_tint")
-fun ImageView.setTint(isCharging: Boolean) {
-    if (isCharging) {
-        val colorConnected = ContextCompat.getColor(this.context, R.color.battery_connected)
-        ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorConnected))
-    } else {
-        val colorDisconnected = ContextCompat.getColor(this.context, R.color.battery_disconnected)
-        ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(colorDisconnected))
-    }
-}
+@BindingAdapter("bind:iv_imageUrl")
+fun ImageView.loadImage(url: String?) =
+    url?.let { Glide.with(this.context).load(url).into(this) }

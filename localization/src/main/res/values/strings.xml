@@ -6,10 +6,19 @@
     <!--endregion-->
 
     <!--region Constant text-->
-    <string name="all_login">Login</string>
-    <string name="all_password">Password</string>
-    <string name="all_no">No</string>
     <string name="all_yes">Yes</string>
+    <string name="all_no">No</string>
+    <string name="all_ok" translatable="false">OK</string>
+    <string name="all_login">Login</string>
+    <string name="all_email">Email</string>
+    <string name="all_name">Name</string>
+    <string name="all_last_name">Last name</string>
+    <string name="all_sign_in">Sign in</string>
+    <string name="all_sign_up">Sign up</string>
+    <string name="all_password">Password</string>
+    <string name="all_confirm_password">Confirm password</string>
+    <string name="all_cancel">Cancel</string>
+    <string name="all_exit">Exit</string>
     <!--endregion-->
 
     <!--region CocktailsFragment related-->
@@ -34,10 +43,19 @@
     <string name="cocktail_item_image_description">Cocktail item image</string>
     <string name="cocktail_logo_description">Cocktail Database logo</string>
     <string name="search_field_icon_description">search icon</string>
+    <string name="user_avatar_description">User Avatar</string>
     <!--endregion-->
 
     <!--region AuthActivity-->
-    <string name="auth_activity_button_login">Login</string>
+
+    <!--region LoginFragment related-->
+    <string name="login_fragment_no_account_tv">You have no account? Sign up</string>
+    <!--endregion-->
+
+    <!--region RegisterFragment related-->
+    <string name="register_fragment_account_presented_tv">Already have account? Sign in</string>
+    <!--endregion-->
+
     <!--endregion-->
 
     <!--region FilterFragment related-->
@@ -86,16 +104,24 @@
     <string name="menu_cocktail_history_remove_favorite">Remove Favorite</string>
     <!--endregion-->
 
+    <!--region SettingFragment related-->
+    <string name="setting_fragment_toolbar_title">Setting</string>
+    <string name="setting_fragment_profile_view_title">Profile</string>
+    <string name="setting_fragment_test_fragment_view_title">Test Fragment</string>
+    <string name="setting_fragment_language_view_title">Language</string>
+    <string name="setting_fragment_show_nav_view_title">Show Main Navigation Bar Titles</string>
+    <!--endregion-->
+
     <!--region ProfileFragment related-->
-    <string name="profile_fragment_show_nav_view_title">Show Main Navigation Bar Titles</string>
-    <string name="profile_fragment_open_test_fragment">Open TestFragment</string>
-    <string name="profile_fragment_button_log_out">Log out</string>
-    <string name="profile_fragment_button_change_language">Change Language</string>
+    <string name="profile_fragment_toolbar_title">Profile</string>
+    <string name="profile_fragment_name_tv">name:</string>
+    <string name="profile_fragment_last_name_tv">last name:</string>
+    <string name="profile_fragment_email_tv">email:</string>
     <!--endregion-->
 
     <!--region Bottom navigation view -->
     <string name="bottom_navigation_main_fragment_title">Main</string>
-    <string name="bottom_navigation_profile_fragment_title">Profile</string>
+    <string name="bottom_navigation_setting_fragment_title">Setting</string>
     <!--endregion-->
 
     <!--region Dialog-->
@@ -103,26 +129,93 @@
     <!--region Cocktail of the day dialog-->
     <string name="dialog_cocktail_of_the_day_title">Cocktail of the day</string>
     <string name="dialog_cocktail_of_the_day_description">Do you want to see cocktail of the day?</string>
-    <string name="dialog_cocktail_of_the_day_cancel">No</string>
-    <string name="dialog_cocktail_of_the_day_accept">Yes</string>
     <!--endregion-->
 
-    <!--region Sign in error dialog-->
+    <!--region Sorting dialog-->
     <string name="dialog_cocktail_sorting_title">Choose sort type</string>
-    <string name="dialog_sign_in_error_title">Sign in error</string>
-    <string name="dialog_sign_in_error_accept" translatable="false">OK</string>
-    <string name="dialog_sign_in_error_description">Looks like you provided wrong login or password</string>
     <!--endregion-->
 
     <!--region Log out dialog-->
     <string name="dialog_log_out_title">Log Out</string>
     <string name="dialog_log_out_description">Do you really want to exit?</string>
-    <string name="dialog_log_out_cancel">Cancel</string>
-    <string name="dialog_log_out_accept">Exit</string>
     <!--endregion-->
 
     <!--region Language dialog-->
     <string name="dialog_language_title">Choose desired language</string>
+    <!--endregion-->
+
+    <!--region Error dialogs-->
+
+    <!--region Login error dialog-->
+    <string name="login_error_dialog_title">Login error</string>
+    <string name="login_error_dialog_description">Cannot login user with specified login and password</string>
+    <!--endregion-->
+
+    <!--region Registration error dialog-->
+    <string name="register_error_dialog_title">Registration error</string>
+    <string name="register_error_dialog_description">This user already exist</string>
+    <!--endregion-->
+
+    <!--region Api error dialog-->
+    <string name="api_error_dialog_title">Api error</string>
+    <!--endregion-->
+
+    <!--region UnAuthorized Access error dialog-->
+    <string name="unauthorized_access_error_dialog_title">Unauthorized access error</string>
+    <!--endregion-->
+
+    <!--region Server error dialog-->
+    <string name="server_error_dialog_title">Server error</string>
+    <string name="server_error_dialog_description">Some problem occurred with server</string>
+    <!--endregion-->
+
+    <!--region Server not responding error dialog-->
+    <string name="server_responding_error_dialog_title">Server not responding</string>
+    <!--endregion-->
+
+    <!--region Unknown error dialog-->
+    <string name="unknown_error_dialog_title">Unknown error</string>
+    <string name="unknown_error_dialog_description_with_code">With code</string>
+    <string name="unknown_error_dialog_description_and_details">and details</string>
+    <!--endregion-->
+
+    <!--region Cancellation error dialog-->
+    <string name="cancellation_error_dialog_title">Some cancellation error occurred</string>
+    <!--endregion-->
+
+    <!--region No internet connection error dialog-->
+    <string name="no_internet_error_dialog_title">You don\'t have access to the internet</string>
+    <string name="no_internet_error_dialog_description">Please check your internet connection</string>
+    <!--endregion-->
+
+    <!--region AuthActivity -->
+
+    <!--region Invalid login input dialog-->
+    <string name="invalid_login_input_dialog_title">Sign in error</string>
+    <string name="invalid_login_input_dialog_description">Your input data doens\'t match criteria</string>
+    <!--endregion-->
+
+    <!--region Invalid registration input dialog-->
+    <string name="invalid_register_input_dialog_title">Sign up error</string>
+    <string name="invalid_register_input_dialog_description">Some of your data didn\'t match criteria</string>
+    <!--endregion-->
+
+    <!--endregion-->
+
+    <!--region Profile fragment -->
+
+    <!--region Invalid new user data input dialog-->
+    <string name="invalid_new_user_data_dialog_title">Invalid data error</string>
+    <string name="invalid_new_user_data_dialog_description">Your new data didn\'t match criteria</string>
+    <!--endregion-->
+
+    <!--region No permission granted dialog-->
+    <string name="no_permission_dialog_title">Storage permission required</string>
+    <string name="no_permission_dialog_description">Please provide storage permission to be able to choose profile picture</string>
+    <!--endregion-->
+
+    <!--endregion-->
+
     <!--endregion-->
 
     <!--endregion-->

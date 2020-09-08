@@ -3,7 +3,7 @@ package com.test.thecocktaildb.util.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.test.thecocktaildb.ui.cocktail.callback.DrinkProposalCallback
+import com.test.thecocktaildb.presentation.ui.cocktail.callback.DrinkProposalCallback
 import com.test.thecocktaildb.util.service.DrinkProposalService
 
 class DrinkProposalReceiver(

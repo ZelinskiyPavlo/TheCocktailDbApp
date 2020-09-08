@@ -39,6 +39,10 @@ android {
         enabledForTests = true
     }
 
+    lintOptions {
+        disable 'BinaryOperationInTimber'
+    }
+
 }
 
 dependencies {
@@ -100,6 +104,8 @@ dependencies {
 
     // Image loading
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation "io.coil-kt:coil:0.11.0"
+//    implementation "io.coil-kt:coil-svg:0.9.5"
 
     // Material components
     implementation "com.google.android.material:material:1.1.0"
@@ -112,5 +118,8 @@ dependencies {
     // Icepick
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
+
+    // Logging interceptor
+    debugImplementation "com.squareup.okhttp3:logging-interceptor:4.5.0-RC1"
 
 }

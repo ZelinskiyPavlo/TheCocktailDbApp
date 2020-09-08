@@ -27,7 +27,6 @@
     <!--region AuthActivity-->
     <string name="all_login">Логін</string>
     <string name="all_password">Пароль</string>
-    <string name="auth_activity_button_login">Увійти</string>
     <!--endregion-->
 
     <!--region FilterFragment related-->
@@ -59,15 +58,9 @@
     <string name="menu_cocktail_history_remove_favorite">Прибрати з улюблених</string>
     <!--endregion-->
 
-    <!--region ProfileFragment related-->
-    <string name="profile_fragment_show_nav_view_title">Показати заголовки іконок в рядку навігації</string>
-    <string name="profile_fragment_open_test_fragment">Відкрити TestFragment</string>
-    <string name="profile_fragment_button_log_out">Вийти</string>
-    <!--endregion-->
-
     <!--region Bottom navigation view -->
     <string name="bottom_navigation_main_fragment_title">Головна</string>
-    <string name="bottom_navigation_profile_fragment_title">Профіль</string>
+    <string name="bottom_navigation_setting_fragment_title">Налаштування</string>
     <!--endregion-->
 
     <!--region Dialog-->
@@ -81,14 +74,10 @@
 
     <!--region Sign in error dialog-->
     <string name="dialog_cocktail_sorting_title">Виберіть тип сортування</string>
-    <string name="dialog_sign_in_error_title">Помилка авторизації</string>
-    <string name="dialog_sign_in_error_description">Здається ви вказали неправильний логін або пароль</string>
     <!--endregion-->
 
     <!--region Log out dialog-->
     <string name="dialog_log_out_description">Чи хочете ви дійсно вийти?</string>
-    <string name="dialog_log_out_cancel">Скасувати</string>
-    <string name="dialog_log_out_accept">Вийти</string>
     <!--endregion-->
 
     <!--endregion-->
@@ -103,7 +92,6 @@
     <string name="app_name_simplified">Павло Зелінський</string>
     <string name="battery_status_battery_okay">Батарейці норм</string>
     <string name="battery_status_battery_low">Батарейці плохо</string>
-    <string name="profile_fragment_button_change_language">Змінити мову</string>
     <string name="dialog_language_title">Оберіть бажану мову</string>
     <string name="search_field_icon_description">іконка пошуку</string>
     <string name="filter_fragment_toolbar_title">Виберіть фільтр</string>
@@ -111,8 +99,6 @@
     <string name="filter_fragment_alcohol_type">Фільтр по алкоголю</string>
     <string name="filter_fragment_category_type">Фільтр за категорією</string>
     <string name="filter_fragment_ingredient_type">Фільтр по інгредієнтах</string>
-    <string name="dialog_cocktail_of_the_day_cancel">Ні</string>
-    <string name="dialog_cocktail_of_the_day_accept">Так</string>
     <string name="sort_dialog_date">За датою</string>
     <string name="sort_dialog_name_desc">За назвою по спадаючій</string>
     <string name="sort_dialog_name_asc">За назвою по зростаючій</string>
@@ -120,6 +106,49 @@
     <string name="sort_dialog_non_alcohol_first">Алкогольні вкінці</string>
     <string name="sort_dialog_ingredient_count_desc">За кількість інгредієнтів по спадаючій</string>
     <string name="sort_dialog_ingredient_count_asc">За кількість інгредієнтів по зростаючій</string>
+    <string name="all_email">Ел. пошта</string>
+    <string name="all_name">Ім\'я</string>
+    <string name="all_last_name">Прізвище</string>
+    <string name="all_confirm_password">Підтвердити пароль</string>
+    <string name="all_sign_in">Увійти</string>
+    <string name="all_sign_up">Зареєструватися</string>
+    <string name="all_cancel">Відмінити</string>
+    <string name="all_exit">Вийти</string>
+    <string name="user_avatar_description">Аватар користувача</string>
+    <string name="login_fragment_no_account_tv">У вас нема аккаунта? Зареєструватися</string>
+    <string name="register_fragment_account_presented_tv">Уже маєте аккаунт? Увійти</string>
+    <string name="login_error_dialog_title">Помилка входу</string>
+    <string name="api_error_dialog_title">Помилка Api</string>
+    <string name="login_error_dialog_description">Проблема при вході користувача з вказаними даними</string>
+    <string name="register_error_dialog_title">Помилка реєстрації</string>
+    <string name="register_error_dialog_description">Такий користувач уже існує</string>
+    <string name="unauthorized_access_error_dialog_title">Неавторизований доступ</string>
+    <string name="server_error_dialog_title">Помилка сервера</string>
+    <string name="server_error_dialog_description">Відбулася помилка на сервері</string>
+    <string name="server_responding_error_dialog_title">Сервер не відповідає</string>
+    <string name="unknown_error_dialog_title">Невідома помилка</string>
+    <string name="unknown_error_dialog_description_with_code">З кодом</string>
+    <string name="unknown_error_dialog_description_and_details">і деталями</string>
+    <string name="cancellation_error_dialog_title">Помилка скасування</string>
+    <string name="no_internet_error_dialog_title">Помилка при підключенні до інтернету</string>
+    <string name="no_internet_error_dialog_description">Перевірте підключення до інтернету</string>
+    <string name="invalid_login_input_dialog_title">Помилка авторизації</string>
+    <string name="invalid_login_input_dialog_description">Введені дані не відповідають критеріям</string>
+    <string name="invalid_register_input_dialog_title">Помилка реєстрації</string>
+    <string name="invalid_register_input_dialog_description">Введені дані не відповідають критеріям</string>
+    <string name="invalid_new_user_data_dialog_title">Неправильні оновлені дані користувача</string>
+    <string name="invalid_new_user_data_dialog_description">Введені дані не відповідають критеріям</string>
+    <string name="no_permission_dialog_title">Необхідний дозвіл</string>
+    <string name="no_permission_dialog_description">Будь ласка надайте доступ до вашого сховища</string>
+    <string name="profile_fragment_name_tv">ім\'я:</string>
+    <string name="profile_fragment_last_name_tv">прізвище:</string>
+    <string name="profile_fragment_email_tv">ел.пошта:</string>
+    <string name="setting_fragment_toolbar_title">Налаштування</string>
+    <string name="setting_fragment_profile_view_title">Профіль</string>
+    <string name="setting_fragment_test_fragment_view_title">Тестовий Фрагмент</string>
+    <string name="setting_fragment_language_view_title">Мова</string>
+    <string name="setting_fragment_show_nav_view_title">Показати заголовки іконок в рядку навігації</string>
+    <string name="profile_fragment_toolbar_title">Профіль</string>
     <!--endregion-->
 
 </resources>

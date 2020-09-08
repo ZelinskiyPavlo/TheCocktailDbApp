@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.test.thecocktaildb.presentation.ui.auth.register.RegisterViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.test.thecocktaildb.presentation.ui.auth.register.RegisterFragment" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.auth.login.LoginFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/padding_16dp"
+            android:paddingVertical="@dimen/padding_32dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/cocktail_logo_description"
+                android:src="@drawable/ic_logo" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_email_etl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/all_email"
+                app:hintTextColor="@color/text_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_email_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/app_background"
+                    android:text="@={viewModel.emailInputLiveData}"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_name_etl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/all_name"
+                app:hintTextColor="@color/text_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_name_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/app_background"
+                    android:text="@={viewModel.nameInputLiveData}"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_last_name_etl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/all_last_name"
+                app:hintTextColor="@color/text_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_last_name_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/app_background"
+                    android:text="@={viewModel.lastNameInputLiveData}"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_password_etl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/all_password"
+                app:endIconMode="password_toggle"
+                app:hintTextColor="@color/text_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_password_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/app_background"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.passwordInputLiveData}"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_confirm_password_etl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/all_confirm_password"
+                app:hintTextColor="@color/text_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_confirm_password_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/app_background"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.confirmPasswordInputLiveData}"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/register_button_register"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@{viewModel.isDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
+                android:gravity="center"
+                android:onClick="@{() -> fragment.onRegisterButtonClicked()}"
+                android:text="@string/all_sign_up"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/register_sign_in_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="@string/register_fragment_account_presented_tv"
+                android:textAppearance="@style/TextRegular"
+                android:textColor="@color/text_hint" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

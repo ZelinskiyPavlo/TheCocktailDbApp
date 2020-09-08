@@ -1,14 +1,18 @@
 package com.test.thecocktaildb.di.module
 
-import com.test.thecocktaildb.ui.auth.AuthActivity
-import com.test.thecocktaildb.ui.cocktail.MainActivity
-import com.test.thecocktaildb.ui.cocktail.favorite.FavoriteFragment
-import com.test.thecocktaildb.ui.cocktail.filter.FilterFragment
-import com.test.thecocktaildb.ui.cocktail.history.HistoryFragment
-import com.test.thecocktaildb.ui.cocktail.host.HostFragment
-import com.test.thecocktaildb.ui.detail.CocktailDetailsFragment
-import com.test.thecocktaildb.ui.profile.ProfileFragment
-import com.test.thecocktaildb.ui.search.SearchCocktailFragment
+import com.test.thecocktaildb.presentation.ui.auth.AuthActivity
+import com.test.thecocktaildb.presentation.ui.auth.login.LoginFragment
+import com.test.thecocktaildb.presentation.ui.auth.register.RegisterFragment
+import com.test.thecocktaildb.presentation.ui.auth.splash.SplashFragment
+import com.test.thecocktaildb.presentation.ui.cocktail.MainActivity
+import com.test.thecocktaildb.presentation.ui.cocktail.favorite.FavoriteFragment
+import com.test.thecocktaildb.presentation.ui.cocktail.filter.FilterFragment
+import com.test.thecocktaildb.presentation.ui.cocktail.history.HistoryFragment
+import com.test.thecocktaildb.presentation.ui.cocktail.host.HostFragment
+import com.test.thecocktaildb.presentation.ui.detail.CocktailDetailsFragment
+import com.test.thecocktaildb.presentation.ui.search.SearchCocktailFragment
+import com.test.thecocktaildb.presentation.ui.setting.SettingFragment
+import com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -41,6 +45,10 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     @Suppress("unused")
+    abstract fun contributeSettingFragment(): SettingFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
     abstract fun contributeProfileFragment(): ProfileFragment
 
     @ContributesAndroidInjector
@@ -50,4 +58,16 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     @Suppress("unused")
     abstract fun contributeAuthActivity(): AuthActivity
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeSplashFragment(): SplashFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeLoginFragment(): LoginFragment
+
+    @ContributesAndroidInjector
+    @Suppress("unused")
+    abstract fun contributeRegisterFragment(): RegisterFragment
 }

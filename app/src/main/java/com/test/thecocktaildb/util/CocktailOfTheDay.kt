@@ -1,6 +1,6 @@
 package com.test.thecocktaildb.util
 
-import com.test.thecocktaildb.data.CocktailIdHolder
+import com.test.thecocktaildb.data.local.CocktailIdHolder
 import java.util.*
 import kotlin.random.Random
 

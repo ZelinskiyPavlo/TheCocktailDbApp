@@ -19,6 +19,7 @@
     <dimen name="corner_radius_default">8dp</dimen>
 
     <dimen name="image_size">156dp</dimen>
+    <dimen name="icon_size">28dp</dimen>
 
     <dimen name="text_default">16sp</dimen>
     <dimen name="text_small">14sp</dimen>
