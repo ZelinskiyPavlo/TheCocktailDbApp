@@ -7,10 +7,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import com.test.thecocktaildb.util.DelegatedViewModelFactory
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import icepick.Icepick
 import javax.inject.Inject
 
 abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAndroidInjector,
@@ -21,9 +23,6 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
 
     @Inject
     protected lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    protected lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
 
     protected open lateinit var dataBinding: VDB
 
@@ -36,16 +35,23 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         dataBinding = DataBindingUtil.setContentView(this, contentLayoutResId) as VDB
         dataBinding.lifecycleOwner = this@BaseActivity
         configureDataBinding()
+
+        Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
     protected open fun configureDataBinding() {}
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
+    }
 
     override fun onDialogFragmentDismiss(
         dialog: DialogFragment,
         dialogType: DialogType<DialogButton>,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onDialogFragmentDismiss(dialog, dialogType, data)
     }
 
@@ -55,7 +61,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         buttonType: DialogButton,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onDialogFragmentClick(dialog, dialogType, buttonType, data)
     }
 
@@ -64,7 +70,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         type: DialogType<DialogButton>,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onBottomSheetDialogFragmentDismiss(dialog, type, data)
     }
 
@@ -74,7 +80,7 @@ abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity(), HasAnd
         type: DialogType<DialogButton>,
         data: Any?
     ) {
-        (dialog.parentFragment as? BaseFragment<*, *>)
+        (dialog.parentFragment as? BaseFragment<*>)
             ?.onBottomSheetDialogFragmentClick(dialog, buttonType, type, data)
     }
 }

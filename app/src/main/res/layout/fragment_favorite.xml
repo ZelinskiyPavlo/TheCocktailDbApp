@@ -12,7 +12,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.test.thecocktaildb.ui.cocktailScreen.fragmentHostScreen.SharedHostViewModel" />
+            type="com.test.thecocktaildb.ui.cocktail.host.SharedHostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
         android:background="@color/app_background"
         android:clickable="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:context=".ui.cocktailScreen.favoriteScreen.FavoriteFragment">
+        tools:context=".ui.cocktail.favorite.FavoriteFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cocktails_favorite_rv"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?attr/actionBarSize"
-            android:text="@string/empty_favorite_text"
+            android:text="@string/favorite_fragment_empty_list"
             android:textAppearance="@style/TextHint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

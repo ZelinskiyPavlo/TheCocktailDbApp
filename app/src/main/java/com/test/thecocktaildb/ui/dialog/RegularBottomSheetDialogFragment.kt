@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import com.test.thecocktaildb.R
-import com.test.thecocktaildb.ui.base.SimpleBaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.SimpleBaseBottomSheetDialogFragment
 
 class RegularBottomSheetDialogFragment :
     SimpleBaseBottomSheetDialogFragment<Any, RegularDialogButton, RegularDialogType,

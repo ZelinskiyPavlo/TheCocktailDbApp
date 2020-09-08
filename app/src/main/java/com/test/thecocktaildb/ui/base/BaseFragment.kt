@@ -8,44 +8,33 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.ui.dialog.DialogButton
 import com.test.thecocktaildb.ui.dialog.DialogType
-import com.test.thecocktaildb.util.DelegatedViewModelFactory
-import javax.inject.Inject
+import com.test.thecocktaildb.ui.dialog.base.BaseBottomSheetDialogFragment
+import com.test.thecocktaildb.ui.dialog.base.BaseDialogFragment
+import icepick.Icepick
 
-abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(), Injectable,
+abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragment(), Injectable,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseDialogFragment.OnDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>> {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    @Inject
-    lateinit var delegatedViewModelFactory: DelegatedViewModelFactory
-
     protected open lateinit var viewDataBinding: VDB
-    protected lateinit var viewModel: VM
 
     abstract val layoutId: Int
-
-    protected abstract fun getViewModelClass(): Class<VM>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this, viewModelFactory)[getViewModelClass()]
-
         viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         configureDataBinding()
 
+        Icepick.restoreInstanceState(this, savedInstanceState)
         return viewDataBinding.root
     }
 
@@ -60,6 +49,11 @@ abstract class BaseFragment<VDB : ViewDataBinding, VM : ViewModel> : Fragment(),
     }
 
     protected open fun configureObserver() {
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
     }
 
     override fun onDialogFragmentDismiss(
