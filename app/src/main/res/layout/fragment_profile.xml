@@ -29,9 +29,9 @@
                 android:id="@+id/profile_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:back_button_visible="true"
-                app:primary_option_icon="@drawable/ic_exit_to_app_24"
-                app:title_text="@string/profile_fragment_toolbar_title" />
+                app:toolbar_back_button_visible="true"
+                app:toolbar_primary_option_icon="@drawable/ic_exit_to_app_24"
+                app:toolbar_title_text="@string/profile_fragment_toolbar_title" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -113,6 +113,7 @@
                     android:onClick="@{(view) -> fragment.saveUserChange()}"
                     android:paddingVertical="@dimen/padding_8dp"
                     android:src="@drawable/ic_check_circle_24"
+                    style="@style/DefaultButtonStyle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

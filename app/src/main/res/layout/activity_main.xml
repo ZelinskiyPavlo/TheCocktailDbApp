@@ -38,6 +38,7 @@
             android:layout_gravity="bottom"
             app:itemIconTint="@color/colorAccent"
             app:itemTextColor="@color/text_default"
+            app:itemRippleColor="@color/gray_dove"
             app:itemTextAppearanceActive="@style/TextBoldRegular"
             app:itemTextAppearanceInactive="@style/TextRegular"
             app:menu="@menu/menu_bottom_navigation" />

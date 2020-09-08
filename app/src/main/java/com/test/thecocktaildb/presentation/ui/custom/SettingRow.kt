@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.IdRes
+import androidx.core.content.res.use
 import androidx.core.widget.ImageViewCompat
 import com.test.thecocktaildb.R
 import kotlinx.android.synthetic.main.widget_setting_row.view.*
@@ -26,17 +27,15 @@ class SettingRow(context: Context, attributes: AttributeSet) : LinearLayout(cont
         mainText = setting_row_view_main_text
         additionalText = setting_row_view_additional_text
 
-        with(context.obtainStyledAttributes(attributes, R.styleable.SettingRow)) {
-            icon.setImageDrawable(getDrawable(R.styleable.SettingRow_icon_src))
-            mainText.text = getText(R.styleable.SettingRow_main_text)
-            if (getText(R.styleable.SettingRow_additional_text) != null) {
+        context.obtainStyledAttributes(attributes, R.styleable.SettingRow).use {typedArray ->
+            icon.setImageDrawable(typedArray.getDrawable(R.styleable.SettingRow_sr_icon_src))
+            mainText.text = typedArray.getText(R.styleable.SettingRow_sr_main_text)
+            if (typedArray.getText(R.styleable.SettingRow_sr_additional_text) != null) {
                 additionalText.visibility = View.VISIBLE
-                additionalText.text = getText(R.styleable.SettingRow_additional_text)
+                additionalText.text = typedArray.getText(R.styleable.SettingRow_sr_additional_text)
             } else {
                 additionalText.visibility = View.GONE
             }
-
-            recycle()
         }
     }
 

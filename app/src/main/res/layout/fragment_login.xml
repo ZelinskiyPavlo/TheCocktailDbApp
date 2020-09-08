@@ -84,14 +84,15 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <TextView
+            <com.test.thecocktaildb.presentation.ui.custom.CustomSaturationButton
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@{viewModel.isDataValidLiveData ? @drawable/bg_btn_login_available : @drawable/bg_btn_login_unavailable}"
+                android:background="@drawable/bg_btn_login_available"
                 android:gravity="center"
                 android:onClick="@{() -> fragment.onLoginButtonClicked()}"
                 android:text="@string/all_sign_in"
+                android:stateListAnimator="@animator/sla_btn_custom_saturation"
                 android:textColor="@color/white" />
 
             <TextView

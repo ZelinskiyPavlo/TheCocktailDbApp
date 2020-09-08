@@ -80,6 +80,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:paddingEnd="16dp">
 
                 <Button
@@ -88,6 +90,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:textAppearance="@style/TextRegular"
+                    android:stateListAnimator="@animator/sla_btn_primary"
                     android:textColor="@color/black"
                     tools:text="Button text" />
 
@@ -103,6 +106,7 @@
                     android:layout_weight="1"
                     android:textAppearance="@style/TextRegular"
                     android:textColor="@color/black"
+                    android:stateListAnimator="@animator/sla_btn_primary"
                     tools:text="Button text" />
 
             </LinearLayout>

@@ -93,6 +93,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
                 clearErrors()
             }
         )
+
+        viewModel.isDataValidLiveData.observe(viewLifecycleOwner, {isAvailable ->
+            viewDataBinding.registerButtonRegister.isEnabled = isAvailable
+        })
     }
 
     private fun configureTogglePasswordButton() {
