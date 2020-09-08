@@ -2,7 +2,10 @@ package com.test.thecocktaildb.presentation.ui.cocktail.host
 
 import androidx.lifecycle.*
 import com.test.thecocktaildb.data.repository.source.CocktailRepository
+import com.test.thecocktaildb.data.repository.source.UserRepository
 import com.test.thecocktaildb.presentation.mapper.CocktailModelMapper
+import com.test.thecocktaildb.presentation.mapper.UserModelMapper
+import com.test.thecocktaildb.presentation.model.UserModel
 import com.test.thecocktaildb.presentation.model.cocktail.CocktailAlcoholType
 import com.test.thecocktaildb.presentation.model.cocktail.CocktailCategory
 import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
@@ -20,7 +23,9 @@ import kotlinx.coroutines.withContext
 class SharedHostViewModel(
     handle: SavedStateHandle,
     private val cocktailRepo: CocktailRepository,
-    private val cocktailMapper: CocktailModelMapper
+    userRepo: UserRepository,
+    private val cocktailMapper: CocktailModelMapper,
+    private val userMapper: UserModelMapper
 ) : BaseViewModel(handle) {
 
     private val _cocktailsLiveData =
@@ -37,12 +42,23 @@ class SharedHostViewModel(
     private val cocktailDbListLiveData: LiveData<List<CocktailModel>> =
         cocktailRepo.cocktailListLiveData.map(cocktailMapper::mapToList)
 
+    private val userLiveData: LiveData<UserModel?> = userRepo.userLiveData.map {
+        it?.run(userMapper::mapTo)
+    }
+
     private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, Long>>>()
     val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
         _cocktailDetailsEventLiveData
 
-    private val _applyFilterEventLiveData = MutableLiveData<Event<Unit>>()
-    val applyFilterEventLiveData: LiveData<Event<Unit>> = _applyFilterEventLiveData
+    private val _applyFilterEventLiveData =
+        MutableLiveData<Event<Pair<List<String>, List<String>>?>>()
+    val applyFilterEventLiveData: LiveData<Event<Pair<List<String>, List<String>>?>> =
+        _applyFilterEventLiveData
+
+    private val _favoriteStateChangedEventLiveData =
+        MutableLiveData<Event<Triple<Boolean, String, String>>>()
+    val favoriteStateChangedEventLiveData: LiveData<Event<Triple<Boolean, String, String>>> =
+        _favoriteStateChangedEventLiveData
 
     val isCocktailListEmptyLiveData: LiveData<Boolean> =
         Transformations.map(_cocktailsLiveData) { it.isEmpty() }
@@ -194,6 +210,8 @@ class SharedHostViewModel(
         }
         restoreSortingOrder()
         restoreFilters()
+
+        userLiveData.observeForever {}
     }
 
     fun updateCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
@@ -223,6 +241,15 @@ class SharedHostViewModel(
     fun changeIsFavoriteState(cocktail: CocktailModel) {
         launchRequest {
             cocktailRepo.updateCocktailFavoriteState(cocktail.id, cocktail.isFavorite.not())
+
+            withContext(Dispatchers.Main) {
+                val isAddedToFavorite = cocktail.isFavorite.not()
+                val cocktailId = cocktail.id.toString()
+                val fullUserName = "${userLiveData.value?.name} ${userLiveData.value?.lastName}"
+
+                _favoriteStateChangedEventLiveData.value =
+                    Event(Triple(isAddedToFavorite, cocktailId, fullUserName))
+            }
         }
     }
 
@@ -282,7 +309,15 @@ class SharedHostViewModel(
     }
 
     fun onApplyButtonClicked() {
-        _applyFilterEventLiveData.value = Event(Unit)
+        val filterList = _filterListLiveData.value
+        if (filterList != listOf(null, null, null) && filterList != null) {
+            val selectedFiltersList = filterList.map { it?.key ?: "None" }
+            val selectedFiltersTypeList = filterList.filterNotNull().map { it.type.name }
+            _applyFilterEventLiveData.value =
+                Event(Pair(selectedFiltersList, selectedFiltersTypeList))
+        } else {
+            _applyFilterEventLiveData.value = Event(Pair(emptyList(), emptyList()))
+        }
     }
 
     private fun applySorting(cocktailSortType: CocktailSortType?) {

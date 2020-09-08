@@ -7,6 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.test.thecocktaildb.core.common.exception.*
 import com.test.thecocktaildb.presentation.extension.observeNotNull
 import com.test.thecocktaildb.presentation.extension.observeNotNullOnce
@@ -44,6 +46,12 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     private val errorHandler: SimpleErrorHandler
             by lazy { SimpleErrorHandler(supportFragmentManager, this) }
 
+    @Inject
+    protected lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    @Inject
+    protected lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, contentLayoutResId) as VDB
@@ -60,6 +68,7 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
+        configureObserver()
         addViewModelErrorObserver(viewModel)
     }
 

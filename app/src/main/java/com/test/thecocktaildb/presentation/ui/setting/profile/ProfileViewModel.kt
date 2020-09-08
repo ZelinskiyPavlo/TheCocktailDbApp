@@ -3,6 +3,7 @@ package com.test.thecocktaildb.presentation.ui.setting.profile
 import androidx.lifecycle.*
 import com.test.thecocktaildb.data.repository.source.TokenRepository
 import com.test.thecocktaildb.data.repository.source.UserRepository
+import com.test.thecocktaildb.presentation.extension.distinctNotNullValues
 import com.test.thecocktaildb.presentation.mapper.UserModelMapper
 import com.test.thecocktaildb.presentation.model.UserModel
 import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
@@ -22,13 +23,13 @@ class ProfileViewModel(
         it?.run(userMapper::mapTo)
     }
 
-    private val _userNameLiveData = userModelLiveData.map{ it?.name }
+    private val _userNameLiveData = userModelLiveData.map { it?.name }
     val userNameLiveData: LiveData<String?> = _userNameLiveData
 
-    private val _userLastNameLiveData = userModelLiveData.map{ it?.lastName }
+    private val _userLastNameLiveData = userModelLiveData.map { it?.lastName }
     val userLastNameLiveData: LiveData<String?> = _userLastNameLiveData
 
-    private val _userEmailLiveData = userModelLiveData.map{ it?.email }
+    private val _userEmailLiveData = userModelLiveData.map { it?.email }
     val userEmailLiveData: LiveData<String?> = _userEmailLiveData
 
     val userFullNameLiveData = MediatorLiveData<String>().apply {
@@ -45,6 +46,7 @@ class ProfileViewModel(
             generateFullName()
         }
     }
+    val userDataChangedLiveData = userFullNameLiveData.distinctNotNullValues()
 
     val userAvatarLiveData = userModelLiveData.map { it?.avatar }.distinctUntilChanged()
 
@@ -52,16 +54,14 @@ class ProfileViewModel(
     val lastNameInputLiveData = MutableLiveData<String>()
     val emailInputLiveData = MutableLiveData<String>()
 
-    private val _updateUserEventLiveData = MutableLiveData<Event<Unit>>()
-    val updateUserEventLiveData: LiveData<Event<Unit>> = _updateUserEventLiveData
-
     private val _logOutUserEventLiveData = MutableLiveData<Event<Unit>>()
     val logOutUserEventLiveData: LiveData<Event<Unit>> = _logOutUserEventLiveData
 
     fun isUserDataChanged(): Boolean {
-        if(userNameLiveData.value == nameInputLiveData.value
+        if (userNameLiveData.value == nameInputLiveData.value
             && userLastNameLiveData.value == lastNameInputLiveData.value
-            && userEmailLiveData.value == emailInputLiveData.value) return false
+            && userEmailLiveData.value == emailInputLiveData.value
+        ) return false
         return true
     }
 
@@ -74,10 +74,6 @@ class ProfileViewModel(
                 avatar = userAvatarLiveData.value
             )
             userRepo.updateUser(updatedUser.run(userMapper::mapFrom))
-
-            withContext(Dispatchers.Main) {
-                _updateUserEventLiveData.value = Event(Unit)
-            }
         }
     }
 
@@ -108,7 +104,7 @@ class ProfileViewModel(
         launchRequest {
             tokenRepo.token = null
             userRepo.deleteUser()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 _logOutUserEventLiveData.value = Event(Unit)
             }
         }

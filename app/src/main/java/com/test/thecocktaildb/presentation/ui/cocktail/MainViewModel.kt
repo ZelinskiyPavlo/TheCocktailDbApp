@@ -9,9 +9,9 @@ import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
 import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
 import com.test.thecocktaildb.util.CocktailOfTheDay
 import com.test.thecocktaildb.util.Event
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class MainViewModel(
     stateHandle: SavedStateHandle,
@@ -25,11 +25,11 @@ class MainViewModel(
     val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
         _cocktailDetailsEventLiveData
 
-    private val disposable = CompositeDisposable()
+    private val _showNoCocktailFoundDialogEventLiveData = MutableLiveData<Event<String>>()
+    val showNoCocktailFoundDialogEventLiveData: LiveData<Event<String>> =
+        _showNoCocktailFoundDialogEventLiveData
 
-    override fun onCleared() = disposable.clear()
-
-    fun openCocktail() {
+    fun openCocktailOfTheDay() {
         launchRequest {
             val cocktailOfTheDay = cocktailRepo
                 .findAndAddCocktailById(cocktailOfTheDayId.toLong())
@@ -37,6 +37,26 @@ class MainViewModel(
 
             withContext(Dispatchers.Main) {
                 navigateToCocktailDetailsFragment(cocktailOfTheDay)
+            }
+        }
+    }
+
+    fun openCocktailById(id: Long) {
+        Timber.i("openCocktailById called $id")
+        launchRequest {
+            val cocktail = cocktailRepo.getCocktailById(id)?.run(cocktailMapper::mapTo)
+                ?: cocktailRepo.findAndAddCocktailById(id)?.run(cocktailMapper::mapTo)
+            if (cocktail == null) {
+                Timber.i("cocktail == null")
+                withContext(Dispatchers.Main) {
+                    _showNoCocktailFoundDialogEventLiveData.value = Event(id.toString())
+                }
+                return@launchRequest
+            }
+
+            withContext(Dispatchers.Main) {
+                Timber.i("navigateToCocktailDetailsFragment")
+                navigateToCocktailDetailsFragment(cocktail)
             }
         }
     }

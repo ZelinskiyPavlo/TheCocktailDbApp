@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.text.bold
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.test.thecocktaildb.R
+import com.test.thecocktaildb.core.common.firebase.Analytic
 import com.test.thecocktaildb.databinding.FragmentHostBinding
 import com.test.thecocktaildb.di.Injectable
 import com.test.thecocktaildb.presentation.ui.base.BaseFragment
@@ -70,7 +72,7 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable/*, BatteryS
         setupViewPager()
         setupTabLayout()
         setupFab()
-        attachObserver()
+        setupObserver()
 
         return viewDataBinding.root
     }
@@ -141,6 +143,18 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable/*, BatteryS
 
     private fun setupNavigation() {
         sharedHostViewModel.applyFilterEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            if (it != null && it.first.isNotEmpty()) {
+                firebaseAnalytics.logEvent(
+                    Analytic.COCKTAIL_FILTER_APPLY,
+                    bundleOf(
+                        Analytic.COCKTAIL_FILTER_APPLY_FILTER_TYPE_KEY to it.second.joinToString(),
+                        Analytic.COCKTAIL_FILTER_APPLY_ALCOHOL_KEY to it.first[0],
+                        Analytic.COCKTAIL_FILTER_APPLY_CATEGORY_KEY to it.first[1],
+                        Analytic.COCKTAIL_FILTER_APPLY_INGREDIENT_KEY to it.first[2]
+                    )
+                )
+            }
+
             parentFragmentManager.popBackStack()
         })
     }
@@ -176,7 +190,22 @@ class HostFragment : BaseFragment<FragmentHostBinding>(), Injectable/*, BatteryS
         }
     }
 
-    private fun attachObserver() {
+    private fun setupObserver() {
         sharedHostViewModel.filterResultLiveData.observe(viewLifecycleOwner, Observer {})
+
+        sharedHostViewModel.favoriteStateChangedEventLiveData.observe(
+            viewLifecycleOwner,
+            EventObserver { triple ->
+                val eventName = if (triple.first) Analytic.COCKTAIL_FAVORITE_ADD
+                else Analytic.COCKTAIL_FAVORITE_REMOVE
+
+                firebaseAnalytics.logEvent(
+                    eventName,
+                    bundleOf(
+                        Analytic.COCKTAIL_FAVORITE_ID_KEY to triple.second,
+                        Analytic.COCKTAIL_FAVORITE_USER_NAME_KEY to triple.third
+                    )
+                )
+            })
     }
 }
