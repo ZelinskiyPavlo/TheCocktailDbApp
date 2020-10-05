@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType"/>
+
+        <variable
+            name="sharedViewModel"
+            type="com.test.thecocktaildb.presentation.ui.cocktail.host.SharedHostViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/app_background"
+            android:clickable="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cocktails_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/margin_8dp"
+                android:paddingTop="@dimen/margin_16dp"
+                android:paddingEnd="@dimen/margin_8dp"
+                android:visibility="gone"
+                bind:rv_adapterTag="@{AdapterType.COCKTAIL_ADAPTER}"
+                bind:rv_cocktails="@{sharedViewModel.cocktailsLiveData}"
+                bind:rv_sortType="@{sharedViewModel.sortingOrderLiveData}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/empty_history_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:text="@string/history_fragment_empty_list"
+                android:textAppearance="@style/TextHint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/empty_history_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{sharedViewModel.isCocktailListEmptyLiveData ? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="empty_history_text" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/filled_history_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{sharedViewModel.isCocktailListEmptyLiveData ? View.GONE : View.VISIBLE}"
+                app:constraint_referenced_ids="cocktails_rv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

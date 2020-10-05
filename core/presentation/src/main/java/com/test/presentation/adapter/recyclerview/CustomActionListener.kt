@@ -1,0 +1,3 @@
+package com.test.presentation.adapter.recyclerview
+
+interface CustomActionListener

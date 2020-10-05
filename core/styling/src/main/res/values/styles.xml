@@ -1,0 +1,76 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/app_background</item>
+    </style>
+
+    <!--region Splash screen theme-->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+    <!--endregion-->
+
+    <!--region Text style-->
+
+    <!--region Font style-->
+    <style name="TextRegular" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_default</item>
+        <item name="android:textColor">@color/text_default</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextBoldRegular" parent="TextRegular">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextBoldTitle" parent="TextBoldRegular">
+        <item name="android:textSize">@dimen/text_section</item>
+    </style>
+
+    <style name="TextHint" parent="TextRegular">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/text_hint</item>
+    </style>
+
+    <style name="TextTitleExpanded">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!--endregion-->
+
+    <!--region Appearance style-->
+    <style name="TextSpacing">
+        <item name="android:layout_marginTop">@dimen/margin_6dp</item>
+        <item name="android:layout_marginBottom">@dimen/margin_6dp</item>
+    </style>
+    <!--endregion-->
+
+    <!--endregion-->
+
+    <style name="SectionDivider">
+        <item name="android:layout_marginTop">@dimen/margin_8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@color/section_divider_background</item>
+    </style>
+
+    <style name="DialogFragment" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/color_transparent</item>
+        <item name="android:background">@color/color_transparent</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
+    <style name="DefaultButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:stateListAnimator">@animator/sla_btn_primary</item>
+    </style>
+
+</resources>

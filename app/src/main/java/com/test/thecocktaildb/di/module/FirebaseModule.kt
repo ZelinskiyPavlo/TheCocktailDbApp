@@ -10,8 +10,8 @@ import dagger.Provides
 class FirebaseModule {
 
     @Provides
-    fun provideFirebaseAnalytics(app: CocktailApplication) = FirebaseAnalytics.getInstance(app)
+    fun provideFirebaseAnalytics(app: CocktailApplication): FirebaseAnalytics = FirebaseAnalytics.getInstance(app)
 
     @Provides
-    fun provideFirebaseRemoteConfig() = FirebaseRemoteConfig.getInstance()
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 }

@@ -7,7 +7,7 @@ import java.util.*
  * [TypeConverter] for long to [Date]
  * This stores the date as a long in the database, but returns it as a [Date]
  */
-@Suppress("unused")
+// TODO: 14.09.2020 not used
 internal class DateConverter {
 
     @TypeConverter

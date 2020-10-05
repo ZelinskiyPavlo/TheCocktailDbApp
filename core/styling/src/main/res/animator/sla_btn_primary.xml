@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <set>
+            <objectAnimator
+                android:duration="100"
+                android:propertyName="translationZ"
+                android:valueFrom="2dp"
+                android:valueTo="8dp"/>
+            <objectAnimator
+                android:duration="50"
+                android:propertyName="scaleX"
+                android:valueTo="0.97"
+                />
+            <objectAnimator
+                android:duration="50"
+                android:propertyName="scaleY"
+                android:valueTo="0.97"
+                />
+        </set>
+    </item>
+    <item>
+        <set>
+            <objectAnimator
+                android:duration="100"
+                android:propertyName="translationZ"
+                android:valueTo="2dp"/>
+            <objectAnimator
+                android:duration="50"
+                android:propertyName="scaleX"
+                android:valueTo="1.0"
+                />
+            <objectAnimator
+                android:duration="50"
+                android:propertyName="scaleY"
+                android:valueTo="1.0"
+                />
+        </set>
+    </item>
+</selector>
