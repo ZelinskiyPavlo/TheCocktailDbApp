@@ -1,9 +1,3 @@
-import com.test.gradle.dependency.daggerDependencies
-import com.test.gradle.dependency.lifecycleDependencies
-import com.test.gradle.dependency.roomDependencies
-import com.test.gradle.dependency.typical.defaultAndroidDependencies
-import com.test.gradle.dependency.typical.defaultDependencies
-
 plugins {
     `android-lib-module`
     `kotlin-kapt`
@@ -12,11 +6,15 @@ plugins {
 dependencies {
     implementation(dataDatabase)
 
-    defaultAndroidDependencies()
+    implementation(Lib.AndroidX.Room.common)
+    kapt(Lib.AndroidX.Room.compiler)
+    implementation(Lib.AndroidX.Room.ktx)
+    implementation(Lib.AndroidX.Room.runtime)
 
-    roomDependencies()
+    kapt(Lib.Dagger.daggerCompiler)
+    implementation(Lib.Dagger.dagger)
 
-    daggerDependencies()
-
-    lifecycleDependencies()
+    implementation(Lib.AndroidX.annotation)
+    implementation(Lib.AndroidX.Lifecycle.common)
+    implementation(Lib.AndroidX.Lifecycle.livedataKtx)
 }

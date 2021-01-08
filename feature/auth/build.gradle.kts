@@ -1,32 +1,21 @@
-import com.test.gradle.dependency.*
-import com.test.gradle.dependency.typical.defaultFeatureDependencies
+import com.test.gradle.dependency.daggerAndroidDependencies
+import com.test.gradle.dependency.daggerDependencies
+import com.test.gradle.dependency.navigationComponentDependencies
 
 plugins {
     `feature-module`
 }
 
 dependencies {
-    implementation(coreDagger)
-    implementation(coreCommon)
     implementation(corePresentation)
+    implementation(coreDagger)
     implementation(coreNavigation)
-    implementation(dataRepository)
 
     implementation(platformFirebase)
     implementation(platformFirebaseFcm)
 
-    defaultFeatureDependencies()
-
     daggerDependencies()
     daggerAndroidDependencies()
 
-    lifecycleDependencies()
-
     navigationComponentDependencies()
-
-    implementation(Lib.Firebase.analytics)
-    implementation(Lib.Firebase.crashLytics)
-    implementation(Lib.Firebase.remoteConfig)
-    implementation(Lib.Firebase.dynamicLinks)
-    implementation(Lib.Firebase.fcm)
 }

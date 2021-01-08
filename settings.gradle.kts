@@ -1,11 +1,3 @@
-include(":feature:cocktail:host")
-include(":feature:cocktail:host:filter")
-include(":feature:setting:seekbar")
-include(":feature:setting:cube")
-include(":feature:setting:profile")
-include(":feature:auth:register")
-include(":feature:auth:login")
-include(":core:navigation:impl")
 rootProject.name="TheCocktailDb"
 
 include (":app")
@@ -17,6 +9,7 @@ include (":core:dagger")
 include (":core:presentation")
 include (":core:styling")
 include (":core:navigation")
+include(":core:navigation:impl")
 
 include (":localization")
 
@@ -37,6 +30,13 @@ include (":feature:cocktail")
 include (":feature:detail")
 include (":feature:search")
 include (":feature:setting")
+include(":feature:cocktail:host")
+include(":feature:cocktail:host:filter")
+include(":feature:setting:seekbar")
+include(":feature:setting:cube")
+include(":feature:setting:profile")
+include(":feature:auth:register")
+include(":feature:auth:login")
 
 include (":platform")
 include (":platform:firebase:fcm")

@@ -3,11 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation(Lib.Firebase.analytics)
-    implementation(Lib.Firebase.crashLytics)
-    implementation(Lib.Firebase.remoteConfig)
-    implementation(Lib.Firebase.fcm)
-    implementation(Lib.Firebase.dynamicLinks)
+    implementation(platformFirebase)
+
+    api(Lib.Firebase.fcm)
 
     implementation(Lib.Dagger.dagger)
 }

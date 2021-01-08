@@ -1,7 +1,3 @@
-import com.test.gradle.dependency.daggerDependencies
-import com.test.gradle.dependency.lifecycleDependencies
-import com.test.gradle.dependency.typical.defaultAndroidDependencies
-
 plugins {
     `android-lib-module`
     `kotlin-kapt`
@@ -10,8 +6,10 @@ plugins {
 dependencies {
     implementation(dataLocal)
 
-    defaultAndroidDependencies()
-    daggerDependencies()
+    kapt(Lib.Dagger.daggerCompiler)
+    implementation(Lib.Dagger.dagger)
 
-    lifecycleDependencies()
+    implementation(Lib.AndroidX.annotation)
+    implementation(Lib.AndroidX.Lifecycle.common)
+    implementation(Lib.AndroidX.Lifecycle.livedataKtx)
 }

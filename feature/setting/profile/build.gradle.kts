@@ -1,26 +1,23 @@
-import com.test.gradle.dependency.*
-import com.test.gradle.dependency.typical.defaultFeatureDependencies
+import com.test.gradle.dependency.daggerAndroidDependencies
+import com.test.gradle.dependency.daggerDependencies
+import com.test.gradle.dependency.navigationComponentDependencies
 
 plugins {
     `feature-module`
 }
 
 dependencies {
-    implementation(featureSetting)
-
+    implementation(corePresentation)
     implementation(coreDagger)
     implementation(coreNavigation)
-    implementation(corePresentation)
-    implementation(coreCommon)
-    implementation(dataRepository)
 
-    defaultFeatureDependencies()
+    implementation(featureSetting)
 
     daggerDependencies()
     daggerAndroidDependencies()
 
-    lifecycleDependencies()
     navigationComponentDependencies()
 
-    baseFirebaseDependencies()
+    implementation(Lib.ImageLoading.Coil.coil)
+    implementation(platformFirebase)
 }

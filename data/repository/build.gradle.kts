@@ -1,6 +1,3 @@
-import com.test.gradle.dependency.lifecycleDependencies
-import com.test.gradle.dependency.typical.defaultAndroidDependencies
-
 plugins {
     `android-lib-module`
 }
@@ -8,7 +5,7 @@ plugins {
 dependencies {
     implementation(Lib.AndroidX.Room.common)
 
-    defaultAndroidDependencies()
-
-    lifecycleDependencies()
+    implementation(Lib.AndroidX.annotation)
+    implementation(Lib.AndroidX.Lifecycle.common)
+    implementation(Lib.AndroidX.Lifecycle.livedataKtx)
 }

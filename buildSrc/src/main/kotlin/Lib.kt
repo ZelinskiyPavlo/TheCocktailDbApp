@@ -1,6 +1,6 @@
 object Version {
 
-	const val kotlin = "1.4-M1"
+	const val kotlin = "1.4.10"
 	const val reflect = "1.4.0"
 	const val coroutines = "1.3.3"
 
@@ -36,7 +36,7 @@ object Version {
 	}
 
 	object AndroidX {
-		const val core = "1.3.0"
+		const val core = "1.2.0"
 		const val appCompat = "1.1.0"
 		const val annotation = "1.1.0"
 		const val fragment = "1.3.0-alpha06"
@@ -117,7 +117,6 @@ object Lib {
 		const val appCompat = "androidx.appcompat:appcompat:${Version.AndroidX.appCompat}"
 		const val annotation = "androidx.annotation:annotation:${Version.AndroidX.annotation}"
 		const val recyclerView = "androidx.recyclerview:recyclerview:${Version.AndroidX.recyclerView}"
-		const val fragment = "androidx.fragment:fragment:${Version.AndroidX.fragment}"
 		const val fragmentKtx = "androidx.fragment:fragment-ktx:${Version.AndroidX.fragmentKtx}"
 		const val constraintlayout = "androidx.constraintlayout:constraintlayout:${Version.AndroidX.constraintLayout}"
 		const val workManager = "androidx.work:work-runtime-ktx:${Version.AndroidX.workManager}"
