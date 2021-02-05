@@ -9,23 +9,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.FragmentRegisterBinding
-import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentation.extension.addLinkedText
-import com.test.thecocktaildb.presentation.ui.auth.AuthViewModel
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.dialog.RegularDialogFragment
-import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.RegisterViewModelFactory
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
+import com.test.navigation.HasBackPressLogic
+import com.test.presentation.extension.addLinkedText
+import com.test.presentation.factory.SavedStateViewModelFactory
+import com.test.presentation.ui.base.BaseFragment
+import com.test.presentation.ui.dialog.RegularDialogFragment
+import com.test.presentation.util.EventObserver
+import com.test.register.R
+import com.test.register.databinding.FragmentRegisterBinding
+import com.test.register.factory.RegisterViewModelFactory
+import com.test.register.navigation.RegisterNavigationApi
 import javax.inject.Inject
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLogic {
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): RegisterFragment {
+            return RegisterFragment()
+        }
+    }
 
     override val layoutId: Int = R.layout.fragment_register
 
@@ -36,7 +41,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
         SavedStateViewModelFactory(registerViewModelFactory, this)
     }
 
-    private val sharedViewModel: AuthViewModel by activityViewModels()
+//    private val sharedViewModel: AuthViewModel by activityViewModels()
+
+    @Inject
+    lateinit var registerNavigator: RegisterNavigationApi
 
     private val errorTextColor
             by lazy { ContextCompat.getColor(requireActivity(), R.color.error_text) }
@@ -94,7 +102,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
             }
         )
 
-        viewModel.isDataValidLiveData.observe(viewLifecycleOwner, {isAvailable ->
+        viewModel.isDataValidLiveData.observe(viewLifecycleOwner, { isAvailable ->
             viewDataBinding.registerButtonRegister.isEnabled = isAvailable
         })
     }
@@ -119,19 +127,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
         }
     }
 
-    private fun navigateToLoginFragment() {
-        findNavController().popBackStack()
-    }
-
-    private fun navigateToCocktailActivity() {
-        val (notificationType, cocktailId) = sharedViewModel.firebaseData
-
-        val action = RegisterFragmentDirections
-            .actionRegisterFragmentToMainActivity(notificationType, cocktailId)
-        findNavController().navigate(action)
-        activity?.finish()
-    }
-
     fun onRegisterButtonClicked() {
         if (isTypedDataContainErrors()) {
             showInvalidInputDialog()
@@ -147,8 +142,22 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), Injectable {
         viewModel.registerUser()
     }
 
+    private fun navigateToLoginFragment() {
+        registerNavigator.toLogin()
+    }
+
+    private fun navigateToCocktailActivity() {
+//        val (notificationType, cocktailId) = sharedViewModel.firebaseData
+
+//        registerNavigator.toCocktail(notificationType, cocktailId)
+    }
+
+    override fun onBackPressed() {
+        registerNavigator.toLogin()
+    }
+
     private fun isTypedDataContainErrors(): Boolean {
-        if(viewModel.isDataValidLiveData.value == null) return true
+        if (viewModel.isDataValidLiveData.value == null) return true
         var error = false
 
         fun markFieldAsError(textField: TextInputEditText) {

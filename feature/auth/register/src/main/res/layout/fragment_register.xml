@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.presentation.ui.auth.register.RegisterViewModel" />
+            type="com.test.register.ui.RegisterViewModel" />
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.presentation.ui.auth.register.RegisterFragment" />
+            type="com.test.register.ui.RegisterFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/colorPrimary"
+            android:background="@color/colorPrimary"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -136,15 +136,15 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <com.test.thecocktaildb.presentation.ui.custom.CustomSaturationButton
+            <com.test.presentation.ui.custom.CustomSaturationButton
                 android:id="@+id/register_button_register"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/bg_btn_login_available"
+                android:background="@drawable/bg_btn_auth_available"
                 android:gravity="center"
                 android:onClick="@{() -> fragment.onRegisterButtonClicked()}"
-                android:text="@string/all_sign_up"
                 android:stateListAnimator="@animator/sla_btn_custom_saturation"
+                android:text="@string/all_sign_up"
                 android:textColor="@color/white" />
 
             <TextView
