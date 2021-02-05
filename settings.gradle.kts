@@ -9,7 +9,6 @@ include (":core:dagger")
 include (":core:presentation")
 include (":core:styling")
 include (":core:navigation")
-include(":core:navigation:impl")
 
 include (":localization")
 
