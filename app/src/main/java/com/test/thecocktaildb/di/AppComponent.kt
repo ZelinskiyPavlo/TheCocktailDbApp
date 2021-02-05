@@ -1,10 +1,14 @@
 package com.test.thecocktaildb.di
 
 import android.app.Application
+import com.test.di.DbModule
+import com.test.di.NetworkModule
+import com.test.impl.di.RepositoryModule
+import com.test.preference.di.LocalModule
 import com.test.thecocktaildb.CocktailApplication
-import com.test.thecocktaildb.di.module.AppModule
-import com.test.thecocktaildb.di.module.FirebaseModule
+import com.test.thecocktaildb.di.module.ActivityModule
 import com.test.thecocktaildb.di.module.FragmentModule
+import com.test.thecocktaildb.di.module.navigation.global.GlobalCiceroneModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -13,15 +17,15 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AndroidInjectionModule::class, AppModule::class, FragmentModule::class,
-        FirebaseModule::class]
+    modules = [AndroidInjectionModule::class, GlobalCiceroneModule::class, FragmentModule::class, ActivityModule::class,
+        DbModule::class, LocalModule::class, NetworkModule::class, RepositoryModule::class]
 )
 interface AppComponent : AndroidInjector<CocktailApplication> {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance application: CocktailApplication): AppComponent
+        fun create(@BindsInstance application: Application): AppComponent
     }
 
-    fun inject(app: Application)
+    override fun inject(instance: CocktailApplication)
 }
