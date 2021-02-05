@@ -1,4 +1,4 @@
-package com.test.presentation.ui.base
+package com.test.thecocktaildb.ui.base
 
 import android.os.Bundle
 import androidx.annotation.MainThread
@@ -7,10 +7,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.test.common.exception.*
 import com.test.presentation.exception.SimpleErrorHandler
+import com.test.presentation.extension.observeNotNull
+import com.test.presentation.extension.observeNotNullOnce
+import com.test.presentation.extension.observeTillDestroy
+import com.test.presentation.extension.observeTillDestroyNotNull
+import com.test.presentation.ui.base.BaseFragment
+import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
 import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
@@ -18,10 +22,6 @@ import com.test.presentation.ui.dialog.base.BaseDialogFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import com.test.presentation.extension.observeNotNull
-import com.test.presentation.extension.observeTillDestroyNotNull
-import com.test.presentation.extension.observeTillDestroy
-import com.test.presentation.extension.observeNotNullOnce
 import icepick.Icepick
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,11 +47,13 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     private val errorHandler: SimpleErrorHandler
             by lazy { SimpleErrorHandler(supportFragmentManager, this) }
 
-    @Inject
-    protected lateinit var firebaseAnalytics: FirebaseAnalytics
+    // TODO: 24.01.2021 Переглянути, що тут можна видалити, оскільки в мене тільки одна Activity буде і деякі функції тут не потрібні
 
-    @Inject
-    protected lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
+//    @Inject
+//    protected lateinit var firebaseAnalytics: FirebaseAnalytics
+
+//    @Inject
+//    protected lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
