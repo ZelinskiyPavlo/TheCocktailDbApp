@@ -1,18 +1,20 @@
+import com.test.gradle.dependency.daggerKaptDependencies
+
 plugins {
     `android-lib-module`
     `kotlin-kapt`
 }
 
 dependencies {
+    implementation(coreDagger)
     implementation(dataDatabase)
 
-    implementation(Lib.AndroidX.Room.common)
+    api(Lib.AndroidX.Room.common)
+    api(Lib.AndroidX.Room.ktx)
+    api(Lib.AndroidX.Room.runtime)
     kapt(Lib.AndroidX.Room.compiler)
-    implementation(Lib.AndroidX.Room.ktx)
-    implementation(Lib.AndroidX.Room.runtime)
 
-    kapt(Lib.Dagger.daggerCompiler)
-    implementation(Lib.Dagger.dagger)
+    daggerKaptDependencies(properties["dagger.reflect"])
 
     implementation(Lib.AndroidX.annotation)
     implementation(Lib.AndroidX.Lifecycle.common)

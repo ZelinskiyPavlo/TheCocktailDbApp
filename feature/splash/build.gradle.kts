@@ -7,5 +7,7 @@ dependencies {
     implementation(coreNavigation)
     implementation(coreDagger)
 
+    implementation(featureAuth)
+
     implementation(platformFirebase)
 }

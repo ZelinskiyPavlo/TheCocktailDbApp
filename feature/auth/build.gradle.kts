@@ -1,6 +1,4 @@
-import com.test.gradle.dependency.daggerAndroidDependencies
-import com.test.gradle.dependency.daggerDependencies
-import com.test.gradle.dependency.navigationComponentDependencies
+import com.test.gradle.dependency.daggerKaptDependencies
 
 plugins {
     `feature-module`
@@ -8,14 +6,13 @@ plugins {
 
 dependencies {
     implementation(corePresentation)
-    implementation(coreDagger)
     implementation(coreNavigation)
+    implementation(coreDagger)
+
+    implementation(featureAuthLogin)
+    implementation(featureAuthRegister)
+
+    daggerKaptDependencies(properties["dagger.reflect"])
 
     implementation(platformFirebase)
-    implementation(platformFirebaseFcm)
-
-    daggerDependencies()
-    daggerAndroidDependencies()
-
-    navigationComponentDependencies()
-}
+    implementation(platformFirebaseFcm) }
