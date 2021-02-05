@@ -8,23 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.FragmentLoginBinding
-import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentation.extension.addLinkedText
-import com.test.thecocktaildb.presentation.ui.auth.AuthViewModel
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.dialog.RegularDialogFragment
-import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.LoginViewModelFactory
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
+import com.test.login.R
+import com.test.login.databinding.FragmentLoginBinding
+import com.test.login.factory.LoginViewModelFactory
+import com.test.login.navigation.LoginNavigationApi
+import com.test.presentation.extension.addLinkedText
+import com.test.presentation.factory.SavedStateViewModelFactory
+import com.test.presentation.ui.base.BaseFragment
+import com.test.presentation.ui.dialog.RegularDialogFragment
+import com.test.presentation.util.EventObserver
 import javax.inject.Inject
 
-class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+
+    companion object {
+        @JvmStatic
+        fun newInstance(): LoginFragment {
+            return LoginFragment()
+        }
+    }
 
     override val layoutId: Int = R.layout.fragment_login
 
@@ -35,7 +39,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
         SavedStateViewModelFactory(loginViewModelFactory, this)
     }
 
-    private val sharedViewModel: AuthViewModel by activityViewModels()
+//    private val sharedViewModel: AuthViewModel by activityViewModels()
+
+    @Inject
+    lateinit var loginNavigator: LoginNavigationApi
 
     private val errorTextColor
             by lazy { ContextCompat.getColor(requireActivity(), R.color.error_text) }
@@ -48,7 +55,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         setWhiteSpaceFilter()
         addLinkedText()
         setupObserver()
@@ -94,20 +100,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
         })
     }
 
-    private fun navigateToRegisterFragment() {
-        val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
-        findNavController().navigate(action)
-    }
-
-    private fun navigateToCocktailActivity() {
-        val (notificationType, cocktailId) = sharedViewModel.firebaseData
-
-        val action = LoginFragmentDirections
-            .actionLoginFragmentToMainActivity(notificationType, cocktailId)
-        findNavController().navigate(action)
-        activity?.finish()
-    }
-
     fun onLoginButtonClicked() {
         if (isTypedDataContainErrors()) {
             showInvalidInputDialog()
@@ -121,6 +113,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(), Injectable {
             imm.hideSoftInputFromWindow(v.windowToken, 0)
         }
         viewModel.loginUser()
+    }
+
+    private fun navigateToRegisterFragment() {
+        loginNavigator.toRegister()
+    }
+
+    private fun navigateToCocktailActivity() {
+//        val (notificationType, cocktailId) = sharedViewModel.firebaseData
+
+//        loginNavigator.toCocktail(notificationType, cocktailId)
     }
 
     private fun isTypedDataContainErrors(): Boolean {

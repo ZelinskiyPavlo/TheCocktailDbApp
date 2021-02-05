@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.test.thecocktaildb.data.repository.source.AuthRepository
-import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
-import com.test.thecocktaildb.util.Event
+import com.test.presentation.ui.base.BaseViewModel
+import com.test.presentation.util.Event
+import com.test.repository.source.AuthRepository
 
 class LoginViewModel(
     savedStateHandle: SavedStateHandle,
