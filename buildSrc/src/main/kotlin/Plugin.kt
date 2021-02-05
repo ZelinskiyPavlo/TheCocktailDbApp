@@ -19,5 +19,8 @@ inline val PluginDependenciesSpec.`kotlin-module`: PluginDependencySpec
 	get() = id("kotlin-module")
 
 
-inline val PluginDependenciesSpec.`navigation-components-safeargs`: PluginDependencySpec
-	get() = id("androidx.navigation.safeargs.kotlin")
+inline val PluginDependenciesSpec.`google-services`: PluginDependencySpec
+	get() = id("com.google.gms.google-services")
+
+inline val PluginDependenciesSpec.`firebase-crashlytics`: PluginDependencySpec
+	get() = id("com.google.firebase.crashlytics")

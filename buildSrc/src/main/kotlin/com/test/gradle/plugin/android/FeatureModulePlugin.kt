@@ -3,7 +3,7 @@ package com.test.gradle.plugin.android
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.plugins.PluginContainer
 
-@Suppress("unused") // user in build.gradle.kts
+@Suppress("unused") // used in build.gradle.kts
 class FeatureModulePlugin : LibModulePlugin() {
 
 	override fun apply(plugins: PluginContainer): Unit = with(plugins) {
