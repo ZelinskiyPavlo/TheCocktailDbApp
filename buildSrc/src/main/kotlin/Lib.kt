@@ -188,10 +188,8 @@ object Lib {
 		}
 	}
 
-	object RxJava {
-		const val rxjava = "io.reactivex.rxjava2:rxjava:${Version.RxJava.rxjava}"
-		const val rxandroid = "io.reactivex.rxjava2:rxandroid:${Version.RxJava.rxandroid}"
-		const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Version.RxJava.rxkotlin}"
+	object Navigation {
+		const val cicerone = "com.github.terrakok:cicerone:${Version.Navigation.cicerone}"
 	}
 
 	object ImageLoading {
