@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.google.gson.GsonBuilder
 import com.test.common.constant.BaseUrl
-import com.test.common.di.DiConstant
+import com.test.dagger.DiConstant
 import com.test.impl.deserializer.BooleanDeserializer
 import com.test.impl.deserializer.Iso8601DateDeserializer
 import com.test.impl.deserializer.model.CocktailNetModelDeserializer
@@ -43,7 +43,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
 @Module
-class NetworkModule() {
+class NetworkModule {
 
     private val baseGsonBuilder: GsonBuilder
         get() = GsonBuilder()
