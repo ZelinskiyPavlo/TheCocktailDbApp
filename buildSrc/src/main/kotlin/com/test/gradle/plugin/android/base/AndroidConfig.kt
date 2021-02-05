@@ -1,9 +1,12 @@
 package com.test.gradle.plugin.android.base
 
+import Config
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.CompileOptions
-import Config
-import com.android.build.gradle.internal.dsl.*
+import com.android.build.gradle.internal.dsl.BuildType
+import com.android.build.gradle.internal.dsl.DefaultConfig
+import com.android.build.gradle.internal.dsl.PackagingOptions
+import com.android.build.gradle.internal.dsl.SigningConfig
 import com.test.gradle.extension.addManifestPlaceholders
 import com.test.gradle.extension.debug
 import com.test.gradle.extension.getProperties
@@ -100,7 +103,7 @@ internal inline val compileOptionsAction: Action<CompileOptions>
 internal inline val packagingOptionsAction: Action<PackagingOptions>
 	get() = Action {
 		exclude("META-INF/impl_debug.kotlin_module")
-		exclude("META-INF/*.kotlin_module")
+//		exclude("META-INF/*.kotlin_module")
 	}
 
 private fun Project.configureSignIn(config: SigningConfig, propFileName: String): SigningConfig = config.apply {

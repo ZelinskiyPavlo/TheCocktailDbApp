@@ -33,9 +33,6 @@ inline val DependencyHandler.coreStyling: ProjectDependency
 inline val DependencyHandler.coreNavigation: ProjectDependency
 	get() = project(":core:navigation")
 
-inline val DependencyHandler.coreNavigationImpl: ProjectDependency
-	get() = project(":core:navigation:impl")
-
 // data
 inline val DependencyHandler.dataDatabase: ProjectDependency
 	get() = project(":data:database")
@@ -83,6 +80,9 @@ inline val DependencyHandler.featureAuthRegister: ProjectDependency
 
 inline val DependencyHandler.featureCocktail: ProjectDependency
 	get() = project(":feature:cocktail")
+
+inline val DependencyHandler.featureCocktailHost: ProjectDependency
+	get() = project(":feature:cocktail:host")
 
 inline val DependencyHandler.featureCocktailFilter: ProjectDependency
 	get() = project(":feature:cocktail:filter")

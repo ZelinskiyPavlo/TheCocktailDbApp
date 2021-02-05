@@ -50,7 +50,7 @@ dependencies {
 	compileOnly(gradleApi())
 
 	implementation("com.android.tools.build:gradle:4.0.0")
-	implementation(kotlin("gradle-plugin", "1.4-M1"))
+	implementation(kotlin("gradle-plugin", "1.4.10"))
 }
 
 repositories {
@@ -59,38 +59,6 @@ repositories {
 	jcenter()
 	maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
 }
-
-//buildscript {
-//	repositories {
-//		mavenCentral()
-//		google()
-//		jcenter()
-//		gradlePluginPortal()
-//		maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
-//	}
-//
-//	dependencies {
-//		compileOnly(gradleApi())
-//
-//		classpath("com.android.tools.build:gradle:4.0.0")
-//		classpath(kotlin("gradle-plugin", "1.4-M1"))
-//		classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0-rc01")
-//
-//		classpath("com.google.gms:google-services:4.3.3")
-//		classpath("com.google.firebase:firebase-crashlytics-gradle:2.2.0")
-//	}
-//}
-
-//allprojects {
-//	repositories {
-//		mavenCentral()
-//		maven { url = uri("https://clojars.org/repo/") }
-//		maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
-//		google()
-//		jcenter()
-//	}
-//}
-
 
 kotlinDslPluginOptions {
 	@Suppress("UnstableApiUsage")
