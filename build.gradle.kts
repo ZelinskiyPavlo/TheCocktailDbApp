@@ -31,6 +31,7 @@ subprojects {
     configurations.all {
         resolutionStrategy {
             force(
+                Lib.Force.javaClass.declaredFields.map { it.get(String()) as? String }.dropLast(1)
             )
         }
     }

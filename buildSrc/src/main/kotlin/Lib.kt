@@ -1,8 +1,8 @@
 object Version {
 
 	const val kotlin = "1.4.10"
-	const val reflect = "1.4.0"
-	const val coroutines = "1.3.3"
+	const val reflect = "1.4.10"
+	const val coroutines = "1.4.1"
 
 	object Plugin {
 		const val android = "3.5.3"
@@ -29,14 +29,10 @@ object Version {
 
 	object Dagger {
 		const val dagger = "2.25.2"
-
-		object ComponentManager {
-			const val componentManager = "2.1.0"
-		}
 	}
 
 	object AndroidX {
-		const val core = "1.2.0"
+		const val core = "1.3.0"
 		const val appCompat = "1.1.0"
 		const val annotation = "1.1.0"
 		const val fragment = "1.3.0-alpha06"
@@ -58,6 +54,10 @@ object Version {
 
 	}
 
+	object Navigation {
+		const val cicerone = "6.6"
+	}
+
 	object Firebase {
 		const val analytics = "17.4.4"
 		const val crashLytics = "17.1.1"
@@ -68,12 +68,6 @@ object Version {
 
 	object Logging {
 		const val timber = "4.7.1"
-	}
-
-	object RxJava {
-		const val rxjava = "2.2.19"
-		const val rxandroid = "2.1.1"
-		const val rxkotlin = "2.4.0"
 	}
 
 	object ImageLoading {
@@ -96,6 +90,18 @@ object Version {
 		const val lynx = "1.6"
 	}
 
+	object Force {
+		const val activity = "1.2.0-beta01"
+		const val collection = "1.1.0"
+		const val lifecycleViewModelSavedState = "1.0.0"
+		const val savedState = "1.0.0"
+		const val versionedparcelable = "1.1.0"
+		const val annotations = "26.6.1"
+		const val okhttp3 = "4.5.0"
+		const val okio = "2.4.3"
+		const val errorProneAnnotations = "2.3.1"
+		const val coroutinesAndroid = "1.3.6"
+	}
 }
 
 object Lib {
@@ -106,7 +112,7 @@ object Lib {
 	}
 
 	object Kotlin {
-		const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$${Version.kotlin}"
+		const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlin}"
 		// TODO: 12.09.2020 may cause error because not used yet
 		const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Version.reflect}"
 		const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutines}"
@@ -153,10 +159,6 @@ object Lib {
 			const val daggerAndroid = "com.google.dagger:dagger-android:${Version.Dagger.dagger}"
 			const val daggerAndroidSupport = "com.google.dagger:dagger-android-support:${Version.Dagger.dagger}"
 			const val daggerAndroidProcessor = "com.google.dagger:dagger-android-processor:${Version.Dagger.dagger}"
-		}
-
-		object ComponentManager {
-			const val componentManager = "com.github.valeryponomarenko.componentsmanager:androidx:${Version.Dagger.ComponentManager.componentManager}"
 		}
 	}
 
@@ -233,4 +235,35 @@ object Lib {
 		const val lynx = "com.github.pedrovgs:lynx:${Version.Hyperion.lynx}"
 	}
 
+	@Suppress("unused")
+	object Force {
+		const val activity = "androidx.activity:activity:${Version.Force.activity}"
+		const val appCompat = AndroidX.appCompat
+		const val collection = "androidx.collection:collection:${Version.Force.collection}"
+		const val coordinatorLayout = "androidx.coordinatorlayout:coordinatorlayout:${Version.AndroidX.coordinatorLayout}"
+		const val core = "androidx.core:core:${Version.AndroidX.core}"
+		const val coreKtx = AndroidX.coreKtx
+		const val fragmentKtx = AndroidX.fragmentKtx
+		const val lifecycleCommon = "androidx.lifecycle:lifecycle-common:${Version.AndroidX.lifecycle}"
+		const val liveDataKtx = AndroidX.Lifecycle.livedataKtx
+		const val lifecycleCore = "androidx.lifecycle:lifecycle-core:${Version.AndroidX.lifecycle}"
+		const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:${Version.AndroidX.lifecycle}"
+		const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel:${Version.AndroidX.lifecycle}"
+		const val lifecycleViewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Version.Force.lifecycleViewModelSavedState}"
+		const val recyclerView = AndroidX.recyclerView
+		const val savedState = "androidx.savedstate:savedstate:${Version.Force.savedState}"
+		const val versionedParcelable = "androidx.versionedparcelable:versionparcelable:${Version.Force.versionedparcelable}"
+		const val annotation = "androidx.annotation:annotations:${Version.Force.annotations}"
+		const val okhttp3 = "com.squareup.okhttp3:okhttp:${Version.Force.okhttp3}"
+		const val okio = "com.squareup.okio:okio:${Version.Force.okio}"
+		const val errorProneAnnotations = "com.google.errorprone:error_prone_annotations:${Version.Force.errorProneAnnotations}"
+		const val gson = Google.gson
+		const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutines}"
+		const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.Force.coroutinesAndroid}"
+		const val coreRuntime = "androidx.arch.core:core-runtime:2.1.0"
+		const val fragment = "androidx.fragment:fragment:1.2.5"
+		const val liveData = "androidx.lifecycle:lifecycle-livedata:2.2.0"
+		const val autoValueAnnotation = "com.google.auto.value:auto-value-annotations:1.6.5"
+		const val firebaseInstallations = "com.google.firebase:firebase-installations:16.3.3"
+	}
 }
