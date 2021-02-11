@@ -1,4 +1,4 @@
-package com.test.di
+package com.test.impl.di
 
 import android.app.Application
 import android.content.Context
@@ -72,6 +72,8 @@ class NetworkModule {
         )
 
         configureOkHttpInterceptors(okHttpClientBuilder)
+
+        okHttpClientBuilder.addInterceptor(MockResponseInterceptor())
 
         with(Retrofit.Builder()) {
             addConverterFactory(GsonConverterFactory.create(baseGsonBuilder.create()))

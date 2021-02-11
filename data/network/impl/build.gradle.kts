@@ -12,7 +12,6 @@ dependencies {
     implementation(dataNetwork)
     implementation(dataRepository)
 
-
     api(Lib.Network.Retrofit.retrofit)
     api(Lib.Network.Retrofit.converterGson)
     debugApi(Lib.Network.Interceptor.loggingInterceptor)

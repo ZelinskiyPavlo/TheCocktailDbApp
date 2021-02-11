@@ -1,6 +1,7 @@
 package com.test.impl.service
 
 import com.google.gson.JsonObject
+import com.test.impl.constant.UrlParts
 import com.test.network.NetConstant.Header.TOKEN_HEADER
 import okhttp3.MultipartBody
 import retrofit2.http.Headers
@@ -12,7 +13,7 @@ import retrofit2.http.Part
 interface UserUploadService {
 
     @Multipart
-    @POST("users/avatar")
+    @POST(UrlParts.Upload.uploadAvatarPart)
     @Headers(TOKEN_HEADER)
     suspend fun uploadUserAvatar(
         @Part avatar: MultipartBody.Part
