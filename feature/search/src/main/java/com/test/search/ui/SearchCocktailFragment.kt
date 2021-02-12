@@ -68,6 +68,12 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
             adapter = cocktailsAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
+        val decoration = SearchCocktailItemDecoration(
+            context = requireContext(),
+            horizontalDpOffSet = R.dimen.margin_8dp,
+            verticalDpOffSet = R.dimen.margin_16dp
+        )
+        viewDataBinding.searchCocktailsRv.addItemDecoration(decoration)
     }
 
     private fun setupSearchField() {

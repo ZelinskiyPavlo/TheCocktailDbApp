@@ -5,13 +5,9 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType"/>
-
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.presentation.ui.search.SearchCocktailViewModel" />
+            type="com.test.search.ui.SearchCocktailViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -48,12 +44,10 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/margin_16dp"
-                bind:rv_sortType="@{null}"
-                bind:rv_adapterTag="@{AdapterType.SEARCH_ADAPTER}"
-                bind:rv_cocktails="@{viewModel.itemsLiveData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                bind:rv_cocktails="@{viewModel.itemsLiveData}" />
 
             <TextView
                 android:id="@+id/search_help_text"
