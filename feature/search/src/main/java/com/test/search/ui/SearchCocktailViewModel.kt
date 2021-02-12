@@ -36,15 +36,11 @@ class SearchCocktailViewModel(
     val isSearchResultEmptyLiveData: LiveData<Boolean> =
         _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty().not() }
 
-    override fun onCleared() = disposable.clear()
-
-    fun subscribeToSearchSubject() {
-        disposable.add(searchQuerySubject
-            .debounce(550, TimeUnit.MILLISECONDS)
-            .filter { !it.isBlank() }
-            .distinctUntilChanged()
-            .subscribeBy(onNext = { performSearch(it) })
-        )
+    init {
+        _searchQueryLiveData.observeForever {
+            if (it.isNullOrBlank()) _itemsLiveData.value = emptyList()
+            else performSearch(it)
+        }
     }
 
     private fun performSearch(query: String) {
@@ -57,9 +53,13 @@ class SearchCocktailViewModel(
 
     fun saveCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
         launchRequest {
-            cocktailRepo.addOrReplaceCocktail(cocktail.run(cocktailMapper::mapFrom))
+            saveCocktailToDb(cocktail)
             navigateToCocktailDetailsFragment(cocktail)
         }
+    }
+
+    private suspend fun saveCocktailToDb(cocktail: CocktailModel) {
+        cocktailRepo.addOrReplaceCocktail(cocktail.run(cocktailMapper::mapFrom))
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {

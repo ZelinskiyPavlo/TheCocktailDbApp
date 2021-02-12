@@ -117,13 +117,12 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
 
         editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(query: Editable?) {
-                viewModel.searchQuerySubject.onNext(query.toString())
+                viewModel.searchQueryLiveData.value = query.toString()
             }
 
             override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
-        viewModel.subscribeToSearchSubject()
     }
 }
