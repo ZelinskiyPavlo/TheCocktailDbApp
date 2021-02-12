@@ -1,10 +1,9 @@
-package com.test.cocktail.mapper
+package com.test.presentation.mapper.cocktail
 
-import com.test.thecocktaildb.data.repository.model.CocktailRepoModel
-import com.test.thecocktaildb.presentation.mapper.base.BaseModelMapper
-import com.test.thecocktaildb.presentation.model.cocktail.*
+import com.test.presentation.mapper.base.BaseModelMapper
+import com.test.presentation.model.cocktail.*
+import com.test.repository.model.CocktailRepoModel
 import javax.inject.Inject
-
 
 class CocktailModelMapper @Inject constructor(
     private val localizedStringModelMapper: LocalizedStringModelMapper
@@ -32,7 +31,7 @@ class CocktailModelMapper @Inject constructor(
             names = names.run(localizedStringModelMapper::mapTo),
             category = CocktailCategory.values().firstOrNull { it.key == category } ?: CocktailCategory.UNDEFINED,
             alcoholType = CocktailAlcoholType.values().firstOrNull { it.key == alcoholType } ?: CocktailAlcoholType.UNDEFINED,
-            glass = CocktailGlass.values().firstOrNull { it.key == glass } ?: CocktailGlass.UNDEFINED,
+            glass = CocktailGlassType.values().firstOrNull { it.key == glass } ?: CocktailGlassType.UNDEFINED,
             image = image,
             instructions = instructions.run(localizedStringModelMapper::mapTo),
             ingredients = ingredients.map { ingredient ->  CocktailIngredient.values().firstOrNull { it.key == ingredient } ?: CocktailIngredient.UNDEFINED },

@@ -1,10 +1,10 @@
-package com.test.cocktail.model
+package com.test.presentation.model.cocktail
 
-import com.test.thecocktaildb.presentation.ui.cocktail.filtertype.DrinkFilter
-import com.test.thecocktaildb.presentation.ui.cocktail.filtertype.DrinkFilterType
+import com.test.presentation.model.cocktail.filter.DrinkFilter
+import com.test.presentation.model.cocktail.filter.DrinkFilterType
 
 @Suppress("unused")
-enum class CocktailGlass(override val type: DrinkFilterType, override val key: String) :
+enum class CocktailGlassType(override val type: DrinkFilterType, override val key: String) :
     DrinkFilter {
     HIGHBALL_GLASS(DrinkFilterType.GLASS, "Highball glass"),
     COCKTAIL_GLASS(DrinkFilterType.GLASS, "Cocktail glass"),

@@ -1,4 +1,4 @@
-package com.test.common.mapper.base
+package com.test.presentation.mapper.base
 
 abstract class BaseModelMapper<OutModel : Any, InModel : Any> {
 

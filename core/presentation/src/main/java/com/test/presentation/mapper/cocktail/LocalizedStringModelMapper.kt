@@ -1,8 +1,8 @@
-package com.test.cocktail.mapper
+package com.test.presentation.mapper.cocktail
 
-import com.test.thecocktaildb.data.repository.model.LocalizedStringRepoModel
-import com.test.thecocktaildb.presentation.mapper.base.BaseModelMapper
-import com.test.thecocktaildb.presentation.model.cocktail.LocalizedStringModel
+import com.test.presentation.mapper.base.BaseModelMapper
+import com.test.presentation.model.cocktail.LocalizedStringModel
+import com.test.repository.model.LocalizedStringRepoModel
 import javax.inject.Inject
 
 /**

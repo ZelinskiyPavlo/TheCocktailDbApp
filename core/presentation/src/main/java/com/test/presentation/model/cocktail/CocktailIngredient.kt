@@ -1,7 +1,13 @@
-package com.test.cocktail.model
+@file:Suppress("SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection",
+    "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection",
+    "SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection",
+    "SpellCheckingInspection", "SpellCheckingInspection"
+)
 
-import com.test.thecocktaildb.presentation.ui.cocktail.filtertype.DrinkFilter
-import com.test.thecocktaildb.presentation.ui.cocktail.filtertype.DrinkFilterType
+package com.test.presentation.model.cocktail
+
+import com.test.presentation.model.cocktail.filter.DrinkFilter
+import com.test.presentation.model.cocktail.filter.DrinkFilterType
 
 @Suppress("unused")
 enum class CocktailIngredient(override val type: DrinkFilterType, override val key: String) :
@@ -32,7 +38,7 @@ enum class CocktailIngredient(override val type: DrinkFilterType, override val k
     BITTERS(DrinkFilterType.INGREDIENT, "Bitters"),
     SUGAR(DrinkFilterType.INGREDIENT, "Sugar"),
     KAHLUA(DrinkFilterType.INGREDIENT, "Kahlua"),
-    DEMERARA_SUGAR(DrinkFilterType.INGREDIENT, "demerara Sugar"),
+    DEMERARA_SUGAR(DrinkFilterType.INGREDIENT, "Demerara Sugar"),
     DUBONNET_ROUGE(DrinkFilterType.INGREDIENT, "Dubonnet Rouge"),
     LIME_JUICE(DrinkFilterType.INGREDIENT, "Lime juice"),
     IRISH_WHISKEY(DrinkFilterType.INGREDIENT, "Irish whiskey"),

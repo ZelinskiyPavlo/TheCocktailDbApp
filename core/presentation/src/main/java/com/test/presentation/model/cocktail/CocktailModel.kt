@@ -1,4 +1,4 @@
-package com.test.cocktail.model
+package com.test.presentation.model.cocktail
 
 import java.util.*
 
@@ -7,7 +7,7 @@ data class CocktailModel(
     val names: LocalizedStringModel = LocalizedStringModel(),
     val category: CocktailCategory = CocktailCategory.UNDEFINED,
     val alcoholType: CocktailAlcoholType = CocktailAlcoholType.UNDEFINED,
-    val glass: CocktailGlass = CocktailGlass.UNDEFINED,
+    val glass: CocktailGlassType = CocktailGlassType.UNDEFINED,
     val image: String = "",
     val instructions: LocalizedStringModel = LocalizedStringModel(),
     val ingredients: List<CocktailIngredient> = emptyList(),

@@ -1,8 +1,8 @@
-package com.test.common.mapper
+package com.test.presentation.mapper.user
 
-import com.test.thecocktaildb.data.repository.model.UserRepoModel
-import com.test.thecocktaildb.presentation.mapper.base.BaseModelMapper
-import com.test.thecocktaildb.presentation.model.UserModel
+import com.test.presentation.mapper.base.BaseModelMapper
+import com.test.presentation.model.user.UserModel
+import com.test.repository.model.UserRepoModel
 import javax.inject.Inject
 
 class UserModelMapper @Inject constructor() : BaseModelMapper<UserModel, UserRepoModel>() {
