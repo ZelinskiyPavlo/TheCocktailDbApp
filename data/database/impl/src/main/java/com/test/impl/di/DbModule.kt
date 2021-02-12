@@ -1,4 +1,4 @@
-package com.test.di
+package com.test.impl.di
 
 import android.app.Application
 import androidx.room.Room

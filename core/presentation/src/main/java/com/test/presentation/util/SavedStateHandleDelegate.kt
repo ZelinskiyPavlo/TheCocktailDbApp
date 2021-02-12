@@ -1,7 +1,7 @@
 package com.test.presentation.util
 
 import androidx.lifecycle.MutableLiveData
-import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
+import com.test.presentation.ui.base.BaseViewModel
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

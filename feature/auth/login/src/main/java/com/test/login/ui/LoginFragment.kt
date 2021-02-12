@@ -92,7 +92,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         viewModel.loginEventLiveData.observe(
             viewLifecycleOwner,
             EventObserver { isLoggedSuccessful ->
-                if (isLoggedSuccessful) navigateToCocktailActivity()
+                if (isLoggedSuccessful) navigateToTabHost()
             })
 
         viewModel.isDataValidLiveData.observe(viewLifecycleOwner, {isAvailable ->
@@ -119,10 +119,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         loginNavigator.toRegister()
     }
 
-    private fun navigateToCocktailActivity() {
+    private fun navigateToTabHost() {
 //        val (notificationType, cocktailId) = sharedViewModel.firebaseData
-
-//        loginNavigator.toCocktail(notificationType, cocktailId)
+        loginNavigator.toTabHost()
     }
 
     private fun isTypedDataContainErrors(): Boolean {

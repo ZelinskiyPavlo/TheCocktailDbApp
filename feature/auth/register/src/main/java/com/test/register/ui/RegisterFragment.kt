@@ -148,8 +148,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
 
     private fun navigateToCocktailActivity() {
 //        val (notificationType, cocktailId) = sharedViewModel.firebaseData
-
-//        registerNavigator.toCocktail(notificationType, cocktailId)
+        registerNavigator.toTabHost()
     }
 
     override fun onBackPressed() {

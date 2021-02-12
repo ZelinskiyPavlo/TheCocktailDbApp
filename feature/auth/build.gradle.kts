@@ -15,4 +15,5 @@ dependencies {
     daggerKaptDependencies(properties["dagger.reflect"])
 
     implementation(platformFirebase)
-    implementation(platformFirebaseFcm) }
+    implementation(platformFirebaseFcm)
+}

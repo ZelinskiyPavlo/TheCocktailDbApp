@@ -1,8 +1,8 @@
 package com.test.thecocktaildb.di
 
 import android.app.Application
-import com.test.di.DbModule
-import com.test.di.NetworkModule
+import com.test.impl.di.DbModule
+import com.test.impl.di.NetworkModule
 import com.test.impl.di.RepositoryModule
 import com.test.preference.di.LocalModule
 import com.test.thecocktaildb.CocktailApplication

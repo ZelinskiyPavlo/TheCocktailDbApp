@@ -1,18 +1,16 @@
-package com.test.cocktail.service
+package com.test.cocktail_common.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 const val ACTION_PROPOSE_DRINK = "com.test.thecocktaildb.action.PROPOSE_DRINK"
 
+// TODO: 07.01.2021 я думаю, тут цього не має бути. Треба через DI вирішувати додавання певних класів
 class DrinkProposalService : Service() {
 
     private var serviceStopFlag: Boolean = false
-    private var timerObservable: Disposable? = null
+//    private var timerObservable: Disposable? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val proposalIntent = Intent(ACTION_PROPOSE_DRINK)
@@ -26,20 +24,20 @@ class DrinkProposalService : Service() {
         }
 
 
-        if (serviceStopFlag) {
-            timerObservable = Observable
-                .timer(3, TimeUnit.SECONDS)
-                .map {
-                    if (serviceStopFlag) sendBroadcast(proposalIntent)
-                }
-                .subscribe()
-        } else {
-            if (timerObservable?.isDisposed?.not() == true) {
-                timerObservable?.dispose()
-                stopForeground(true)
-                stopSelf()
-            }
-        }
+//        if (serviceStopFlag) {
+//            timerObservable = Observable
+//                .timer(3, TimeUnit.SECONDS)
+//                .map {
+//                    if (serviceStopFlag) sendBroadcast(proposalIntent)
+//                }
+//                .subscribe()
+//        } else {
+//            if (timerObservable?.isDisposed?.not() == true) {
+//                timerObservable?.dispose()
+//                stopForeground(true)
+//                stopSelf()
+//            }
+//        }
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -49,7 +47,7 @@ class DrinkProposalService : Service() {
     }
 
     override fun onDestroy() {
-        if (timerObservable?.isDisposed?.not() == true) timerObservable?.dispose()
+//        if (timerObservable?.isDisposed?.not() == true) timerObservable?.dispose()
         super.onDestroy()
     }
 

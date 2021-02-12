@@ -79,7 +79,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     }
 
     private fun navigateToDestination(isUserLoggedIn: Boolean) {
-        if (isUserLoggedIn) navigateToCocktailActivity()
+        if (isUserLoggedIn) navigateToTabHost()
         else navigateToLoginFragment()
     }
 
@@ -87,9 +87,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         splashNavigator.toAuth()
     }
 
-    private fun navigateToCocktailActivity() {
+    private fun navigateToTabHost() {
 //        val (notificationType, cocktailId) = sharedViewModel.firebaseData
-
-//        splashNavigator.toCocktail(notificationType, cocktailId)
+        splashNavigator.toTabHost()
     }
 }

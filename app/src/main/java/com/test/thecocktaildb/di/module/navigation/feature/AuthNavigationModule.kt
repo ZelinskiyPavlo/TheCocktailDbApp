@@ -1,7 +1,7 @@
-package com.test.thecocktaildb.di.module.navigation
+package com.test.thecocktaildb.di.module.navigation.feature
 
 import com.test.auth.navigation.outer.AuthNavigationApi
-import com.test.thecocktaildb.navigation.AuthNavigationImpl
+import com.test.thecocktaildb.navigation.feature.AuthNavigationImpl
 import dagger.Binds
 import dagger.Module
 

@@ -1,6 +1,5 @@
-package com.test.thecocktaildb.navigation
+package com.test.thecocktaildb.navigation.feature
 
-import android.os.Bundle
 import com.github.terrakok.cicerone.Router
 import com.test.splash.navigation.SplashNavigationApi
 import com.test.thecocktaildb.di.DiConstant.GLOBAL
@@ -16,7 +15,7 @@ class SplashNavigationImpl @Inject constructor(
         router.replaceScreen(Screen.auth())
     }
 
-    override fun toCocktail(navigationData: Bundle) {
-//        router.replaceScreen(Screen.cocktail())
+    override fun toTabHost() {
+        router.replaceScreen(Screen.tabHost())
     }
 }

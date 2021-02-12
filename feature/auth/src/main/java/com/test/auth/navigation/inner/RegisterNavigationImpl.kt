@@ -10,12 +10,11 @@ class RegisterNavigationImpl @Inject constructor(
     private val innerNavigationRouter: Router
 ): RegisterNavigationApi {
 
-    override fun toCocktail() {
-        outerNavigationApi.toCocktail()
+    override fun toTabHost() {
+        outerNavigationApi.toTabHost()
     }
 
     override fun toLogin() {
-//        innerNavigationRouter.backTo(Screen.login())
         innerNavigationRouter.exit()
     }
 }
