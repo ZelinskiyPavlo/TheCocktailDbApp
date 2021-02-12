@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
-import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.CustomActionListener
+import com.test.presentation.adapter.recyclerview.CustomActionListener
 
 abstract class BaseAdapter<T> : RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolder>() {
 
