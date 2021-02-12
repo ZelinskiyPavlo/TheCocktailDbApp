@@ -3,16 +3,14 @@ package com.test.search.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
-import com.test.thecocktaildb.data.repository.source.CocktailRepository
-import com.test.thecocktaildb.presentation.mapper.CocktailModelMapper
-import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
-import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
-import com.test.thecocktaildb.util.Event
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
+import androidx.lifecycle.map
+import com.test.presentation.extension.debounce
+import com.test.presentation.mapper.cocktail.CocktailModelMapper
+import com.test.presentation.model.cocktail.CocktailModel
+import com.test.presentation.ui.base.BaseViewModel
+import com.test.presentation.util.Event
+import com.test.repository.source.CocktailRepository
+import kotlinx.coroutines.Job
 
 class SearchCocktailViewModel(
     stateHandle: SavedStateHandle,
@@ -27,7 +25,10 @@ class SearchCocktailViewModel(
     val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
         _cocktailDetailsEventLiveData
 
-    val searchQuerySubject = PublishSubject.create<String>()
+    private var searchJob: Job? = null
+
+    val searchQueryLiveData = MutableLiveData<String>()
+    private val _searchQueryLiveData: LiveData<String?> = searchQueryLiveData.debounce(550L)
 
     val isSearchQueryEmptyLiveData: LiveData<Boolean> =
         _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty() }
@@ -47,7 +48,9 @@ class SearchCocktailViewModel(
     }
 
     private fun performSearch(query: String) {
-        launchRequest(_itemsLiveData) {
+        if (searchJob?.isActive == true) searchJob?.cancel()
+
+        searchJob = launchRequest(_itemsLiveData) {
             cocktailRepo.searchCocktails(query)?.map(cocktailMapper::mapTo) ?: emptyList()
         }
     }
