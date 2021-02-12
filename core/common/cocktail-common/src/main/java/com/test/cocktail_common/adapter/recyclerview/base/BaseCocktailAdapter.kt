@@ -1,8 +1,8 @@
-package com.test.presentation.adapter.recyclerview.cocktail.base
+package com.test.cocktail_common.adapter.recyclerview.base
 
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
-import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.base.BaseAdapter
+import com.test.presentation.adapter.recyclerview.base.BaseAdapter
+import com.test.presentation.model.cocktail.CocktailModel
+
 
 abstract class BaseCocktailAdapter<T> : BaseAdapter<CocktailModel>() {
 
@@ -11,8 +11,6 @@ abstract class BaseCocktailAdapter<T> : BaseAdapter<CocktailModel>() {
     protected var cocktailsList: List<CocktailModel> = emptyList()
 
     override fun getItemForPosition(position: Int): CocktailModel = cocktailsList[position]
-
-    override fun getLayoutIdForPosition(position: Int): Int = R.layout.item_cocktail
 
     override fun getItemCount(): Int = cocktailsList.size
 

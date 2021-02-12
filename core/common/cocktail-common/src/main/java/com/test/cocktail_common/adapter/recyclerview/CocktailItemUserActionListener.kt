@@ -1,8 +1,8 @@
-package com.test.presentation.adapter.recyclerview.cocktail
+package com.test.cocktail_common.adapter.recyclerview
 
 import android.view.View
-import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
-import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.CustomActionListener
+import com.test.presentation.adapter.recyclerview.CustomActionListener
+import com.test.presentation.model.cocktail.CocktailModel
 
 interface CocktailItemUserActionListener : CustomActionListener {
 
