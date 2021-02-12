@@ -1,3 +1,0 @@
-plugins {
-    `android-lib-module`
-}

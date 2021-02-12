@@ -19,7 +19,7 @@ inline val DependencyHandler.coreCommon: ProjectDependency
 	get() = project(":core:common")
 
 inline val DependencyHandler.coreCommonCocktail: ProjectDependency
-	get() = project(":core:common:cocktail")
+	get() = project(":core:common:cocktail-common")
 
 inline val DependencyHandler.coreDagger: ProjectDependency
 	get() = project(":core:dagger")
