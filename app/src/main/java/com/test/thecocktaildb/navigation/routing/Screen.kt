@@ -14,4 +14,9 @@ object Screen {
     fun cocktail(): FragmentScreen = TODO("Add cocktail to dependency")
 
     fun splash() = FragmentScreen { SplashFragment() }
+
+    fun search() = FragmentScreen { SearchCocktailFragment() }
+
+    fun detail(actionBarTitle: String, cocktailId: Long) =
+        FragmentScreen { CocktailDetailsFragment.newInstance(actionBarTitle, cocktailId) }
 }

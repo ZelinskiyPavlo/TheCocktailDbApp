@@ -33,6 +33,9 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
         SavedStateViewModelFactory(searchCocktailsViewModelFactory, this)
     }
 
+    @Inject
+    lateinit var searchNavigator: SearchNavigationApi
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,11 +58,7 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
         viewModel.cocktailDetailsEventLiveData.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
-                val action = SearchCocktailFragmentDirections
-                    .actionSearchCocktailsFragmentToCocktailDetailsFragment(
-                        actionBarTitle, cocktailId
-                    )
-                findNavController().navigate(action)
+                searchNavigator.toCocktailDetail(actionBarTitle, cocktailId)
             })
     }
 
