@@ -50,7 +50,7 @@
                 bind:rv_cocktails="@{viewModel.itemsLiveData}" />
 
             <TextView
-                android:id="@+id/search_help_text"
+                android:id="@+id/search_query_empty_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="?attr/actionBarSize"
@@ -62,19 +62,18 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/search_find_data_group"
+            <TextView
+                android:id="@+id/search_result_empty_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="@{viewModel.isSearchResultEmptyLiveData ? View.GONE : View.VISIBLE}"
-                app:constraint_referenced_ids="search_cocktails_rv" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/search_no_data_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewModel.isSearchResultEmptyLiveData ? View.VISIBLE : View.GONE}"
-                app:constraint_referenced_ids="search_help_text" />
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:gravity="center_vertical"
+                android:text="@string/no_cocktails_found"
+                android:textAppearance="@style/TextHint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

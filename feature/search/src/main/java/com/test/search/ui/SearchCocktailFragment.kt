@@ -44,6 +44,7 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
         super.onCreateView(inflater, container, savedInstanceState)
         setupNavigation()
         setupRecyclerView()
+        setupVisibilityObserver()
         setupSearchField()
 
         return viewDataBinding.root
@@ -74,6 +75,27 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
             verticalDpOffSet = R.dimen.margin_16dp
         )
         viewDataBinding.searchCocktailsRv.addItemDecoration(decoration)
+    }
+
+    private fun setupVisibilityObserver() {
+        with(viewDataBinding) {
+            this@SearchCocktailFragment.viewModel.isSearchQueryEmptyLiveData.observe(
+                viewLifecycleOwner, { isQueryEmpty ->
+                    searchQueryEmptyTv.visibility = if (isQueryEmpty) View.VISIBLE else View.GONE
+
+                    searchCocktailsRv.visibility = if (isQueryEmpty) View.GONE else View.VISIBLE
+                    searchResultEmptyTv.visibility = View.GONE
+                })
+            this@SearchCocktailFragment.viewModel.isSearchResultEmptyLiveData.observe(
+                viewLifecycleOwner, {isResultEmpty ->
+                    if (isResultEmpty) {
+                        searchResultEmptyTv.visibility = View.VISIBLE
+
+                        searchQueryEmptyTv.visibility = View.GONE
+                        searchCocktailsRv.visibility = View.GONE
+                    }
+                })
+        }
     }
 
     private fun setupSearchField() {

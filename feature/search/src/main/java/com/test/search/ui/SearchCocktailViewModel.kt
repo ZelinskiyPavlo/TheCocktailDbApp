@@ -29,10 +29,11 @@ class SearchCocktailViewModel(
 
     val searchQuerySubject = PublishSubject.create<String>()
 
-    val isSearchResultEmptyLiveData: LiveData<Boolean> =
-        Transformations.map(_itemsLiveData) { it.isNullOrEmpty() }
+    val isSearchQueryEmptyLiveData: LiveData<Boolean> =
+        _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty() }
 
-    private val disposable = CompositeDisposable()
+    val isSearchResultEmptyLiveData: LiveData<Boolean> =
+        _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty().not() }
 
     override fun onCleared() = disposable.clear()
 
