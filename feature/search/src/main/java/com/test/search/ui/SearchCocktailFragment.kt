@@ -10,21 +10,19 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.test.presentation.factory.SavedStateViewModelFactory
+import com.test.presentation.ui.base.BaseFragment
+import com.test.presentation.util.EventObserver
 import com.test.search.R
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.FragmentSearchCocktailsBinding
-import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.search.adapter.SearchCocktailAdapter
-import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
-import com.test.thecocktaildb.util.SearchCocktailsViewModelFactory
+import com.test.search.adapter.recyclerview.SearchCocktailAdapter
+import com.test.search.adapter.recyclerview.SearchCocktailItemDecoration
+import com.test.search.databinding.FragmentSearchCocktailsBinding
+import com.test.search.factory.SearchCocktailsViewModelFactory
+import com.test.search.navigation.SearchNavigationApi
 import javax.inject.Inject
 
-class SearchCocktailFragment : Injectable,
-    BaseFragment<FragmentSearchCocktailsBinding>() {
+class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
 
     override val layoutId: Int = R.layout.fragment_search_cocktails
 
@@ -32,7 +30,8 @@ class SearchCocktailFragment : Injectable,
     lateinit var searchCocktailsViewModelFactory: SearchCocktailsViewModelFactory
 
     override val viewModel: SearchCocktailViewModel by viewModels {
-        SavedStateViewModelFactory(searchCocktailsViewModelFactory, this) }
+        SavedStateViewModelFactory(searchCocktailsViewModelFactory, this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +39,6 @@ class SearchCocktailFragment : Injectable,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         setupNavigation()
         setupRecyclerView()
         setupSearchField()
@@ -51,11 +49,10 @@ class SearchCocktailFragment : Injectable,
     override fun configureDataBinding() {
         super.configureDataBinding()
         viewDataBinding.viewModel = viewModel
-
     }
 
     private fun setupNavigation() {
-        viewDataBinding.viewModel?.cocktailDetailsEventLiveData?.observe(
+        viewModel.cocktailDetailsEventLiveData.observe(
             viewLifecycleOwner, EventObserver {
                 val (actionBarTitle, cocktailId) = it
                 val action = SearchCocktailFragmentDirections
@@ -78,7 +75,8 @@ class SearchCocktailFragment : Injectable,
         fun showKeyboard(editText: EditText?) {
             editText?.post {
                 editText.requestFocus()
-                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
             }
         }
