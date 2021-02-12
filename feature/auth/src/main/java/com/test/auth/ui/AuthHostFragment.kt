@@ -10,10 +10,9 @@ import com.test.auth.databinding.FragmentAuthHostBinding
 import com.test.auth.navigation.routing.Screen
 import com.test.navigation.HasBackPressLogic
 import com.test.presentation.ui.base.BaseFragment
-import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class AuthHostFragment : BaseFragment<FragmentAuthHostBinding>(), HasAndroidInjector {
+class AuthHostFragment : BaseFragment<FragmentAuthHostBinding>(), HasBackPressLogic {
 
     companion object {
         @JvmStatic

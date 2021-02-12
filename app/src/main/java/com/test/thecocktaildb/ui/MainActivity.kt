@@ -6,6 +6,7 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.test.navigation.HasBackPressLogic
 import com.test.presentation.ui.base.BaseFragment
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityMainBinding
@@ -55,6 +56,9 @@ class MainActivity: BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun onBackPressed() {
-        currentFragment?.onBackPressed() ?: super.onBackPressed()
+        if (currentFragment is HasBackPressLogic)
+            currentFragment?.onBackPressed()
+        else
+            router.exit()
     }
 }
