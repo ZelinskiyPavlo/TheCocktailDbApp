@@ -18,6 +18,19 @@ inline fun <T> LiveData<T?>.observeNotNull(owner: LifecycleOwner, crossinline ob
 }
 
 @MainThread
+inline fun LiveData<String?>.observeNotBlank(
+    owner: LifecycleOwner? = null, crossinline observer: (String) -> Unit
+) {
+    val resultObserver: (String?) -> Unit = {
+        if (it != null && (it as CharSequence).isNotBlank()) observer(it)
+    }
+
+    if (owner == null) observeForever(resultObserver)
+    else observe(owner, Observer(resultObserver))
+
+}
+
+@MainThread
 inline fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
     observe(owner, object : Observer<T> {
         override fun onChanged(t: T) {
