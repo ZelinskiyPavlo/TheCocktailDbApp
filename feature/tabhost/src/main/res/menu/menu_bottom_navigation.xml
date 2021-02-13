@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bnv_main_fragment"
-        android:title="@string/bottom_navigation_main_fragment_title"
+        android:id="@+id/bnv_cocktail_item"
         android:enabled="true"
-        android:icon="@drawable/ic_photo_24" />
+        android:icon="@drawable/ic_photo_24"
+        android:title="@string/bottom_navigation_main_fragment_title" />
 
     <item
-        android:id="@+id/bnv_setting_fragment"
-        android:icon="@drawable/ic_profile_24"
+        android:id="@+id/bnv_setting_item"
         android:enabled="true"
+        android:icon="@drawable/ic_profile_24"
         android:title="@string/bottom_navigation_setting_fragment_title" />
 
 </menu>
