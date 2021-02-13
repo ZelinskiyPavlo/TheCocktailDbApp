@@ -11,7 +11,7 @@ object Screen {
 
     fun auth() = FragmentScreen { AuthHostFragment() }
 
-    fun cocktail(): FragmentScreen = TODO("Add cocktail to dependency")
+    fun tabHost() = FragmentScreen { TabHostFragment() }
 
     fun splash() = FragmentScreen { SplashFragment() }
 
