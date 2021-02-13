@@ -26,7 +26,7 @@
         android:layout_marginEnd="@dimen/margin_24dp"
         android:layout_toStartOf="@id/toolbar_secondary_option_button"
         android:textAppearance="@style/TextBoldTitle"
-        tools:text="@string/app_name_simplified" />
+        tools:text="@string/app_name" />
 
     <ImageButton
         android:id="@+id/toolbar_secondary_option_button"
@@ -38,7 +38,7 @@
         android:background="?android:selectableItemBackground"
         android:contentDescription="@null"
         android:padding="4dp"
-        tools:src="@drawable/ic_sort_24" />
+        tools:src="@drawable/ic_demo_icon_1" />
 
     <ImageButton
         android:id="@+id/toolbar_main_option_button"
@@ -50,6 +50,6 @@
         android:contentDescription="@null"
         android:padding="4dp"
         android:layout_marginEnd="@dimen/margin_8dp"
-        tools:src="@drawable/ic_filter_list_24" />
+        tools:src="@drawable/ic_demo_icon_2" />
 
 </RelativeLayout>
