@@ -84,9 +84,6 @@ inline val DependencyHandler.featureCocktail: ProjectDependency
 inline val DependencyHandler.featureTabHost: ProjectDependency
 	get() = project(":feature:tabhost")
 
-inline val DependencyHandler.featureCocktailFilter: ProjectDependency
-	get() = project(":feature:cocktail:filter")
-
 inline val DependencyHandler.featureSearch: ProjectDependency
 	get() = project(":feature:search")
 
