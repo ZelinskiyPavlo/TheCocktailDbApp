@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="obj"
+            type="com.test.presentation.model.cocktail.CocktailModel" />
+
+        <variable
+            name="listener"
+            type="com.test.cocktail.ui.adapter.recyclerview.listener.source.FavoriteCocktailUserActionListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(view) -> listener.onItemClicked(obj)}"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <ImageView
+            android:id="@+id/item_cocktail_favorite_image"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:contentDescription="@string/content_description_cocktail_item_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:iv_imageUrl="@{obj.image}" />
+
+        <TextView
+            android:id="@+id/item_cocktail_favorite_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{obj.names.defaults}"
+            android:textAppearance="@style/TextRegular"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Some very long title" />
+
+        <TextView
+            android:id="@+id/item_cocktail_favorite_type_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/item_cocktail_favorite_drink_type"
+            android:textAppearance="@style/TextRegular"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_image"
+            app:layout_constraintTop_toBottomOf="@id/item_cocktail_favorite_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{obj.category.key}"
+            android:textAppearance="@style/TextRegular"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_type_sign"
+            app:layout_constraintTop_toBottomOf="@id/item_cocktail_favorite_title"
+            tools:text="Ordinary drink" />
+
+        <TextView
+            android:id="@+id/item_cocktail_favorite_alcohol_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/item_cocktail_favorite_drink_alcohol"
+            android:textAppearance="@style/TextRegular"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_image"
+            app:layout_constraintTop_toBottomOf="@id/item_cocktail_favorite_type_sign" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{obj.alcoholType.key}"
+            android:textAppearance="@style/TextRegular"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_alcohol_sign"
+            app:layout_constraintTop_toBottomOf="@id/item_cocktail_favorite_type_sign"
+            tools:text="Non alcoholic" />
+
+        <TextView
+            android:id="@+id/item_cocktail_favorite_glass_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/item_cocktail_favorite_drink_glass"
+            android:textAppearance="@style/TextRegular"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_image"
+            app:layout_constraintTop_toBottomOf="@id/item_cocktail_favorite_alcohol_sign" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{obj.glass.key}"
+            android:textAppearance="@style/TextRegular"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/item_cocktail_favorite_glass_sign"
+            app:layout_constraintTop_toBottomOf="@id/item_cocktail_favorite_alcohol_sign"
+            tools:text="Cup" />
+
+        <ImageButton
+            android:id="@id/item_cocktail_favorite_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_favorite_solid_48"
+            android:contentDescription="@null"
+            android:onClick="@{(view) -> listener.onFavoriteIconClicked(obj)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_more_vert"
+            android:contentDescription="@null"
+            android:onClick="@{(view) -> listener.onOptionIconClicked(view, obj)}"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
