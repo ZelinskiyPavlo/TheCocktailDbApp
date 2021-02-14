@@ -6,4 +6,5 @@ interface AppSettingRepository {
 
     val showNavigationTitleLiveData: MutableLiveData<Boolean>
 
+    val currentLanguageLiveData: MutableLiveData<Int>
 }

@@ -1,4 +1,4 @@
-package com.test.presentation.ui.custom
+package com.test.setting.ui.custom
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.core.content.res.use
 import androidx.core.widget.ImageViewCompat
-import com.test.presentation.R
+import com.test.setting.R
 import kotlinx.android.synthetic.main.widget_setting_row.view.*
 
 class SettingRow(context: Context, attributes: AttributeSet) : LinearLayout(context, attributes) {

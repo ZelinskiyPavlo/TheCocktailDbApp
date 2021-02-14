@@ -7,16 +7,15 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.res.use
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentation.extension.getBooleanAttributeOrNull
-import com.test.thecocktaildb.presentation.extension.getColorAttributeOrNull
-import com.test.thecocktaildb.presentation.extension.getDimensionAttributeOrNull
-import com.test.thecocktaildb.presentation.extension.getIntegerAttributeOrNull
+import com.test.presentation.extension.getBooleanAttributeOrNull
+import com.test.presentation.extension.getColorAttributeOrNull
+import com.test.presentation.extension.getDimensionAttributeOrNull
+import com.test.presentation.extension.getIntegerAttributeOrNull
+import com.test.seekbar.R
 import kotlin.math.max
 import kotlin.math.min
 
-class SeekBarView(context: Context, attrs: AttributeSet? = null) :
-    View(context, attrs) {
+class SeekBarView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     var min: Int = 1
         set(value) {

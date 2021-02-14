@@ -5,11 +5,11 @@ import android.graphics.Color
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.FirstFourthAnimationPreset
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.SecondFifthAnimationPreset
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.ThirdSixthAnimationPreset
-import com.test.thecocktaildb.presentation.ui.custom.cube.draw.data.Cube
-import com.test.thecocktaildb.presentation.ui.custom.cube.draw.data.Triangle
+import com.test.cube.view.animation.triangle.data.FirstFourthAnimationPreset
+import com.test.cube.view.animation.triangle.data.SecondFifthAnimationPreset
+import com.test.cube.view.animation.triangle.data.ThirdSixthAnimationPreset
+import com.test.cube.view.draw.data.Cube
+import com.test.cube.view.draw.data.Triangle
 import kotlin.math.cos
 import kotlin.math.sin
 

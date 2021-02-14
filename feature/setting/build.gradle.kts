@@ -1,14 +1,17 @@
-import com.test.gradle.dependency.daggerAndroidDependencies
-import com.test.gradle.dependency.daggerDependencies
+import com.test.gradle.dependency.daggerKaptDependencies
 
 plugins {
     `feature-module`
 }
 
 dependencies {
-    api(corePresentation)
+    implementation(corePresentation)
+    implementation(coreNavigation)
     implementation(coreDagger)
 
-    daggerDependencies()
-    daggerAndroidDependencies()
+    implementation(featureSettingCube)
+    implementation(featureSettingProfile)
+    implementation(featureSettingSeekBar)
+
+    daggerKaptDependencies(properties["dagger.reflect"])
 }

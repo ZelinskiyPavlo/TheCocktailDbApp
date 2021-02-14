@@ -10,33 +10,27 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.test.presentation.factory.SavedStateViewModelFactory
+import com.test.presentation.locale.LanguageType
+import com.test.presentation.ui.base.BaseFragment
+import com.test.presentation.ui.dialog.DialogButton
+import com.test.presentation.ui.dialog.DialogType
+import com.test.presentation.ui.dialog.ItemListDialogButton
+import com.test.presentation.ui.dialog.LanguageDialogType
+import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.setting.R
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.FragmentSettingBinding
-import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.cocktail.SharedMainViewModel
-import com.test.thecocktaildb.presentation.ui.cocktail.callback.BatteryStateCallback
-import com.test.thecocktaildb.presentation.ui.dialog.*
-import com.test.thecocktaildb.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
-import com.test.thecocktaildb.presentation.ui.setting.cube.CubeFragment
-import com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment
-import com.test.thecocktaildb.presentation.ui.setting.rangeseekbar.RangeSeekBarFragment
-import com.test.thecocktaildb.presentation.ui.setting.test.TestFragment
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
-import com.test.thecocktaildb.util.SettingViewModelFactory
-import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
-import com.test.thecocktaildb.util.locale.LanguageType
-import com.test.thecocktaildb.util.receiver.BatteryStateReceiver
+import com.test.setting.callback.BatteryStateCallback
+import com.test.setting.databinding.FragmentSettingBinding
+import com.test.setting.factory.SettingViewModelFactory
+import com.test.setting.model.BatteryStateHolder
+import com.test.setting.navigation.SettingNavigationApi
+import com.test.setting.receiver.BatteryStateReceiver
 import javax.inject.Inject
 
-class SettingFragment : Injectable, BatteryStateCallback,
-    BaseFragment<FragmentSettingBinding>(),
+class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCallback,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>> {
 
     companion object {
-        const val PREVIOUSLY_OPENED_FRAGMENT = "PREVIOUSLY_OPENED_FRAGMENT"
-
         @JvmStatic
         fun newInstance(): SettingFragment {
             return SettingFragment()
@@ -62,18 +56,17 @@ class SettingFragment : Injectable, BatteryStateCallback,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         setupBatteryStateObserver()
         setupSelectedLanguageObserver()
         configureViewFromRemoteConfig()
-        restorePreviouslyOpenedFragment(savedInstanceState)
+
         return viewDataBinding.root
     }
 
     override fun configureDataBinding() {
         super.configureDataBinding()
         viewDataBinding.viewModel = viewModel
-        viewDataBinding.sharedViewModel = sharedViewModel
+//        viewDataBinding.sharedViewModel = sharedViewModel
         viewDataBinding.fragment = this
     }
 
@@ -107,6 +100,7 @@ class SettingFragment : Injectable, BatteryStateCallback,
         viewModel.currentLanguageLiveData.observe(viewLifecycleOwner, { languageIndex ->
             viewDataBinding.settingFragmentLanguageRow.changeAdditionalText(
                 when (LanguageType.values()[languageIndex]) {
+                    // TODO: 14.02.2021 Move to strings.xml
                     LanguageType.ENGLISH -> "ENG"
                     LanguageType.UKRAINIAN -> "UKR"
                 }
@@ -115,28 +109,11 @@ class SettingFragment : Injectable, BatteryStateCallback,
     }
 
     private fun configureViewFromRemoteConfig() {
-        sharedViewModel.showNavTitlesViewVisibilityLiveData.observe(viewLifecycleOwner, {
-            viewDataBinding.settingFragmentShowNavTitles.visibility =
-                if (it) View.VISIBLE
-                else View.GONE
-        })
-    }
-
-    private fun restorePreviouslyOpenedFragment(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            when (savedInstanceState.getString(PREVIOUSLY_OPENED_FRAGMENT)) {
-                ProfileFragment::class.java.name -> openProfileFragment()
-                TestFragment::class.java.name -> openTestFragment()
-                else -> Unit
-            }
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        parentFragmentManager.fragments.lastOrNull()?.let {
-            outState.putString(PREVIOUSLY_OPENED_FRAGMENT, it::class.java.name)
-        }
-        super.onSaveInstanceState(outState)
+//        sharedViewModel.showNavTitlesViewVisibilityLiveData.observe(viewLifecycleOwner, {
+//            viewDataBinding.settingFragmentShowNavTitles.visibility =
+//                if (it) View.VISIBLE
+//                else View.GONE
+//        })
     }
 
     fun openProfileFragment() {
@@ -172,9 +149,9 @@ class SettingFragment : Injectable, BatteryStateCallback,
     }
 
     fun openLanguagePicker() {
-        LanguageListBottomSheetDialogFragment.newInstance(
-            viewModel.currentLanguageLiveData.value ?: 0
-        ).show(childFragmentManager, "LanguageDialog")
+//        LanguageListBottomSheetDialogFragment.newInstance(
+//            viewModel.currentLanguageLiveData.value ?: 0
+//        ).show(childFragmentManager, "LanguageDialog")
     }
 
     override fun onStart() {
@@ -201,7 +178,7 @@ class SettingFragment : Injectable, BatteryStateCallback,
     }
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
-        viewDataBinding.viewModel?.updateBatteryState(batteryState)
+        viewModel.updateBatteryState(batteryState)
     }
 
     override fun onBottomSheetDialogFragmentClick(

@@ -6,13 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.test.thecocktaildb.presentation.ui.setting.profile.ProfileViewModel" />
+            type="com.test.profile.ui.ProfileViewModel" />
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.presentation.ui.setting.profile.ProfileFragment" />
+            type="com.test.profile.ui.ProfileFragment" />
     </data>
 
+<!--    TODO: redesign layout-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +26,7 @@
             android:background="@drawable/placeholder_background"
             android:elevation="0dp">
 
-            <com.test.thecocktaildb.presentation.ui.custom.CustomToolbar
+            <com.test.presentation.ui.custom.CustomToolbar
                 android:id="@+id/profile_fragment_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

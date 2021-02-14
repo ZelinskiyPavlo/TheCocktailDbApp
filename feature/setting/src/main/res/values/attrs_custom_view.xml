@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SettingRow">
+        <attr name="sr_icon_src" format="reference"/>
+        <attr name="sr_main_text" format="string"/>
+        <attr name="sr_additional_text" format="string"/>
+    </declare-styleable>
+
+</resources>

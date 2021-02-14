@@ -1,11 +1,11 @@
 package com.test.cube.view
 
 import android.content.Context
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.cube.CubeAnimationManager
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.cube.data.CubeAnimationModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.TriangleAnimationManager
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.TriangleAnimationModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.draw.DrawManager
+import com.test.cube.view.animation.cube.CubeAnimationManager
+import com.test.cube.view.animation.cube.data.CubeAnimationModel
+import com.test.cube.view.animation.triangle.TriangleAnimationManager
+import com.test.cube.view.animation.triangle.data.TriangleAnimationModel
+import com.test.cube.view.draw.DrawManager
 
 class CubeManager(
     context: Context,

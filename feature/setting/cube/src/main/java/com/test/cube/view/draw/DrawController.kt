@@ -4,12 +4,12 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
-import com.test.thecocktaildb.presentation.ui.custom.cube.CubeModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.cube.data.CubeAnimationModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.TriangleAnimationType
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.TriangleAnimationModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.draw.data.OvalPoints
-import com.test.thecocktaildb.presentation.ui.custom.cube.draw.data.Triangle
+import com.test.cube.view.CubeModel
+import com.test.cube.view.animation.cube.data.CubeAnimationModel
+import com.test.cube.view.animation.triangle.TriangleAnimationType
+import com.test.cube.view.animation.triangle.data.TriangleAnimationModel
+import com.test.cube.view.draw.data.OvalPoints
+import com.test.cube.view.draw.data.Triangle
 
 class DrawController(
     private val cubeModel: CubeModel

@@ -1,6 +1,6 @@
 package com.test.cube.view.animation.triangle.data
 
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.TriangleAnimationType
+import com.test.cube.view.animation.triangle.TriangleAnimationType
 
 data class TriangleAnimationModel(
     var angle: Float = -1F,

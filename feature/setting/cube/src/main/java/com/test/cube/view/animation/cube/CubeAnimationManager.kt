@@ -4,8 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
-import com.test.thecocktaildb.presentation.ui.custom.cube.CubeModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.cube.data.CubeAnimationModel
+import com.test.cube.view.CubeModel
+import com.test.cube.view.animation.cube.data.CubeAnimationModel
 
 class CubeAnimationManager(
     private val cubeModel: CubeModel,

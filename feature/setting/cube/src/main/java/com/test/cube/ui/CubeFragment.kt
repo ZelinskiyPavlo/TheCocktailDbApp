@@ -4,25 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.FragmentCubeBinding
-import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
+import com.test.cube.databinding.FragmentCubeBinding
+import com.test.presentation.ui.base.BaseFragment
 
-class CubeFragment : Injectable, BaseFragment<FragmentCubeBinding>() {
+class CubeFragment : BaseFragment<FragmentCubeBinding>() {
 
     companion object {
-
         @JvmStatic
         fun newInstance(): CubeFragment {
             return CubeFragment()
         }
     }
 
-    override val layoutId: Int = R.layout.fragment_cube
-
-    override val viewModel: CubeViewModel by viewModels()
+    override val layoutId: Int = com.test.cube.R.layout.fragment_cube
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(featureSetting)
+    implementation(corePresentation)
+    implementation(coreDagger)
 }

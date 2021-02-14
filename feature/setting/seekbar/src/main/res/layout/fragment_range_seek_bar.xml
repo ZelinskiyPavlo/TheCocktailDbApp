@@ -6,7 +6,7 @@
 
         <variable
             name="fragment"
-            type="com.test.thecocktaildb.presentation.ui.setting.rangeseekbar.RangeSeekBarFragment" />
+            type="com.test.seekbar.ui.RangeSeekBarFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,15 +15,14 @@
         android:background="@color/app_background">
 
 
-        <com.test.thecocktaildb.presentation.ui.custom.SeekBarView
+        <com.test.seekbar.view.SeekBarView
             android:id="@+id/seek_bar_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="112dp"
             app:sbv_thumb_active_color="#00E676"
-            app:sbv_thumb_inactive_color="@color/colorAccent"
-            />
+            app:sbv_thumb_inactive_color="@color/colorAccent" />
 
         <TextView
             android:id="@+id/seek_bar_view_left_indicator"

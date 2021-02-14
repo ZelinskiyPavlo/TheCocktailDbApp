@@ -9,4 +9,6 @@ class AppSettingRepositoryImpl @Inject constructor(localSource: AppSettingLocalS
 
     override val showNavigationTitleLiveData = localSource.showNavigationTitleLiveData
 
+    override val currentLanguageLiveData = localSource.currentLanguageLiveData
+
 }

@@ -1,14 +1,13 @@
-package com.test.profile
+package com.test.profile.ui
 
 import androidx.lifecycle.*
-import com.test.common.model.UserModel
-import com.test.thecocktaildb.data.repository.source.TokenRepository
-import com.test.thecocktaildb.data.repository.source.UserRepository
-import com.test.thecocktaildb.presentation.extension.distinctNotNullValues
-import com.test.thecocktaildb.presentation.mapper.UserModelMapper
-import com.test.thecocktaildb.presentation.model.UserModel
-import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
-import com.test.thecocktaildb.util.Event
+import com.test.presentation.extension.distinctNotNullValues
+import com.test.presentation.mapper.user.UserModelMapper
+import com.test.presentation.model.user.UserModel
+import com.test.presentation.ui.base.BaseViewModel
+import com.test.presentation.util.Event
+import com.test.repository.source.TokenRepository
+import com.test.repository.source.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File

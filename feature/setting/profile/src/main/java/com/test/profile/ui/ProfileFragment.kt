@@ -1,4 +1,4 @@
-package com.test.profile
+package com.test.profile.ui
 
 import android.Manifest
 import android.app.Activity
@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ViewSwitcher
 import androidx.core.app.ActivityCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import coil.Coil
@@ -20,23 +19,15 @@ import coil.api.load
 import coil.request.LoadRequest
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.core.common.firebase.Analytic
-import com.test.thecocktaildb.databinding.FragmentProfileBinding
-import com.test.thecocktaildb.extension.isAllPermissionGranted
-import com.test.thecocktaildb.presentation.extension.BitmapHelper.Companion.convertMbToBinaryBytes
-import com.test.thecocktaildb.presentation.extension.BitmapHelper.Companion.getBitmap
-import com.test.thecocktaildb.presentation.extension.convertBitmapToFile
-import com.test.thecocktaildb.presentation.extension.observeNotNull
-import com.test.thecocktaildb.presentation.extension.observeUntil
-import com.test.thecocktaildb.presentation.extension.scaleToSize
-import com.test.thecocktaildb.presentation.ui.auth.AuthActivity
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.dialog.*
-import com.test.thecocktaildb.presentation.ui.setting.SettingFragment
-import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.ProfileViewModelFactory
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
+import com.test.presentation.extension.*
+import com.test.presentation.extension.BitmapHelper.Companion.convertMbToBinaryBytes
+import com.test.presentation.extension.BitmapHelper.Companion.getBitmap
+import com.test.presentation.factory.SavedStateViewModelFactory
+import com.test.presentation.ui.base.BaseFragment
+import com.test.presentation.ui.dialog.*
+import com.test.profile.R
+import com.test.profile.databinding.FragmentProfileBinding
+import com.test.profile.factory.ProfileViewModelFactory
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -88,12 +79,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun configureToolbar() {
-        viewDataBinding.profileFragmentToolbar.backButton.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.setting_fragment_container, SettingFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
-        }
+//        viewDataBinding.profileFragmentToolbar.backButton.setOnClickListener {
+//        }
 
         viewDataBinding.profileFragmentToolbar.primaryOption.setOnClickListener {
             showLogOutBottomSheetDialog()
@@ -101,19 +88,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun configureObserver() {
-        viewModel.logOutUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            val intent = Intent(requireContext(), AuthActivity::class.java)
-            requireContext().startActivity(intent)
-            activity?.finish()
-        })
+//        viewModel.logOutUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
+//            val intent = Intent(requireContext(), AuthActivity::class.java)
+//            requireContext().startActivity(intent)
+//            activity?.finish()
+//        })
 
         viewModel.userDataChangedLiveData.observeNotNull(viewLifecycleOwner, {
-            firebaseAnalytics.logEvent(
-                Analytic.PROFILE_DATA_CHANGE,
-                bundleOf(
-                    Analytic.PROFILE_DATA_CHANGE_KEY to viewModel.userFullNameLiveData.value
-                )
-            )
+//            firebaseAnalytics.logEvent(
+//                Analytic.PROFILE_DATA_CHANGE,
+//                bundleOf(
+//                    Analytic.PROFILE_DATA_CHANGE_KEY to viewModel.userFullNameLiveData.value
+//                )
+//            )
 
             viewSwitcher.showNext()
         })
@@ -247,14 +234,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 viewLifecycleOwner,
                 { newAvatarUrl -> oldAvatarUrl != newAvatarUrl },
                 { newAvatarUrl ->
-                    firebaseAnalytics.logEvent(
-                        Analytic.PROFILE_AVATAR_CHANGE,
-                        bundleOf(
-                            Analytic.PROFILE_AVATAR_CHANGE_AVATAR_KEY to newAvatarUrl,
-                            Analytic.PROFILE_AVATAR_CHANGE_NAME_KEY to
-                                    viewModel.userFullNameLiveData.value
-                        )
-                    )
+//                    firebaseAnalytics.logEvent(
+//                        Analytic.PROFILE_AVATAR_CHANGE,
+//                        bundleOf(
+//                            Analytic.PROFILE_AVATAR_CHANGE_AVATAR_KEY to newAvatarUrl,
+//                            Analytic.PROFILE_AVATAR_CHANGE_NAME_KEY to
+//                                    viewModel.userFullNameLiveData.value
+//                        )
+//                    )
                 }
             )
         }

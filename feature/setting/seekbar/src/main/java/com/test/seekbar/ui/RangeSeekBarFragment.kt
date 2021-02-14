@@ -4,25 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.databinding.FragmentRangeSeekBarBinding
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.custom.SeekBarView
+import com.test.presentation.ui.base.BaseFragment
+import com.test.seekbar.databinding.FragmentRangeSeekBarBinding
+import com.test.seekbar.view.SeekBarView
 
 class RangeSeekBarFragment : BaseFragment<FragmentRangeSeekBarBinding>(), SeekBarView.SeekBarChangeListener {
 
     companion object {
-
         @JvmStatic
         fun newInstance(): RangeSeekBarFragment {
             return RangeSeekBarFragment()
         }
     }
 
-    override val layoutId: Int = R.layout.fragment_range_seek_bar
-
-    override val viewModel: RangeSeekBarViewModel by viewModels()
+    override val layoutId: Int = com.test.seekbar.R.layout.fragment_range_seek_bar
 
     override fun onCreateView(
         inflater: LayoutInflater,

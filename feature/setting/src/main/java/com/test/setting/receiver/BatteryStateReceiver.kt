@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.BatteryManager
-import com.test.thecocktaildb.presentation.ui.cocktail.callback.BatteryStateCallback
-import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
+import com.test.setting.callback.BatteryStateCallback
+import com.test.setting.model.BatteryStateHolder
 
 class BatteryStateReceiver(
     private val batteryStateCallback: BatteryStateCallback

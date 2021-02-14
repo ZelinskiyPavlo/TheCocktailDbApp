@@ -1,7 +1,7 @@
 package com.test.cube.view.draw.data
 
 import android.graphics.PointF
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.AnimationPreset
+import com.test.cube.view.animation.triangle.data.AnimationPreset
 
 class Triangle(
     val x1: Float,

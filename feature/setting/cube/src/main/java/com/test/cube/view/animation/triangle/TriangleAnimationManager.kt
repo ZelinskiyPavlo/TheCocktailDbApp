@@ -1,11 +1,11 @@
 package com.test.cube.view.animation.triangle
 
 import android.animation.*
-import com.test.thecocktaildb.presentation.ui.custom.cube.CubeModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.animation.triangle.data.TriangleAnimationModel
-import com.test.thecocktaildb.presentation.ui.custom.cube.draw.data.Triangle
-import com.xtreeivi.devlightschoolcustomview.ui.widget.cube.resettableLazy
-import com.xtreeivi.devlightschoolcustomview.ui.widget.cube.resettableManager
+import com.test.cube.view.CubeModel
+import com.test.cube.view.animation.triangle.data.TriangleAnimationModel
+import com.test.cube.view.draw.data.Triangle
+import com.test.presentation.util.resettableLazy
+import com.test.presentation.util.resettableManager
 
 class TriangleAnimationManager(
     private val cubeModel: CubeModel,

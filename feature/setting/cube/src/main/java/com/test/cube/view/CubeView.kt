@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.content.res.use
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentation.extension.getBooleanAttributeOrNull
-import com.test.thecocktaildb.presentation.extension.getColorAttributeOrNull
-import com.test.thecocktaildb.presentation.extension.getDimensionAttributeOrNull
-import com.test.thecocktaildb.presentation.extension.getFloatAttributeOrNull
+import com.test.cube.R
+import com.test.presentation.extension.getBooleanAttributeOrNull
+import com.test.presentation.extension.getColorAttributeOrNull
+import com.test.presentation.extension.getDimensionAttributeOrNull
+import com.test.presentation.extension.getFloatAttributeOrNull
 
 class CubeView(context: Context, attrs: AttributeSet?) : View(context, attrs),
     CubeManager.AnimationListener {

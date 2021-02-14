@@ -1,6 +1,6 @@
 package com.test.setting.callback
 
-import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
+import com.test.setting.model.BatteryStateHolder
 
 interface BatteryStateCallback {
 

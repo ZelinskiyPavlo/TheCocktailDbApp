@@ -4,18 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
+import com.test.presentation.locale.LanguageType
+import com.test.presentation.ui.base.BaseViewModel
+import com.test.repository.source.AppSettingRepository
 import com.test.setting.R
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.data.local.source.AppSettingLocalSource
-import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
-import com.test.thecocktaildb.util.batterystate.BatteryStateCacheHolder
-import com.test.thecocktaildb.util.batterystate.BatteryStateHolder
-import com.test.thecocktaildb.util.locale.LanguageType
+import com.test.setting.model.BatteryStateCacheHolder
+import com.test.setting.model.BatteryStateHolder
 
 class SettingViewModel(
     savedStateHandle: SavedStateHandle,
-    settingLocalSource: AppSettingLocalSource
-): BaseViewModel(savedStateHandle) {
+    settingRepository: AppSettingRepository
+) : BaseViewModel(savedStateHandle) {
 
     private val _batteryPercentLiveData = MutableLiveData<String>()
     val batteryPercentLiveData: LiveData<String> = _batteryPercentLiveData
@@ -29,7 +28,7 @@ class SettingViewModel(
     private val _isBatteryChargingLiveData = MutableLiveData<Boolean>()
     val isBatteryChargingLiveData: LiveData<Boolean> = _isBatteryChargingLiveData
 
-    private val _currentLanguageLiveData = settingLocalSource.currentLanguageLiveData
+    private val _currentLanguageLiveData = settingRepository.currentLanguageLiveData
     val currentLanguageLiveData: LiveData<Int> = _currentLanguageLiveData
 
     private val batteryStateCache = BatteryStateCacheHolder()
