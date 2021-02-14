@@ -7,6 +7,7 @@ dependencies {
     implementation(coreDagger)
     implementation(coreNavigation)
 
-    implementation(Lib.ImageLoading.Coil.coil)
     implementation(platformFirebase)
+
+    implementation(Lib.ImageLoading.Coil.coil)
 }

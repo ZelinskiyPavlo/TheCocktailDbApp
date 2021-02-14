@@ -53,6 +53,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         SavedStateViewModelFactory(profileViewModelFactory, this)
     }
 
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     private val isReadExternalStoragePermissionGranted
         get() = requireActivity().isAllPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)
 
@@ -95,12 +98,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 //        })
 
         viewModel.userDataChangedLiveData.observeNotNull(viewLifecycleOwner, {
-//            firebaseAnalytics.logEvent(
-//                Analytic.PROFILE_DATA_CHANGE,
-//                bundleOf(
-//                    Analytic.PROFILE_DATA_CHANGE_KEY to viewModel.userFullNameLiveData.value
-//                )
-//            )
+            firebaseAnalytics.logUserNameChanged(viewModel.userFullNameLiveData.value)
 
             viewSwitcher.showNext()
         })
@@ -234,14 +232,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 viewLifecycleOwner,
                 { newAvatarUrl -> oldAvatarUrl != newAvatarUrl },
                 { newAvatarUrl ->
-//                    firebaseAnalytics.logEvent(
-//                        Analytic.PROFILE_AVATAR_CHANGE,
-//                        bundleOf(
-//                            Analytic.PROFILE_AVATAR_CHANGE_AVATAR_KEY to newAvatarUrl,
-//                            Analytic.PROFILE_AVATAR_CHANGE_NAME_KEY to
-//                                    viewModel.userFullNameLiveData.value
-//                        )
-//                    )
+                    firebaseAnalytics.logUserAvatarChanged(
+                        newAvatarUrl,
+                        viewModel.userFullNameLiveData.value
+                    )
                 }
             )
         }

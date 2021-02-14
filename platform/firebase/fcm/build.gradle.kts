@@ -1,5 +1,8 @@
+import com.test.gradle.dependency.daggerKaptDependencies
+
 plugins {
     `android-lib-module`
+    `kotlin-kapt`
 }
 
 dependencies {
@@ -7,5 +10,5 @@ dependencies {
 
     api(Lib.Firebase.fcm)
 
-    implementation(Lib.Dagger.dagger)
+    daggerKaptDependencies(properties["dagger.reflect"])
 }

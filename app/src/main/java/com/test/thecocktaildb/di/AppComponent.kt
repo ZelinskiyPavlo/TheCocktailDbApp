@@ -1,6 +1,7 @@
 package com.test.thecocktaildb.di
 
 import android.app.Application
+import com.test.firebase.di.FirebaseModule
 import com.test.impl.di.DbModule
 import com.test.impl.di.NetworkModule
 import com.test.impl.di.RepositoryModule
@@ -17,8 +18,10 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AndroidInjectionModule::class, GlobalCiceroneModule::class, FragmentModule::class, ActivityModule::class,
-        DbModule::class, LocalModule::class, NetworkModule::class, RepositoryModule::class]
+    modules = [AndroidInjectionModule::class,
+        GlobalCiceroneModule::class, FragmentModule::class, ActivityModule::class,
+        DbModule::class, LocalModule::class, NetworkModule::class, RepositoryModule::class,
+        FirebaseModule::class]
 )
 interface AppComponent : AndroidInjector<CocktailApplication> {
 

@@ -5,26 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.math.MathUtils.lerp
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.core.common.firebase.Analytic
-import com.test.thecocktaildb.databinding.FragmentCocktailDetailsBinding
-import com.test.thecocktaildb.di.Injectable
-import com.test.thecocktaildb.presentation.ui.base.BaseFragment
-import com.test.thecocktaildb.presentation.ui.detail.adapter.IngredientAdapter
-import com.test.thecocktaildb.util.CocktailDetailsViewModelFactory
-import com.test.thecocktaildb.util.EventObserver
-import com.test.thecocktaildb.util.SavedStateViewModelFactory
-import com.test.thecocktaildb.util.service.DrinkProposalService
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.test.cocktail_common.service.DrinkProposalService
+import com.test.detail.adapter.IngredientAdapter
+import com.test.detail.analytic.logOpenCocktailDetail
+import com.test.detail.databinding.FragmentCocktailDetailsBinding
+import com.test.detail.factory.CocktailDetailsViewModelFactory
+import com.test.navigation.api.SimpleNavigatorApi
+import com.test.presentation.factory.SavedStateViewModelFactory
+import com.test.presentation.ui.base.BaseFragment
 import javax.inject.Inject
-import kotlin.math.max
 
 class CocktailDetailsFragment : Injectable,
     BaseFragment<FragmentCocktailDetailsBinding>() {
@@ -46,11 +39,8 @@ class CocktailDetailsFragment : Injectable,
     private val layoutParams: LinearLayout.LayoutParams
             by lazy { viewDataBinding.cocktailImage.layoutParams as LinearLayout.LayoutParams }
 
-    private var cachedImageWidth: Int? = null
-    private val maxRadius: Float by lazy {
-        max(viewDataBinding.ablDetails.width, viewDataBinding.ablDetails.height).toFloat() / 2.0F
-    }
-
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater,

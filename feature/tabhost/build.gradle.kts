@@ -12,6 +12,8 @@ dependencies {
     implementation(featureCocktail)
     implementation(featureSetting)
 
+    implementation(platformFirebase)
+
     daggerKaptDependencies(properties["dagger.reflect"])
 
     implementation(Lib.Icepick.icePick)

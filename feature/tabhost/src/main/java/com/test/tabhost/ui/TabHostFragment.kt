@@ -38,6 +38,9 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
 
     lateinit var navigator: Navigator
 
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     private val currentFragment: BaseFragment<*>?
         get() = childFragmentManager.findFragmentById(R.id.tab_host_container) as? BaseFragment<*>
 
@@ -71,23 +74,13 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
                 R.id.bnv_cocktail_item -> {
                     selectTab(Screen.Keys.COCKTAIL)
 
-                    //region Firebase analytics
-                    //                    firebaseAnalytics.logEvent(
-//                        Analytic.MAIN_TAB_CHANGE,
-//                        bundleOf(Analytic.MAIN_TAB_CHANGE_KEY to "main")
-//                    )
-                    //endregion
+                    firebaseAnalytics.logCocktailTabClicked()
                     true
                 }
                 R.id.bnv_setting_item -> {
                     selectTab(Screen.Keys.SETTING)
 
-                    //region Firebase analytics
-//                        firebaseAnalytics.logEvent(
-//                            Analytic.MAIN_TAB_CHANGE,
-//                            bundleOf(Analytic.MAIN_TAB_CHANGE_KEY to "profile")
-//                        )
-                    //endregion
+                    firebaseAnalytics.logSettingTabClicked()
                     true
                 }
                 else -> false

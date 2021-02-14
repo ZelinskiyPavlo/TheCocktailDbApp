@@ -1,4 +1,4 @@
-package com.test.firebase
+package com.test.firebase.di
 
 import android.app.Application
 import com.google.firebase.analytics.FirebaseAnalytics

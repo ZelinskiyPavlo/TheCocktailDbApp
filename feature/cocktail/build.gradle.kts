@@ -10,7 +10,7 @@ dependencies {
     implementation(coreDagger)
     implementation(coreCommonCocktail)
 
-    daggerKaptDependencies(properties["dagger.reflect"])
-
     implementation(platformFirebase)
+
+    daggerKaptDependencies(properties["dagger.reflect"])
 }
