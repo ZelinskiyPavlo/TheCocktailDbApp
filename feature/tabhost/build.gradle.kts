@@ -10,6 +10,7 @@ dependencies {
     implementation(coreDagger)
 
     implementation(featureCocktail)
+    implementation(featureSetting)
 
     daggerKaptDependencies(properties["dagger.reflect"])
 

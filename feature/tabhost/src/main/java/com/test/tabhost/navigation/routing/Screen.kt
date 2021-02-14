@@ -1,8 +1,8 @@
 package com.test.tabhost.navigation.routing
 
-import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.test.cocktail.ui.fragment.CocktailFragment
+import com.test.setting.ui.SettingFragment
 
 object Screen {
 
@@ -19,6 +19,5 @@ object Screen {
 
     fun cocktail() = FragmentScreen { CocktailFragment() }
 
-    // TODO: 07.02.2021 Change to Settings fragment
-    fun setting() = FragmentScreen { Fragment() }
+    fun setting() = FragmentScreen { SettingFragment() }
 }

@@ -46,7 +46,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
         SavedStateViewModelFactory(settingViewModelFactory, this)
     }
 
-    private val sharedViewModel: SharedMainViewModel by activityViewModels()
+//    private val sharedViewModel: SharedMainViewModel by activityViewModels()
+
+    @Inject
+    lateinit var settingNavigator: SettingNavigationApi
 
     private lateinit var batteryStateReceiver: BroadcastReceiver
 
@@ -117,35 +120,15 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     }
 
     fun openProfileFragment() {
-        val profileFragment = ProfileFragment.newInstance()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.setting_fragment_container, profileFragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    fun openTestFragment() {
-        val testFragment = TestFragment.newInstance(4, "TEST_STRING")
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.setting_fragment_container, testFragment)
-            .addToBackStack(null)
-            .commit()
+        settingNavigator.toProfile()
     }
 
     fun openCubeView() {
-        val cubeFragment = CubeFragment.newInstance()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.setting_fragment_container, cubeFragment)
-            .addToBackStack(null)
-            .commit()
+        settingNavigator.toCube()
     }
 
     fun openRangeSeekBarFragment() {
-        val rangeSeekBarFragment = RangeSeekBarFragment.newInstance()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.setting_fragment_container, rangeSeekBarFragment)
-            .addToBackStack(null)
-            .commit()
+        settingNavigator.toSeekBar()
     }
 
     fun openLanguagePicker() {

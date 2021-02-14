@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.navigation.feature
 
 import com.github.terrakok.cicerone.Router
-import com.test.tabhost.navigation.TabHostNavigationApi
+import com.test.tabhost.navigation.api.TabHostNavigationApi
 import com.test.thecocktaildb.di.DiConstant
 import com.test.thecocktaildb.navigation.routing.Screen
 import javax.inject.Inject
@@ -17,6 +17,18 @@ class TabHostNavigationImpl @Inject constructor(
 
     override fun toCocktailDetail(actionBarTitle: String, cocktailId: Long) {
         router.navigateTo(Screen.detail(actionBarTitle, cocktailId))
+    }
+
+    override fun toProfile() {
+        router.navigateTo(Screen.profile())
+    }
+
+    override fun toCube() {
+        router.navigateTo(Screen.cube())
+    }
+
+    override fun toSeekBar() {
+        router.navigateTo(Screen.seekBar())
     }
 
     override fun exit() {

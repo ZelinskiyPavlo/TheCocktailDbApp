@@ -1,7 +1,7 @@
-package com.test.tabhost.navigation.inner
+package com.test.tabhost.navigation.impl
 
 import com.test.cocktail.navigation.CocktailNavigationApi
-import com.test.tabhost.navigation.TabHostNavigationApi
+import com.test.tabhost.navigation.api.TabHostNavigationApi
 import javax.inject.Inject
 
 class CocktailNavigationImpl @Inject constructor(
