@@ -19,14 +19,14 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun signIn(email: String, password: String): Boolean {
         return authNetSource.signIn(email, password)
             .let {
-                tokenLocalSource.token = it
+                tokenLocalSource.authToken = it
 
                 //refresh user
                 userNetSource.getUser()
                     .run(userModelMapper::mapNetToDb)
                     .run { userDbSource.saveUser(this) }
 
-                tokenLocalSource.token != null
+                tokenLocalSource.authToken != null
             }
     }
 
@@ -34,14 +34,14 @@ class AuthRepositoryImpl @Inject constructor(
         return authNetSource
             .signUp(name, lastName, email, password)
             .let {
-                tokenLocalSource.token = it
+                tokenLocalSource.authToken = it
 
                 //refresh user
                 userNetSource.getUser()
                     .run(userModelMapper::mapNetToDb)
                     .run { userDbSource.saveUser(this) }
 
-                tokenLocalSource.token != null
+                tokenLocalSource.authToken != null
             }
     }
 }

@@ -10,15 +10,22 @@ class TokenLocalSourceImpl @Inject constructor(preferences: SharedPrefsHelper) :
     BaseLocalSourceImpl(preferences),
     TokenLocalSource {
 
-    override val tokenLiveData: LiveData<String?> = sharedPrefLiveData(TOKEN, "")
+    override val authTokenLiveData: LiveData<String?> = sharedPrefLiveData(AUTH_TOKEN, "")
 
-    override var token: String? = sharedPrefsHelper.get(TOKEN, null)
-        get() = sharedPrefsHelper.get(TOKEN, field)
+    override var authToken: String? = sharedPrefsHelper.get(AUTH_TOKEN, null)
+        get() = sharedPrefsHelper.get(AUTH_TOKEN, field)
         set(value) {
-            sharedPrefsHelper.set(TOKEN, value)
+            sharedPrefsHelper.set(AUTH_TOKEN, value)
+        }
+
+    override var firebaseToken: String? = sharedPrefsHelper.get(FIREBASE_TOKEN, null)
+        get() = sharedPrefsHelper.get(FIREBASE_TOKEN, field)
+        set(value) {
+            sharedPrefsHelper.set(FIREBASE_TOKEN, value)
         }
 
     companion object {
-        const val TOKEN = "TOKEN"
+        const val AUTH_TOKEN = "AUTH_TOKEN"
+        const val FIREBASE_TOKEN = "FIREBASE_TOKEN"
     }
 }

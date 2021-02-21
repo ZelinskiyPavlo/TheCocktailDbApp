@@ -10,10 +10,14 @@ class TokenRepositoryImpl @Inject constructor(
     private val localSource: TokenLocalSource,
 ) : BaseRepositoryImpl(), TokenRepository {
 
-    override val tokenLiveData: LiveData<String?> = localSource.tokenLiveData
+    override val authTokenLiveData: LiveData<String?> = localSource.authTokenLiveData
 
-    override var token: String?
-        get() = localSource.token
-        set(value) { localSource.token = value }
+    override var authToken: String?
+        get() = localSource.authToken
+        set(value) { localSource.authToken = value }
+
+    override var firebaseToken: String?
+        get() = localSource.firebaseToken
+        set(value) { localSource.firebaseToken = value }
 
 }

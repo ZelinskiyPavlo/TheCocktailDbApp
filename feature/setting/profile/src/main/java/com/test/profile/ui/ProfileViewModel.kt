@@ -102,7 +102,7 @@ class ProfileViewModel(
 
     fun logOutUser() {
         launchRequest {
-            tokenRepo.token = null
+            tokenRepo.authToken = null
             userRepo.deleteUser()
             withContext(Dispatchers.Main) {
                 _logOutUserEventLiveData.value = Event(Unit)

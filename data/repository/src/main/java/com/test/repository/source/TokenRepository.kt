@@ -5,7 +5,9 @@ import com.test.repository.source.base.BaseRepository
 
 interface TokenRepository : BaseRepository {
 
-    val tokenLiveData: LiveData<String?>
-    var token: String?
+    val authTokenLiveData: LiveData<String?>
+    var authToken: String?
+
+    var firebaseToken: String?
 
 }

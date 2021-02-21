@@ -61,7 +61,7 @@ class NetworkModule {
     ): Retrofit {
         val okHttpClientBuilder = provideOkHttpClientBuilder()
 
-        okHttpClientBuilder.addInterceptor(TokenInterceptor { tokenRepository.token })
+        okHttpClientBuilder.addInterceptor(TokenInterceptor { tokenRepository.authToken })
         okHttpClientBuilder.addInterceptor(AppVersionInterceptor())
         okHttpClientBuilder.addInterceptor(PlatformInterceptor())
         okHttpClientBuilder.addInterceptor(PlatformVersionInterceptor())
@@ -123,7 +123,7 @@ class NetworkModule {
         val okHttpClientBuilder =
             provideOkHttpClientBuilder(writeTimeoutSeconds = TimeUnit.MINUTES.toSeconds(5L))
 
-        okHttpClientBuilder.addInterceptor(TokenInterceptor { tokenRepository.token })
+        okHttpClientBuilder.addInterceptor(TokenInterceptor { tokenRepository.authToken })
         okHttpClientBuilder.addInterceptor(AppVersionInterceptor())
         okHttpClientBuilder.addInterceptor(PlatformInterceptor())
         okHttpClientBuilder.addInterceptor(PlatformVersionInterceptor())
