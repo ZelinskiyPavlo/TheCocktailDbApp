@@ -9,10 +9,6 @@
             name="viewModel"
             type="com.test.setting.ui.SettingViewModel" />
 
-<!--        <variable-->
-<!--            name="sharedViewModel"-->
-<!--            type="com.test.thecocktaildb.presentation.ui.cocktail.SharedMainViewModel" />-->
-
         <variable
             name="fragment"
             type="com.test.setting.ui.SettingFragment" />
@@ -104,13 +100,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="22dp"
+                        android:checked="@={viewModel.shouldShowNavigationTitleLiveData}"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/setting_fragment_show_nav_view_title"
                         android:textAppearance="@style/TextBoldRegular"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-<!--                    android:checked="@={sharedViewModel.shouldShowMainNavigationTitlesLiveData}"-->
 
                 </LinearLayout>
 

@@ -8,15 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.test.presentation.factory.SavedStateViewModelFactory
-import com.test.presentation.locale.LanguageType
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
-import com.test.presentation.ui.dialog.ItemListDialogButton
-import com.test.presentation.ui.dialog.LanguageDialogType
 import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.setting.R
 import com.test.setting.callback.BatteryStateCallback
@@ -46,8 +42,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
         SavedStateViewModelFactory(settingViewModelFactory, this)
     }
 
-//    private val sharedViewModel: SharedMainViewModel by activityViewModels()
-
     @Inject
     lateinit var settingNavigator: SettingNavigationApi
 
@@ -69,7 +63,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     override fun configureDataBinding() {
         super.configureDataBinding()
         viewDataBinding.viewModel = viewModel
-//        viewDataBinding.sharedViewModel = sharedViewModel
         viewDataBinding.fragment = this
     }
 

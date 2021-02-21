@@ -31,6 +31,8 @@ class SettingViewModel(
     private val _currentLanguageLiveData = settingRepository.currentLanguageLiveData
     val currentLanguageLiveData: LiveData<Int> = _currentLanguageLiveData
 
+    val shouldShowNavigationTitleLiveData = settingRepository.shouldShowNavigationTitleLiveData
+
     private val batteryStateCache = BatteryStateCacheHolder()
 
     fun changeLanguage(chosenLanguage: LanguageType?) {
