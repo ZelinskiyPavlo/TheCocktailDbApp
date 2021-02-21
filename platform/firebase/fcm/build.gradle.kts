@@ -6,7 +6,10 @@ plugins {
 }
 
 dependencies {
+    implementation(coreDagger)
+    implementation(dataRepository)
     implementation(platformFirebase)
+    implementation(localization)
 
     api(Lib.Firebase.fcm)
 
