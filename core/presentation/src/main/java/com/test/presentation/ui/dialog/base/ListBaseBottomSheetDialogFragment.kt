@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CheckedTextView
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.presentation.R
+import com.test.presentation.adapter.recyclerview.FirstItemDividerItemDecoration
 import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
 import kotlinx.android.synthetic.main.layout_dialog_list_component.*
@@ -30,6 +33,8 @@ protected constructor() :
         rv_dialog_list.apply {
             setHasFixedSize(true)
             adapter = this@ListBaseBottomSheetDialogFragment.listAdapter
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            addItemDecoration(FirstItemDividerItemDecoration(requireContext()))
         }
     }
 
