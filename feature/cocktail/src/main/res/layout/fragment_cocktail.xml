@@ -21,6 +21,7 @@
         android:layout_height="match_parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/cocktail_coordinator_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -60,20 +61,18 @@
                     app:layout_constraintTop_toBottomOf="@id/tab_layout"
                     bind:vp_page="@={Converter.convertPageToInt(viewModel.currentPageLiveData)}" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_16dp"
-                    android:layout_marginBottom="@dimen/margin_16dp"
-                    android:elevation="6dp"
-                    android:onClick="@{(view) -> fragment.onFabClicked()}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_search"
-                    app:tint="@color/ic_search_tint" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_gravity="end|bottom"
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_16dp"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                android:elevation="6dp"
+                app:layout_dodgeInsetEdges="bottom"
+                android:onClick="@{(view) -> fragment.onFabClicked()}"
+                app:srcCompat="@drawable/ic_search"
+                app:tint="@color/ic_search_tint" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

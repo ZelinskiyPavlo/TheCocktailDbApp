@@ -19,6 +19,7 @@ dependencies {
     implementation(Lib.Icepick.icePick)
 
     implementation(coreCommon)
+    implementation(coreCommonCocktail)
     implementation(coreDagger)
     implementation(corePresentation)
     implementation(coreStyling)

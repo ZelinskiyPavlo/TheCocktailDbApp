@@ -18,7 +18,7 @@ import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.util.EventObserver
 import javax.inject.Inject
 
-class HistoryFragment : BaseFragment<FragmentHistoryBinding>()/*, DrinkProposalCallback*/ {
+class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
     companion object {
         @JvmStatic
@@ -89,43 +89,4 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>()/*, DrinkProposalC
             adapter.setData(cocktailViewModel.cocktailsLiveData.value, sortType)
         })
     }
-
-    // TODO: 07.02.2021 DrinkProposal needs to be extracted to CocktailFragment
-    //region DrinkProposalFeature
-//    override fun onStart() {
-//        super.onStart()
-//
-//        registerDrinkProposalReceiver()
-//    }
-//
-//    private fun registerDrinkProposalReceiver() {
-//        drinkProposalReceiver = DrinkProposalReceiver(this)
-//
-//        val intentFilter = IntentFilter().apply {
-//            addAction(ACTION_PROPOSE_DRINK)
-//        }
-//        activity?.registerReceiver(drinkProposalReceiver, intentFilter)
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        activity?.unregisterReceiver(drinkProposalReceiver)
-//    }
-//
-//    override fun proposeCocktail(selectedCocktailId: Long) {
-//        if ((cocktailViewModel.cocktailsLiveData.value?.size ?: 0) > 1
-//            && selectedCocktailId != -1L
-//        ) {
-//            val proposalSnackbar = Snackbar.make(
-//                viewDataBinding.root,
-//                getString(R.string.snackbar_drink_proposal_title),
-//                Snackbar.LENGTH_LONG
-//            )
-//            proposalSnackbar.setAction(getString(R.string.snackbar_button_show_proposed_cocktail)) {
-//                cocktailViewModel.openProposedCocktail(selectedCocktailId)
-//            }
-//            proposalSnackbar.show()
-//        }
-//    }
-    //endregion
 }
