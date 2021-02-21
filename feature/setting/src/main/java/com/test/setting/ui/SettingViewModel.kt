@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
-import com.test.presentation.locale.LanguageType
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.repository.source.AppSettingRepository
 import com.test.setting.R
@@ -28,16 +27,9 @@ class SettingViewModel(
     private val _isBatteryChargingLiveData = MutableLiveData<Boolean>()
     val isBatteryChargingLiveData: LiveData<Boolean> = _isBatteryChargingLiveData
 
-    private val _currentLanguageLiveData = settingRepository.currentLanguageLiveData
-    val currentLanguageLiveData: LiveData<Int> = _currentLanguageLiveData
-
     val shouldShowNavigationTitleLiveData = settingRepository.shouldShowNavigationTitleLiveData
 
     private val batteryStateCache = BatteryStateCacheHolder()
-
-    fun changeLanguage(chosenLanguage: LanguageType?) {
-        _currentLanguageLiveData.value = chosenLanguage!!.ordinal
-    }
 
     fun updateBatteryState(stateHolder: BatteryStateHolder) {
         fun determineBatteryStatus(): Boolean {

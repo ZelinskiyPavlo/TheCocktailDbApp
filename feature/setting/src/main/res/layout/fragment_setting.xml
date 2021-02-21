@@ -70,19 +70,10 @@
                     app:sr_main_text="@string/setting_fragment_range_seek_bar_title" />
 
                 <com.test.setting.ui.custom.SettingRow
-                    android:id="@+id/setting_fragment_language_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24dp"
-                    android:onClick="@{(view) -> fragment.openLanguagePicker()}"
-                    app:sr_additional_text="ENG"
-                    app:sr_icon_src="@drawable/ic_language_28"
-                    app:sr_main_text="@string/setting_fragment_language_view_title" />
-
-                <com.test.setting.ui.custom.SettingRow
                     android:id="@+id/setting_fragment_battery_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24dp"
                     android:onClick="@{(view) -> void}"
                     app:sr_additional_text="70%"
                     app:sr_icon_src="@drawable/ic_battery_28"

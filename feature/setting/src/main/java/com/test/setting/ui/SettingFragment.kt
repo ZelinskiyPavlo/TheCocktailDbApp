@@ -54,8 +54,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         setupBatteryStateObserver()
-        setupSelectedLanguageObserver()
-        configureViewFromRemoteConfig()
 
         return viewDataBinding.root
     }
@@ -92,17 +90,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
         })
     }
 
-    private fun setupSelectedLanguageObserver() {
-        viewModel.currentLanguageLiveData.observe(viewLifecycleOwner, { languageIndex ->
-            viewDataBinding.settingFragmentLanguageRow.changeAdditionalText(
-                when (LanguageType.values()[languageIndex]) {
-                    // TODO: 14.02.2021 Move to strings.xml
-                    LanguageType.ENGLISH -> "ENG"
-                    LanguageType.UKRAINIAN -> "UKR"
-                }
-            )
-        })
-    }
+    // TODO: 21.02.2021 Bring back change language feature when google release appcompat lib with
+    //  bug fix for locales. See previous commits for previously used code for showing language
+    //  change dialog and handling user input.
 
     private fun configureViewFromRemoteConfig() {
 //        sharedViewModel.showNavTitlesViewVisibilityLiveData.observe(viewLifecycleOwner, {
@@ -122,12 +112,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
 
     fun openRangeSeekBarFragment() {
         settingNavigator.toSeekBar()
-    }
-
-    fun openLanguagePicker() {
-//        LanguageListBottomSheetDialogFragment.newInstance(
-//            viewModel.currentLanguageLiveData.value ?: 0
-//        ).show(childFragmentManager, "LanguageDialog")
     }
 
     override fun onStart() {
@@ -155,27 +139,5 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
 
     override fun updateBatteryState(batteryState: BatteryStateHolder) {
         viewModel.updateBatteryState(batteryState)
-    }
-
-    override fun onBottomSheetDialogFragmentClick(
-        dialog: DialogFragment,
-        buttonType: DialogButton,
-        type: DialogType<DialogButton>,
-        data: Any?
-    ) {
-        when (type) {
-            LanguageDialogType -> {
-                when (buttonType) {
-                    ItemListDialogButton -> {
-                        changeLanguage(data as? LanguageType)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun changeLanguage(chosenLanguage: LanguageType?) {
-        viewModel.changeLanguage(chosenLanguage)
-        activity?.recreate()
     }
 }
