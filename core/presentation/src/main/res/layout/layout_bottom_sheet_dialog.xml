@@ -83,12 +83,13 @@
                 android:clipToPadding="false"
                 android:paddingEnd="16dp">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/lb_dialog_bs_left"
                     android:textAppearance="@style/TextRegular"
                     android:textColor="@color/black"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
+                    android:backgroundTint="@color/colorPrimary"
                     android:layout_weight="1"
                     android:stateListAnimator="@animator/sla_btn_primary"
                     tools:text="Button text"/>
@@ -98,12 +99,13 @@
                     android:layout_width="16dp"
                     android:layout_height="match_parent" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/lb_dialog_bs_right"
                     android:textAppearance="@style/TextRegular"
                     android:textColor="@color/black"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
+                    android:backgroundTint="@color/colorAccent"
                     android:layout_weight="1"
                     android:stateListAnimator="@animator/sla_btn_primary"
                     tools:text="Button text"/>

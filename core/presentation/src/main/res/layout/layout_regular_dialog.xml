@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:background="@color/color_transparent"
     android:clipChildren="false"
@@ -84,11 +85,12 @@
                 android:clipToPadding="false"
                 android:paddingEnd="16dp">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/lb_dialog_bs_left"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
+                    app:backgroundTint="@color/colorPrimary"
                     android:textAppearance="@style/TextRegular"
                     android:stateListAnimator="@animator/sla_btn_primary"
                     android:textColor="@color/black"
@@ -99,11 +101,12 @@
                     android:layout_width="16dp"
                     android:layout_height="match_parent" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/lb_dialog_bs_right"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
+                    app:backgroundTint="@color/colorAccent"
                     android:textAppearance="@style/TextRegular"
                     android:textColor="@color/black"
                     android:stateListAnimator="@animator/sla_btn_primary"
