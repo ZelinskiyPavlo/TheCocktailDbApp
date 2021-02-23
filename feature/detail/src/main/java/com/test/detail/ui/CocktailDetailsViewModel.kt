@@ -1,17 +1,17 @@
 package com.test.detail.ui
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
-import com.test.thecocktaildb.data.repository.source.CocktailRepository
-import com.test.thecocktaildb.presentation.mapper.CocktailModelMapper
-import com.test.thecocktaildb.presentation.model.cocktail.CocktailIngredient
-import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
-import com.test.thecocktaildb.presentation.ui.base.BaseViewModel
-import com.test.thecocktaildb.util.Event
-import io.reactivex.disposables.CompositeDisposable
+import com.test.detail.api.DetailCommunicationApi
+import com.test.detail.model.Ingredient
+import com.test.presentation.extension.mapNotNull
+import com.test.presentation.mapper.cocktail.CocktailModelMapper
+import com.test.presentation.model.cocktail.CocktailIngredient
+import com.test.presentation.model.cocktail.CocktailModel
+import com.test.presentation.ui.base.BaseViewModel
+import com.test.repository.source.CocktailRepository
 
 class CocktailDetailsViewModel(
     savedStateHandle: SavedStateHandle,
@@ -20,29 +20,32 @@ class CocktailDetailsViewModel(
 ) :
     BaseViewModel(savedStateHandle) {
 
-    private val cocktailLiveData = MutableLiveData<CocktailModel>()
+    private val cocktailLiveData = MutableLiveData<CocktailModel?>()
 
     val cocktailPictureLiveData: LiveData<String> =
-        Transformations.map(cocktailLiveData) { it.image }
+        cocktailLiveData.mapNotNull { image }
 
     val cocktailNameLiveData: LiveData<String> =
-        Transformations.map(cocktailLiveData) { it.names.defaults }
+        cocktailLiveData.mapNotNull { names.defaults!! }
 
     val cocktailAlcoholicLiveData: LiveData<String> =
-        Transformations.map(cocktailLiveData) { it.alcoholType.key }
+        cocktailLiveData.mapNotNull { alcoholType.key }
 
     val cocktailGlassLiveData: LiveData<String> =
-        Transformations.map(cocktailLiveData) { it.glass.key }
+        cocktailLiveData.mapNotNull { glass.key }
 
     val ingredientsLiveData: LiveData<List<Ingredient>> =
-        Transformations.map(cocktailLiveData) {
-            it.ingredients.zip(it.measures) { ingredient: CocktailIngredient, measure: String ->
+        cocktailLiveData.mapNotNull {
+            ingredients.zip(measures) { ingredient: CocktailIngredient, measure: String ->
                 Ingredient(ingredient.key, measure)
             }
         }
 
     val cocktailInstructionLiveData: LiveData<String> =
-        Transformations.map(cocktailLiveData) { it.instructions.defaults }
+        cocktailLiveData.mapNotNull { instructions.defaults!! }
+
+    val isCocktailFoundLiveData: LiveData<Boolean> =
+        Transformations.map(cocktailLiveData) { it != null }
 
     var cocktailId: Long = -1L
 

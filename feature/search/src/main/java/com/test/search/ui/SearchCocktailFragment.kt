@@ -57,9 +57,8 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
 
     private fun setupNavigation() {
         viewModel.cocktailDetailsEventLiveData.observe(
-            viewLifecycleOwner, EventObserver {
-                val (actionBarTitle, cocktailId) = it
-                searchNavigator.toCocktailDetail(actionBarTitle, cocktailId)
+            viewLifecycleOwner, EventObserver { cocktailId ->
+                searchNavigator.toCocktailDetail(cocktailId)
             })
     }
 

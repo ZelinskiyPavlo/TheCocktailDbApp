@@ -63,9 +63,8 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     private fun setupNavigation() {
         cocktailViewModel.cocktailDetailsEventLiveData.observe(
             viewLifecycleOwner,
-            EventObserver {
-                val (actionBarTitle, cocktailId) = it
-                cocktailNavigator.toCocktailDetail(actionBarTitle, cocktailId)
+            EventObserver {cocktailId ->
+                cocktailNavigator.toCocktailDetail(cocktailId)
             })
     }
 

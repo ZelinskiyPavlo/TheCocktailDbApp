@@ -21,8 +21,8 @@ class SearchCocktailViewModel(
     private val _itemsLiveData = MutableLiveData<List<CocktailModel>>().apply { value = emptyList() }
     val itemsLiveData: LiveData<List<CocktailModel>> = _itemsLiveData
 
-    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Pair<String, Long>>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
+    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Long>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Long>> =
         _cocktailDetailsEventLiveData
 
     private var searchJob: Job? = null
@@ -64,6 +64,6 @@ class SearchCocktailViewModel(
 
     private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
         _cocktailDetailsEventLiveData
-            .postValue(Event(Pair(cocktail.names.defaults ?: "", cocktail.id)))
+            .postValue(Event(cocktail.id))
     }
 }

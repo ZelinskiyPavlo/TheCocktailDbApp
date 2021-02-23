@@ -19,10 +19,22 @@ import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import javax.inject.Inject
 
-class CocktailDetailsFragment : Injectable,
-    BaseFragment<FragmentCocktailDetailsBinding>() {
+class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
 
-    override val layoutId: Int = R.layout.fragment_cocktail_details
+    companion object {
+        @JvmStatic
+        fun newInstance(cocktailId: Long): CocktailDetailsFragment {
+            val fragment = CocktailDetailsFragment()
+            fragment.arguments = bundleOf(
+                COCKTAIL_ID_KEY to cocktailId
+            )
+            return fragment
+        }
+
+        private const val COCKTAIL_ID_KEY = "COCKTAIL_ID_KEY"
+    }
+
+    override val layoutId: Int = com.test.detail.R.layout.fragment_cocktail_details
 
     @Inject
     lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory

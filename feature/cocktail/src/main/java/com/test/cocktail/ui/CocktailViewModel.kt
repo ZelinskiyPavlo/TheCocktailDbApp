@@ -64,8 +64,8 @@ class CocktailViewModel(
     var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
 
     private val _cocktailDetailsEventLiveData =
-        MutableLiveData<Event<Pair<String, Long>>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Pair<String, Long>>> =
+        MutableLiveData<Event<Long>>()
+    val cocktailDetailsEventLiveData: LiveData<Event<Long>> =
         _cocktailDetailsEventLiveData
 
     private val _applyFiltersEventLiveData =
@@ -241,8 +241,7 @@ class CocktailViewModel(
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
-        _cocktailDetailsEventLiveData.value =
-            Event(Pair(cocktail.names.defaults ?: "", cocktail.id))
+        _cocktailDetailsEventLiveData.value = Event(cocktail.id)
     }
 
     fun changeIsFavoriteState(cocktail: CocktailModel) {

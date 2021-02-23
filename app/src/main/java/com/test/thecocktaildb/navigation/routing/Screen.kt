@@ -20,8 +20,8 @@ object Screen {
 
     fun search() = FragmentScreen { SearchCocktailFragment() }
 
-    fun detail(actionBarTitle: String, cocktailId: Long) =
-        FragmentScreen { CocktailDetailsFragment.newInstance(actionBarTitle, cocktailId) }
+    fun detail(cocktailId: Long) =
+        FragmentScreen { CocktailDetailsFragment.newInstance(cocktailId) }
 
     fun profile() = FragmentScreen { ProfileFragment() }
 
