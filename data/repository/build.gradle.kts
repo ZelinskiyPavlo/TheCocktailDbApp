@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+    implementation(coreCommon)
+
     implementation(Lib.AndroidX.Room.common)
 
     implementation(Lib.AndroidX.annotation)

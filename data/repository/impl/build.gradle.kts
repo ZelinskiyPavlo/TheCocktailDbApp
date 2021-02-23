@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(coreCommon)
     implementation(coreDagger)
     implementation(dataRepository)
     implementation(dataDatabase)
