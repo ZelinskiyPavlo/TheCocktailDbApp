@@ -157,6 +157,8 @@
     <string name="setting_fragment_cube_view_title">Анімований куб</string>
     <string name="setting_fragment_range_seek_bar_title">Двосторонній слайдер</string>
     <string name="seek_bar_fragment_button_set_range">Проміжок з 20 до 50</string>
+    <string name="no_cocktails_found">Коктелів не знайдено</string>
+    <string name="snackbar_no_cocktail_found">Вказаного коктелю не знайдено</string>
     <!--endregion-->
 
 </resources>

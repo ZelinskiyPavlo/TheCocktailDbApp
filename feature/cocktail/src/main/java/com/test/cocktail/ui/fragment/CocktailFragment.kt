@@ -110,6 +110,10 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
             EventObserver { cocktailStateData ->
                 firebaseAnalytics.logFavoriteCocktailStateChanged(cocktailStateData)
             })
+
+        communicationApi.cocktailWithIdNotFoundEvent.observe(viewLifecycleOwner, EventObserver {
+            showNoCocktailFoundSnackbar()
+        })
     }
 
     private fun setupToolbar() {
@@ -246,6 +250,17 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
                 animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
                 show()
             }
+        }
+    }
+
+    private fun showNoCocktailFoundSnackbar() {
+        Snackbar.make(
+            viewDataBinding.cocktailCoordinatorLayout,
+            getString(R.string.snackbar_no_cocktail_found),
+            Snackbar.LENGTH_LONG
+        ).apply {
+            animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+            show()
         }
     }
 }
