@@ -19,13 +19,18 @@ import coil.api.load
 import coil.request.LoadRequest
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.presentation.extension.*
 import com.test.presentation.extension.BitmapHelper.Companion.convertMbToBinaryBytes
 import com.test.presentation.extension.BitmapHelper.Companion.getBitmap
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.*
+import com.test.presentation.util.EventObserver
 import com.test.profile.R
+import com.test.profile.analytics.logUserAvatarChanged
+import com.test.profile.analytics.logUserNameChanged
+import com.test.profile.api.ProfileNavigationApi
 import com.test.profile.databinding.FragmentProfileBinding
 import com.test.profile.factory.ProfileViewModelFactory
 import timber.log.Timber
@@ -52,6 +57,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override val viewModel: ProfileViewModel by viewModels {
         SavedStateViewModelFactory(profileViewModelFactory, this)
     }
+
+    @Inject
+    lateinit var profileNavigationApi: ProfileNavigationApi
 
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -82,8 +90,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun configureToolbar() {
-//        viewDataBinding.profileFragmentToolbar.backButton.setOnClickListener {
-//        }
+        viewDataBinding.profileFragmentToolbar.backButton.setOnClickListener {
+            profileNavigationApi.exit()
+        }
 
         viewDataBinding.profileFragmentToolbar.primaryOption.setOnClickListener {
             showLogOutBottomSheetDialog()
@@ -91,11 +100,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun configureObserver() {
-//        viewModel.logOutUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
-//            val intent = Intent(requireContext(), AuthActivity::class.java)
-//            requireContext().startActivity(intent)
-//            activity?.finish()
-//        })
+        viewModel.logOutUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            profileNavigationApi.logOut()
+        })
 
         viewModel.userDataChangedLiveData.observeNotNull(viewLifecycleOwner, {
             firebaseAnalytics.logUserNameChanged(viewModel.userFullNameLiveData.value)

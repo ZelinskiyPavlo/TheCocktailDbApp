@@ -55,8 +55,8 @@ interface FragmentModule {
 
     @Suppress("unused")
     @PerFragment
-    @ContributesAndroidInjector
-    fun contribureProfileFragment(): ProfileFragment
+    @ContributesAndroidInjector(modules = [ProfileNavigationModule::class])
+    fun contributeProfileFragment(): ProfileFragment
 
     @Suppress("unused")
     @PerFragment
