@@ -15,11 +15,11 @@ import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
 import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.setting.R
+import com.test.setting.api.SettingNavigationApi
 import com.test.setting.callback.BatteryStateCallback
 import com.test.setting.databinding.FragmentSettingBinding
 import com.test.setting.factory.SettingViewModelFactory
 import com.test.setting.model.BatteryStateHolder
-import com.test.setting.navigation.SettingNavigationApi
 import com.test.setting.receiver.BatteryStateReceiver
 import javax.inject.Inject
 

@@ -18,9 +18,9 @@ import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.RegularDialogFragment
 import com.test.presentation.util.EventObserver
 import com.test.register.R
+import com.test.register.api.RegisterNavigationApi
 import com.test.register.databinding.FragmentRegisterBinding
 import com.test.register.factory.RegisterViewModelFactory
-import com.test.register.navigation.RegisterNavigationApi
 import javax.inject.Inject
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLogic {

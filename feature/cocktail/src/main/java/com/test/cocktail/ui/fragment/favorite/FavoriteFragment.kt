@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.cocktail.R
+import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentFavoriteBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
-import com.test.cocktail.navigation.CocktailNavigationApi
 import com.test.cocktail.ui.CocktailViewModel
 import com.test.cocktail.ui.adapter.recyclerview.CocktailAdapter
 import com.test.presentation.factory.SavedStateViewModelFactory

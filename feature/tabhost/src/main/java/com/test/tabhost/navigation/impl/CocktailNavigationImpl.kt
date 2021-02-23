@@ -1,7 +1,7 @@
 package com.test.tabhost.navigation.impl
 
-import com.test.cocktail.navigation.CocktailNavigationApi
-import com.test.tabhost.navigation.api.TabHostNavigationApi
+import com.test.cocktail.api.CocktailNavigationApi
+import com.test.tabhost.api.TabHostNavigationApi
 import javax.inject.Inject
 
 class CocktailNavigationImpl @Inject constructor(
@@ -12,8 +12,8 @@ class CocktailNavigationImpl @Inject constructor(
         tabHostNavigationApi.toCocktailSearch()
     }
 
-    override fun toCocktailDetail(actionBarTitle: String, cocktailId: Long) {
-        tabHostNavigationApi.toCocktailDetail(actionBarTitle, cocktailId)
+    override fun toCocktailDetail(cocktailId: Long) {
+        tabHostNavigationApi.toCocktailDetail(cocktailId)
     }
 
     override fun exit() {

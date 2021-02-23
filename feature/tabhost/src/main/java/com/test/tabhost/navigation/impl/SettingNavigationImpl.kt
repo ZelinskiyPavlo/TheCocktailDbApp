@@ -1,7 +1,7 @@
 package com.test.tabhost.navigation.impl
 
-import com.test.setting.navigation.SettingNavigationApi
-import com.test.tabhost.navigation.api.TabHostNavigationApi
+import com.test.setting.api.SettingNavigationApi
+import com.test.tabhost.api.TabHostNavigationApi
 import javax.inject.Inject
 
 class SettingNavigationImpl @Inject constructor(

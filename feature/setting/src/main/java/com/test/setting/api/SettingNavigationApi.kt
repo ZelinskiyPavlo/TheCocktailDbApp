@@ -1,4 +1,4 @@
-package com.test.setting.navigation
+package com.test.setting.api
 
 interface SettingNavigationApi {
 

@@ -11,9 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.google.android.material.textfield.TextInputEditText
 import com.test.login.R
+import com.test.login.api.LoginNavigationApi
 import com.test.login.databinding.FragmentLoginBinding
 import com.test.login.factory.LoginViewModelFactory
-import com.test.login.navigation.LoginNavigationApi
 import com.test.presentation.extension.addLinkedText
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment

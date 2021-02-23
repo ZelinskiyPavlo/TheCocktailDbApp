@@ -1,4 +1,4 @@
-package com.test.auth.navigation.outer
+package com.test.auth.api
 
 interface AuthNavigationApi {
 

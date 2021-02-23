@@ -1,7 +1,8 @@
-package com.test.thecocktaildb.navigation.feature
+package com.test.thecocktaildb.feature.tabhost
 
 import com.github.terrakok.cicerone.Router
-import com.test.tabhost.navigation.api.TabHostNavigationApi
+import com.test.common.Event
+import com.test.tabhost.api.TabHostNavigationApi
 import com.test.thecocktaildb.di.DiConstant
 import com.test.thecocktaildb.navigation.routing.Screen
 import javax.inject.Inject

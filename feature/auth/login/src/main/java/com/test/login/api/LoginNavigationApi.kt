@@ -1,4 +1,4 @@
-package com.test.login.navigation
+package com.test.login.api
 
 interface LoginNavigationApi {
 

@@ -1,7 +1,7 @@
 package com.test.thecocktaildb.di.module.navigation.feature
 
-import com.test.tabhost.navigation.api.TabHostNavigationApi
-import com.test.thecocktaildb.navigation.feature.TabHostNavigationImpl
+import com.test.tabhost.api.TabHostNavigationApi
+import com.test.thecocktaildb.feature.tabhost.TabHostNavigationImpl
 import dagger.Binds
 import dagger.Module
 

@@ -1,4 +1,4 @@
-package com.test.register.navigation
+package com.test.register.api
 
 interface RegisterNavigationApi {
 

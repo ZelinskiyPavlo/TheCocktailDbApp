@@ -2,7 +2,7 @@ package com.test.auth.di.navigation
 
 import com.test.auth.navigation.inner.RegisterNavigationImpl
 import com.test.dagger.scope.PerNestedFragment
-import com.test.register.navigation.RegisterNavigationApi
+import com.test.register.api.RegisterNavigationApi
 import dagger.Binds
 import dagger.Module
 

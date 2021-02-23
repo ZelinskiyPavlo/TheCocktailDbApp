@@ -20,10 +20,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.cocktail.R
 import com.test.cocktail.analytic.logCocktailFilterApply
 import com.test.cocktail.analytic.logFavoriteCocktailStateChanged
+import com.test.cocktail.api.CocktailCommunicationApi
+import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentCocktailBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
 import com.test.cocktail.model.sorttype.CocktailSortType
-import com.test.cocktail.navigation.CocktailNavigationApi
 import com.test.cocktail.receiver.DrinkProposalReceiver
 import com.test.cocktail.receiver.callback.DrinkProposalCallback
 import com.test.cocktail.ui.CocktailViewModel

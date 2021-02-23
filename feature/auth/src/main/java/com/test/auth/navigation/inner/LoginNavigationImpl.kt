@@ -1,9 +1,9 @@
 package com.test.auth.navigation.inner
 
 import com.github.terrakok.cicerone.Router
-import com.test.auth.navigation.outer.AuthNavigationApi
+import com.test.auth.api.AuthNavigationApi
 import com.test.auth.navigation.routing.Screen
-import com.test.login.navigation.LoginNavigationApi
+import com.test.login.api.LoginNavigationApi
 import javax.inject.Inject
 
 // TODO: 02.02.2021 toTabHost needs to be extracted to higher lever class and then inherited

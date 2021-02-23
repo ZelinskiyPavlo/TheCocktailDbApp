@@ -17,9 +17,9 @@ import com.test.presentation.util.EventObserver
 import com.test.search.R
 import com.test.search.adapter.recyclerview.SearchCocktailAdapter
 import com.test.search.adapter.recyclerview.SearchCocktailItemDecoration
+import com.test.search.api.SearchNavigationApi
 import com.test.search.databinding.FragmentSearchCocktailsBinding
 import com.test.search.factory.SearchCocktailsViewModelFactory
-import com.test.search.navigation.SearchNavigationApi
 import javax.inject.Inject
 
 class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {

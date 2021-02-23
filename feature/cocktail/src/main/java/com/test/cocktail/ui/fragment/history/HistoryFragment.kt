@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.test.cocktail.R
+import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentHistoryBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
-import com.test.cocktail.navigation.CocktailNavigationApi
 import com.test.cocktail.ui.CocktailViewModel
 import com.test.cocktail.ui.adapter.recyclerview.CocktailAdapter
 import com.test.cocktail.ui.adapter.recyclerview.CocktailItemDecoration
