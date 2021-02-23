@@ -36,8 +36,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         SavedStateViewModelFactory(cocktailViewModelFactory, requireParentFragment())
     }
 
-//    private lateinit var drinkProposalReceiver: BroadcastReceiver
-
     @Inject
     lateinit var cocktailNavigator: CocktailNavigationApi
 
@@ -50,7 +48,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         setupNavigation()
         setupRecyclerView()
 
-        cocktailViewModel.filterResultLiveData.observe(viewLifecycleOwner, {})
+//        cocktailViewModel.filterResultLiveData.observe(viewLifecycleOwner, {})
 
         return viewDataBinding.root
     }

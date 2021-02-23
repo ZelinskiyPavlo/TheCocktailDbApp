@@ -16,10 +16,7 @@ import com.test.tabhost.ui.TabHostFragment
 import com.test.thecocktaildb.di.module.communication.DetailCommunicationModule
 import com.test.thecocktaildb.di.module.communication.TabHostCommunicationModule
 import com.test.thecocktaildb.di.module.navigation.SimpleNavigationModule
-import com.test.thecocktaildb.di.module.navigation.feature.AuthNavigationModule
-import com.test.thecocktaildb.di.module.navigation.feature.SearchNavigationModule
-import com.test.thecocktaildb.di.module.navigation.feature.SplashNavigationModule
-import com.test.thecocktaildb.di.module.navigation.feature.TabHostNavigationModule
+import com.test.thecocktaildb.di.module.navigation.feature.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -33,9 +30,11 @@ interface FragmentModule {
 
     @Suppress("unused")
     @PerFragment
-    @ContributesAndroidInjector(modules = [
-        AuthFragmentModule::class, AuthCiceroneModule::class, AuthNavigationModule::class
-    ])
+    @ContributesAndroidInjector(
+        modules = [
+            AuthFragmentModule::class, AuthCiceroneModule::class, AuthNavigationModule::class
+        ]
+    )
     fun contributeAuthHostFragment(): AuthHostFragment
 
     @Suppress("unused")

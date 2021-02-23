@@ -11,11 +11,18 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.google.android.material.bottomnavigation.LabelVisibilityMode
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.cocktail.ui.CommunicationViewModel
 import com.test.navigation.HasBackPressLogic
+import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.tabhost.R
+import com.test.tabhost.analytic.logCocktailTabClicked
+import com.test.tabhost.analytic.logSettingTabClicked
+import com.test.tabhost.api.TabHostNavigationApi
 import com.test.tabhost.databinding.FragmentTabHostBinding
+import com.test.tabhost.factory.TabHostViewModelFactory
 import com.test.tabhost.navigation.routing.Screen
 import icepick.State
 import javax.inject.Inject
@@ -24,9 +31,12 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
 
     override val layoutId: Int = R.layout.fragment_tab_host
 
-    @JvmField
-    @State
-    var selectedTab: Int? = null
+    @Inject
+    lateinit var tabHostViewModelFactory: TabHostViewModelFactory
+
+    override val viewModel: TabHostViewModel by viewModels {
+        SavedStateViewModelFactory(tabHostViewModelFactory, this)
+    }
 
     private val cocktailCommunicationVM: CommunicationViewModel by viewModels()
 
@@ -39,7 +49,14 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
     lateinit var navigator: Navigator
 
     @Inject
+    lateinit var tabHostNavigationApi: TabHostNavigationApi
+
+    @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    @JvmField
+    @State
+    var selectedTab: Int? = null
 
     private val currentFragment: BaseFragment<*>?
         get() = childFragmentManager.findFragmentById(R.id.tab_host_container) as? BaseFragment<*>
@@ -88,7 +105,9 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
         }
         // TODO: 07.02.2021 прологувати поведінку і додати onReseletedListen при потребі
 
-        bottomNavigation.selectedItemId = selectedTab ?: R.id.bnv_cocktail_item
+        bottomNavigation.selectedItemId =
+            selectedTab ?: tabHostNavigationApi.selectedTabEvent?.getContentIfNotHandled()
+                    ?: R.id.bnv_cocktail_item
     }
 
     //region Firebase Remote config
@@ -97,12 +116,6 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
 //        sharedMainViewModel.shouldShowMainNavigationTitlesLiveData.observe(this, Observer {
 //            changeBottomNavTitleVisibility(it)
 //        })
-
-//        fun changeBottomNavTitleVisibility(isVisible: Boolean) {
-//            bottomNavigation.labelVisibilityMode =
-//                if (isVisible) LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-//                else LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
-//        }
     //endregion
 
     private fun selectTab(key: Screen.Keys) {
@@ -134,6 +147,12 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
         transaction.commitNow()
     }
 
+    private fun changeBottomNavTitleVisibility(isVisible: Boolean) {
+        viewDataBinding.tabHostBottomNavigation.labelVisibilityMode =
+            if (isVisible) LabelVisibilityMode.LABEL_VISIBILITY_LABELED
+            else LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
+    }
+
     private fun setupObserver() {
         cocktailCommunicationVM.onNestedFragmentNavigationLiveData.observe(
             viewLifecycleOwner,
@@ -142,6 +161,10 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
                     if (isDeeplyNestedFragmentShown) View.GONE
                     else View.VISIBLE
             })
+
+        viewModel.shouldShowNavigationTitleLiveData.observe(viewLifecycleOwner, {
+            changeBottomNavTitleVisibility(it)
+        })
     }
 
     override fun onBackPressed() {

@@ -2,7 +2,24 @@ package com.test.thecocktaildb.ui
 
 import androidx.lifecycle.SavedStateHandle
 import com.test.presentation.ui.base.BaseViewModel
+import com.test.repository.source.UserRepository
 
-// TODO: 30.01.2021 можливо мені потрібно забрати згадки про ViewModel всередині BaseActivity
-class MainViewModel(savedStateHandle: SavedStateHandle): BaseViewModel(savedStateHandle) {
+class MainViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val userRepository: UserRepository,
+): BaseViewModel(savedStateHandle) {
+
+    val userLiveData = userRepository.userLiveData
+
+    var isUserLoggedIn = false
+
+    init {
+        userLiveData.observeForever { isUserLoggedIn = it != null }
+    }
+
+    fun refreshUser() {
+        launchRequest {
+            if (userRepository.hasUser()) userRepository.refreshUser()
+        }
+    }
 }
