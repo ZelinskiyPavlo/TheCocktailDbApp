@@ -1,11 +1,11 @@
 package com.test.profile.ui
 
 import androidx.lifecycle.*
+import com.test.common.Event
 import com.test.presentation.extension.distinctNotNullValues
 import com.test.presentation.mapper.user.UserModelMapper
 import com.test.presentation.model.user.UserModel
 import com.test.presentation.ui.base.BaseViewModel
-import com.test.presentation.util.Event
 import com.test.repository.source.TokenRepository
 import com.test.repository.source.UserRepository
 import kotlinx.coroutines.Dispatchers

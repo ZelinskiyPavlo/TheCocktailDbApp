@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
+import com.test.common.Event
 import com.test.presentation.extension.debounce
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
 import com.test.presentation.model.cocktail.CocktailModel
 import com.test.presentation.ui.base.BaseViewModel
-import com.test.presentation.util.Event
 import com.test.repository.source.CocktailRepository
 import kotlinx.coroutines.Job
 

@@ -2,6 +2,7 @@ package com.test.cocktail.ui
 
 import androidx.lifecycle.*
 import com.test.cocktail.model.sorttype.CocktailSortType
+import com.test.common.Event
 import com.test.presentation.adapter.binding.Page
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
 import com.test.presentation.mapper.user.UserModelMapper
@@ -13,7 +14,6 @@ import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
 import com.test.presentation.model.user.UserModel
 import com.test.presentation.ui.base.BaseViewModel
-import com.test.presentation.util.Event
 import com.test.presentation.util.liveDataStateHandle
 import com.test.presentation.util.stateHandle
 import com.test.repository.source.CocktailRepository
