@@ -7,7 +7,6 @@ import com.test.detail.ui.CocktailDetailsFragment
 import com.test.profile.ui.ProfileFragment
 import com.test.search.ui.SearchCocktailFragment
 import com.test.seekbar.ui.RangeSeekBarFragment
-import com.test.splash.ui.SplashFragment
 import com.test.tabhost.ui.TabHostFragment
 
 object Screen {
@@ -15,8 +14,6 @@ object Screen {
     fun auth() = FragmentScreen { AuthHostFragment() }
 
     fun tabHost() = FragmentScreen { TabHostFragment() }
-
-    fun splash() = FragmentScreen { SplashFragment() }
 
     fun search() = FragmentScreen { SearchCocktailFragment() }
 

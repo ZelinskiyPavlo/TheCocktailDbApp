@@ -9,24 +9,21 @@ import com.test.detail.ui.CocktailDetailsFragment
 import com.test.profile.ui.ProfileFragment
 import com.test.search.ui.SearchCocktailFragment
 import com.test.seekbar.ui.RangeSeekBarFragment
-import com.test.splash.ui.SplashFragment
 import com.test.tabhost.di.TabHostFragmentModule
 import com.test.tabhost.di.navigation.TabHostCiceroneModule
 import com.test.tabhost.ui.TabHostFragment
 import com.test.thecocktaildb.di.module.communication.DetailCommunicationModule
 import com.test.thecocktaildb.di.module.communication.TabHostCommunicationModule
 import com.test.thecocktaildb.di.module.navigation.SimpleNavigationModule
-import com.test.thecocktaildb.di.module.navigation.feature.*
+import com.test.thecocktaildb.di.module.navigation.feature.AuthNavigationModule
+import com.test.thecocktaildb.di.module.navigation.feature.ProfileNavigationModule
+import com.test.thecocktaildb.di.module.navigation.feature.SearchNavigationModule
+import com.test.thecocktaildb.di.module.navigation.feature.TabHostNavigationModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 interface FragmentModule {
-
-    @Suppress("unused")
-    @PerFragment
-    @ContributesAndroidInjector(modules = [SplashNavigationModule::class])
-    fun contributeSplashFragment(): SplashFragment
 
     @Suppress("unused")
     @PerFragment

@@ -27,7 +27,6 @@ include(":feature:auth")
 include(":feature:auth:register")
 include(":feature:auth:login")
 
-include(":feature:splash")
 include(":feature:cocktail")
 include(":feature:detail")
 include(":feature:search")

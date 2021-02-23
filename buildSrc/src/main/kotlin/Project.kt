@@ -69,9 +69,6 @@ inline val DependencyHandler.platformFirebaseFcm: ProjectDependency
 inline val DependencyHandler.featureAuth: ProjectDependency
 	get() = project(":feature:auth")
 
-inline val DependencyHandler.featureSplash: ProjectDependency
-	get() = project(":feature:splash")
-
 inline val DependencyHandler.featureAuthLogin: ProjectDependency
 	get() = project(":feature:auth:login")
 

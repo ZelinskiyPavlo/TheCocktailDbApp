@@ -29,7 +29,6 @@ dependencies {
     implementation(featureAuth)
     implementation(featureAuthLogin)
     implementation(featureAuthRegister)
-    implementation(featureSplash)
 
     implementation(featureCocktail)
     implementation(featureTabHost)
