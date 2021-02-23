@@ -17,6 +17,7 @@ class CocktailDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
+    private val communicationApi: DetailCommunicationApi
 ) :
     BaseViewModel(savedStateHandle) {
 
@@ -49,12 +50,11 @@ class CocktailDetailsViewModel(
 
     var cocktailId: Long = -1L
 
-    private val _onBackPressedEventLiveData = MutableLiveData<Event<Unit>>()
-    val onBackPressedEventLiveData: LiveData<Event<Unit>> = _onBackPressedEventLiveData
-
-    private val disposable = CompositeDisposable()
-
-    override fun onCleared() = disposable.clear()
+    init {
+        isCocktailFoundLiveData.observeForever { result ->
+            if (result == false) communicationApi.sendNoCocktailWithIdFoundEvent()
+        }
+    }
 
     fun getCocktailById(cocktailId: Long) {
         this.cocktailId = cocktailId

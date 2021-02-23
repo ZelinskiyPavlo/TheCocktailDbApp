@@ -13,6 +13,8 @@ import com.test.splash.ui.SplashFragment
 import com.test.tabhost.di.TabHostFragmentModule
 import com.test.tabhost.di.navigation.TabHostCiceroneModule
 import com.test.tabhost.ui.TabHostFragment
+import com.test.thecocktaildb.di.module.communication.DetailCommunicationModule
+import com.test.thecocktaildb.di.module.communication.TabHostCommunicationModule
 import com.test.thecocktaildb.di.module.navigation.SimpleNavigationModule
 import com.test.thecocktaildb.di.module.navigation.feature.AuthNavigationModule
 import com.test.thecocktaildb.di.module.navigation.feature.SearchNavigationModule
@@ -38,9 +40,12 @@ interface FragmentModule {
 
     @Suppress("unused")
     @PerFragment
-    @ContributesAndroidInjector(modules = [
-        TabHostFragmentModule::class, TabHostCiceroneModule::class, TabHostNavigationModule::class
-    ])
+    @ContributesAndroidInjector(
+        modules = [
+            TabHostFragmentModule::class, TabHostCiceroneModule::class, TabHostNavigationModule::class,
+            TabHostCommunicationModule::class
+        ]
+    )
     fun contributeTabHostFragment(): TabHostFragment
 
     @Suppress("unused")
@@ -50,7 +55,7 @@ interface FragmentModule {
 
     @Suppress("unused")
     @PerFragment
-    @ContributesAndroidInjector(modules = [SimpleNavigationModule::class])
+    @ContributesAndroidInjector(modules = [SimpleNavigationModule::class, DetailCommunicationModule::class])
     fun contributeDetailsFragment(): CocktailDetailsFragment
 
     @Suppress("unused")

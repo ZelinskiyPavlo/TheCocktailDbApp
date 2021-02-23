@@ -150,6 +150,17 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         return Pair(args.cocktailId, args.actionBarTitle)
     }
 
+    private fun setupObserver() {
+        viewModel.isCocktailFoundLiveData.observe(viewLifecycleOwner, {result ->
+            if (result == false) simpleNavigator.exit()
+        })
+    }
+
+    private fun getCocktail() {
+        val cocktailId = requireArguments().getLong(COCKTAIL_ID_KEY)
+        viewModel.getCocktailById(cocktailId)
+    }
+
     private fun logFirebaseEvent() {
         firebaseAnalytics.logEvent(
             Analytic.COCKTAIL_DETAIL_OPEN,
@@ -167,6 +178,8 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         val stopIntent = Intent(activity, DrinkProposalService::class.java)
         stopIntent.action = DrinkProposalService.ACTION_STOP_SERVICE
         activity?.startService(stopIntent)
+
+        if (viewModel.isCocktailFoundLiveData.value == false) return
 
         val startIntent = Intent(activity, DrinkProposalService::class.java)
         startIntent.action = DrinkProposalService.ACTION_START_SERVICE

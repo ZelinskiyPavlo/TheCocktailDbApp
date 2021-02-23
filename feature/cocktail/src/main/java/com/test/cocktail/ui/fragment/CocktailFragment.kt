@@ -67,6 +67,11 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     @Inject
     lateinit var cocktailNavigator: CocktailNavigationApi
 
+    // Add this Api to Fragment and not into viewModel, bc I can't understand behaviour when
+    // observing forever liveData from this api
+    @Inject
+    lateinit var communicationApi: CocktailCommunicationApi
+
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
 
