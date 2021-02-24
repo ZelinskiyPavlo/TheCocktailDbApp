@@ -95,19 +95,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_24dp"
-                    android:text="@string/filter_fragment_ingredient_type"
+                    android:text="@string/filter_fragment_glass_type"
                     android:textAppearance="@style/TextRegular"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="@+id/filter_btn_ingredient"
+                    app:layout_constraintStart_toStartOf="@+id/filter_btn_glass"
                     app:layout_constraintTop_toBottomOf="@+id/filter_btn_category" />
 
                 <Button
-                    android:id="@+id/filter_btn_ingredient"
+                    android:id="@+id/filter_btn_glass"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_down_24"
                     android:gravity="center_vertical|end"
-                    android:text="@{viewModel.ingredientSignLiveData, default=Обрати}"
+                    android:text="@{viewModel.glassSignLiveData, default=Обрати}"
                     android:textColor="@color/text_default"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

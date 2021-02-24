@@ -18,7 +18,7 @@ import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
 import com.test.presentation.model.cocktail.type.CocktailAlcoholType
 import com.test.presentation.model.cocktail.type.CocktailCategory
-import com.test.presentation.model.cocktail.type.CocktailIngredient
+import com.test.presentation.model.cocktail.type.CocktailGlassType
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.util.EventObserver
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     private lateinit var alcoholMenu: PopupMenu
     private lateinit var categoryMenu: PopupMenu
-    private lateinit var ingredientMenu: PopupMenu
+    private lateinit var glassMenu: PopupMenu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,15 +83,15 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
         alcoholMenu = PopupMenu(context, viewDataBinding.filterBtnAlcohol)
         categoryMenu = PopupMenu(context, viewDataBinding.filterBtnCategory)
-        ingredientMenu = PopupMenu(context, viewDataBinding.filterBtnIngredient)
+        glassMenu = PopupMenu(context, viewDataBinding.filterBtnGlass)
 
         val alcoholDrinkFilter = CocktailAlcoholType.values()
         val categoryDrinkFilter = CocktailCategory.values()
-        val ingredientDrinkFilter = CocktailIngredient.values().dropLast(1).toTypedArray()
+        val glassDrinkFilter = CocktailGlassType.values()
 
         populateMenu(alcoholDrinkFilter, alcoholMenu)
         populateMenu(categoryDrinkFilter, categoryMenu)
-        populateMenu(ingredientDrinkFilter, ingredientMenu)
+        populateMenu(glassDrinkFilter, glassMenu)
 
         alcoholMenu.setOnMenuItemClickListener { menuItem ->
             cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.ALCOHOL)
@@ -101,8 +101,8 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.CATEGORY)
             true
         }
-        ingredientMenu.setOnMenuItemClickListener { menuItem ->
-            cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.INGREDIENT)
+        glassMenu.setOnMenuItemClickListener { menuItem ->
+            cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.GLASS)
             true
         }
     }
@@ -110,9 +110,11 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     private fun setupFilterButtons() {
         viewDataBinding.filterBtnAlcohol.setOnClickListener { alcoholMenu.show() }
         viewDataBinding.filterBtnCategory.setOnClickListener { categoryMenu.show() }
-        viewDataBinding.filterBtnIngredient.setOnClickListener { ingredientMenu.show() }
+        viewDataBinding.filterBtnGlass.setOnClickListener { glassMenu.show() }
     }
 
+    // TODO: 24.02.2021 Fix bug with flickering when showing snackbar
+    //  (maybe some race condition happen)
     private fun setupResultSnackbar() {
         cocktailViewModel.filterResultLiveData.observe(
             viewLifecycleOwner,

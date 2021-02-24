@@ -11,7 +11,7 @@ import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
 import com.test.presentation.model.cocktail.type.CocktailAlcoholType
 import com.test.presentation.model.cocktail.type.CocktailCategory
-import com.test.presentation.model.cocktail.type.CocktailIngredient
+import com.test.presentation.model.cocktail.type.CocktailGlassType
 import com.test.presentation.model.user.UserModel
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.liveDataStateHandle
@@ -90,7 +90,7 @@ class CocktailViewModel(
         else "${it[1]?.key?.replace("\\/", "")}    $changeTextSuffix"
     }
 
-    val ingredientSignLiveData: LiveData<String> = Transformations.map(_filtersLiveData) {
+    val glassSignLiveData: LiveData<String> = Transformations.map(_filtersLiveData) {
         if (it?.get(2) == null) chooseTextSuffix
         else "${it[2]?.key?.replace("\\/", "")}    $changeTextSuffix"
     }
@@ -164,7 +164,7 @@ class CocktailViewModel(
                                 .find { it.key == filterTypeKey }
                             index == 1 -> CocktailCategory.values()
                                 .find { it.key == filterTypeKey }
-                            index == 2 -> CocktailIngredient.values()
+                            index == 2 -> CocktailGlassType.values()
                                 .find { it.key == filterTypeKey }
                             index == 3 -> throw IndexOutOfBoundsException(
                                 "Looks like you added new filter type" +
@@ -204,7 +204,7 @@ class CocktailViewModel(
                         filterTypeIndexArray?.set(1, filterType.key)
                         filterTypeIndexArray
                     }
-                    filterType.type == DrinkFilterType.INGREDIENT -> {
+                    filterType.type == DrinkFilterType.GLASS -> {
                         filterTypeIndexArray?.set(2, filterType.key)
                         filterTypeIndexArray
                     }
@@ -291,7 +291,7 @@ class CocktailViewModel(
         val selectedFilterEnumList = when (filterType) {
             DrinkFilterType.ALCOHOL -> CocktailAlcoholType.values()
             DrinkFilterType.CATEGORY -> CocktailCategory.values()
-            DrinkFilterType.INGREDIENT -> CocktailIngredient.values()
+            DrinkFilterType.GLASS -> CocktailGlassType.values()
             else -> throw IllegalArgumentException("Unknown filter type was chosen")
         }
 
@@ -313,7 +313,7 @@ class CocktailViewModel(
                 when (filterType.type) {
                     DrinkFilterType.ALCOHOL -> it.alcoholType == filterType
                     DrinkFilterType.CATEGORY -> it.category == filterType
-                    DrinkFilterType.INGREDIENT -> it.ingredients.contains(filterType)
+                    DrinkFilterType.GLASS -> it.glass == filterType
                     else -> throw IllegalArgumentException("Unknown filter type was chosen")
                 }
             }
