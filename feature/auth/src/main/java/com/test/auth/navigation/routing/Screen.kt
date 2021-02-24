@@ -4,7 +4,7 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.test.login.ui.LoginFragment
 import com.test.register.ui.RegisterFragment
 
-object Screen {
+internal object Screen {
 
     fun login() = FragmentScreen("LOGIN") { LoginFragment.newInstance() }
 

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.presentation.model.cocktail.CocktailModel
 
-class CocktailLayoutManager(
+internal class CocktailLayoutManager(
     context: Context, spanCount: Int, private val adapter: CocktailAdapter
 ) : GridLayoutManager(context, spanCount) {
 

@@ -7,7 +7,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface RegisterNavigationModule {
+internal interface RegisterNavigationModule {
 
     @Binds
     @PerNestedFragment

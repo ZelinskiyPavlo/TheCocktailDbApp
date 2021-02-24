@@ -4,7 +4,7 @@ import com.test.setting.api.SettingNavigationApi
 import com.test.tabhost.api.TabHostNavigationApi
 import javax.inject.Inject
 
-class SettingNavigationImpl @Inject constructor(
+internal class SettingNavigationImpl @Inject constructor(
     private val tabHostNavigationApi: TabHostNavigationApi
 ): SettingNavigationApi {
 

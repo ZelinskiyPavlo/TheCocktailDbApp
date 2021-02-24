@@ -36,7 +36,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     override val layoutId: Int = R.layout.fragment_setting
 
     @Inject
-    lateinit var settingViewModelFactory: SettingViewModelFactory
+    internal lateinit var settingViewModelFactory: SettingViewModelFactory
 
     override val viewModel: SettingViewModel by viewModels {
         SavedStateViewModelFactory(settingViewModelFactory, this)

@@ -6,7 +6,7 @@ import android.content.Intent
 import com.test.cocktail.receiver.callback.DrinkProposalCallback
 import com.test.cocktail_common.service.DrinkProposalService
 
-class DrinkProposalReceiver(
+internal class DrinkProposalReceiver(
     private val drinkProposalCallback: DrinkProposalCallback
 ) : BroadcastReceiver() {
 

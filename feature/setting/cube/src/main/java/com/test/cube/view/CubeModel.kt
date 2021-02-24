@@ -13,7 +13,7 @@ import com.test.cube.view.draw.data.Triangle
 import kotlin.math.cos
 import kotlin.math.sin
 
-data class CubeModel(
+internal data class CubeModel(
     var width: Int = -1,
     var height: Int = -1,
 

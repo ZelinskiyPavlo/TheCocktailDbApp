@@ -4,7 +4,7 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.math.tan
 
-class Cube(
+internal class Cube(
     points: List<Float>,
     centerHeight: Float
 ) {
@@ -17,7 +17,7 @@ class Cube(
     }
 }
 
-class Oval(
+internal class Oval(
     private val left: Float,
     private val top: Float,
     private val right: Float,
@@ -74,7 +74,7 @@ class Oval(
     }
 }
 
-class OvalPoints(
+internal class OvalPoints(
     var leftX: Float = -1f,
     var leftY: Float = -1f,
     var topX: Float = -1f,

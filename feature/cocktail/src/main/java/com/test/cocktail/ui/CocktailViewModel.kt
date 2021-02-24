@@ -58,7 +58,7 @@ class CocktailViewModel(
     private val _filtersLiveData = MutableLiveData<List<DrinkFilter?>?>()
     val filtersLiveData: LiveData<List<DrinkFilter?>?> = _filtersLiveData
 
-    var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
+    internal var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
 
     private val _cocktailDetailsEventLiveData =
         MutableLiveData<Event<Long>>()

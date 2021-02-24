@@ -9,7 +9,7 @@ import com.test.repository.source.CocktailRepository
 import com.test.repository.source.UserRepository
 import javax.inject.Inject
 
-class CocktailViewModelFactory @Inject constructor(
+internal class CocktailViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
     private val userRepo: UserRepository,
     private val cocktailMapper: CocktailModelMapper,

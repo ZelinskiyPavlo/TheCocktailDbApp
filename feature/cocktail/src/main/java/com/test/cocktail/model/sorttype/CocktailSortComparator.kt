@@ -2,7 +2,7 @@ package com.test.cocktail.model.sorttype
 
 import com.test.presentation.model.cocktail.type.CocktailAlcoholType
 
-class CocktailSortComparator {
+internal class CocktailSortComparator {
 
     val alcoholComparator = kotlin.Comparator<String> { t, t2 ->
         CocktailAlcoholType.values()

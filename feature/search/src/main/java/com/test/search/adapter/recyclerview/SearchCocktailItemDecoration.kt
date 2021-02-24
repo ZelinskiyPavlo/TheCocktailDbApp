@@ -6,7 +6,7 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
 
-class SearchCocktailItemDecoration (
+internal class SearchCocktailItemDecoration (
     context: Context,
     @DimenRes horizontalDpOffSet: Int,
     @DimenRes verticalDpOffSet: Int,

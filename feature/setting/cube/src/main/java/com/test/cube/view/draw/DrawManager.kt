@@ -6,7 +6,7 @@ import com.test.cube.view.CubeModel
 import com.test.cube.view.animation.cube.data.CubeAnimationModel
 import com.test.cube.view.animation.triangle.data.TriangleAnimationModel
 
-class DrawManager(context: Context, cubeModel: CubeModel) {
+internal class DrawManager(context: Context, cubeModel: CubeModel) {
 
     private val drawController = DrawController(cubeModel)
 

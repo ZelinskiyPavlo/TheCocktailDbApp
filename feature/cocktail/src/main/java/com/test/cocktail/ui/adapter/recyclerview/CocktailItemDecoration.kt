@@ -9,7 +9,7 @@ import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
 import com.test.presentation.model.cocktail.CocktailModel
 
-class CocktailItemDecoration(
+internal class CocktailItemDecoration(
     context: Context,
     @DimenRes private val horizontalDpOffSet: Int,
     @DimenRes private val verticalDpOffSet: Int,

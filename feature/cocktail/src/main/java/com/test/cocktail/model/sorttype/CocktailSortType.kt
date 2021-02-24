@@ -1,6 +1,6 @@
 package com.test.cocktail.model.sorttype
 
-enum class CocktailSortType(override val key: String): SortType {
+internal enum class CocktailSortType(override val key: String): SortType {
     RECENT("Recent"),
     NAME_DESC("Name descending"),
     NAME_ASC("Name ascending"),

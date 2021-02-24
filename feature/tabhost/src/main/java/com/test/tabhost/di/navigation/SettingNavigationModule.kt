@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface SettingNavigationModule {
+internal interface SettingNavigationModule {
 
     @Binds
     fun bindSettingNavigation(settingNavigationImpl: SettingNavigationImpl): SettingNavigationApi

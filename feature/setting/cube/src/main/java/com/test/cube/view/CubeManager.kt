@@ -7,7 +7,7 @@ import com.test.cube.view.animation.triangle.TriangleAnimationManager
 import com.test.cube.view.animation.triangle.data.TriangleAnimationModel
 import com.test.cube.view.draw.DrawManager
 
-class CubeManager(
+internal class CubeManager(
     context: Context,
     private val cubeModel: CubeModel,
     private val listener: AnimationListener

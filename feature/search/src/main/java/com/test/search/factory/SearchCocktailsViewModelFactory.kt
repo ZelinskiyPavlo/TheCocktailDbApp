@@ -7,7 +7,7 @@ import com.test.repository.source.CocktailRepository
 import com.test.search.ui.SearchCocktailViewModel
 import javax.inject.Inject
 
-class SearchCocktailsViewModelFactory @Inject constructor(
+internal class SearchCocktailsViewModelFactory @Inject constructor(
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
 ) : ViewModelAssistedFactory<SearchCocktailViewModel> {

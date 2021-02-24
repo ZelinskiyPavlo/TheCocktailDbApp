@@ -32,7 +32,7 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
     override val layoutId: Int = R.layout.fragment_tab_host
 
     @Inject
-    lateinit var tabHostViewModelFactory: TabHostViewModelFactory
+    internal lateinit var tabHostViewModelFactory: TabHostViewModelFactory
 
     override val viewModel: TabHostViewModel by viewModels {
         SavedStateViewModelFactory(tabHostViewModelFactory, this)

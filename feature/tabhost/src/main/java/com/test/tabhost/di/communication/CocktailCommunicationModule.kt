@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface CocktailCommunicationModule {
+internal interface CocktailCommunicationModule {
 
     @Suppress("unused")
     @Binds

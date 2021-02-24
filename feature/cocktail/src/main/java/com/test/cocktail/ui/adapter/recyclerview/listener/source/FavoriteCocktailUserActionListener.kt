@@ -4,7 +4,7 @@ import android.view.View
 import com.test.presentation.adapter.recyclerview.CustomActionListener
 import com.test.presentation.model.cocktail.CocktailModel
 
-interface FavoriteCocktailUserActionListener: CustomActionListener {
+internal interface FavoriteCocktailUserActionListener: CustomActionListener {
 
     fun onFavoriteIconClicked(cocktail: CocktailModel)
 

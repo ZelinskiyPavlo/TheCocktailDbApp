@@ -18,7 +18,7 @@ import com.test.presentation.adapter.recyclerview.CustomActionListener
 import com.test.presentation.model.cocktail.CocktailModel
 import java.util.*
 
-class CocktailAdapter(
+internal class CocktailAdapter(
     private val viewModel: CocktailViewModel
 ) : RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
 

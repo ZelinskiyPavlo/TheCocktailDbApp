@@ -2,7 +2,7 @@ package com.test.setting.callback
 
 import com.test.setting.model.BatteryStateHolder
 
-interface BatteryStateCallback {
+internal interface BatteryStateCallback {
 
     fun updateBatteryState(batteryState: BatteryStateHolder)
 }

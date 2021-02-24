@@ -14,7 +14,7 @@ import androidx.core.widget.ImageViewCompat
 import com.test.setting.R
 import kotlinx.android.synthetic.main.widget_setting_row.view.*
 
-class SettingRow(context: Context, attributes: AttributeSet) : LinearLayout(context, attributes) {
+internal class SettingRow(context: Context, attributes: AttributeSet) : LinearLayout(context, attributes) {
 
     private var icon: ImageView
     private var mainText: TextView

@@ -2,7 +2,7 @@ package com.test.cube.view.animation.triangle.data
 
 import com.test.cube.view.animation.triangle.TriangleAnimationType
 
-data class TriangleAnimationModel(
+internal data class TriangleAnimationModel(
     var angle: Float = -1F,
     var scale: Float = -1F,
     var scaleAngle: Float = -1F,

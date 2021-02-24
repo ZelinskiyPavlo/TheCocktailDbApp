@@ -33,7 +33,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override val layoutId: Int = R.layout.fragment_login
 
     @Inject
-    lateinit var loginViewModelFactory: LoginViewModelFactory
+    internal lateinit var loginViewModelFactory: LoginViewModelFactory
 
     override val viewModel: LoginViewModel by viewModels {
         SavedStateViewModelFactory(loginViewModelFactory, this)

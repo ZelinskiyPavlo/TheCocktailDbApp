@@ -4,7 +4,7 @@ import com.test.cocktail.api.CocktailNavigationApi
 import com.test.tabhost.api.TabHostNavigationApi
 import javax.inject.Inject
 
-class CocktailNavigationImpl @Inject constructor(
+internal class CocktailNavigationImpl @Inject constructor(
     private val tabHostNavigationApi: TabHostNavigationApi
 ): CocktailNavigationApi {
 

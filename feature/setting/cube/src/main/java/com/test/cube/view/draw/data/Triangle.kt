@@ -3,7 +3,7 @@ package com.test.cube.view.draw.data
 import android.graphics.PointF
 import com.test.cube.view.animation.triangle.data.AnimationPreset
 
-class Triangle(
+internal class Triangle(
     val x1: Float,
     val y1: Float,
     val x2: Float,

@@ -8,7 +8,7 @@ import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.base.BaseAdap
 import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
 import com.test.thecocktaildb.presentation.ui.detail.Ingredient
 
-class IngredientAdapter : BaseAdapter<Ingredient>() {
+internal class IngredientAdapter : BaseAdapter<Ingredient>() {
 
     override fun setData(items: List<Ingredient>?) {
         ingredientsList = items ?: emptyList()

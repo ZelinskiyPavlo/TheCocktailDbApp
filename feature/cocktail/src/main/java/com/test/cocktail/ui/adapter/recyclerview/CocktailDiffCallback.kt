@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
 import com.test.presentation.model.cocktail.CocktailModel
 
-class CocktailDiffCallback(
+internal class CocktailDiffCallback(
     private val oldCocktails: List<Any>,
     private val newCocktails: List<Any>
 ) : DiffUtil.Callback() {

@@ -53,7 +53,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     override val layoutId: Int = R.layout.fragment_cocktail
 
     @Inject
-    lateinit var viewModelFactory: CocktailViewModelFactory
+    internal lateinit var viewModelFactory: CocktailViewModelFactory
 
     override val viewModel: CocktailViewModel by viewModels {
         // I can't use requireActivity for SavedStateRegistryOwner with scoping to fragment

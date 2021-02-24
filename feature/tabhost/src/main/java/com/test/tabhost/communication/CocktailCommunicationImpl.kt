@@ -4,7 +4,7 @@ import com.test.cocktail.api.CocktailCommunicationApi
 import com.test.tabhost.api.TabHostCommunicationApi
 import javax.inject.Inject
 
-class CocktailCommunicationImpl @Inject constructor(
+internal class CocktailCommunicationImpl @Inject constructor(
     tabHostCommunicationApi: TabHostCommunicationApi
 ): CocktailCommunicationApi {
 

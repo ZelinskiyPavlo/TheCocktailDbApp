@@ -27,7 +27,7 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
     override val layoutId: Int = R.layout.fragment_search_cocktails
 
     @Inject
-    lateinit var searchCocktailsViewModelFactory: SearchCocktailsViewModelFactory
+    internal lateinit var searchCocktailsViewModelFactory: SearchCocktailsViewModelFactory
 
     override val viewModel: SearchCocktailViewModel by viewModels {
         SavedStateViewModelFactory(searchCocktailsViewModelFactory, this)

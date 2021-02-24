@@ -35,13 +35,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
     override val layoutId: Int = R.layout.fragment_register
 
     @Inject
-    lateinit var registerViewModelFactory: RegisterViewModelFactory
+    internal lateinit var registerViewModelFactory: RegisterViewModelFactory
 
     override val viewModel: RegisterViewModel by viewModels {
         SavedStateViewModelFactory(registerViewModelFactory, this)
     }
-
-//    private val sharedViewModel: AuthViewModel by activityViewModels()
 
     @Inject
     lateinit var registerNavigator: RegisterNavigationApi

@@ -1,5 +1,5 @@
 package com.test.cocktail.model.sorttype
 
-interface SortType {
+internal interface SortType {
     val key: String
 }

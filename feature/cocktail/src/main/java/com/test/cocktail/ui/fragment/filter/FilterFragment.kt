@@ -36,7 +36,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     override val layoutId: Int = R.layout.fragment_filter
 
     @Inject
-    lateinit var cocktailViewModelFactory: CocktailViewModelFactory
+    internal lateinit var cocktailViewModelFactory: CocktailViewModelFactory
 
     private val cocktailViewModel: CocktailViewModel by viewModels({ requireParentFragment() }) {
         SavedStateViewModelFactory(cocktailViewModelFactory, requireParentFragment())

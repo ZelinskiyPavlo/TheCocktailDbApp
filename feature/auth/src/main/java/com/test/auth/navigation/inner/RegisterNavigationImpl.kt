@@ -5,7 +5,7 @@ import com.test.auth.api.AuthNavigationApi
 import com.test.register.api.RegisterNavigationApi
 import javax.inject.Inject
 
-class RegisterNavigationImpl @Inject constructor(
+internal class RegisterNavigationImpl @Inject constructor(
     private val outerNavigationApi: AuthNavigationApi,
     private val innerNavigationRouter: Router
 ): RegisterNavigationApi {

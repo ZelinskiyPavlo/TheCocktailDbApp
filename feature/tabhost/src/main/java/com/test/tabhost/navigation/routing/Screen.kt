@@ -4,7 +4,7 @@ import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.test.cocktail.ui.fragment.CocktailFragment
 import com.test.setting.ui.SettingFragment
 
-object Screen {
+internal object Screen {
 
     enum class Keys {
         COCKTAIL {

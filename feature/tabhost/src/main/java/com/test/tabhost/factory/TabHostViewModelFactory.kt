@@ -6,7 +6,7 @@ import com.test.repository.source.AppSettingRepository
 import com.test.tabhost.ui.TabHostViewModel
 import javax.inject.Inject
 
-class TabHostViewModelFactory @Inject constructor(
+internal class TabHostViewModelFactory @Inject constructor(
     private val appSettingRepository: AppSettingRepository
 ) : ViewModelAssistedFactory<TabHostViewModel> {
     override fun create(handle: SavedStateHandle): TabHostViewModel {

@@ -6,7 +6,7 @@ import com.test.presentation.factory.ViewModelAssistedFactory
 import com.test.repository.source.AuthRepository
 import javax.inject.Inject
 
-class LoginViewModelFactory @Inject constructor(
+internal class LoginViewModelFactory @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModelAssistedFactory<LoginViewModel> {
     override fun create(handle: SavedStateHandle): LoginViewModel {

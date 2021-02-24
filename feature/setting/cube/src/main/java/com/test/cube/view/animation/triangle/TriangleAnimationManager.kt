@@ -7,7 +7,7 @@ import com.test.cube.view.draw.data.Triangle
 import com.test.presentation.util.resettableLazy
 import com.test.presentation.util.resettableManager
 
-class TriangleAnimationManager(
+internal class TriangleAnimationManager(
     private val cubeModel: CubeModel,
     private val animationListener: AnimationListener
 ) {

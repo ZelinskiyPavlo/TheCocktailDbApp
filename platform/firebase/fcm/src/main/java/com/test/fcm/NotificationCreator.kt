@@ -14,7 +14,7 @@ import com.test.firebase.common.Fcm
  * showing notification, but on the other hand firebase is concrete platform implementation and
  * notification creating is not depend on firebase.
  * */
-class NotificationCreator(
+internal class NotificationCreator(
     private val context: Context,
     private val intent: Intent,
     notificationData: Map<String, String>

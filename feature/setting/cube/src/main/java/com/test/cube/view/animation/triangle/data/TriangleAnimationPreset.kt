@@ -1,6 +1,6 @@
 package com.test.cube.view.animation.triangle.data
 
-sealed class AnimationPreset(
+internal sealed class AnimationPreset(
     open val shrinkageScaleSx: Float?,
     open val shrinkageScaleSy: Float?,
     open val shrinkageAngleStart: Float,
@@ -10,7 +10,7 @@ sealed class AnimationPreset(
     open val riseScaleSy: Float?
 )
 
-class FirstFourthAnimationPreset(
+internal class FirstFourthAnimationPreset(
     override val shrinkageScaleSx: Float? = 1f,
     override val shrinkageScaleSy: Float? = null,
     override val shrinkageAngleStart: Float = 0f,
@@ -20,7 +20,7 @@ class FirstFourthAnimationPreset(
     override val riseScaleSy: Float? = null
 ): AnimationPreset(shrinkageScaleSx, shrinkageScaleSy, shrinkageAngleStart, shrinkageAngleEnd, rise_angle, riseScaleSx, riseScaleSy)
 
-class SecondFifthAnimationPreset(
+internal class SecondFifthAnimationPreset(
     override val shrinkageScaleSx: Float? = null,
     override val shrinkageScaleSy: Float? = 1f,
     override val shrinkageAngleStart: Float = 0f,
@@ -30,7 +30,7 @@ class SecondFifthAnimationPreset(
     override val riseScaleSy: Float? = 1f
 ): AnimationPreset(shrinkageScaleSx, shrinkageScaleSy, shrinkageAngleStart, shrinkageAngleEnd, rise_angle, riseScaleSx, riseScaleSy)
 
-class ThirdSixthAnimationPreset(
+internal class ThirdSixthAnimationPreset(
     override val shrinkageScaleSx: Float? = 1f,
     override val shrinkageScaleSy: Float? = null,
     override val shrinkageAngleStart: Float = 0f,

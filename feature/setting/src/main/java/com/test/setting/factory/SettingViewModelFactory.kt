@@ -6,7 +6,7 @@ import com.test.repository.source.AppSettingRepository
 import com.test.setting.ui.SettingViewModel
 import javax.inject.Inject
 
-class SettingViewModelFactory @Inject constructor(
+internal class SettingViewModelFactory @Inject constructor(
     private val settingRepository: AppSettingRepository
 ) : ViewModelAssistedFactory<SettingViewModel> {
     override fun create(handle: SavedStateHandle): SettingViewModel {

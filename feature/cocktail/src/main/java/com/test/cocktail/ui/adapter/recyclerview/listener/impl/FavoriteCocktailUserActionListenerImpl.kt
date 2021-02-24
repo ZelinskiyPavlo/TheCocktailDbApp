@@ -7,7 +7,7 @@ import com.test.cocktail.ui.CocktailViewModel
 import com.test.cocktail.ui.adapter.recyclerview.listener.source.FavoriteCocktailUserActionListener
 import com.test.presentation.model.cocktail.CocktailModel
 
-class FavoriteCocktailUserActionListenerImpl (
+internal class FavoriteCocktailUserActionListenerImpl (
     private val viewModel: CocktailViewModel
 ): FavoriteCocktailUserActionListener {
 

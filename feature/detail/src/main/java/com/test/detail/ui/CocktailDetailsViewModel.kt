@@ -35,7 +35,7 @@ class CocktailDetailsViewModel(
     val cocktailGlassLiveData: LiveData<String> =
         cocktailLiveData.mapNotNull { glass.key }
 
-    val ingredientsLiveData: LiveData<List<Ingredient>> =
+    internal val ingredientsLiveData: LiveData<List<Ingredient>> =
         cocktailLiveData.mapNotNull {
             ingredients.zip(measures) { ingredient: CocktailIngredient, measure: String ->
                 Ingredient(ingredient.key, measure)

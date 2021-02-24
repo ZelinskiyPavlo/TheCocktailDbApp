@@ -8,7 +8,7 @@ import com.test.repository.source.TokenRepository
 import com.test.repository.source.UserRepository
 import javax.inject.Inject
 
-class ProfileViewModelFactory @Inject constructor(
+internal class ProfileViewModelFactory @Inject constructor(
     private val tokenRepo: TokenRepository,
     private val userRepo: UserRepository,
     private val userMapper: UserModelMapper

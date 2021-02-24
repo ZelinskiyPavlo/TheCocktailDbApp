@@ -11,7 +11,7 @@ import com.test.cube.view.animation.triangle.data.TriangleAnimationModel
 import com.test.cube.view.draw.data.OvalPoints
 import com.test.cube.view.draw.data.Triangle
 
-class DrawController(
+internal class DrawController(
     private val cubeModel: CubeModel
 ) {
 

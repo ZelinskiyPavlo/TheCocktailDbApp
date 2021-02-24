@@ -37,7 +37,7 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
     override val layoutId: Int = com.test.detail.R.layout.fragment_cocktail_details
 
     @Inject
-    lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
+    internal lateinit var cocktailDetailsVmFactory: CocktailDetailsViewModelFactory
 
     override val viewModel by viewModels<CocktailDetailsViewModel> {
         SavedStateViewModelFactory(cocktailDetailsVmFactory, this)

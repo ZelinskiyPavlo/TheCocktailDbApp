@@ -8,7 +8,7 @@ import com.test.presentation.model.cocktail.CocktailModel
 import com.test.search.R
 import com.test.search.ui.SearchCocktailViewModel
 
-class SearchCocktailAdapter(private val searchCocktailViewModel: SearchCocktailViewModel) :
+internal class SearchCocktailAdapter(private val searchCocktailViewModel: SearchCocktailViewModel) :
     BaseCocktailAdapter<CocktailModel>() {
 
     override fun setData(items: List<CocktailModel>?) {

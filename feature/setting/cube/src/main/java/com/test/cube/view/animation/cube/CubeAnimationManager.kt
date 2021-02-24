@@ -7,7 +7,7 @@ import android.animation.ValueAnimator
 import com.test.cube.view.CubeModel
 import com.test.cube.view.animation.cube.data.CubeAnimationModel
 
-class CubeAnimationManager(
+internal class CubeAnimationManager(
     private val cubeModel: CubeModel,
     private val animationListener: AnimationListener
 ) {

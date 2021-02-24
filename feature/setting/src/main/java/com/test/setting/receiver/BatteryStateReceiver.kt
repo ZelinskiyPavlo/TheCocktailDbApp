@@ -8,7 +8,7 @@ import android.os.BatteryManager
 import com.test.setting.callback.BatteryStateCallback
 import com.test.setting.model.BatteryStateHolder
 
-class BatteryStateReceiver(
+internal class BatteryStateReceiver(
     private val batteryStateCallback: BatteryStateCallback
 ) : BroadcastReceiver() {
     override fun onReceive(context: Context?, batteryInfo: Intent?) {

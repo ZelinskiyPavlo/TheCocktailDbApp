@@ -52,7 +52,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override val layoutId: Int = R.layout.fragment_profile
 
     @Inject
-    lateinit var profileViewModelFactory: ProfileViewModelFactory
+    internal lateinit var profileViewModelFactory: ProfileViewModelFactory
 
     override val viewModel: ProfileViewModel by viewModels {
         SavedStateViewModelFactory(profileViewModelFactory, this)
