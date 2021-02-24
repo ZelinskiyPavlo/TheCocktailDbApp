@@ -8,8 +8,8 @@ import com.test.detail.api.DetailCommunicationApi
 import com.test.detail.model.Ingredient
 import com.test.presentation.extension.mapNotNull
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
-import com.test.presentation.model.cocktail.CocktailIngredient
 import com.test.presentation.model.cocktail.CocktailModel
+import com.test.presentation.model.cocktail.type.CocktailIngredient
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.repository.source.CocktailRepository
 

@@ -1,5 +1,9 @@
 package com.test.presentation.model.cocktail
 
+import com.test.presentation.model.cocktail.type.CocktailAlcoholType
+import com.test.presentation.model.cocktail.type.CocktailCategory
+import com.test.presentation.model.cocktail.type.CocktailGlassType
+import com.test.presentation.model.cocktail.type.CocktailIngredient
 import java.util.*
 
 data class CocktailModel(

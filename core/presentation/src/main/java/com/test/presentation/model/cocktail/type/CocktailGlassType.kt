@@ -1,9 +1,10 @@
-package com.test.presentation.model.cocktail
+@file:Suppress("SpellCheckingInspection")
+
+package com.test.presentation.model.cocktail.type
 
 import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
 
-@Suppress("unused")
 enum class CocktailGlassType(override val type: DrinkFilterType, override val key: String) :
     DrinkFilter {
     HIGHBALL_GLASS(DrinkFilterType.GLASS, "Highball glass"),

@@ -4,12 +4,11 @@
     "SpellCheckingInspection", "SpellCheckingInspection"
 )
 
-package com.test.presentation.model.cocktail
+package com.test.presentation.model.cocktail.type
 
 import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
 
-@Suppress("unused")
 enum class CocktailIngredient(override val type: DrinkFilterType, override val key: String) :
     DrinkFilter {
     LIGHT_RUM(DrinkFilterType.INGREDIENT, "Light rum"),

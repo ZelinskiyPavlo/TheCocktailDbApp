@@ -1,7 +1,11 @@
 package com.test.presentation.mapper.cocktail
 
 import com.test.presentation.mapper.base.BaseModelMapper
-import com.test.presentation.model.cocktail.*
+import com.test.presentation.model.cocktail.CocktailModel
+import com.test.presentation.model.cocktail.type.CocktailAlcoholType
+import com.test.presentation.model.cocktail.type.CocktailCategory
+import com.test.presentation.model.cocktail.type.CocktailGlassType
+import com.test.presentation.model.cocktail.type.CocktailIngredient
 import com.test.repository.model.CocktailRepoModel
 import javax.inject.Inject
 
