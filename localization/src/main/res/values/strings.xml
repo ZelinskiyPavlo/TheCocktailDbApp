@@ -236,6 +236,7 @@
     <string name="seek_bar_fragment_button_set_range">Set range from 20 to 50</string>
     <string name="no_cocktails_found">No cocktails found</string>
     <string name="snackbar_no_cocktail_found">No cocktail found</string>
+    <string name="filter_fragment_results_sign">Results</string>
     <!--endregion-->
 
 </resources>

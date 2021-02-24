@@ -6,12 +6,12 @@ import com.test.common.Event
 import com.test.presentation.adapter.binding.Page
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
 import com.test.presentation.mapper.user.UserModelMapper
-import com.test.presentation.model.cocktail.CocktailAlcoholType
-import com.test.presentation.model.cocktail.CocktailCategory
-import com.test.presentation.model.cocktail.CocktailIngredient
 import com.test.presentation.model.cocktail.CocktailModel
 import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
+import com.test.presentation.model.cocktail.type.CocktailAlcoholType
+import com.test.presentation.model.cocktail.type.CocktailCategory
+import com.test.presentation.model.cocktail.type.CocktailIngredient
 import com.test.presentation.model.user.UserModel
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.liveDataStateHandle
@@ -30,9 +30,6 @@ class CocktailViewModel(
 ) : BaseViewModel(handle) {
 
     val currentPageLiveData by liveDataStateHandle(initialValue = Page.HistoryPage)
-
-    // TODO: 07.02.2021 Do I really need to do this filtering logic inside ViewModel??? I think
-    //  there need to be other entity to do this UPD: or not???
 
     private val cocktailsDbListLiveData: LiveData<List<CocktailModel>> =
         cocktailRepo.cocktailListLiveData.map(cocktailMapper::mapToList)
@@ -81,6 +78,7 @@ class CocktailViewModel(
     private lateinit var changeTextSuffix: String
     private lateinit var chooseTextSuffix: String
     private lateinit var emptyResultText: String
+    private lateinit var resultsSign: String
 
     val alcoholSignLiveData: LiveData<String> = Transformations.map(_filtersLiveData) {
         if (it?.get(0) == null) chooseTextSuffix
@@ -127,21 +125,23 @@ class CocktailViewModel(
         }
 
     val filterResultLiveData: LiveData<Event<String>> = MediatorLiveData<Event<String>>().apply {
-            fun determineResult() {
-                if (_filtersLiveData.value == null) return
+        fun determineResult() {
+            if (_filtersLiveData.value == null) return
 
-                val numberOfHistory = cocktailsLiveData.value?.size
-                val numberOfFavorite = favoriteCocktailsLiveData.value?.size
+            val numberOfHistory = cocktailsLiveData.value?.size
+            val numberOfFavorite = favoriteCocktailsLiveData.value?.size
 
-                value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                    Event(emptyResultText)
-                else
-                    Event("Results (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
-            }
-            addSource(cocktailsListUpdateObservableLiveData) {
-                determineResult()
-            }
+            value = if (numberOfHistory == 0 && numberOfFavorite == 0)
+                Event(emptyResultText)
+            else
+                Event("$resultsSign (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
         }
+        addSource(cocktailsListUpdateObservableLiveData) {
+            determineResult()
+        }
+    }
+
+    private val emptyObserver = Observer<Any?> {}
 
     init {
         fun restoreSortingOrder() {
@@ -182,9 +182,10 @@ class CocktailViewModel(
         restoreSortingOrder()
         restoreFilters()
 
-        userLiveData.observeForever {}
-        cocktailsListUpdateObservableLiveData.observeForever {}
-        currentPageLiveData.observeForever {}
+        // TODO: 23.02.2021 It's bad practice. Consider using switchMap for example
+        userLiveData.observeForever (emptyObserver)
+        cocktailsListUpdateObservableLiveData.observeForever (emptyObserver)
+        currentPageLiveData.observeForever (emptyObserver)
     }
 
     override fun onCleared() {
@@ -222,13 +223,19 @@ class CocktailViewModel(
          */
         saveFilters()
         saveSorting()
+
+        userLiveData.removeObserver (emptyObserver)
+        cocktailsListUpdateObservableLiveData.removeObserver (emptyObserver)
+        currentPageLiveData.removeObserver (emptyObserver)
+
         super.onCleared()
     }
 
-    fun setInitialText(chooseText: String, changeText: String, emptyResultText: String) {
+    fun setInitialText(chooseText: String, changeText: String, emptyResultText: String, resultsSign: String) {
         changeTextSuffix = changeText
         chooseTextSuffix = chooseText
         this.emptyResultText = emptyResultText
+        this.resultsSign = resultsSign
     }
 
     fun updateCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
@@ -320,7 +327,7 @@ class CocktailViewModel(
                     alcoholDrinkFilter.indexOf(alcoholDrinkFilter.find { it == t2.alcoholType })
         }
 
-        _cocktailsLiveData.value = _cocktailsLiveData.value?.apply {
+        _cocktailsLiveData.value = _cocktailsLiveData.value?.run {
             when (cocktailSortType ?: CocktailSortType.RECENT) {
                 CocktailSortType.RECENT -> sortedByDescending { it.dateAdded }
                 CocktailSortType.NAME_DESC -> sortedByDescending { it.names.defaults }

@@ -14,11 +14,11 @@ import com.test.cocktail.databinding.FragmentFilterBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
 import com.test.cocktail.ui.CocktailViewModel
 import com.test.presentation.factory.SavedStateViewModelFactory
-import com.test.presentation.model.cocktail.CocktailAlcoholType
-import com.test.presentation.model.cocktail.CocktailCategory
-import com.test.presentation.model.cocktail.CocktailIngredient
 import com.test.presentation.model.cocktail.filter.DrinkFilter
 import com.test.presentation.model.cocktail.filter.DrinkFilterType
+import com.test.presentation.model.cocktail.type.CocktailAlcoholType
+import com.test.presentation.model.cocktail.type.CocktailCategory
+import com.test.presentation.model.cocktail.type.CocktailIngredient
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.util.EventObserver
 import javax.inject.Inject
@@ -132,10 +132,11 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         val chooseText = getString(R.string.filter_fragment_choose_filter)
         val changeText = getString(R.string.filter_fragment_change_filter)
         val emptyResultText = getString(R.string.filter_fragment_snackbar_no_results)
+        val resultsSign = getString(R.string.filter_fragment_results_sign)
 
         if(cocktailViewModel.alcoholSignLiveData.value == null &&
             cocktailViewModel.categorySignLiveData.value == null){
-            cocktailViewModel.setInitialText(chooseText, changeText, emptyResultText)
+            cocktailViewModel.setInitialText(chooseText, changeText, emptyResultText, resultsSign)
         }
     }
 }

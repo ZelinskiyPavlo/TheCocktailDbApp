@@ -145,7 +145,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
         }
 
         viewModel.filtersLiveData.observe(viewLifecycleOwner, {
-            if (it.isNullOrEmpty().not().or(it != List(3) { null }))
+            if (it.isNullOrEmpty().not().and(it != List(3) { null }))
                 viewDataBinding.toolbar
                     .changePrimaryOptionImage(R.drawable.ic_filter_list_24_indicator)
             else viewDataBinding.toolbar

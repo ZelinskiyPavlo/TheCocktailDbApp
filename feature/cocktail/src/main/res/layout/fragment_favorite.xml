@@ -7,8 +7,6 @@
 
         <import type="android.view.View" />
 
-<!--        <import type="com.test.thecocktaildb.dataBinding.adapter.AdapterType" />-->
-
         <variable
             name="sharedViewModel"
             type="com.test.cocktail.ui.CocktailViewModel" />

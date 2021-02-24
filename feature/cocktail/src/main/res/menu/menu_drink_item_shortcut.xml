@@ -6,8 +6,6 @@
         android:title="@string/menu_cocktail_history_add_favorite" />
     <item android:id="@+id/menu_cocktail_history_remove_favorite"
         android:title="@string/menu_cocktail_history_remove_favorite" />
-    <item android:id="@+id/menu_cocktail_history_quick_preview"
-        android:title="@string/menu_cocktail_history_quick_preview" />
     <item android:id="@+id/menu_cocktail_history_remove"
         android:title="@string/menu_cocktail_history_remove" />
 </menu>

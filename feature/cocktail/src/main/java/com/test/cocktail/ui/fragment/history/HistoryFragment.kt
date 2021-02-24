@@ -1,6 +1,7 @@
 package com.test.cocktail.ui.fragment.history
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,8 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     @Inject
     lateinit var cocktailNavigator: CocktailNavigationApi
 
+    private var recyclerViewParcelable: Parcelable? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,8 +50,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         super.onCreateView(inflater, container, savedInstanceState)
         setupNavigation()
         setupRecyclerView()
-
-//        cocktailViewModel.filterResultLiveData.observe(viewLifecycleOwner, {})
 
         return viewDataBinding.root
     }
@@ -74,16 +75,30 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             CocktailItemDecoration(
                 context = requireContext(),
                 horizontalDpOffSet = R.dimen.margin_8dp,
-                verticalDpOffSet = R.dimen.margin_16dp
+                verticalDpOffSet = R.dimen.margin_8dp
             )
         )
         recyclerView.layoutManager = CocktailLayoutManager(requireContext(), 2, adapter)
 
         cocktailViewModel.cocktailsLiveData.observe(viewLifecycleOwner, { cocktails ->
+            saveRecyclerViewState()
             adapter.setData(cocktails, cocktailViewModel.sortingOrderLiveData.value)
+            restoreRecyclerViewState()
         })
         cocktailViewModel.sortingOrderLiveData.observe(viewLifecycleOwner, { sortType ->
+            saveRecyclerViewState()
             adapter.setData(cocktailViewModel.cocktailsLiveData.value, sortType)
+            restoreRecyclerViewState()
         })
+    }
+
+    private fun saveRecyclerViewState() {
+        recyclerViewParcelable = viewDataBinding.cocktailsRv.layoutManager
+            ?.onSaveInstanceState()
+    }
+
+    private fun restoreRecyclerViewState() {
+        viewDataBinding.cocktailsRv.layoutManager
+            ?.onRestoreInstanceState(recyclerViewParcelable)
     }
 }

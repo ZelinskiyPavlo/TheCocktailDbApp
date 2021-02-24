@@ -22,13 +22,13 @@ class CocktailAdapter(
     private val viewModel: CocktailViewModel
 ) : RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
 
-    var cocktailWithHeader: TreeMap<String, MutableList<CocktailModel>>? = null
-    private var headerPositionSet: TreeSet<Int> = TreeSet()
+    var processedCocktailsList: List<Any> = emptyList()
+        private set
 
-    private var oldFullCocktailList: List<Any> = emptyList()
-    var newFullCocktailList: MutableList<Any> = emptyList<Any>().toMutableList()
+    var headerWithCocktailsMap: TreeMap<String, MutableList<CocktailModel>>? = null
+        private set
 
-    private val sortComparator = CocktailSortComparator()
+    private var previousProcessedCocktailsList: List<Any> = emptyList()
 
     private var isFavoriteLayout: Boolean? = null
         set(value) {
@@ -41,90 +41,89 @@ class CocktailAdapter(
             return this
         }
 
-    // TODO: 12.02.2021 It it looks like shitty spaghetti code
     fun setData(
-//        oldCocktails: List<CocktailModel>?,
         newCocktails: List<CocktailModel>?,
         sortType: CocktailSortType? = CocktailSortType.RECENT
     ) {
-        fun setAlcoholData() {
-            cocktailWithHeader = newCocktails
-                ?.groupByTo(
-                    if (sortType == CocktailSortType.ALCOHOL_FIRST) TreeMap<String,
-                            MutableList<CocktailModel>>(sortComparator.alcoholComparator)
-                    else TreeMap<String, MutableList<CocktailModel>>(sortComparator.reverseAlcoholComparator)
-                ) { it.alcoholType.key }
-                .also { map ->
-                    map?.forEach { (_, cocktails) ->
-                        cocktails.sortBy { it.names.defaults }
-                    }
-                }
-            val cocktailHeaderFlatList = cocktailWithHeader?.flatMap { entry ->
-                mutableListOf<String>().apply {
-                    add(entry.key)
-                    addAll(entry.value.map { it.names.defaults!! })
-                }
-            } ?: emptyList()
+        prepareVariables()
+        processCocktailsList(newCocktails, sortType)
 
-            cocktailWithHeader?.keys?.forEach { key ->
-                headerPositionSet.add(cocktailHeaderFlatList.indexOf(key))
+        DiffUtil.calculateDiff(
+            CocktailDiffCallback(previousProcessedCocktailsList, processedCocktailsList)
+        ).dispatchUpdatesTo(this)
+    }
+
+    private fun prepareVariables() {
+        previousProcessedCocktailsList = processedCocktailsList
+        headerWithCocktailsMap = null
+    }
+
+    private fun processCocktailsList(
+        newCocktails: List<CocktailModel>?,
+        sortType: CocktailSortType?
+    ) {
+        processedCocktailsList = when {
+            (isFavoriteLayout == true)
+                .or(sortType == null)
+                .or(sortType == CocktailSortType.INGREDIENT_ASC)
+                .or(sortType == CocktailSortType.INGREDIENT_DESC)
+                .or(sortType == CocktailSortType.RECENT) -> {
+                newCocktails
             }
-        }
-
-        fun setDataByName() {
-            cocktailWithHeader = newCocktails
-                ?.groupByTo(
-                    if (sortType == CocktailSortType.NAME_ASC) TreeMap<String, MutableList<CocktailModel>>(
-                        compareBy { it })
-                    else TreeMap<String, MutableList<CocktailModel>>(compareByDescending { it })
-                ) { it.names.defaults?.get(0).toString() }
-                .also { map ->
-                    map?.forEach { (_, cocktails) ->
-                        cocktails.sortBy { it.names.defaults }
-                    }
-
-                }
-            val cocktailHeaderFlatList = cocktailWithHeader?.flatMap { entry ->
-                mutableListOf<String>().apply {
-                    add(entry.key)
-                    addAll(entry.value.map { it.names.defaults!! })
-                }
-            } ?: emptyList()
-
-            cocktailWithHeader?.keys?.forEach { key ->
-                headerPositionSet.add(cocktailHeaderFlatList.indexOf(key))
+            else -> {
+                createHeadersMap(newCocktails, sortType)
+                flattenHeadersMap()
             }
-        }
+        } ?: emptyList()
+    }
 
-        oldFullCocktailList = newFullCocktailList
-        cocktailWithHeader = null
-        headerPositionSet = TreeSet()
-
-        when (sortType) {
-            CocktailSortType.ALCOHOL_FIRST, CocktailSortType.NON_ALCOHOL_FIRST ->
-                setAlcoholData()
-            CocktailSortType.NAME_ASC, CocktailSortType.NAME_DESC ->
-                setDataByName()
-            CocktailSortType.INGREDIENT_ASC, CocktailSortType.INGREDIENT_DESC,
-            CocktailSortType.RECENT, null -> Unit
-        }
-
-        newFullCocktailList =
-            if (headerPositionSet.isEmpty() || isFavoriteLayout == true)
-                newCocktails?.toMutableList() ?: emptyList<Any>().toMutableList()
-            else {
-                cocktailWithHeader?.flatMap { entry ->
-                    mutableListOf<Any>().apply {
-                        add(entry.key)
-                        addAll(entry.value)
+    private fun createHeadersMap(
+        newCocktails: List<CocktailModel>?,
+        sortType: CocktailSortType?
+    ) {
+        headerWithCocktailsMap = newCocktails
+            ?.groupByTo(
+                when (sortType) {
+                    CocktailSortType.NAME_ASC -> {
+                        TreeMap<String, MutableList<CocktailModel>>(compareBy { it })
                     }
-                }?.toMutableList() ?: emptyList<Any>().toMutableList()
+                    CocktailSortType.NAME_DESC -> {
+                        TreeMap<String, MutableList<CocktailModel>>(compareByDescending { it })
+                    }
+                    CocktailSortType.ALCOHOL_FIRST -> {
+                        TreeMap<String, MutableList<CocktailModel>>(
+                            CocktailSortComparator().alcoholComparator
+                        )
+                    }
+                    CocktailSortType.NON_ALCOHOL_FIRST -> {
+                        TreeMap<String, MutableList<CocktailModel>>(
+                            CocktailSortComparator().reverseAlcoholComparator
+                        )
+                    }
+                    else -> throw IllegalArgumentException("Unknown sort type specified")
+                }
+            ) { cocktail ->
+                when (sortType) {
+                    CocktailSortType.NAME_ASC, CocktailSortType.NAME_DESC -> {
+                        cocktail.names.defaults?.get(0).toString()
+                    }
+                    CocktailSortType.ALCOHOL_FIRST, CocktailSortType.NON_ALCOHOL_FIRST -> {
+                        cocktail.alcoholType.key
+                    }
+                    else -> throw IllegalArgumentException("Unknown sort type specified")
+                }
             }
+            .also { map ->
+                map?.forEach { (_, cocktails) ->
+                    cocktails.sortBy { it.names.defaults }
+                }
+            }
+    }
 
-        val productDiffResult = DiffUtil.calculateDiff(
-            CocktailDiffCallback(oldFullCocktailList, newFullCocktailList)
-        )
-        productDiffResult.dispatchUpdatesTo(this)
+    private fun flattenHeadersMap(): List<Any>? {
+        return headerWithCocktailsMap?.flatMap { (key, values) ->
+            listOf(key, *values.toTypedArray())
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CocktailViewHolder {
@@ -138,27 +137,27 @@ class CocktailAdapter(
 
     override fun onBindViewHolder(holder: CocktailViewHolder, position: Int) {
         fun bindHeaderData() {
-            val header = newFullCocktailList[position] as String
+            val header = processedCocktailsList[position] as String
             val listener = HeaderItemUserActionListenerImpl()
             holder.bind(header, listener)
         }
 
         fun bindCocktailData() {
-            val cocktail = newFullCocktailList[position] as CocktailModel
+            val cocktail = processedCocktailsList[position] as CocktailModel
             val listener = CocktailItemUserActionListenerImpl(viewModel)
             holder.bind(cocktail, listener)
         }
 
         fun bindFavoriteCocktailData() {
-            val cocktail = newFullCocktailList[position] as CocktailModel
+            val cocktail = processedCocktailsList[position] as CocktailModel
             val listener = FavoriteCocktailUserActionListenerImpl(viewModel)
             holder.bind(cocktail, listener)
         }
 
         when {
             isFavoriteLayout == true -> bindFavoriteCocktailData()
-            newFullCocktailList[position] is String -> bindHeaderData()
-            newFullCocktailList[position] is CocktailModel -> bindCocktailData()
+            processedCocktailsList[position] is String -> bindHeaderData()
+            processedCocktailsList[position] is CocktailModel -> bindCocktailData()
             else -> throw IllegalStateException("Cannot find desired view type to bound of")
         }
     }
@@ -173,19 +172,19 @@ class CocktailAdapter(
             return
         } else {
             holder.bind(
-                newFullCocktailList[position],
+                processedCocktailsList[position],
                 CocktailItemUserActionListenerImpl(viewModel)
             )
         }
     }
 
-    override fun getItemCount(): Int = newFullCocktailList.size
+    override fun getItemCount(): Int = processedCocktailsList.size
 
     override fun getItemViewType(position: Int): Int {
         return when {
             isFavoriteLayout == true -> R.layout.item_cocktail_favorite
-            newFullCocktailList[position] is String -> R.layout.item_cocktail_header
-            newFullCocktailList[position] is CocktailModel -> R.layout.item_cocktail
+            processedCocktailsList[position] is String -> R.layout.item_cocktail_header
+            processedCocktailsList[position] is CocktailModel -> R.layout.item_cocktail
             else -> throw IllegalStateException("Unknown view type specified")
         }
     }

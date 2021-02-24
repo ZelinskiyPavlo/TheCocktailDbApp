@@ -55,7 +55,7 @@ class CocktailItemDecoration(
             if (position == -1) return
 
             val adapter = parent.adapter as CocktailAdapter
-            val item = adapter.newFullCocktailList[position]
+            val item = adapter.processedCocktailsList[position]
 
             if (item is String) {
                 parent.getDecoratedBoundsWithMargins(child, bounds)
@@ -75,14 +75,14 @@ class CocktailItemDecoration(
         if (position == -1) return
 
         val adapter = parent.adapter as CocktailAdapter
-        val item = adapter.newFullCocktailList[position]
+        val item = adapter.processedCocktailsList[position]
         val spanSizeLookup = (parent.layoutManager as CocktailLayoutManager).spanSizeLookup
 
         if (item is CocktailModel) {
             val spanCount = spanSizeLookup.getSpanSize(position)
 
-            val correspondingList = adapter.cocktailWithHeader?.entries?.find { mutableEntry ->
-                mutableEntry.value.contains(adapter.newFullCocktailList[position])
+            val correspondingList = adapter.headerWithCocktailsMap?.entries?.find { mutableEntry ->
+                mutableEntry.value.contains(adapter.processedCocktailsList[position])
             }?.value ?: emptyList()
 
             if (spanCount == 2) {

@@ -1,6 +1,7 @@
 package com.test.cocktail.ui.fragment.favorite
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,8 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     @Inject
     lateinit var cocktailNavigator: CocktailNavigationApi
 
+    private var recyclerViewParcelable: Parcelable? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,7 +61,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     private fun setupNavigation() {
         cocktailViewModel.cocktailDetailsEventLiveData.observe(
             viewLifecycleOwner,
-            EventObserver {cocktailId ->
+            EventObserver { cocktailId ->
                 cocktailNavigator.toCocktailDetail(cocktailId)
             })
     }
@@ -68,19 +71,31 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         val recyclerView = viewDataBinding.cocktailsFavoriteRv
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(
-            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-//                setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.item_cocktail_favorite_divider)!!)
-            }
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
         )
         recyclerView.layoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.VERTICAL, false
         )
 
         cocktailViewModel.favoriteCocktailsLiveData.observe(viewLifecycleOwner, { cocktails ->
+            saveRecyclerViewState()
             adapter.setData(cocktails, cocktailViewModel.sortingOrderLiveData.value)
+            restoreRecyclerViewState()
         })
-        cocktailViewModel.sortingOrderLiveData.observe(viewLifecycleOwner, {sortType ->
-            adapter.setData(cocktailViewModel.cocktailsLiveData.value, sortType)
+        cocktailViewModel.sortingOrderLiveData.observe(viewLifecycleOwner, { sortType ->
+            saveRecyclerViewState()
+            adapter.setData(cocktailViewModel.favoriteCocktailsLiveData.value, sortType)
+            restoreRecyclerViewState()
         })
+    }
+
+    private fun saveRecyclerViewState() {
+        recyclerViewParcelable = viewDataBinding.cocktailsFavoriteRv.layoutManager
+            ?.onSaveInstanceState()
+    }
+
+    private fun restoreRecyclerViewState() {
+        viewDataBinding.cocktailsFavoriteRv.layoutManager
+            ?.onRestoreInstanceState(recyclerViewParcelable)
     }
 }
