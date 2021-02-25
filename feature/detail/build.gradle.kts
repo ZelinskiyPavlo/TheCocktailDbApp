@@ -1,6 +1,3 @@
-import com.test.gradle.dependency.daggerAndroidDependencies
-import com.test.gradle.dependency.daggerDependencies
-
 plugins {
     `feature-module`
 }
@@ -8,7 +5,8 @@ plugins {
 dependencies {
     implementation(corePresentation)
     implementation(coreDagger)
+    implementation(coreNavigation)
+    implementation(coreCommonCocktail)
 
-    daggerDependencies()
-    daggerAndroidDependencies()
+    implementation(platformFirebase)
 }

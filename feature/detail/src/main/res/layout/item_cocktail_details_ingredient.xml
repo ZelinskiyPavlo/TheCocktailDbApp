@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="obj"
-            type="com.test.thecocktaildb.presentation.ui.detail.Ingredient" />
+            type="com.test.detail.model.Ingredient" />
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_3dp"
-        android:layout_marginBottom="@dimen/margin_3dp"
+        android:layout_marginVertical="@dimen/margin_3dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="135dp"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
             android:layout_height="wrap_content"
             android:text="@{obj.name}"
-            android:textAppearance="@style/TextRegular" />
+            android:textAppearance="@style/TextRegular"
+            tools:text="Some ingredient"/>
 
         <TextView
-            android:layout_width="250dp"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
             android:layout_height="wrap_content"
-            android:layout_marginStart="145dp"
             android:text="@{obj.measure}"
-            android:textAppearance="@style/TextRegular" />
+            android:textAppearance="@style/TextRegular"
+            tools:text="some measure"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

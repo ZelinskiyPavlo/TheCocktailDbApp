@@ -1,12 +1,9 @@
 package com.test.detail.adapter
 
-import android.view.View
-import com.test.thecocktaildb.R
-import com.test.thecocktaildb.presentation.model.cocktail.CocktailModel
-import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.CustomActionListener
-import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.base.BaseAdapter
-import com.test.thecocktaildb.presentation.ui.adapter.recyclerview.cocktail.CocktailItemUserActionListener
-import com.test.thecocktaildb.presentation.ui.detail.Ingredient
+import com.test.detail.R
+import com.test.detail.model.Ingredient
+import com.test.presentation.adapter.recyclerview.CustomActionListener
+import com.test.presentation.adapter.recyclerview.base.BaseAdapter
 
 internal class IngredientAdapter : BaseAdapter<Ingredient>() {
 
@@ -24,20 +21,5 @@ internal class IngredientAdapter : BaseAdapter<Ingredient>() {
 
     override fun getItemCount(): Int = ingredientsList.size
 
-    override fun getItemClickListener(): CustomActionListener {
-        return object : CocktailItemUserActionListener {
-            override fun onFavoriteIconClicked(cocktail: CocktailModel) {
-            }
-
-            override fun onItemClicked(cocktail: CocktailModel) {
-
-            }
-
-            override fun onItemLongClicked(view: View, cocktail: CocktailModel): Boolean {
-                return true
-            }
-        }
-    }
-
-
+    override fun getItemClickListener(): CustomActionListener = object : CustomActionListener {}
 }

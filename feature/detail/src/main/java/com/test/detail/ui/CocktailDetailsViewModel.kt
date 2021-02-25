@@ -3,7 +3,7 @@ package com.test.detail.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.test.detail.api.DetailCommunicationApi
 import com.test.detail.model.Ingredient
 import com.test.presentation.extension.mapNotNull
@@ -61,9 +61,5 @@ class CocktailDetailsViewModel(
         launchRequest(cocktailLiveData) {
             cocktailRepo.getCocktailById(cocktailId)?.run(cocktailMapper::mapTo)
         }
-    }
-
-    fun onBackButtonPressed(view: View?) {
-        _onBackPressedEventLiveData.value = Event(Unit)
     }
 }
