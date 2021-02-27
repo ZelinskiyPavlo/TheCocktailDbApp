@@ -1,7 +1,6 @@
 <resources>
     <!--region High level text-->
     <string name="app_name" translatable="false">TheCocktailDb</string>
-    <string name="app_name_simplified">Pavlo Zelinskiy</string>
     <string name="cocktail_app_title" translatable="false">Cocktail App</string>
     <!--endregion-->
 
@@ -121,7 +120,7 @@
     <!--endregion-->
 
     <!--region Bottom navigation view -->
-    <string name="bottom_navigation_main_fragment_title">Main</string>
+    <string name="bottom_navigation_main_fragment_title">Cocktail</string>
     <string name="bottom_navigation_setting_fragment_title">Setting</string>
     <!--endregion-->
 
