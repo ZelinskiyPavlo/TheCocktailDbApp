@@ -1,9 +1,6 @@
 package com.test.search.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.map
+import androidx.lifecycle.*
 import com.test.common.Event
 import com.test.presentation.extension.debounce
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
@@ -36,11 +33,18 @@ class SearchCocktailViewModel(
     val isSearchResultEmptyLiveData: LiveData<Boolean> =
         _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty().not() }
 
+    private val searchQueryObserver = Observer<String?> {
+        if (it.isNullOrBlank()) _itemsLiveData.value = emptyList()
+        else performSearch(it)
+    }
+
     init {
-        _searchQueryLiveData.observeForever {
-            if (it.isNullOrBlank()) _itemsLiveData.value = emptyList()
-            else performSearch(it)
-        }
+        _searchQueryLiveData.observeForever(searchQueryObserver)
+    }
+
+    override fun onCleared() {
+        _searchQueryLiveData.removeObserver(searchQueryObserver)
+        super.onCleared()
     }
 
     private fun performSearch(query: String) {

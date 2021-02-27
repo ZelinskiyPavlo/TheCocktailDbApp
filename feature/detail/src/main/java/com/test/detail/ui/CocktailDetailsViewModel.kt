@@ -1,9 +1,6 @@
 package com.test.detail.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.map
+import androidx.lifecycle.*
 import com.test.detail.api.DetailCommunicationApi
 import com.test.detail.model.Ingredient
 import com.test.presentation.extension.mapNotNull
@@ -50,10 +47,17 @@ class CocktailDetailsViewModel(
 
     var cocktailId: Long = -1L
 
+    private val isCocktailFoundObserver = Observer<Boolean> { result ->
+        if (result == false) communicationApi.sendNoCocktailWithIdFoundEvent()
+    }
+
     init {
-        isCocktailFoundLiveData.observeForever { result ->
-            if (result == false) communicationApi.sendNoCocktailWithIdFoundEvent()
-        }
+        isCocktailFoundLiveData.observeForever(isCocktailFoundObserver)
+    }
+
+    override fun onCleared() {
+        isCocktailFoundLiveData.removeObserver(isCocktailFoundObserver)
+        super.onCleared()
     }
 
     fun getCocktailById(cocktailId: Long) {
