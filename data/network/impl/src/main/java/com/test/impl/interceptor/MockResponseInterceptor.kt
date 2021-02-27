@@ -27,6 +27,12 @@ class MockResponseInterceptor: Interceptor {
         } """
             .replace(" ", "")
             .replace("|", "\t")
+
+        val uploadAvatarJsonBody = """ {
+            |"avatar":"https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00000/ids/edr/browse/fcam/FLG_0000_0666952984_226ECM_N0010044AUT_04096_00_2I3J01_800.jpg"
+        } """
+            .replace(" ", "")
+            .replace("|", "\t")
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -46,13 +52,8 @@ class MockResponseInterceptor: Interceptor {
         return when(chain.request().url.toString()) {
             BaseUrl.Auth.plus(UrlParts.Auth.loginPart) -> loginOrRegisterJsonBody
             BaseUrl.Auth.plus(UrlParts.Auth.registerPart) -> loginOrRegisterJsonBody
-            BaseUrl.Auth.plus(UrlParts.Auth.profilePart) -> {
-                // TODO: 08.02.2021 Keep in mind that there is also edit profile request
-                getProfileJsonBody
-            }
-            BaseUrl.Auth.plus(UrlParts.Upload.uploadAvatarPart) -> {
-                TODO("Upload avatar Mock not implemented")
-            }
+            BaseUrl.Auth.plus(UrlParts.Auth.profilePart) -> getProfileJsonBody
+            BaseUrl.Auth.plus(UrlParts.Upload.uploadAvatarPart) -> uploadAvatarJsonBody
             else -> throw IllegalArgumentException("Cannot find suitable mock")
         }
     }

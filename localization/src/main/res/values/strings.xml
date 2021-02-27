@@ -238,6 +238,7 @@
     <string name="no_cocktails_found">No cocktails found</string>
     <string name="snackbar_no_cocktail_found">No cocktail found</string>
     <string name="filter_fragment_results_sign">Results</string>
+    <string name="confirm">Confirm</string>
     <!--endregion-->
 
 </resources>

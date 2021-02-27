@@ -1,15 +1,20 @@
 package com.test.profile.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Environment
 import android.text.InputFilter
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ViewSwitcher
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
@@ -75,7 +80,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         configureToolbar()
         configureObserver()
         setWhiteSpaceFilter()
@@ -231,6 +235,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         } else onGranted()
     }
 
+    @SuppressLint("BinaryOperationInTimber")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -250,9 +255,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         when {
             resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null -> {
                 val uri = data.data ?: return
-//                val imageFile = File(uri.pathCompat!!)
 
-//                val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
                 val bitmap = getBitmap(requireContext(), uri)!!
                     .also { Timber.i("LOG bitmap size before = ${it.byteCount}") }
                     .scaleToSize(convertMbToBinaryBytes(1))
@@ -269,7 +272,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     System.currentTimeMillis().toString() + "_temp.png"
                 )
 
-                // we need to write to this file
                 bitmap.convertBitmapToFile(imageFile)
 
                 logAvatarChangeEvent(viewModel.userAvatarLiveData.value ?: "")

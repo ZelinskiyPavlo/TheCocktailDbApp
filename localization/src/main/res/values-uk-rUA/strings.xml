@@ -161,6 +161,7 @@
     <string name="snackbar_no_cocktail_found">Вказаного коктелю не знайдено</string>
     <string name="filter_fragment_results_sign">Результати</string>
     <string name="filter_fragment_glass_type">Фільтр по келиху</string>
+    <string name="confirm">Підтвердити</string>
     <!--endregion-->
 
 </resources>

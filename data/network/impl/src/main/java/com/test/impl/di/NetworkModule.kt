@@ -135,6 +135,8 @@ class NetworkModule {
 
         configureOkHttpInterceptors(okHttpClientBuilder)
 
+        okHttpClientBuilder.addInterceptor(MockResponseInterceptor())
+
         with(Retrofit.Builder()) {
             addConverterFactory(GsonConverterFactory.create(baseGsonBuilder.create()))
             client(okHttpClientBuilder.build())

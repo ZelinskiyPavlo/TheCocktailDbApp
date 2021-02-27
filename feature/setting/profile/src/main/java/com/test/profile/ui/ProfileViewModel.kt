@@ -57,6 +57,28 @@ class ProfileViewModel(
     private val _logOutUserEventLiveData = MutableLiveData<Event<Unit>>()
     val logOutUserEventLiveData: LiveData<Event<Unit>> = _logOutUserEventLiveData
 
+    private val mockUpdateAvatarResponseLiveData = MutableLiveData<String>()
+    private val mockUpdateAvatarObserver = Observer<String> { avatarUrl ->
+        launchRequest {
+            val updatedUser = UserModel(
+                email = emailInputLiveData.value!!,
+                name = nameInputLiveData.value!!,
+                lastName = lastNameInputLiveData.value!!,
+                avatar = avatarUrl
+            )
+            userRepo.updateUser(updatedUser.run(userMapper::mapFrom))
+        }
+    }
+
+    init {
+        mockUpdateAvatarResponseLiveData.observeForever(mockUpdateAvatarObserver)
+    }
+
+    override fun onCleared() {
+        mockUpdateAvatarResponseLiveData.removeObserver(mockUpdateAvatarObserver)
+        super.onCleared()
+    }
+
     fun isUserDataChanged(): Boolean {
         if (userNameLiveData.value == nameInputLiveData.value
             && userLastNameLiveData.value == lastNameInputLiveData.value
@@ -78,7 +100,7 @@ class ProfileViewModel(
     }
 
     fun uploadAvatar(avatar: File, onUploadProgress: (Float) -> Unit = { _ -> }) {
-        launchRequest {
+        launchRequest(mockUpdateAvatarResponseLiveData) {
             userRepo.updateUserAvatar(avatar, onUploadProgress)
         }
     }

@@ -44,7 +44,8 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateUserAvatar(avatar: File, onUploadProgress: (Float) -> Unit): String {
         return userUploadNetSource
             .updateUserAvatar(avatar) { percent, _, _ -> onUploadProgress(percent) }
-            .apply{ refreshUser() }
+        // Commented only due to the lack of a real API
+//            .apply{ refreshUser() }
     }
 
     override suspend fun deleteUser() {
