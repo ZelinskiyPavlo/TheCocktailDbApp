@@ -1,9 +1,12 @@
 package com.test.login.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -39,8 +42,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         SavedStateViewModelFactory(loginViewModelFactory, this)
     }
 
-//    private val sharedViewModel: AuthViewModel by activityViewModels()
-
     @Inject
     lateinit var loginNavigator: LoginNavigationApi
 
@@ -58,6 +59,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         setWhiteSpaceFilter()
         addLinkedText()
         setupObserver()
+        setupKeyboardClosing()
         viewModel.setInitialText()
 
         return viewDataBinding.root
@@ -120,7 +122,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun navigateToTabHost() {
-//        val (notificationType, cocktailId) = sharedViewModel.firebaseData
         loginNavigator.toTabHost()
     }
 
@@ -160,4 +161,32 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }.show(childFragmentManager, "SignInErrorDialog")
     }
 
+    // TODO: 27.02.2021 Extract to generic function
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupKeyboardClosing() {
+        viewDataBinding.loginRootLayout.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val focusedView = when {
+                    viewDataBinding.loginEditText.isFocused -> {
+                        viewDataBinding.loginEditText
+                    }
+                    viewDataBinding.passwordEditText.isFocused -> {
+                        viewDataBinding.passwordEditText
+                    }
+                    else -> null
+                }
+                if (focusedView != null) {
+                    val outRect = Rect()
+                    focusedView.getGlobalVisibleRect(outRect)
+                    if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                        focusedView.clearFocus()
+                        val imm =
+                            v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
+                    }
+                }
+            }
+            false
+        }
+    }
 }

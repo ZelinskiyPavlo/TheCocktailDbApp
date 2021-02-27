@@ -1,10 +1,13 @@
 package com.test.register.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -55,11 +58,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         setWhiteSpaceFilter()
         addLinkedText()
         setupObserver()
         configureTogglePasswordButton()
+        setupKeyboardClosing()
 
         return viewDataBinding.root
     }
@@ -145,7 +148,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
     }
 
     private fun navigateToCocktailActivity() {
-//        val (notificationType, cocktailId) = sharedViewModel.firebaseData
         registerNavigator.toTabHost()
     }
 
@@ -207,4 +209,40 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
         }.show(childFragmentManager, "SignUpErrorDialog")
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupKeyboardClosing() {
+        viewDataBinding.registerRootLayout.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val focusedView = when {
+                    viewDataBinding.registerEmailEt.isFocused -> {
+                        viewDataBinding.registerEmailEt
+                    }
+                    viewDataBinding.registerNameEt.isFocused -> {
+                        viewDataBinding.registerNameEt
+                    }
+                    viewDataBinding.registerLastNameEt.isFocused -> {
+                        viewDataBinding.registerNameEt
+                    }
+                    viewDataBinding.registerPasswordEt.isFocused -> {
+                        viewDataBinding.registerNameEt
+                    }
+                    viewDataBinding.registerConfirmPasswordEt.isFocused -> {
+                        viewDataBinding.registerNameEt
+                    }
+                    else -> null
+                }
+                if (focusedView != null) {
+                    val outRect = Rect()
+                    focusedView.getGlobalVisibleRect(outRect)
+                    if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                        focusedView.clearFocus()
+                        val imm =
+                            v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
+                    }
+                }
+            }
+            false
+        }
+    }
 }

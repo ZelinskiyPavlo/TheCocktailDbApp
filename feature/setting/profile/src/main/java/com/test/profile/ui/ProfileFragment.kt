@@ -10,10 +10,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Environment
 import android.text.InputFilter
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ViewSwitcher
 import androidx.core.app.ActivityCompat
@@ -74,6 +71,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private val viewSwitcher: ViewSwitcher by lazy { viewDataBinding.profileFragmentViewSwitcher }
 
+    private var previousSoftInputMode: Int? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -83,6 +82,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         configureToolbar()
         configureObserver()
         setWhiteSpaceFilter()
+        setupKeyboardClosing()
+        setSoftInputMode()
 
         return viewDataBinding.root
     }
@@ -149,6 +150,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             profileFragmentChangeEmailEt.filters =
                 profileFragmentChangeEmailEt.filters + whiteSpaceFilter
         }
+    }
+
+    private fun setSoftInputMode() {
+        previousSoftInputMode = requireActivity().window?.attributes?.softInputMode
+        requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     fun toggleUserChange() {
@@ -305,5 +311,45 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             descriptionTextResId = R.string.no_permission_dialog_description
             rightButtonTextResId = R.string.all_ok
         }.show(parentFragmentManager, "ShowPermissionDialog")
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupKeyboardClosing() {
+        viewDataBinding.profileRootLayout.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val focusedView = when {
+                    viewDataBinding.profileFragmentChangeNameEt.isFocused -> {
+                        viewDataBinding.profileFragmentChangeNameEt
+                    }
+                    viewDataBinding.profileFragmentChangeLastNameEt.isFocused -> {
+                        viewDataBinding.profileFragmentChangeLastNameEt
+                    }
+                    viewDataBinding.profileFragmentChangeEmailEt.isFocused -> {
+                        viewDataBinding.profileFragmentChangeEmailEt
+                    }
+                    else -> null
+                }
+                if (focusedView != null) {
+                    val outRect = Rect()
+                    focusedView.getGlobalVisibleRect(outRect)
+                    if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                        focusedView.clearFocus()
+                        val imm =
+                            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
+                    }
+                }
+            }
+            false
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        restoreOriginalSoftInputMode()
+    }
+
+    private fun restoreOriginalSoftInputMode() {
+        previousSoftInputMode?.let { requireActivity().window?.setSoftInputMode(it) }
     }
 }
