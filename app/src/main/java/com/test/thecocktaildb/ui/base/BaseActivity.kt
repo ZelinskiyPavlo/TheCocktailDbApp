@@ -23,7 +23,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import icepick.Icepick
-import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity(),
@@ -47,14 +46,6 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     private val errorHandler: SimpleErrorHandler
             by lazy { SimpleErrorHandler(supportFragmentManager, this) }
 
-    // TODO: 24.01.2021 Переглянути, що тут можна видалити, оскільки в мене тільки одна Activity буде і деякі функції тут не потрібні
-
-//    @Inject
-//    protected lateinit var firebaseAnalytics: FirebaseAnalytics
-
-//    @Inject
-//    protected lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, contentLayoutResId) as VDB
@@ -65,7 +56,6 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     }
 
     protected open fun configureDataBinding() {
-        //stub
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -114,24 +104,7 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     protected open fun handleNoInternetConnectionError(e: NoInternetConnectionError) =
         errorHandler.handleNoInternetConnectionError(e)
 
-    protected open fun configureView(savedInstanceState: Bundle?) {
-        //stub
-    }
-
     protected open fun configureObserver() {
-        //stub
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        Timber.i("OnStop called ${this@BaseActivity.javaClass.simpleName}")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        Timber.i("OnDestroy called ${this@BaseActivity.javaClass.simpleName}")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

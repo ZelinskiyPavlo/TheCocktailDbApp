@@ -30,6 +30,7 @@ open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
         if (BuildConfig.DEBUG) e.printStackTrace()
 
         if (e is ApiException) {
+            // TODO: 10.02.2021 Maybe i need additional class for Errors, to remove manual error check in ViewModel??
             val error = when {
                 e.code == HttpException.BAD_REQUEST
                         && e.method == BaseUrl.Auth.plus("login") -> {
@@ -66,6 +67,7 @@ open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
                 }
             }
             withContext(Dispatchers.Main) {
+                // TODO: 10.02.2021 I know it's bad practice
                 errorLiveData.setValue(error)
                 errorLiveData.setValue(null)
             }

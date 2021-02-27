@@ -1,5 +1,6 @@
 package com.test.presentation.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +10,21 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.common.exception.*
 import com.test.presentation.exception.SimpleErrorHandler
+import com.test.presentation.extension.observeNotNull
 import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
 import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.presentation.ui.dialog.base.BaseDialogFragment
-import com.test.presentation.extension.observeNotNull
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import dagger.android.support.AndroidSupportInjection
 import icepick.Icepick
 import javax.inject.Inject
 
-abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragment(),
+abstract class BaseFragment<VDB : ViewDataBinding> : Fragment(), HasAndroidInjector,
     BaseDialogFragment.OnDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseDialogFragment.OnDialogFragmentDismissListener<Any, DialogButton, DialogType<DialogButton>>,
     BaseBottomSheetDialogFragment.OnBottomSheetDialogFragmentClickListener<Any, DialogButton, DialogType<DialogButton>>,
@@ -36,7 +40,14 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
             by lazy { SimpleErrorHandler(childFragmentManager, requireContext()) }
 
     @Inject
-    protected lateinit var firebaseAnalytics: FirebaseAnalytics
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +73,8 @@ abstract class BaseFragment<VDB : ViewDataBinding/*, VM : ViewModel*/> : Fragmen
             handleError(it)
         })
     }
+
+    open fun onBackPressed() {}
 
     private fun handleError(e: RequestError) {
         when (e) {
