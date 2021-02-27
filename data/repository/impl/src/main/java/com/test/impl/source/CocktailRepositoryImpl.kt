@@ -3,11 +3,11 @@ package com.test.impl.source
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.test.database.source.CocktailDbSource
-import com.test.network.source.CocktailNetSource
-import com.test.repository.source.CocktailRepository
 import com.test.impl.mapper.CocktailRepoModelMapper
 import com.test.impl.source.base.BaseRepositoryImpl
+import com.test.network.source.CocktailNetSource
 import com.test.repository.model.CocktailRepoModel
+import com.test.repository.source.CocktailRepository
 import java.util.*
 import javax.inject.Inject
 
@@ -31,7 +31,8 @@ class CocktailRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCocktailById(id: Long): CocktailRepoModel? {
-        return dbSource.getCocktailById(id)?.run(mapper::mapDbToRepo)
+        return dbSource.getCocktailById(id)?.run(mapper::mapDbToRepo).also { updateCocktailDate(id) }
+            ?: findAndAddCocktailById(id)
     }
 
     override suspend fun findCocktailById(id: Long): CocktailRepoModel? {
