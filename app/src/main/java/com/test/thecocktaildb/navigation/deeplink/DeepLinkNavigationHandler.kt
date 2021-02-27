@@ -19,9 +19,9 @@ open class DeepLinkNavigationHandler(
 
     private var deepLinkModel: DeepLinkModel? = null
 
-    fun processDeepLink(url: Uri) {
+    fun processDeepLink(url: Uri): Boolean {
         extractType(url)
-        processDeepLink()
+        return processDeepLink()
     }
 
     fun processDeepLink(notificationType: String, cocktailId: Long?) {
@@ -29,9 +29,11 @@ open class DeepLinkNavigationHandler(
         processDeepLink()
     }
 
-    private fun processDeepLink() {
+    private fun processDeepLink(): Boolean {
         if (isDirectDeepLink) performNavigation()
         else saveDeepLinkModel()
+
+        return isDirectDeepLink
     }
 
     private fun extractType(url: Uri) {

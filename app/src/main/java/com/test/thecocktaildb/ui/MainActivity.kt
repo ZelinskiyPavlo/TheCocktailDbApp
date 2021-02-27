@@ -97,10 +97,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         intent.data?.let { uri ->
             uri.getQueryParameter(DynamicLink.LINK) ?: return false
 
-            DeepLinkNavigationHandler(navigator, navigationStateHolder, viewModel.isUserLoggedIn)
-                .processDeepLink(uri)
-
-            return true
+            return DeepLinkNavigationHandler(
+                navigator,
+                navigationStateHolder,
+                viewModel.isUserLoggedIn
+            ).processDeepLink(uri)
         }
         return false
     }
