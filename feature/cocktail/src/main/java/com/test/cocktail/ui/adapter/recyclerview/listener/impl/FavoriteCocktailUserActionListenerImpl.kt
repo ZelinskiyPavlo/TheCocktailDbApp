@@ -43,6 +43,10 @@ internal class FavoriteCocktailUserActionListenerImpl (
                     viewModel.changeIsFavoriteState(cocktail)
                     true
                 }
+                R.id.menu_cocktail_history_remove -> {
+                    viewModel.removeCocktail(cocktail)
+                    true
+                }
                 else -> false
             }
         }

@@ -266,6 +266,12 @@ class CocktailViewModel(
         }
     }
 
+    fun removeCocktail(cocktail: CocktailModel) {
+        launchRequest {
+            cocktailRepo.deleteCocktails(cocktail.run(cocktailMapper::mapFrom))
+        }
+    }
+
     fun onApplyButtonClicked() {
         val filterList = _filtersLiveData.value
         if (filterList != null || filterList == listOf(null, null, null)) {

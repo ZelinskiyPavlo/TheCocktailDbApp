@@ -117,20 +117,30 @@ interface CocktailDao {
     @Transaction
     fun deleteCocktails(vararg cocktail: CocktailDbModel) {
         cocktail.forEach {
-            deleteCocktailTable(it.id)
-            deleteNameTable(it.id)
-            deleteInstructionTable(it.id)
+            // Note: order of deletion matter
+            // Also try to use ON DELETE CASCADE if this supported
+            deleteFromInstructionTable(it.id)
+            deleteFromNameTable(it.id)
+            deleteFromIngredientJunctionTable(it.id)
+            deleteFromMeasureJunctionTable(it.id)
+            deleteFromCocktailTable(it.id)
         }
     }
 
-    @Query("DELETE FROM ${Table.COCKTAIL} WHERE id = :id")
-    fun deleteCocktailTable(id: Long)
+    @Query("DELETE FROM ${Table.INSTRUCTION} WHERE cocktail_id = :id")
+    fun deleteFromInstructionTable(id: Long)
 
     @Query("DELETE FROM ${Table.NAME} WHERE cocktail_id = :id")
-    fun deleteNameTable(id: Long)
+    fun deleteFromNameTable(id: Long)
 
-    @Query("DELETE FROM ${Table.INSTRUCTION} WHERE cocktail_id = :id")
-    fun deleteInstructionTable(id: Long)
+    @Query("DELETE FROM ${Table.COCKTAIL_INGREDIENT} WHERE cocktail_id = :id")
+    fun deleteFromIngredientJunctionTable(id: Long)
+
+    @Query("DELETE FROM ${Table.COCKTAIL_MEASURE} WHERE cocktail_id = :id")
+    fun deleteFromMeasureJunctionTable(id: Long)
+
+    @Query("DELETE FROM ${Table.COCKTAIL} WHERE id = :id")
+    fun deleteFromCocktailTable(id: Long)
     //endregion
 
     //region Delete all cocktails section
