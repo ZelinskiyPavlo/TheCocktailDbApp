@@ -37,13 +37,13 @@ fun ViewPager2.pageChangeListener(pageAttrChanged: InverseBindingListener?) {
     newListener?.let { registerOnPageChangeCallback(newListener) }
 }
 
-object Converter {
+object PageConverter {
 
     @BindingConversion
     @JvmStatic
-    fun convertPageToInt(page: Page): Int = page.ordinal
+    fun convertEnumToInt(enum: Enum<*>): Int = enum.ordinal
 
-    @InverseMethod("convertPageToInt")
+    @InverseMethod("convertEnumToInt")
     @JvmStatic
     fun convertIntToPage(page: Int): Page = Page.values()[page]
 

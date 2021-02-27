@@ -11,10 +11,11 @@ inline fun <reified T> LiveData<T>.observe(owner: LifecycleOwner, crossinline ob
 }
 
 @MainThread
-inline fun <T> LiveData<T?>.observeNotNull(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
-    observe(owner, Observer {
-        if (it != null) observer(it)
-    })
+inline fun <T> LiveData<T?>.observeNotNull(owner: LifecycleOwner? = null, crossinline observer: (T) -> Unit) {
+    val resultObserver = Observer<T?> { if (it != null) observer(it) }
+
+    if (owner == null) observeForever (resultObserver)
+    else observe(owner, resultObserver)
 }
 
 @MainThread

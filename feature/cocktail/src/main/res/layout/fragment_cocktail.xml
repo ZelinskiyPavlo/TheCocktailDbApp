@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.test.presentation.adapter.binding.Converter" />
+        <import type="com.test.presentation.adapter.binding.PageConverter" />
 
         <variable
             name="viewModel"
@@ -59,7 +59,9 @@
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tab_layout"
-                    bind:vp_page="@={Converter.convertPageToInt(viewModel.currentPageLiveData)}" />
+                    bind:vp_page="@={PageConverter.convertEnumToInt(viewModel.currentPageLiveData)}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_gravity="end|bottom"

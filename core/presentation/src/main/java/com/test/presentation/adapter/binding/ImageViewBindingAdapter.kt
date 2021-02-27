@@ -28,7 +28,3 @@ fun ImageView.loadImage(
         imageBuilder.into(this)
     }
 }
-
-@BindingAdapter("bind:iv_imageUrl")
-fun ImageView.loadImage(url: String?) =
-    url?.let { Glide.with(this.context).load(url).into(this) }
