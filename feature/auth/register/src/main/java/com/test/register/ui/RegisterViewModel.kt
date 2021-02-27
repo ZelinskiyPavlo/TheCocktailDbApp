@@ -33,6 +33,9 @@ class RegisterViewModel(
     private var isDataCorrect = true
 
     val isDataValidLiveData: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        // set initial value
+        value = false
+
         fun invalidateTypedData() {
             val typedEmail = emailInputLiveData.value ?: ""
             val typedName = nameInputLiveData.value ?: ""
