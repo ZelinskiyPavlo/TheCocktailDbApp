@@ -43,7 +43,7 @@ class CocktailDetailsViewModel(
         cocktailLiveData.mapNotNull { instructions.defaults!! }
 
     val isCocktailFoundLiveData: LiveData<Boolean> =
-        Transformations.map(cocktailLiveData) { it != null }
+        cocktailLiveData.map { it != null }
 
     var cocktailId: Long = -1L
 

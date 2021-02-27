@@ -35,9 +35,5 @@ class AppModulePlugin : BaseAndroidModulePlugin<AppExtension>() {
 //				addManifestPlaceholders("appName" to Config.appName)
 			}
 		}
-
-		lintOptions {
-			disable("BinaryOperationInTimber")
-		}
 	}
 }

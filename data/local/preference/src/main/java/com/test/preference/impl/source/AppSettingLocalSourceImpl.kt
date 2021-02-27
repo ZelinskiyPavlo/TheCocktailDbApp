@@ -32,6 +32,6 @@ class AppSettingLocalSourceImpl @Inject constructor(private val sharedPrefsHelpe
 
     companion object Keys {
         private const val EXTRA_KEY_SHOW_NAV_TITLE = "EXTRA_KEY_SHOW_NAV_TITLE"
-        const val EXTRA_KEY_SELECTED_LANGUAGE = "EXTRA_KEY_SELECTED_LANGUAGE"
+        private const val EXTRA_KEY_SELECTED_LANGUAGE = "EXTRA_KEY_SELECTED_LANGUAGE"
     }
 }

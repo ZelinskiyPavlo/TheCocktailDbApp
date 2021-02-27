@@ -16,7 +16,7 @@ import kotlin.math.min
 
 class RoundedFrameLayout : FrameLayout {
 
-    val is26Plus = Build.VERSION.SDK_INT >= 26
+    private val is26Plus = Build.VERSION.SDK_INT >= 26
 
     private val boundsF = RectF()
     private val eraserPath = Path()
@@ -28,6 +28,7 @@ class RoundedFrameLayout : FrameLayout {
             cornersFlag = cornersFlag
         }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     var cornersFlag: Int = CornerFlag.ALL
         set(value) {
             field = max(0, value)
@@ -52,7 +53,7 @@ class RoundedFrameLayout : FrameLayout {
             }
             requestLayout()
         }
-    val cornersRadii = FloatArray(8) { cornerRadius }
+    private val cornersRadii = FloatArray(8) { cornerRadius }
     private val clampedCornerRadii = FloatArray(8) { cornerRadius }
 
     private val roundPaint = object : Paint() {

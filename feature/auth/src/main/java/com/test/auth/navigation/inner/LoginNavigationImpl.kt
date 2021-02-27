@@ -6,8 +6,7 @@ import com.test.auth.navigation.routing.Screen
 import com.test.login.api.LoginNavigationApi
 import javax.inject.Inject
 
-// TODO: 02.02.2021 toTabHost needs to be extracted to higher lever class and then inherited
-class LoginNavigationImpl @Inject constructor(
+internal class LoginNavigationImpl @Inject constructor(
     private val outerNavigationApi: AuthNavigationApi,
     private val innerNavigationRouter: Router
 ): LoginNavigationApi {

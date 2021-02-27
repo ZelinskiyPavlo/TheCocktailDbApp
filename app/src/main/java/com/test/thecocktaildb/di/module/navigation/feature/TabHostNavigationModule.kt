@@ -8,6 +8,7 @@ import dagger.Module
 @Module
 interface TabHostNavigationModule {
 
+    @Suppress("unused")
     @Binds
     fun bindTabHostNavigation(tabHostNavigationImpl: TabHostNavigationImpl): TabHostNavigationApi
 }

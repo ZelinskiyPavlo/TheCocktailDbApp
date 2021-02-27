@@ -7,6 +7,7 @@ import androidx.core.content.res.use
 import com.test.presentation.R
 import kotlin.math.roundToInt
 
+@Suppress("MemberVisibilityCanBePrivate")
 class AspectRatioFrameLayout : FrameLayout {
 
     constructor(context: Context) : super(context) {

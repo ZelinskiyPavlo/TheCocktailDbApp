@@ -40,6 +40,7 @@ internal class CubeManager(
         }
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun isAnimationRunning(): Boolean {
         return triangleAnimationManager.isTriangleAnimationRunning()
                 || cubeAnimationManager.isCubeAnimationRunning()

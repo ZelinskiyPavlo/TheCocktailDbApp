@@ -10,15 +10,18 @@ import dagger.android.ContributesAndroidInjector
 @Module
 interface CocktailFragmentModule {
 
+    @Suppress("unused")
     @PerDeeplyNestedFragment
     @ContributesAndroidInjector
-    fun contribureHistoryFragment(): HistoryFragment
+    fun contributeHistoryFragment(): HistoryFragment
 
+    @Suppress("unused")
     @PerDeeplyNestedFragment
     @ContributesAndroidInjector
-    fun contribureFavoriteFragment(): FavoriteFragment
+    fun contributeFavoriteFragment(): FavoriteFragment
 
+    @Suppress("unused")
     @PerDeeplyNestedFragment
     @ContributesAndroidInjector
-    fun contribureFilterFragment(): FilterFragment
+    fun contributeFilterFragment(): FilterFragment
 }

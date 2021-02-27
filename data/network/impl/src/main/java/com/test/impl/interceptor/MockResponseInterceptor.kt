@@ -8,6 +8,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 
+@Suppress("SpellCheckingInspection")
 class MockResponseInterceptor: Interceptor {
 
     companion object {

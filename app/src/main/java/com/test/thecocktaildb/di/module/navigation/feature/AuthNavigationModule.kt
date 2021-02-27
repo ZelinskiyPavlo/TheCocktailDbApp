@@ -8,6 +8,7 @@ import dagger.Module
 @Module
 interface AuthNavigationModule {
 
+    @Suppress("unused")
     @Binds
     fun bindAuthNavigationImpl(authHostNavigationImpl: AuthNavigationImpl): AuthNavigationApi
 }

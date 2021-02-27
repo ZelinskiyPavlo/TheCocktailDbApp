@@ -8,6 +8,7 @@ import dagger.Module
 @Module
 interface SearchNavigationModule {
 
+    @Suppress("unused")
     @Binds
     fun bindSearchNavigation(searchNavigationImpl: SearchNavigationImpl): SearchNavigationApi
 }

@@ -19,9 +19,12 @@ constructor() :
     DialogFragment(),
     View.OnClickListener {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var onDialogClickListener: OnDialogFragmentClickListener<Data, ButtonType, Type>? =
         null
         private set
+
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var onDialogDismissListener: OnDialogFragmentDismissListener<Data, ButtonType, Type>? =
         null
         private set

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.test.presentation.extension
 
 import android.os.Handler

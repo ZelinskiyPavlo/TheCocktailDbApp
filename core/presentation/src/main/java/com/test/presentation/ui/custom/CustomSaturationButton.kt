@@ -22,6 +22,7 @@ class CustomSaturationButton: AppCompatButton {
         colorFilter = ColorMatrixColorFilter(colorMatrix)
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     var saturation: Float = 0.5f
         set(value) {
             colorMatrix.setSaturation(value)

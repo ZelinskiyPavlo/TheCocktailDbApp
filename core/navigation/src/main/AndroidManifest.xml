@@ -1,5 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.test.navigation">
-
-    /
-</manifest>
+<manifest package="com.test.navigation"/>

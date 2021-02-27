@@ -43,7 +43,11 @@ abstract class BaseAndroidModulePlugin<Extension : BaseExtension> : Plugin<Proje
 
     protected abstract fun apply(plugins: PluginContainer)
 
-    protected open fun configure(extension: Extension) = Unit
+    protected open fun configure(extension: Extension) {
+        extension.lintOptions {
+            disable("BinaryOperationInTimber")
+        }
+    }
 
 }
 

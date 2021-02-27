@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.test.gradle.extension
 
 import org.gradle.api.NamedDomainObjectCollection

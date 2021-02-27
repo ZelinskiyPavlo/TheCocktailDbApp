@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 object Version {
 
 	const val kotlin = "1.4.10"
@@ -12,13 +14,12 @@ object Version {
 
 	object Network {
 		const val retrofit = "2.9.0"
-		const val gander = "3.1.0"
 		const val loggingInterceptor = "4.5.0-RC1"
 	}
 
 	object Google {
 		const val gson = "2.8.6"
-		const val material = "1.1.0"
+		const val material = "1.3.0"
 		const val autoService = "1.0-rc6"
 
 		object PlayServices {
@@ -33,25 +34,17 @@ object Version {
 
 	object AndroidX {
 		const val core = "1.3.0"
-		const val appCompat = "1.1.0"
+		const val appCompat = "1.2.0"
 		const val annotation = "1.1.0"
-		const val fragment = "1.3.0-alpha06"
 		const val fragmentKtx = "1.2.5"
 		const val recyclerView = "1.1.0"
 		const val coordinatorLayout = "1.1.0"
 		const val workManager = "2.3.2"
 		const val constraintLayout = "1.1.3"
-		const val swipeRefreshLayout = "1.0.0"
 		const val preference = "1.1.0"
-		const val collection = "1.1.0"
 		const val legacy = "1.0.0"
-
 		const val room = "2.2.5"
-
 		const val lifecycle = "2.2.0"
-
-		const val navigation = "2.3.0-rc01"
-
 	}
 
 	object Navigation {
@@ -60,7 +53,7 @@ object Version {
 
 	object Firebase {
 		const val analytics = "17.4.4"
-		const val crashLytics = "17.1.1"
+		const val crashlytics = "17.1.1"
 		const val fcm = "20.2.4"
 		const val dynamicLinks = "19.1.0"
 		const val remoteConfig = "19.2.0"
@@ -84,14 +77,8 @@ object Version {
 		const val icePick = "3.2.0"
 	}
 
-	object Hyperion {
-		const val hyperion = "0.9.27"
-		const val hyperionAppInfo = "1.0.0"
-		const val lynx = "1.6"
-	}
-
 	object Force {
-		const val activity = "1.2.0-beta01"
+		const val activity = "1.2.0"
 		const val collection = "1.1.0"
 		const val lifecycleViewModelSavedState = "1.0.0"
 		const val savedState = "1.0.0"
@@ -113,7 +100,6 @@ object Lib {
 
 	object Kotlin {
 		const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlin}"
-		// TODO: 12.09.2020 may cause error because not used yet
 		const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Version.reflect}"
 		const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutines}"
 	}
@@ -127,12 +113,9 @@ object Lib {
 		const val constraintlayout = "androidx.constraintlayout:constraintlayout:${Version.AndroidX.constraintLayout}"
 		const val workManager = "androidx.work:work-runtime-ktx:${Version.AndroidX.workManager}"
 		const val preferenceKtx = "androidx.preference:preference-ktx:${Version.AndroidX.preference}"
-		const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Version.AndroidX.swipeRefreshLayout}"
-		const val collection = "androidx.collection:collection-ktx:${Version.AndroidX.collection}"
 		const val legacy = "androidx.legacy:legacy-support-v4:${Version.AndroidX.legacy}"
 
 		object Lifecycle {
-			const val extensions = "androidx.lifecycle:lifecycle-extensions:${Version.AndroidX.lifecycle}"
 			const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.AndroidX.lifecycle}"
 			const val livedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.AndroidX.lifecycle}"
 			const val common = "androidx.lifecycle:lifecycle-common-java8:${Version.AndroidX.lifecycle}"
@@ -143,11 +126,6 @@ object Lib {
 			const val ktx = "androidx.room:room-ktx:${Version.AndroidX.room}"
 			const val runtime = "androidx.room:room-runtime:${Version.AndroidX.room}"
 			const val compiler = "androidx.room:room-compiler:${Version.AndroidX.room}"
-		}
-
-		object Navigation {
-			const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Version.AndroidX.navigation}"
-			const val uiKtx = "androidx.navigation:navigation-ui-ktx:${Version.AndroidX.navigation}"
 		}
 	}
 
@@ -166,20 +144,9 @@ object Lib {
 		const val gson = "com.google.code.gson:gson:${Version.Google.gson}"
 		const val material = "com.google.android.material:material:${Version.Google.material}"
 		const val autoService = "com.google.auto.service:auto-service:${Version.Google.autoService}"
-
-		object PlayServices {
-			const val base = "com.google.android.gms:play-services-base:${Version.Google.PlayServices.base}"
-			const val authApiPhone =
-				"com.google.android.gms:play-services-auth-api-phone:${Version.Google.PlayServices.authApiPhone}"
-		}
 	}
 
 	object Network {
-		object Gander {
-			const val gander = "com.ashokvarma.android:gander:${Version.Network.gander}"
-			const val persintance = "com.ashokvarma.android:gander-persistence:${Version.Network.gander}"
-		}
-
 		object Retrofit {
 			const val retrofit = "com.squareup.retrofit2:retrofit:${Version.Network.retrofit}"
 			const val converterGson = "com.squareup.retrofit2:converter-gson:${Version.Network.retrofit}"
@@ -211,7 +178,7 @@ object Lib {
 
 	object Firebase {
 		const val analytics = "com.google.firebase:firebase-analytics-ktx:${Version.Firebase.analytics}"
-		const val crashLytics = "com.google.firebase:firebase-crashlytics:${Version.Firebase.crashLytics}"
+		const val crashLytics = "com.google.firebase:firebase-crashlytics:${Version.Firebase.crashlytics}"
 		const val dynamicLinks = "com.google.firebase:firebase-dynamic-links-ktx:${Version.Firebase.dynamicLinks}"
 		const val remoteConfig = "com.google.firebase:firebase-config-ktx:${Version.Firebase.remoteConfig}"
 		const val fcm = "com.google.firebase:firebase-messaging:${Version.Firebase.fcm}"
@@ -221,22 +188,10 @@ object Lib {
 		const val timber = "com.jakewharton.timber:timber:${Version.Logging.timber}"
 	}
 
-	object Hyperion {
-		const val core = "com.willowtreeapps.hyperion:hyperion-core:${Version.Hyperion.hyperion}"
-		const val attr = "com.willowtreeapps.hyperion:hyperion-attr:${Version.Hyperion.hyperion}"
-		const val buildConfig = "com.willowtreeapps.hyperion:hyperion-build-config:${Version.Hyperion.hyperion}"
-		const val disk = "com.willowtreeapps.hyperion:hyperion-disk:${Version.Hyperion.hyperion}"
-		const val geigerCounter = "com.willowtreeapps.hyperion:hyperion-geiger-counter:${Version.Hyperion.hyperion}"
-		const val measurement = "com.willowtreeapps.hyperion:hyperion-measurement:${Version.Hyperion.hyperion}"
-		const val phoenix = "com.willowtreeapps.hyperion:hyperion-phoenix:${Version.Hyperion.hyperion}"
-		const val preferences = "com.willowtreeapps.hyperion:hyperion-shared-preferences:${Version.Hyperion.hyperion}"
-		const val plugin = "com.willowtreeapps.hyperion:hyperion-plugin:${Version.Hyperion.hyperion}"
-		const val appinfo = "com.star_zero:hyperion-appinfo:${Version.Hyperion.hyperionAppInfo}"
-		const val lynx = "com.github.pedrovgs:lynx:${Version.Hyperion.lynx}"
-	}
-
 	@Suppress("unused")
 	object Force {
+		const val kotlin = Kotlin.stdlib
+		const val kotlinReflect = Kotlin.reflect
 		const val activity = "androidx.activity:activity:${Version.Force.activity}"
 		const val appCompat = AndroidX.appCompat
 		const val collection = "androidx.collection:collection:${Version.Force.collection}"

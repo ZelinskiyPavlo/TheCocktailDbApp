@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AppSettingRepositoryImpl @Inject constructor(localSource: AppSettingLocalSource) :
     AppSettingRepository {
 
-    override val showNavigationTitleLiveData = localSource.showNavigationTitleLiveData
+    override val shouldShowNavigationTitleLiveData = localSource.showNavigationTitleLiveData
 
     override val currentLanguageLiveData = localSource.currentLanguageLiveData
 

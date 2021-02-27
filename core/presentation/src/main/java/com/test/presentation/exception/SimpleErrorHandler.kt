@@ -11,7 +11,7 @@ class SimpleErrorHandler(
     private val context: Context
 ) {
 
-    fun handleLoginError(e: LoginError) {
+    fun handleLoginError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.login_error_dialog_title
             descriptionTextResId = R.string.login_error_dialog_description
@@ -19,7 +19,7 @@ class SimpleErrorHandler(
         }.show(fragmentManager, LoginError::class.java.name)
     }
 
-    fun handleRegistrationError(e: RegistrationError) {
+    fun handleRegistrationError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.register_error_dialog_title
             descriptionTextResId = R.string.register_error_dialog_description
@@ -27,21 +27,21 @@ class SimpleErrorHandler(
         }.show(fragmentManager, RegistrationError::class.java.name)
     }
 
-    fun handleApiError(e: ApiError) {
+    fun handleApiError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.api_error_dialog_title
             rightButtonTextResId = R.string.all_ok
         }.show(fragmentManager, ApiError::class.java.name)
     }
 
-    fun handleUnAuthorizedAccessError(e: UnAuthorizedAccessError) {
+    fun handleUnAuthorizedAccessError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.unauthorized_access_error_dialog_title
             rightButtonTextResId = R.string.all_ok
         }.show(fragmentManager, UnAuthorizedAccessError::class.java.name)
     }
 
-    fun handleServerError(e: ServerError) {
+    fun handleServerError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.server_error_dialog_title
             descriptionTextResId = R.string.server_error_dialog_description
@@ -49,7 +49,7 @@ class SimpleErrorHandler(
         }.show(fragmentManager, ServerError::class.java.name)
     }
 
-    fun handleServerRespondingError(e: ServerRespondingError) {
+    fun handleServerRespondingError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.server_responding_error_dialog_title
             rightButtonTextResId = R.string.all_ok
@@ -66,14 +66,14 @@ class SimpleErrorHandler(
         }.show(fragmentManager, UnknownError::class.java.name)
     }
 
-    fun handleCancellationError(e: CancellationError) {
+    fun handleCancellationError() {
         RegularDialogFragment.newInstance {
             titleTextResId = R.string.cancellation_error_dialog_title
             rightButtonTextResId = R.string.all_ok
         }.show(fragmentManager, ServerError::class.java.name)
     }
 
-    fun handleNoInternetConnectionError(e: NoInternetConnectionError) {
+    fun handleNoInternetConnectionError() {
         if (checkIfDialogCurrentlyVisible()) return
 
         RegularDialogFragment.newInstance {

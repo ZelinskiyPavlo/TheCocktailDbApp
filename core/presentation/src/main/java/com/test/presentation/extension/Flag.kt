@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.test.presentation.extension
 
 infix fun Int.containsFlag(flag: Int) = this or flag == this

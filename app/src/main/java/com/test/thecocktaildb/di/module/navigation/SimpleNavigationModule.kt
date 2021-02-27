@@ -8,6 +8,7 @@ import dagger.Module
 @Module
 interface SimpleNavigationModule {
 
+    @Suppress("unused")
     @Binds
     fun bindSimpleNavigator(simpleNavigatorImpl: SimpleNavigatorImpl): SimpleNavigatorApi
 }

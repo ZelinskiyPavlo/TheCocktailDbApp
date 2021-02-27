@@ -3,13 +3,12 @@ package com.test.presentation.adapter.binding
 import android.view.View
 import androidx.databinding.BindingAdapter
 
+@Suppress("unused")
 @BindingAdapter(
-    value = ["bind:isVisible", "bind:placeholderUrl", "bind:placeholderResId", "bind:errorUrl",
-        "bind:errorResId", "bind:isCrossfadeEnabled"], requireAll = false
+    value = ["bind:isVisible"]
 )
 fun View.isViewVisible(
-    isVisible: Boolean, placeholderUrl: String?, placeholderResId: Int?, errorUrl: String?,
-    errorResId: Int?, isCrossfadeEnabled: Boolean?
+    isVisible: Boolean
 ) {
 
     visibility = if (isVisible) View.VISIBLE else View.GONE

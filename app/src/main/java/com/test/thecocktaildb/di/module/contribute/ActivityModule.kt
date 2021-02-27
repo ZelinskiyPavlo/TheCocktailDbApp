@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.di.module
+package com.test.thecocktaildb.di.module.contribute
 
 import com.test.dagger.scope.PerActivity
 import com.test.thecocktaildb.ui.MainActivity

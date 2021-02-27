@@ -1,3 +1,4 @@
+@Suppress("unused")
 object Config {
 	const val appName = "TheCocktailDb"
 	const val appNameAlternate = "Pavlo Zelinskiy"

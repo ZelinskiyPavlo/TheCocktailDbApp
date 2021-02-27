@@ -8,6 +8,7 @@ import dagger.Module
 @Module
 internal interface CocktailNavigationModule {
 
+    @Suppress("unused")
     @Binds
     fun bindCocktailNavigationApi(cocktailNavigationImpl: CocktailNavigationImpl): CocktailNavigationApi
 }

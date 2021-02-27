@@ -94,14 +94,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     //  bug fix for locales. See previous commits for previously used code for showing language
     //  change dialog and handling user input.
 
-    private fun configureViewFromRemoteConfig() {
-//        sharedViewModel.showNavTitlesViewVisibilityLiveData.observe(viewLifecycleOwner, {
-//            viewDataBinding.settingFragmentShowNavTitles.visibility =
-//                if (it) View.VISIBLE
-//                else View.GONE
-//        })
-    }
-
     fun openProfileFragment() {
         settingNavigator.toProfile()
     }

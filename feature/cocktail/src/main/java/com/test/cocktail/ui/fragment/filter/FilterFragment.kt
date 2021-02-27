@@ -23,7 +23,6 @@ import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.util.EventObserver
 import javax.inject.Inject
 
-// TODO: 12.02.2021 Remove filter module
 class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     companion object {

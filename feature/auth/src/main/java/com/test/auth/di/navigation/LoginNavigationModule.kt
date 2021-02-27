@@ -9,6 +9,7 @@ import dagger.Module
 @Module
 internal interface LoginNavigationModule {
 
+    @Suppress("unused")
     @Binds
     @PerNestedFragment
     fun bindLoginNavigation(loginNavigationImpl: LoginNavigationImpl): LoginNavigationApi

@@ -19,9 +19,12 @@ abstract class BaseBottomSheetDialogFragment<Data, ButtonType : DialogButton, Ty
     BottomSheetDialogFragment(),
     View.OnClickListener {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var onBottomSheetDialogClickListener: OnBottomSheetDialogFragmentClickListener<Data, ButtonType, Type>? =
         null
         private set
+
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var onBottomSheetDialogDismissListener: OnBottomSheetDialogFragmentDismissListener<Data, ButtonType, Type>? =
         null
         private set

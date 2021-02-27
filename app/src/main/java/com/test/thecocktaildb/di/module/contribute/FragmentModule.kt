@@ -1,4 +1,4 @@
-package com.test.thecocktaildb.di.module
+package com.test.thecocktaildb.di.module.contribute
 
 import com.test.auth.di.AuthFragmentModule
 import com.test.auth.di.navigation.AuthCiceroneModule
@@ -62,11 +62,11 @@ interface FragmentModule {
     @Suppress("unused")
     @PerFragment
     @ContributesAndroidInjector
-    fun contribureCubeFragment(): CubeFragment
+    fun contributeCubeFragment(): CubeFragment
 
     @Suppress("unused")
     @PerFragment
     @ContributesAndroidInjector
-    fun contribureRangeSeekBarFragment(): RangeSeekBarFragment
+    fun contributeRangeSeekBarFragment(): RangeSeekBarFragment
 
 }

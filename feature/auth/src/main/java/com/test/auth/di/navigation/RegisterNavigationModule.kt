@@ -9,6 +9,7 @@ import dagger.Module
 @Module
 internal interface RegisterNavigationModule {
 
+    @Suppress("unused")
     @Binds
     @PerNestedFragment
     fun bindRegisterNavigation(registerNavigationImpl: RegisterNavigationImpl): RegisterNavigationApi

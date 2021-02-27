@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -33,7 +34,8 @@
                 app:expandedTitleMarginBottom="@dimen/margin_32dp"
                 app:expandedTitleMarginStart="@dimen/margin_24dp"
                 app:expandedTitleTextAppearance="@style/TextTitleExpanded"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:title="@{viewModel.cocktailNameLiveData}">
 
                 <LinearLayout
                     android:id="@+id/image_container"
@@ -145,7 +147,8 @@
                     android:text="@{viewModel.cocktailNameLiveData}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/image_view_container" />
+                    app:layout_constraintTop_toBottomOf="@+id/image_view_container"
+                    tools:text="Banana Daiquiri" />
 
                 <TextView
                     android:id="@+id/cocktail_alcoholic"
@@ -156,7 +159,8 @@
                     android:text="@{viewModel.cocktailAlcoholicLiveData}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/cocktail_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_name"
+                    tools:text="Alcoholic" />
 
                 <TextView
                     android:id="@+id/cocktail_glass"
@@ -168,7 +172,8 @@
                     android:text="@{viewModel.cocktailGlassLiveData}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic" />
+                    app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic"
+                    tools:text="Champagne flute" />
 
                 <TextView
                     android:id="@+id/ingredients_tag"

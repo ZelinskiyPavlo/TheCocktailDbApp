@@ -70,6 +70,7 @@ fun Bitmap.scaleToSize(maxBytes: Long): Bitmap {
 val Bitmap.Config.bytePerPixel: Int
     get() {
         return if (Build.VERSION.SDK_INT >= 26) {
+            @Suppress("DEPRECATION")
             when (this) {
                 Bitmap.Config.ALPHA_8 -> 1
                 Bitmap.Config.RGB_565 -> 2
@@ -79,6 +80,7 @@ val Bitmap.Config.bytePerPixel: Int
                 Bitmap.Config.HARDWARE -> 8
             }
         } else {
+            @Suppress("DEPRECATION")
             when {
                 this == Bitmap.Config.ALPHA_8 -> 1
                 this == Bitmap.Config.ALPHA_8 -> 1

@@ -13,6 +13,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 interface TabHostFragmentModule {
 
+    @Suppress("unused")
     @PerNestedFragment
     @ContributesAndroidInjector(
         modules = [
@@ -22,6 +23,7 @@ interface TabHostFragmentModule {
     )
     fun provideCocktailFragment(): CocktailFragment
 
+    @Suppress("unused")
     @PerNestedFragment
     @ContributesAndroidInjector(modules = [SettingNavigationModule::class])
     fun provideSettingFragment(): SettingFragment

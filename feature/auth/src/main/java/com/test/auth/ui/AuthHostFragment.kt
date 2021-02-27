@@ -29,7 +29,7 @@ class AuthHostFragment : BaseFragment<FragmentAuthHostBinding>(), HasBackPressLo
     @Inject
     lateinit var router: Router
 
-    lateinit var navigator: Navigator
+    private lateinit var navigator: Navigator
 
     private val currentFragment: BaseFragment<*>?
         get() = childFragmentManager.findFragmentById(R.id.auth_fragment_container) as? BaseFragment<*>

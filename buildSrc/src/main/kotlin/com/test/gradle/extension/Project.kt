@@ -1,6 +1,7 @@
 package com.test.gradle.extension
 
 import Config
+import Version
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
@@ -11,7 +12,7 @@ import java.util.*
 fun Project.addKotlinStdLibDependency(configurationName: String = "implementation") {
 	dependencies {
 		add(configurationName, kotlin("stdlib", Version.kotlin))
-//		add(configurationName, kotlin("reflect", Version.reflect))
+		add(configurationName, kotlin("reflect", Version.reflect))
 	}
 }
 

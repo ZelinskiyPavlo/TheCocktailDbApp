@@ -33,6 +33,7 @@
             android:fillViewport="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
+            <!--            todo rework using LinearLayout-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -61,11 +62,12 @@
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_down_24"
                     android:gravity="center_vertical|end"
-                    android:text="@{viewModel.alcoholSignLiveData, default=Обрати}"
+                    android:text="@{viewModel.alcoholSignLiveData}"
                     android:textColor="@color/text_default"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_alcohol_sign" />
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_alcohol_sign"
+                    tools:text="@string/filter_fragment_choose_filter" />
 
                 <TextView
                     android:id="@+id/filter_tv_category_sign"
@@ -84,11 +86,12 @@
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_down_24"
                     android:gravity="center_vertical|end"
-                    android:text="@{viewModel.categorySignLiveData, default=Обрати}"
+                    android:text="@{viewModel.categorySignLiveData}"
                     android:textColor="@color/text_default"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_category_sign" />
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_category_sign"
+                    tools:text="@string/filter_fragment_choose_filter" />
 
                 <TextView
                     android:id="@+id/filter_tv_ingredient_sign"
@@ -107,11 +110,12 @@
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_arrow_down_24"
                     android:gravity="center_vertical|end"
-                    android:text="@{viewModel.glassSignLiveData, default=Обрати}"
+                    android:text="@{viewModel.glassSignLiveData}"
                     android:textColor="@color/text_default"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_ingredient_sign" />
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_ingredient_sign"
+                    tools:text="@string/filter_fragment_choose_filter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,10 +135,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> viewModel.resetFilters()}"
                 android:text="@string/filter_button_reset"
-                android:textAppearance="@style/TextRegular" />
+                android:textAppearance="@style/TextRegular"
+                app:backgroundTint="@color/colorAccent" />
 
             <Button
                 android:id="@+id/filter_button_apply"
@@ -143,10 +147,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/battery_state_bg"
                 android:onClick="@{() -> viewModel.onApplyButtonClicked()}"
                 android:text="@string/filter_button_apply"
-                android:textAppearance="@style/TextRegular" />
+                android:textAppearance="@style/TextRegular"
+                app:backgroundTint="@color/colorAccent" />
 
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -43,14 +43,14 @@
             android:id="@+id/empty_favorite_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{sharedViewModel.isFavoriteListEmptyLiveData ? View.VISIBLE : View.GONE}"
+            android:visibility="@{sharedViewModel.isFavoriteCocktailsEmptyLiveData ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="empty_favorite_text" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/filled_favorite_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{sharedViewModel.isFavoriteListEmptyLiveData ? View.GONE : View.VISIBLE}"
+            android:visibility="@{sharedViewModel.isFavoriteCocktailsEmptyLiveData ? View.GONE : View.VISIBLE}"
             app:constraint_referenced_ids="cocktails_favorite_rv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

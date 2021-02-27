@@ -22,6 +22,7 @@ class NetworkConnectionInterceptor(
     }
 
     private fun isNetworkConnected(): Boolean {
+        @Suppress("DEPRECATION")
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val capabilities =
                 connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)

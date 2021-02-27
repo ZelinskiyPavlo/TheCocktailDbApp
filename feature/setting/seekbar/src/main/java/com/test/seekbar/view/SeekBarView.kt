@@ -15,7 +15,8 @@ import com.test.seekbar.R
 import kotlin.math.max
 import kotlin.math.min
 
-class SeekBarView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
+@Suppress("MemberVisibilityCanBePrivate")
+internal class SeekBarView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     var min: Int = 1
         set(value) {

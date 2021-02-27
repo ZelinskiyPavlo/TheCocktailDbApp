@@ -20,6 +20,7 @@ class HeightProportionAppBarLayout(context: Context, attributeSet: AttributeSet)
             }
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     var maxHeightProportion: Int? = null
         set(value) {
             if (field == value) return

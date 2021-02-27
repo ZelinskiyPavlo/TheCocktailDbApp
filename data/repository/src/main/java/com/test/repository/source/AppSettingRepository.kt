@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 
 interface AppSettingRepository {
 
-    val showNavigationTitleLiveData: MutableLiveData<Boolean>
+    val shouldShowNavigationTitleLiveData: MutableLiveData<Boolean>
 
     val currentLanguageLiveData: MutableLiveData<Int>
 }

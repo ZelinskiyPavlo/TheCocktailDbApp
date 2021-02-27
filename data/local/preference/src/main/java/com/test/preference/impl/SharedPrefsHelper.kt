@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import javax.inject.Inject
 
+@Suppress("unused")
 class SharedPrefsHelper @Inject constructor(val sharedPreferences: SharedPreferences) {
 
     val all: Map<String, *>

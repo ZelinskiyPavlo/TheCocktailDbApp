@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @Module
 class DbModule {
 
-    // TODO: 31.01.2021 change to provide
     @Singleton
     @Provides
     fun provideCocktailsAppDatabase(app: Application): CocktailAppRoomDatabase {

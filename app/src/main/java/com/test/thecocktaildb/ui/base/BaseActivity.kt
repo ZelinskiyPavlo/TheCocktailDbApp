@@ -86,23 +86,23 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     }
 
     protected open fun handleLoginError(e: LoginError) =
-        errorHandler.handleLoginError(e)
+        errorHandler.handleLoginError()
     protected open fun handleRegistrationError(e: RegistrationError) =
-        errorHandler.handleRegistrationError(e)
+        errorHandler.handleRegistrationError()
     protected open fun handleApiError(e: ApiError) =
-        errorHandler.handleApiError(e)
+        errorHandler.handleApiError()
     protected open fun handleUnAuthorizedAccessError(e: UnAuthorizedAccessError) =
-        errorHandler.handleUnAuthorizedAccessError(e)
+        errorHandler.handleUnAuthorizedAccessError()
     protected open fun handleServerError(e: ServerError) =
-        errorHandler.handleServerError(e)
+        errorHandler.handleServerError()
     protected open fun handleServerRespondingError(e: ServerRespondingError) =
-        errorHandler.handleServerRespondingError(e)
+        errorHandler.handleServerRespondingError()
     protected open fun handleUnknownError(e: UnknownError) =
         errorHandler.handleUnknownError(e)
     protected open fun handleCancellationError(e: CancellationError) =
-        errorHandler.handleCancellationError(e)
+        errorHandler.handleCancellationError()
     protected open fun handleNoInternetConnectionError(e: NoInternetConnectionError) =
-        errorHandler.handleNoInternetConnectionError(e)
+        errorHandler.handleNoInternetConnectionError()
 
     protected open fun configureObserver() {
     }

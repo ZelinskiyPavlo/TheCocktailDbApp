@@ -13,7 +13,8 @@ import com.test.presentation.extension.getColorAttributeOrNull
 import com.test.presentation.extension.getDimensionAttributeOrNull
 import com.test.presentation.extension.getFloatAttributeOrNull
 
-class CubeView(context: Context, attrs: AttributeSet?) : View(context, attrs),
+@Suppress("MemberVisibilityCanBePrivate")
+internal class CubeView(context: Context, attrs: AttributeSet?) : View(context, attrs),
     CubeManager.AnimationListener {
 
     private val cubeModel: CubeModel = CubeModel()

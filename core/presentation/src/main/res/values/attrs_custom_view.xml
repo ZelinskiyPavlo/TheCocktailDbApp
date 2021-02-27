@@ -8,12 +8,6 @@
         <attr name="toolbar_back_button_visible" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="SettingRow">
-        <attr name="sr_icon_src" format="reference"/>
-        <attr name="sr_main_text" format="string"/>
-        <attr name="sr_additional_text" format="string"/>
-    </declare-styleable>
-
     <declare-styleable name="RoundedFrameLayout">
         <attr name="rfl_corners_radius" format="dimension|reference" />
         <attr name="rfl_corners" format="flags">

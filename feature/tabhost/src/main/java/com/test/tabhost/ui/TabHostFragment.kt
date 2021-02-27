@@ -103,20 +103,11 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
                 else -> false
             }
         }
-        // TODO: 07.02.2021 прологувати поведінку і додати onReseletedListen при потребі
 
         bottomNavigation.selectedItemId =
             selectedTab ?: tabHostNavigationApi.selectedTabEvent?.getContentIfNotHandled()
                     ?: R.id.bnv_cocktail_item
     }
-
-    //region Firebase Remote config
-
-// Extracted from setupBottomNavigation()
-//        sharedMainViewModel.shouldShowMainNavigationTitlesLiveData.observe(this, Observer {
-//            changeBottomNavTitleVisibility(it)
-//        })
-    //endregion
 
     private fun selectTab(key: Screen.Keys) {
         val fragmentManager = childFragmentManager

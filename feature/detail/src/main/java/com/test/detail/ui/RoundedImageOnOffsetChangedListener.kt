@@ -60,8 +60,10 @@ internal class RoundedImageOnOffsetChangedListener(
             )
         }
 
-        cachedImageWidth = currentImageWidth
-        viewDataBinding.cocktailImage.layoutParams = layoutParams
-        viewDataBinding.cocktailImage.cornerRadius = MathUtils.lerp(0.0F, maxRadius, fraction)
+        if (layoutParams.width != cachedImageWidth) {
+            cachedImageWidth = currentImageWidth
+            viewDataBinding.cocktailImage.layoutParams = layoutParams
+            viewDataBinding.cocktailImage.cornerRadius = MathUtils.lerp(0.0F, maxRadius, fraction)
+        }
     }
 }
