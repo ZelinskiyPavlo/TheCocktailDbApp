@@ -59,7 +59,7 @@
     <!--endregion-->
 
     <!--region Bottom navigation view -->
-    <string name="bottom_navigation_main_fragment_title">Головна</string>
+    <string name="bottom_navigation_main_fragment_title">Коктелі</string>
     <string name="bottom_navigation_setting_fragment_title">Налаштування</string>
     <!--endregion-->
 
@@ -89,7 +89,6 @@
     <string name="snackbar_button_show_proposed_cocktail">Показати</string>
     <string name="filter_fragment_snackbar_no_results">Результатів не знайдено</string>
     <string name="dialog_log_out_title">Вийти</string>
-    <string name="app_name_simplified">Павло Зелінський</string>
     <string name="battery_status_battery_okay">Батарейці норм</string>
     <string name="battery_status_battery_low">Батарейці плохо</string>
     <string name="dialog_language_title">Оберіть бажану мову</string>
@@ -157,6 +156,11 @@
     <string name="setting_fragment_cube_view_title">Анімований куб</string>
     <string name="setting_fragment_range_seek_bar_title">Двосторонній слайдер</string>
     <string name="seek_bar_fragment_button_set_range">Проміжок з 20 до 50</string>
+    <string name="no_cocktails_found">Коктелів не знайдено</string>
+    <string name="snackbar_no_cocktail_found">Вказаного коктелю не знайдено</string>
+    <string name="filter_fragment_results_sign">Результати</string>
+    <string name="filter_fragment_glass_type">Фільтр по келиху</string>
+    <string name="confirm">Підтвердити</string>
     <!--endregion-->
 
 </resources>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.test.profile.ui.ProfileViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.test.profile.ui.ProfileFragment" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/profile_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.setting.profile.ProfileFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/profile_appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="@drawable/placeholder_background"
+            android:elevation="0dp">
+
+            <com.test.presentation.ui.custom.CustomToolbar
+                android:id="@+id/profile_fragment_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:toolbar_back_button_visible="true"
+                app:toolbar_primary_option_icon="@drawable/ic_exit_to_app_24"
+                app:toolbar_title_text="@string/profile_fragment_toolbar_title" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ImageView
+            android:id="@+id/profile_fragment_avatar"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:contentDescription="@string/content_description_user_avatar"
+            android:elevation="4dp"
+            android:onClick="@{(view) -> fragment.changeAvatar()}"
+            app:layout_anchor="@+id/profile_appBarLayout"
+            app:layout_anchorGravity="bottom|center"
+            tools:src="@drawable/placeholder_avatar" />
+
+        <ViewSwitcher
+            android:id="@+id/profile_fragment_view_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="72dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <RelativeLayout
+                android:id="@+id/profile_fragment_user_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_fragment_full_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@{viewModel.userFullNameLiveData}"
+                    android:textAppearance="@style/TextBoldRegular"
+                    android:textSize="24sp"
+                    tools:text="Pavlo Zelinskiy" />
+
+                <ImageButton
+                    android:id="@+id/profile_fragment_btn_change_user_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/profile_fragment_full_name_tv"
+                    android:layout_alignBottom="@id/profile_fragment_full_name_tv"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:layout_toEndOf="@id/profile_fragment_full_name_tv"
+                    android:background="?android:selectableItemBackground"
+                    android:contentDescription="@null"
+                    android:onClick="@{(view) -> fragment.toggleUserChange()}"
+                    android:padding="@dimen/padding_8dp"
+                    android:src="@drawable/ic_pencil_16" />
+
+                <TextView
+                    android:id="@+id/profile_fragment_email_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profile_fragment_full_name_tv"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:text="@{viewModel.userEmailLiveData}"
+                    android:textAppearance="@style/TextBoldRegular"
+                    android:textSize="16sp"
+                    tools:text="zelinskiypavlo@gmail.com" />
+
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profile_fragment_change_user_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/profile_fragment_change_name_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="name"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/all_name"
+                    android:inputType="text"
+                    android:paddingVertical="@dimen/padding_8dp"
+                    android:text="@={viewModel.nameInputLiveData}"
+                    android:textAppearance="@style/TextBoldRegular"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.75"
+                    tools:text="Pavlo" />
+
+                <EditText
+                    android:id="@+id/profile_fragment_change_last_name_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:autofillHints="name"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/all_last_name"
+                    android:inputType="text"
+                    android:paddingVertical="@dimen/padding_8dp"
+                    android:text="@={viewModel.lastNameInputLiveData}"
+                    android:textAppearance="@style/TextBoldRegular"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_fragment_change_name_et"
+                    app:layout_constraintWidth_percent="0.75"
+                    tools:text="Zelinskiy" />
+
+                <EditText
+                    android:id="@+id/profile_fragment_change_email_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:autofillHints="emailAddress"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/all_email"
+                    android:inputType="textEmailAddress"
+                    android:paddingVertical="@dimen/padding_8dp"
+                    android:text="@={viewModel.emailInputLiveData}"
+                    android:textAppearance="@style/TextBoldRegular"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_fragment_change_last_name_et"
+                    app:layout_constraintWidth_percent="0.75"
+                    tools:text="zelinskiypavlo@gmail.com" />
+
+                <Button
+                    android:id="@+id/profile_fragment_save_changes_btn"
+                    style="@style/DefaultButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_32dp"
+                    android:contentDescription="@null"
+                    android:onClick="@{(view) -> fragment.saveUserChange()}"
+                    android:paddingVertical="@dimen/padding_8dp"
+                    android:text="@string/confirm"
+                    app:backgroundTint="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/profile_fragment_edit_profile_right_guideline"
+                    app:layout_constraintStart_toStartOf="@id/profile_fragment_edit_profile_left_guideline" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/profile_fragment_edit_profile_left_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.35" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/profile_fragment_edit_profile_right_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.65" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ViewSwitcher>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

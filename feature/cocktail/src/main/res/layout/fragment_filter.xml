@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.test.cocktail.ui.CocktailViewModel" />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.test.presentation.ui.custom.CustomToolbar
+                android:id="@+id/filter_fragment_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:toolbar_title_text="@string/filter_fragment_toolbar_title" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <!--            todo rework using LinearLayout-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/windowBackground"
+                android:clickable="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:paddingHorizontal="@dimen/padding_16dp"
+                android:paddingVertical="@dimen/padding_24dp"
+                tools:context=".ui.cocktail.filter.FilterFragment">
+
+                <TextView
+                    android:id="@+id/filter_tv_alcohol_sign"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_fragment_alcohol_type"
+                    android:textAppearance="@style/TextRegular"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@+id/filter_btn_alcohol"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/filter_btn_alcohol"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_arrow_down_24"
+                    android:gravity="center_vertical|end"
+                    android:text="@{viewModel.alcoholSignLiveData}"
+                    android:textColor="@color/text_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_alcohol_sign"
+                    tools:text="@string/filter_fragment_choose_filter" />
+
+                <TextView
+                    android:id="@+id/filter_tv_category_sign"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:text="@string/filter_fragment_category_type"
+                    android:textAppearance="@style/TextRegular"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@+id/filter_btn_category"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_btn_alcohol" />
+
+                <Button
+                    android:id="@+id/filter_btn_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_arrow_down_24"
+                    android:gravity="center_vertical|end"
+                    android:text="@{viewModel.categorySignLiveData}"
+                    android:textColor="@color/text_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_category_sign"
+                    tools:text="@string/filter_fragment_choose_filter" />
+
+                <TextView
+                    android:id="@+id/filter_tv_ingredient_sign"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:text="@string/filter_fragment_glass_type"
+                    android:textAppearance="@style/TextRegular"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@+id/filter_btn_glass"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_btn_category" />
+
+                <Button
+                    android:id="@+id/filter_btn_glass"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_arrow_down_24"
+                    android:gravity="center_vertical|end"
+                    android:text="@{viewModel.glassSignLiveData}"
+                    android:textColor="@color/text_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_tv_ingredient_sign"
+                    tools:text="@string/filter_fragment_choose_filter" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingHorizontal="@dimen/padding_16dp"
+            app:layout_dodgeInsetEdges="bottom">
+
+            <Button
+                android:id="@+id/filter_button_reset"
+                style="@style/DefaultButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_8dp"
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.resetFilters()}"
+                android:text="@string/filter_button_reset"
+                android:textAppearance="@style/TextRegular"
+                app:backgroundTint="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/filter_button_apply"
+                style="@style/DefaultButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_8dp"
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.onApplyButtonClicked()}"
+                android:text="@string/filter_button_apply"
+                android:textAppearance="@style/TextRegular"
+                app:backgroundTint="@color/colorAccent" />
+
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

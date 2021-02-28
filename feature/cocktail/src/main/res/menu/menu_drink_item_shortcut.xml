@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_cocktail_history_open"
+        android:title="@string/menu_cocktail_history_open" />
+    <item android:id="@+id/menu_cocktail_history_add_favorite"
+        android:title="@string/menu_cocktail_history_add_favorite" />
+    <item android:id="@+id/menu_cocktail_history_remove_favorite"
+        android:title="@string/menu_cocktail_history_remove_favorite" />
+    <item android:id="@+id/menu_cocktail_history_remove"
+        android:title="@string/menu_cocktail_history_remove" />
+</menu>

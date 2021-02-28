@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_setting_row"
+    android:paddingVertical="10dp">
+
+    <ImageView
+        android:id="@+id/setting_row_view_icon"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/margin_24dp"
+        android:contentDescription="@null"
+        tools:src="@drawable/ic_account_circle_28" />
+
+    <TextView
+        android:id="@+id/setting_row_view_main_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/margin_72dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:layout_toStartOf="@id/setting_row_view_additional_text"
+        android:textAppearance="@style/TextBoldRegular"
+        tools:text="Profile" />
+
+    <TextView
+        android:id="@+id/setting_row_view_additional_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:textAppearance="@style/TextBoldRegular"
+        tools:text="ENG" />
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomToolbar">
+        <attr name="toolbar_primary_option_icon" format="reference"/>
+        <attr name="toolbar_secondary_option_icon" format="reference"/>
+        <attr name="toolbar_title_text" format="string"/>
+        <attr name="toolbar_back_button_visible" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="RoundedFrameLayout">
+        <attr name="rfl_corners_radius" format="dimension|reference" />
+        <attr name="rfl_corners" format="flags">
+            <flag name="all" value="0" />
+            <flag name="left_top" value="1" />
+            <flag name="right_top" value="2" />
+            <flag name="left_bottom" value="4" />
+            <flag name="right_bottom" value="8" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioFrameLayout">
+        <attr name="asfl_aspect_ratio" format="float|reference"/>
+        <attr name="asfl_mode" format="enum">
+            <enum name="width" value="0"/>
+            <enum name="height" value="1"/>
+        </attr>
+        <attr name="asfl_min_width" format="dimension"/>
+        <attr name="asfl_min_height" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="HeightProportionAppBarLayout">
+        <attr name="hpab_max_height_proportion" format="integer"/>
+    </declare-styleable>
+
+</resources>

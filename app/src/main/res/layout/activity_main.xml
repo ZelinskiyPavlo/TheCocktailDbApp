@@ -1,47 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".presentation.ui.cocktail.MainActivity">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/main_activity_bnv">
+            android:layout_height="match_parent" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/setting_fragment_container"
-                android:name="com.test.thecocktaildb.presentation.ui.setting.SettingFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <fragment
-                android:id="@+id/nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph"
-                tools:ignore="FragmentTagUsage" />
-
-        </FrameLayout>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_activity_bnv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            app:itemIconTint="@color/colorAccent"
-            app:itemTextColor="@color/text_default"
-            app:itemRippleColor="@color/gray_dove"
-            app:itemTextAppearanceActive="@style/TextBoldRegular"
-            app:itemTextAppearanceInactive="@style/TextRegular"
-            app:menu="@menu/menu_bottom_navigation" />
-
-    </RelativeLayout>
+    </FrameLayout>
 </layout>

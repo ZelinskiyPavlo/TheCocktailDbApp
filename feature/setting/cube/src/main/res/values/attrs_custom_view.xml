@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CubeView">
+        <attr name="android:backgroundTint"/>
+        <attr name="cv_line_color" format="color"/>
+        <attr name="cv_line_width" format="dimension"/>
+        <attr name="cv_point_color" format="color"/>
+        <attr name="cv_point_radius" format="dimension"/>
+        <attr name="cv_play_only_triangle" format="boolean"/>
+        <attr name="cv_play_only_cube" format="boolean"/>
+        <attr name="cv_triangle_duration" format="float"/>
+        <attr name="cv_cube_duration" format="float"/>
+        <attr name="cv_delay_between_anim" format="float"/>
+    </declare-styleable>
+
+</resources>

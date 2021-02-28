@@ -1,7 +1,6 @@
 package com.test.thecocktaildb
 
 import android.app.Application
-import com.test.thecocktaildb.di.AppInjector
 import com.test.thecocktaildb.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -21,6 +20,5 @@ class CocktailApplication : Application(), HasAndroidInjector {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
         DaggerAppComponent.factory().create(this).inject(this)
-        AppInjector.init(this)
     }
 }

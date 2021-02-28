@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!-- This file used to generate values Br.obj and Br.listener
+     to use it in BaseAdapter.ViewHolder class,
+     bc XML layouts, which contain obj and listener variables
+     are placed in different module, such as
+     core:common:cocktail-common module -->
+
+    <data>
+
+        <variable
+            name="obj"
+            type="com.test.presentation.model.cocktail.CocktailModel" />
+
+        <variable
+            name="listener"
+            type="com.test.presentation.adapter.recyclerview.CustomActionListener" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</layout>

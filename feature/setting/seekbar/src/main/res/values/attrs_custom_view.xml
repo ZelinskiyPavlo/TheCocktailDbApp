@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SeekBarView">
+        <attr name="sbv_min_value" format="integer" />
+        <attr name="sbv_max_value" format="integer" />
+        <attr name="sbv_progress_background" format="color" />
+        <attr name="sbv_is_rounded_corners" format="boolean" />
+        <attr name="sbv_progress_foreground" format="color" />
+        <attr name="sbv_thumb_active_color" format="color" />
+        <attr name="sbv_thumb_active_size" format="dimension" />
+        <attr name="sbv_thumb_inactive_color" format="color" />
+        <attr name="sbv_thumb_inactive_size" format="dimension" />
+
+        <attr name="sbv_left_background_gradient_color" format="color" />
+        <attr name="sbv_right_background_gradient_color" format="color" />
+        <attr name="sbv_left_foreground_gradient_color" format="color" />
+        <attr name="sbv_right_foreground_gradient_color" format="color" />
+    </declare-styleable>
+
+</resources>
