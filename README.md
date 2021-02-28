@@ -16,7 +16,9 @@ This project includes following architecture concepts:
 
 ### Authentication
 When user install application he needs to log in their account or register new one. Currently work with this API perform through mocked responses.
-Images
+Login screen | Register screen |
+-------------------- | -------------------- |
+<img src="readme-data/login_screen.jpg" width="240" height="480"> | <img src="readme-data/register_screen.jpg" width="240" height="480"> |
 
 ### Cocktail
 Big part of application focused to work with cocktails. For this I use this public [API](https://www.thecocktaildb.com/api.php). There are two cocktails lists in main cocktail page:
@@ -26,18 +28,35 @@ Using search or through notification user can view cocktail details and thus pop
 In addition user can filter (by alcoholic, category or glass) and sort (by history, cocktail name, alcohol amount and number of ingredients) cocktails.
 After user view cocktail details, on the main page appear message that prompt him to view different cocktail from his list.
 User can optionally delete cocktail from the list.
-Images
+
+Main Coktail screen | Favorite cocktails | Cocktail filter 
+--------------------- | --------------------- | --------------------- 
+<img src="readme-data/main_cocktail_screen.jpg" width="240" height="480"> | <img src="readme-data/cocktail_favorite_screen.jpg" width="240" height="480"> | <img src="readme-data/cocktail_filter.jpg" width="240" height="480">
+
+Cocktail sort | Drink proposal | Cocktail search
+--------------------- | --------------------- | --------------------- 
+<img src="readme-data/cocktail_sort.jpg" width="240" height="480"> | <img src="readme-data/cocktail_proposal.jpg" width="240" height="480"> | <img src="readme-data/search_cocktail_screen.jpg" width="240" height="480">
+
+Cocktail details expanded | Cocktail details collapsed | 
+--------------------- | --------------------- | 
+<img src="readme-data/cocktail_details_expanded.jpg" width="240" height="480"> | <img src="readme-data/cocktail_details_collapsed.jpg" width="240" height="480"> |
 
 ### Setting
 This screen mostly created to demonstrate features that aren't related to cocktails. It leads to 3 additional screens: Profile, Cubic Animation view and Range Seek Bar view.
 In addition there is a row which shows the battery status: battery charge as a percentage, indication of current battery charge status and constant which represents how good
 battery charged (usually when battery level fall behind 20% this constant will show BATTERY_LOW).
 The last row in this screen gives ability to change visibility of bottom navigation titles (Cocktail and Setting signs).
-Images
+
+Setting | 
+-------------------- | 
+<img src="readme-data/setting_screen.jpg" width="240" height="480"> |
 
 ### Profile
 In this screen user can view and change his profile data. He can change name, last name, email and profile photo. User can logged out from his account? if desired.
-2 Images
+
+Profile | Profile log out dialog |
+-------------------- | -------------------- |
+<img src="readme-data/profile_screen.jpg" width="240" height="480"> | <img src="readme-data/log_out_dialog.jpg" width="240" height="480"> |
 
 ### Cube Animation view
 In this screen I demonstrate my skills in creating complex animations. In this custom view you can set the following parameters:
@@ -47,7 +66,10 @@ In this screen I demonstrate my skills in creating complex animations. In this c
 + duration of any animation
 + delay between animations
 + interpolators
-Gif
+
+Cube animation | 
+-------------------- | 
+<img src="readme-data/cube_animation_view.gif" width="270" height="480"> |
 
 ### Range Seek Bar view
 In this screen I demonstrate my skills in creating complex custom views. In this custom view you can set the following parameters:
@@ -56,7 +78,10 @@ In this screen I demonstrate my skills in creating complex custom views. In this
 + color and size of active and inactive slider
 + rounded or straight edges for background line
 + setting range via animation 
-Gif
+
+Range seek bar | 
+-------------------- | 
+<img src="readme-data/range_seek_bar_view.gif" width="270" height="480"> |
 
 ### Firebase
 
