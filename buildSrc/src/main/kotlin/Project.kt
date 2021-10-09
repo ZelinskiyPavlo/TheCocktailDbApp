@@ -38,13 +38,13 @@ inline val DependencyHandler.dataDatabase: ProjectDependency
 	get() = project(":data:database")
 
 inline val DependencyHandler.dataDatabaseImpl: ProjectDependency
-	get() = project(":data:database:impl")
+	get() = project(":data:database:database-impl")
 
 inline val DependencyHandler.dataNetwork: ProjectDependency
 	get() = project(":data:network")
 
 inline val DependencyHandler.dataNetworkImpl: ProjectDependency
-	get() = project(":data:network:impl")
+	get() = project(":data:network:network-impl")
 
 inline val DependencyHandler.dataLocal: ProjectDependency
 	get() = project(":data:local")
@@ -56,7 +56,7 @@ inline val DependencyHandler.dataRepository: ProjectDependency
 	get() = project(":data:repository")
 
 inline val DependencyHandler.dataRepositoryImpl: ProjectDependency
-	get() = project(":data:repository:impl")
+	get() = project(":data:repository:repository-impl")
 
 // platform
 inline val DependencyHandler.platformFirebase: ProjectDependency

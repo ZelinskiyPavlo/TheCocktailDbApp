@@ -44,7 +44,8 @@ dependencies {
     implementation(dataNetwork)
     implementation(dataRepository)
 
-    implementation(dataDatabaseImpl)
+    // TODO: 09.10.2021 Return back to extension function. Throws error bc using old module path
+    implementation(project(":data:database:database-impl"))
     implementation(dataLocalPreference)
     implementation(dataNetworkImpl)
     implementation(dataRepositoryImpl)
