@@ -7,7 +7,7 @@ object Version {
 	const val coroutines = "1.4.1"
 
 	object Plugin {
-		const val android = "3.5.3"
+		const val android = "4.1.3"
 		const val fabric = "1.31.2"
 		const val crashlytics = "2.10.1"
 	}
@@ -29,7 +29,7 @@ object Version {
 	}
 
 	object Dagger {
-		const val dagger = "2.25.2"
+		const val dagger = "2.28.3"
 	}
 
 	object AndroidX {
@@ -94,7 +94,7 @@ object Version {
 object Lib {
 
 	object Plugin {
-		const val kotlin = "com.android.tools.build:gradle:${Version.Plugin.android}"
+		const val gradle = "com.android.tools.build:gradle:${Version.Plugin.android}"
 		const val android = "org.jetbrains.kotlin:kotlin-gradle-plugin${Version.kotlin}"
 	}
 

@@ -96,8 +96,8 @@ internal fun BaseExtension.configureProductionFlavors() {
 internal inline val compileOptionsAction: Action<CompileOptions>
 	get() = Action {
 		incremental = true
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		sourceCompatibility = JavaVersion.VERSION_11
+		targetCompatibility = JavaVersion.VERSION_11
 	}
 
 internal inline val packagingOptionsAction: Action<PackagingOptions>
