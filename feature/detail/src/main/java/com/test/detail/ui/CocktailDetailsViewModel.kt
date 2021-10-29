@@ -1,69 +1,64 @@
 package com.test.detail.ui
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.test.detail.api.DetailCommunicationApi
 import com.test.detail.model.Ingredient
-import com.test.presentation.extension.mapNotNull
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
 import com.test.presentation.model.cocktail.CocktailModel
 import com.test.presentation.model.cocktail.type.CocktailIngredient
 import com.test.presentation.ui.base.BaseViewModel
+import com.test.presentation.util.WhileViewSubscribed
 import com.test.repository.source.CocktailRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class CocktailDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     private val cocktailRepo: CocktailRepository,
     private val cocktailMapper: CocktailModelMapper,
     private val communicationApi: DetailCommunicationApi
-) :
-    BaseViewModel(savedStateHandle) {
+) : BaseViewModel(savedStateHandle) {
 
-    private val cocktailLiveData = MutableLiveData<CocktailModel?>()
+    private val cocktailFlow = MutableSharedFlow<CocktailModel?>(replay = 1)
 
-    val cocktailPictureLiveData: LiveData<String> =
-        cocktailLiveData.mapNotNull { image }
+    val cocktailPictureFlow = cocktailFlow.filterNotNull().map { it.image }
+        .stateIn(viewModelScope, WhileViewSubscribed, null)
 
-    val cocktailNameLiveData: LiveData<String> =
-        cocktailLiveData.mapNotNull { names.defaults!! }
+    val cocktailNameFlow = cocktailFlow.filterNotNull().map { it.names.defaults }
+        .stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val cocktailAlcoholicLiveData: LiveData<String> =
-        cocktailLiveData.mapNotNull { alcoholType.key }
+    val cocktailAlcoholicFlow = cocktailFlow.filterNotNull().map { it.alcoholType.key }
+        .stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val cocktailGlassLiveData: LiveData<String> =
-        cocktailLiveData.mapNotNull { glass.key }
+    val cocktailGlassFlow = cocktailFlow.filterNotNull().map { it.glass.key }
+        .stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    internal val ingredientsLiveData: LiveData<List<Ingredient>> =
-        cocktailLiveData.mapNotNull {
-            ingredients.zip(measures) { ingredient: CocktailIngredient, measure: String ->
+    internal val ingredientsFlow =
+        cocktailFlow.filterNotNull().map {
+            it.ingredients.zip(it.measures) { ingredient: CocktailIngredient, measure: String ->
                 Ingredient(ingredient.key, measure)
             }
-        }
+        }.stateIn(viewModelScope, WhileViewSubscribed, emptyList())
 
-    val cocktailInstructionLiveData: LiveData<String> =
-        cocktailLiveData.mapNotNull { instructions.defaults!! }
+    val cocktailInstructionFlow = cocktailFlow.filterNotNull().map { it.instructions.defaults }
+        .stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val isCocktailFoundLiveData: LiveData<Boolean> =
-        cocktailLiveData.map { it != null }
+    val isCocktailFoundFlow = cocktailFlow.map { it != null }
+        .stateIn(viewModelScope, WhileViewSubscribed, null)
 
-    var cocktailId: Long = -1L
+    var cocktailId = cocktailFlow.filterNotNull().map { it.id }
+        .stateIn(viewModelScope, WhileViewSubscribed, -1L)
 
-    private val isCocktailFoundObserver = Observer<Boolean> { result ->
-        if (result == false) communicationApi.sendNoCocktailWithIdFoundEvent()
-    }
-
-    init {
-        isCocktailFoundLiveData.observeForever(isCocktailFoundObserver)
-    }
-
-    override fun onCleared() {
-        isCocktailFoundLiveData.removeObserver(isCocktailFoundObserver)
-        super.onCleared()
+    fun cocktailNotFound() {
+        communicationApi.sendNoCocktailWithIdFoundEvent()
     }
 
     fun getCocktailById(cocktailId: Long) {
-        this.cocktailId = cocktailId
-        launchRequest(cocktailLiveData) {
-            cocktailRepo.getCocktailById(cocktailId)?.run(cocktailMapper::mapTo)
+        launchRequest {
+            cocktailFlow.emit(cocktailRepo.getCocktailById(cocktailId)?.run(cocktailMapper::mapTo))
         }
     }
 }

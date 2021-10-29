@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.cocktail_common.service.DrinkProposalService
@@ -17,6 +20,9 @@ import com.test.detail.factory.CocktailDetailsViewModelFactory
 import com.test.navigation.api.SimpleNavigatorApi
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
@@ -43,6 +49,8 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         SavedStateViewModelFactory(cocktailDetailsVmFactory, this)
     }
 
+    private lateinit var ingredientsAdapter: IngredientAdapter
+
     @Inject
     lateinit var simpleNavigator: SimpleNavigatorApi
 
@@ -53,11 +61,10 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         setupIngredientsRecyclerView()
         setCollapsingToolbarListener()
-        setupObserver()
         getCocktail()
 
         logFirebaseEvent()
@@ -71,14 +78,11 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
     }
 
     private fun setupIngredientsRecyclerView() {
-        val ingredientsAdapter = IngredientAdapter()
+        ingredientsAdapter = IngredientAdapter()
         viewDataBinding.ingredientsRv.apply {
             adapter = ingredientsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-        viewModel.ingredientsLiveData.observe(viewLifecycleOwner, {ingredients ->
-            ingredientsAdapter.setData(ingredients)
-        })
     }
 
     // TODO: 11.02.2021 Feature request (if this possible) make cocktail image drawing behind status bar
@@ -89,10 +93,22 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         )
     }
 
-    private fun setupObserver() {
-        viewModel.isCocktailFoundLiveData.observe(viewLifecycleOwner, {result ->
-            if (result == false) simpleNavigator.exit()
-        })
+    override fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.ingredientsFlow.onEach { ingredients ->
+                    ingredientsAdapter.setData(ingredients)
+                }.launchIn(this)
+
+                viewModel.isCocktailFoundFlow.onEach { result ->
+                    if (result == false) {
+                        // TODO: 11.10.2021 This logic needs to be moved in viewModel!
+                        viewModel.cocktailNotFound()
+                        simpleNavigator.exit()
+                    }
+                }.launchIn(this)
+            }
+        }
     }
 
     private fun getCocktail() {
@@ -101,7 +117,7 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
     }
 
     private fun logFirebaseEvent() {
-        firebaseAnalytics.logOpenCocktailDetail(viewModel.cocktailId)
+        firebaseAnalytics.logOpenCocktailDetail(viewModel.cocktailId.value)
     }
 
     fun onBackButtonClicked() {
@@ -119,12 +135,11 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         stopIntent.action = DrinkProposalService.ACTION_STOP_SERVICE
         activity?.startService(stopIntent)
 
-        if (viewModel.isCocktailFoundLiveData.value == false) return
+        if (viewModel.isCocktailFoundFlow.value == false) return
 
         val startIntent = Intent(activity, DrinkProposalService::class.java)
         startIntent.action = DrinkProposalService.ACTION_START_SERVICE
-        val selectedCocktailId = viewModel.cocktailId
-        startIntent.putExtra(DrinkProposalService.SELECTED_COCKTAIL_ID, selectedCocktailId)
+        startIntent.putExtra(DrinkProposalService.SELECTED_COCKTAIL_ID, viewModel.cocktailId.value)
         activity?.startService(startIntent)
     }
 }
