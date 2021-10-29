@@ -13,17 +13,22 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.textfield.TextInputEditText
 import com.test.navigation.HasBackPressLogic
 import com.test.presentation.extension.addLinkedText
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.RegularDialogFragment
-import com.test.presentation.util.EventObserver
 import com.test.register.R
 import com.test.register.api.RegisterNavigationApi
 import com.test.register.databinding.FragmentRegisterBinding
 import com.test.register.factory.RegisterViewModelFactory
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLogic {
@@ -56,11 +61,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         setWhiteSpaceFilter()
         addLinkedText()
-        setupObserver()
         configureTogglePasswordButton()
         setupKeyboardClosing()
 
@@ -88,24 +92,25 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
 
     private fun addLinkedText() {
         viewDataBinding.registerSignInTv
-            .addLinkedText(this.getString(R.string.all_sign_in)) { navigateToLoginFragment() }
+            .addLinkedText(this.getString(R.string.all_sign_in)) { navigateToLoginScreen() }
     }
 
-    private fun setupObserver() {
-        viewModel.registerEventLiveData.observe(
-            viewLifecycleOwner, EventObserver {
-                navigateToCocktailActivity()
-            })
+    override fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow.onEach { event ->
+                    when (event) {
+                        RegisterViewModel.Event.ClearErrorTextColor -> clearErrors()
 
-        viewModel.clearErrorTextColorEventLiveData.observe(
-            viewLifecycleOwner, EventObserver {
-                clearErrors()
+                        RegisterViewModel.Event.ToRegister -> navigateToCocktailScreen()
+                    }
+                }.launchIn(this)
+
+                viewModel.isDataValidFlow.onEach { isAvailable ->
+                    viewDataBinding.registerButtonRegister.isEnabled = isAvailable
+                }.launchIn(this)
             }
-        )
-
-        viewModel.isDataValidLiveData.observe(viewLifecycleOwner, { isAvailable ->
-            viewDataBinding.registerButtonRegister.isEnabled = isAvailable
-        })
+        }
     }
 
     private fun configureTogglePasswordButton() {
@@ -143,11 +148,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
         viewModel.registerUser()
     }
 
-    private fun navigateToLoginFragment() {
+    private fun navigateToLoginScreen() {
         registerNavigator.toLogin()
     }
 
-    private fun navigateToCocktailActivity() {
+    private fun navigateToCocktailScreen() {
         registerNavigator.toTabHost()
     }
 
@@ -156,7 +161,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
     }
 
     private fun isTypedDataContainErrors(): Boolean {
-        if (viewModel.isDataValidLiveData.value == null) return true
         var error = false
 
         fun markFieldAsError(textField: TextInputEditText) {
@@ -166,12 +170,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
         }
 
         with(viewModel) {
-            if (passwordInputLiveData.value != confirmPasswordInputLiveData.value) {
+            if (passwordsNotMatch) {
                 viewDataBinding.registerConfirmPasswordEtl.error = "Passwords needs to match"
                 viewDataBinding.registerConfirmPasswordEt.requestFocus()
                 error = true
             }
-
             if (wrongPasswordConfirm)
                 markFieldAsError(viewDataBinding.registerConfirmPasswordEt)
             if (wrongPassword)
@@ -188,17 +191,19 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
     }
 
     private fun clearErrors() {
-        fun clearFieldError(textField: TextInputEditText) {
-            textField.setTextColor(regularTextColor)
+        fun clearFieldError(vararg textFields: TextInputEditText) {
+            textFields.forEach {
+                it.setTextColor(regularTextColor)
+            }
         }
 
-        viewDataBinding.registerConfirmPasswordEtl.error = null
-
-        clearFieldError(viewDataBinding.registerEmailEt)
-        clearFieldError(viewDataBinding.registerNameEt)
-        clearFieldError(viewDataBinding.registerLastNameEt)
-        clearFieldError(viewDataBinding.registerPasswordEt)
-        clearFieldError(viewDataBinding.registerConfirmPasswordEt)
+        with(viewDataBinding) {
+            registerConfirmPasswordEtl.error = null
+            clearFieldError(
+                registerEmailEt, registerNameEt, registerLastNameEt, registerPasswordEt,
+                registerConfirmPasswordEt
+            )
+        }
     }
 
     private fun showInvalidInputDialog() {
