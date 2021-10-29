@@ -1,77 +1,79 @@
 package com.test.login.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.test.common.Event
+import androidx.lifecycle.viewModelScope
 import com.test.presentation.ui.base.BaseViewModel
+import com.test.presentation.util.WhileViewSubscribed
 import com.test.repository.source.AuthRepository
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 
 class LoginViewModel(
     savedStateHandle: SavedStateHandle,
     private val authRepository: AuthRepository
 ) : BaseViewModel(savedStateHandle) {
 
-    val emailInputLiveData: MutableLiveData<String?> = MutableLiveData()
-    val passwordInputLiveData: MutableLiveData<String?> = MutableLiveData()
+    sealed class Event {
+        object ClearErrorTextColor: Event()
+
+        class ToLogin(val isLoginSuccess: Boolean): Event()
+    }
+
+    private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
+    val eventsFlow = _eventsChannel.receiveAsFlow()
+
+    val emailInputFlow = MutableStateFlow("")
+    val passwordInputFlow = MutableStateFlow("")
 
     var wrongEmail = false
     var wrongPassword = false
 
-    private val _clearErrorTextColorEventLiveData: MutableLiveData<Event<Unit>> = MutableLiveData()
-    val clearErrorTextColorEventLiveData: LiveData<Event<Unit>> = _clearErrorTextColorEventLiveData
-
     private var isDataCorrect = true
 
-    val isDataValidLiveData: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        fun invalidateTypedData() {
-            val typedEmail = emailInputLiveData.value ?: ""
-            val typedPassword = passwordInputLiveData.value ?: ""
+    val isDataValidFlow = combine(emailInputFlow, passwordInputFlow) { email, password ->
+        _eventsChannel.trySend(Event.ClearErrorTextColor)
+        isDataCorrect = true
+        wrongEmail = false
+        wrongPassword = false
 
-            _clearErrorTextColorEventLiveData.value = Event(Unit)
-            isDataCorrect = true
-            wrongEmail = false
-            wrongPassword = false
-
-            if (typedEmail.length < 6) {
-                isDataCorrect = false
-                wrongEmail = true
-            }
-            if (typedPassword.length < 6) {
-                isDataCorrect = false
-                wrongPassword = true
-            }
-
-            if ((typedPassword.any { it.isDigit() }
-                        && typedPassword.any { it.isLetter() }).not()) {
-                isDataCorrect = false
-                wrongPassword = true
-            }
-
-            value = isDataCorrect
+        if (email.length < 6) {
+            isDataCorrect = false
+            wrongEmail = true
+        }
+        if (password.length < 6) {
+            isDataCorrect = false
+            wrongPassword = true
         }
 
-        addSource(emailInputLiveData) { invalidateTypedData() }
-        addSource(passwordInputLiveData) { invalidateTypedData() }
+        if ((password.any { it.isDigit() } && password.any { it.isLetter() }).not()) {
+            isDataCorrect = false
+            wrongPassword = true
+        }
+
+        isDataCorrect
+    }.stateIn(viewModelScope, WhileViewSubscribed, false)
+
+    init {
+        setInitialText()
     }
 
-    private val _loginEventLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val loginEventLiveData: LiveData<Event<Boolean>> = _loginEventLiveData
-
-    fun setInitialText() {
-        emailInputLiveData.value = "zelinskiypavlo@gmail.com"
-        passwordInputLiveData.value = "password1"
+    private fun setInitialText() {
+        emailInputFlow.value = "zelinskiypavlo@gmail.com"
+        passwordInputFlow.value = "password1"
     }
 
     fun loginUser() {
         launchRequest {
             val loginStatus = authRepository.signIn(
-                email = emailInputLiveData.value!!,
-                password = passwordInputLiveData.value!!
+                email = emailInputFlow.value,
+                password = passwordInputFlow.value
             )
-            if (loginStatus)
-                _loginEventLiveData.postValue(Event(loginStatus))
+            if (loginStatus) {
+                _eventsChannel.trySend(Event.ToLogin(loginStatus))
+            }
         }
     }
 
