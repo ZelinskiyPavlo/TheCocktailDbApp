@@ -16,6 +16,9 @@ import android.widget.ViewSwitcher
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.Coil
 import coil.api.load
 import coil.request.LoadRequest
@@ -28,13 +31,14 @@ import com.test.presentation.extension.BitmapHelper.Companion.getBitmap
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.*
-import com.test.presentation.util.EventObserver
 import com.test.profile.R
-import com.test.profile.analytics.logUserAvatarChanged
 import com.test.profile.analytics.logUserNameChanged
 import com.test.profile.api.ProfileNavigationApi
 import com.test.profile.databinding.FragmentProfileBinding
 import com.test.profile.factory.ProfileViewModelFactory
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -51,6 +55,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
+    // TODO: 27.10.2021 Confirm button need to fit screen if possible (just like in login screen)
     override val layoutId: Int = R.layout.fragment_profile
 
     @Inject
@@ -77,10 +82,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         configureToolbar()
-        configureObserver()
         setWhiteSpaceFilter()
         setupKeyboardClosing()
         setSoftInputMode()
@@ -94,6 +98,28 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         viewDataBinding.fragment = this
     }
 
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow.onEach { event ->
+                    when (event) {
+                        ProfileViewModel.Event.LogOut -> profileNavigationApi.logOut()
+                    }
+                }.launchIn(this)
+
+                viewModel.userAvatarFlow.onEach { avatar ->
+                    setUserAvatar(avatar)
+                }.launchIn(this)
+
+                viewModel.userDataChangedFlow.onEach {
+                    firebaseAnalytics.logUserNameChanged(viewModel.userFullNameFlow.value)
+                    viewSwitcher.showNext()
+                }.launchIn(this)
+            }
+        }
+    }
+
     private fun configureToolbar() {
         viewDataBinding.profileFragmentToolbar.backButton.setOnClickListener {
             profileNavigationApi.exit()
@@ -104,40 +130,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    private fun configureObserver() {
-        viewModel.logOutUserEventLiveData.observe(viewLifecycleOwner, EventObserver {
-            profileNavigationApi.logOut()
-        })
-
-        viewModel.userDataChangedLiveData.observeNotNull(viewLifecycleOwner, {
-            firebaseAnalytics.logUserNameChanged(viewModel.userFullNameLiveData.value)
-
-            viewSwitcher.showNext()
-        })
-
-        viewModel.userAvatarLiveData.observeNotNull(viewLifecycleOwner) { avatar ->
-            viewDataBinding.profileFragmentAvatar.load(avatar) {
-                crossfade(true)
-                lifecycle(this@ProfileFragment)
-                placeholder(R.drawable.placeholder_avatar)
-                error(R.drawable.placeholder_error_avatar)
-                transformations(listOf(CircleCropTransformation()))
-            }
-            val request = LoadRequest.Builder(requireContext())
-                .crossfade(true)
-                .lifecycle(this)
-                .data(avatar)
-                .target { drawable ->
-                    viewDataBinding.profileAppBarLayout.background = drawable
-                }
-                .placeholder(R.drawable.placeholder_background)
-                .error(R.drawable.placeholder_error_background)
-                .transformations(BlurTransformation(requireContext()))
-                .build()
-            Coil.imageLoader(requireContext()).execute(request)
-        }
-    }
-
+    // TODO: 28.10.2021 Extract to extension function if possible
     private fun setWhiteSpaceFilter() {
         val whiteSpaceFilter = InputFilter { source, _, _, _, _, _ ->
             source.filterNot { char -> char.isWhitespace() }
@@ -157,11 +150,33 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         requireActivity().window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
+    private fun setUserAvatar(avatar: String?) {
+        viewDataBinding.profileFragmentAvatar.load(avatar) {
+            crossfade(true)
+            lifecycle(this@ProfileFragment)
+            placeholder(R.drawable.placeholder_avatar)
+            error(R.drawable.placeholder_error_avatar)
+            transformations(listOf(CircleCropTransformation()))
+        }
+        val request = LoadRequest.Builder(requireContext())
+            .crossfade(true)
+            .lifecycle(this@ProfileFragment)
+            .data(avatar)
+            .target { drawable ->
+                viewDataBinding.profileAppBarLayout.background = drawable
+            }
+            .placeholder(R.drawable.placeholder_background)
+            .error(R.drawable.placeholder_error_background)
+            .transformations(BlurTransformation(requireContext()))
+            .build()
+        Coil.imageLoader(requireContext()).execute(request)
+    }
+
     fun toggleUserChange() {
         with(viewModel) {
-            viewDataBinding.profileFragmentChangeNameEt.setText(userNameLiveData.value)
-            viewDataBinding.profileFragmentChangeLastNameEt.setText(userLastNameLiveData.value)
-            viewDataBinding.profileFragmentChangeEmailEt.setText(userEmailLiveData.value)
+            viewDataBinding.profileFragmentChangeNameEt.setText(userNameFlow.value)
+            viewDataBinding.profileFragmentChangeLastNameEt.setText(userLastNameFlow.value)
+            viewDataBinding.profileFragmentChangeEmailEt.setText(userEmailFlow.value)
         }
 
         viewSwitcher.showNext()
@@ -244,48 +259,47 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     @SuppressLint("BinaryOperationInTimber")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        fun logAvatarChangeEvent(oldAvatarUrl: String) {
-            viewModel.userAvatarLiveData.observeUntil(
-                viewLifecycleOwner,
-                { newAvatarUrl -> oldAvatarUrl != newAvatarUrl },
-                { newAvatarUrl ->
-                    firebaseAnalytics.logUserAvatarChanged(
-                        newAvatarUrl,
-                        viewModel.userFullNameLiveData.value
-                    )
-                }
-            )
-        }
-
         when {
             resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_PICK_IMAGE && data != null -> {
-                val uri = data.data ?: return
-
-                val bitmap = getBitmap(requireContext(), uri)!!
-                    .also { Timber.i("LOG bitmap size before = ${it.byteCount}") }
-                    .scaleToSize(convertMbToBinaryBytes(1))
-                    .also {
-                        Timber.i(
-                            "LOG bitmap size after = ${it.byteCount}, " +
-                                    "max= ${convertMbToBinaryBytes(1)}, " +
-                                    "dif=${convertMbToBinaryBytes(1) - it.byteCount}"
-                        )
-                    }
-                /*We can access getExternalFileDir() without asking any storage permission.*/
-                val imageFile = File(
-                    requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                    System.currentTimeMillis().toString() + "_temp.png"
-                )
-
-                bitmap.convertBitmapToFile(imageFile)
-
-                logAvatarChangeEvent(viewModel.userAvatarLiveData.value ?: "")
-                viewModel.uploadAvatar(imageFile) { fraction ->
-                    Timber.i("LOG PROGRESS = fraction=$fraction, percent=${fraction * 100.0F}%")
-                }
+                uploadNewAvatar(data)
             }
         }
+    }
+
+    private fun uploadNewAvatar(data: Intent) {
+        val uri = data.data ?: return
+
+        val bitmap = getBitmap(requireContext(), uri)!!
+            .also { Timber.i("LOG bitmap size before = ${it.byteCount}") }
+            .scaleToSize(convertMbToBinaryBytes(1))
+            .also {
+                Timber.i(
+                    "LOG bitmap size after = ${it.byteCount}, " +
+                            "max= ${convertMbToBinaryBytes(1)}, " +
+                            "dif=${convertMbToBinaryBytes(1) - it.byteCount}"
+                )
+            }
+        /*We can access getExternalFileDir() without asking any storage permission.*/
+        val imageFile = File(
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            System.currentTimeMillis().toString() + "_temp.png"
+        )
+
+        bitmap.convertBitmapToFile(imageFile)
+
+        logAvatarChangeEvent(viewModel.userAvatarFlow.value ?: "")
+        viewModel.uploadAvatar(imageFile) { fraction ->
+            Timber.i("LOG PROGRESS = fraction=$fraction, percent=${fraction * 100.0F}%")
+        }
+    }
+
+    private fun logAvatarChangeEvent(oldAvatarUrl: String) {
+        // TODO: 23.10.2021 Move to viewModel in the end of uploadAvatar function
+
+//                    firebaseAnalytics.logUserAvatarChanged(
+//                        newAvatarUrl,
+//                        viewModel.userFullNameFlow.value
+//                    )
     }
 
     override fun onRequestPermissionsResult(
