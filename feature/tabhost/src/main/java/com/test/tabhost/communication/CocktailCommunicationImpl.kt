@@ -8,5 +8,5 @@ internal class CocktailCommunicationImpl @Inject constructor(
     tabHostCommunicationApi: TabHostCommunicationApi
 ): CocktailCommunicationApi {
 
-    override val cocktailWithIdNotFoundEvent = tabHostCommunicationApi.cocktailWithIdNotFoundEvent
+    override val cocktailWithIdNotFoundFlow = tabHostCommunicationApi.cocktailWithIdNotFoundFlow
 }
