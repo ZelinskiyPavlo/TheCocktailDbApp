@@ -94,6 +94,7 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
     }
 
     override fun setupObservers() {
+        super.setupObservers()
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.ingredientsFlow.onEach { ingredients ->

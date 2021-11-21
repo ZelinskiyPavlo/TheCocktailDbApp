@@ -11,6 +11,7 @@ import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.WhileViewSubscribed
 import com.test.repository.source.CocktailRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -50,7 +51,7 @@ class CocktailDetailsViewModel(
         .stateIn(viewModelScope, WhileViewSubscribed, null)
 
     var cocktailId = cocktailFlow.filterNotNull().map { it.id }
-        .stateIn(viewModelScope, WhileViewSubscribed, -1L)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, -1L)
 
     fun cocktailNotFound() {
         communicationApi.sendNoCocktailWithIdFoundEvent()
