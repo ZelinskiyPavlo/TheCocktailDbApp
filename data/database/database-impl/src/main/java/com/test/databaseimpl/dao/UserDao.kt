@@ -1,6 +1,5 @@
 package com.test.databaseimpl.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -9,12 +8,13 @@ import androidx.room.Transaction
 import com.test.database.Table
 import com.test.database.model.UserDbModel
 import com.test.databaseimpl.dao.base.BaseDao
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao : BaseDao<UserDbModel> {
 
     @get:Query("SELECT * FROM ${Table.USER}")
-    val userLiveData: LiveData<UserDbModel?>
+    val userFlow: Flow<UserDbModel?>
 
     @Query("SELECT * FROM ${Table.USER} LIMIT 1")
     fun getUser(): UserDbModel?

@@ -1,13 +1,13 @@
 package com.test.repositoryimpl.source
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.test.database.source.CocktailDbSource
 import com.test.network.source.CocktailNetSource
 import com.test.repository.model.CocktailRepoModel
 import com.test.repository.source.CocktailRepository
 import com.test.repositoryimpl.mapper.CocktailRepoModelMapper
 import com.test.repositoryimpl.source.base.BaseRepositoryImpl
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -17,8 +17,8 @@ class CocktailRepositoryImpl @Inject constructor(
     private val mapper: CocktailRepoModelMapper
 ) : BaseRepositoryImpl(), CocktailRepository {
 
-    override val cocktailListLiveData: LiveData<List<CocktailRepoModel>> =
-        dbSource.cocktailListLiveData.map(mapper::mapDbToRepo)
+    override val cocktailListFlow: Flow<List<CocktailRepoModel>> =
+        dbSource.cocktailListFlow.map(mapper::mapDbToRepo)
 
     override suspend fun searchCocktails(query: String): List<CocktailRepoModel>? {
         return netSource.searchCocktails(query).run(mapper::mapNetToRepo)

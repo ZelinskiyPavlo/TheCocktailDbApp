@@ -1,13 +1,13 @@
 package com.test.database.source
 
-import androidx.lifecycle.LiveData
 import com.test.database.model.cocktail.CocktailDbModel
 import com.test.database.source.base.BaseDbSource
-import java.util.*
+import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 interface CocktailDbSource : BaseDbSource {
 
-    val cocktailListLiveData: LiveData<List<CocktailDbModel>>
+    val cocktailListFlow: Flow<List<CocktailDbModel>>
 
     suspend fun hasCocktails(): Boolean
     suspend fun getFirstCocktail(): CocktailDbModel?

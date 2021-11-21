@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UserDbSourceImpl @Inject constructor(private val userDao: UserDao) : UserDbSource {
 
-    override val userLiveData = userDao.userLiveData
+    override val userFlow = userDao.userFlow
 
     override suspend fun getUser(): UserDbModel? = userDao.getUser()
 

@@ -1,13 +1,15 @@
 package com.test.repository.source
 
-import androidx.lifecycle.LiveData
 import com.test.repository.source.base.BaseRepository
+import kotlinx.coroutines.flow.Flow
 
 interface TokenRepository : BaseRepository {
 
-    val authTokenLiveData: LiveData<String?>
-    var authToken: String?
+    fun observeAuthToken(): Flow<String>
 
-    var firebaseToken: String?
+    var authToken: String
 
+    fun observeFirebaseToken(): Flow<String>
+
+    var firebaseToken: String
 }

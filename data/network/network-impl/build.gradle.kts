@@ -21,5 +21,4 @@ dependencies {
     implementation(Lib.AndroidX.coreKtx)
     implementation(Lib.AndroidX.annotation)
     implementation(Lib.AndroidX.Lifecycle.common)
-    implementation(Lib.AndroidX.Lifecycle.livedataKtx)
 }

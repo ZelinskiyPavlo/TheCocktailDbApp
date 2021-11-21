@@ -1,7 +1,6 @@
 package com.test.repository.source
 
-import androidx.lifecycle.MutableLiveData
-import com.test.common.Event
+import kotlinx.coroutines.channels.Channel
 
 /** I don't know how good this solution is. But I can't think about any better way to organize
  *  communication between features. Perhaps I need to store this "repository" in app module, so that
@@ -12,6 +11,5 @@ import com.test.common.Event
 * */
 interface EventRepository {
 
-    // TODO: 21.02.2021 Rework using coroutines (after that remove unused dependencies)
-    val noCocktailWithIdFoundEvent: MutableLiveData<Event<Unit>>
+    val noCocktailWithIdFoundChannel: Channel<Unit>
 }

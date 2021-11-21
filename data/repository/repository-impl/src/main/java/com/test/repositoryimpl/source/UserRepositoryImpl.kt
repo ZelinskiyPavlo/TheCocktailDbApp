@@ -1,13 +1,13 @@
 package com.test.repositoryimpl.source
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.test.database.source.UserDbSource
 import com.test.network.source.UserNetSource
 import com.test.network.source.UserUploadNetSource
 import com.test.repository.model.UserRepoModel
 import com.test.repository.source.UserRepository
 import com.test.repositoryimpl.mapper.UserRepoModelMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.io.File
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class UserRepositoryImpl @Inject constructor(
     private val userModelMapper: UserRepoModelMapper
 ) : UserRepository {
 
-    override val userLiveData: LiveData<UserRepoModel?> = userDbSource.userLiveData
+    override val userFlow: Flow<UserRepoModel?> = userDbSource.userFlow
         .map {
             when {
                 it != null -> userModelMapper.mapDbToRepo(it)

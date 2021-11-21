@@ -1,10 +1,10 @@
 package com.test.databaseimpl.source
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.test.database.model.cocktail.CocktailDbModel
 import com.test.database.source.CocktailDbSource
 import com.test.databaseimpl.dao.CocktailDao
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Date
 import javax.inject.Inject
 
@@ -12,8 +12,8 @@ class CocktailDbSourceImpl @Inject constructor(
     private val cocktailDao: CocktailDao
 ) : CocktailDbSource {
 
-    override val cocktailListLiveData: LiveData<List<CocktailDbModel>> =
-        cocktailDao.cocktailListLiveData.map { it.filter { cocktail -> cocktail.id != 0L } }
+    override val cocktailListFlow: Flow<List<CocktailDbModel>> =
+        cocktailDao.cocktailListFlow.map { it.filter { cocktail -> cocktail.id != 0L } }
 
     override suspend fun hasCocktails() = cocktailDao.getFirstCocktail() != null
 

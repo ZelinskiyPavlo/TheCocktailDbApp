@@ -19,7 +19,6 @@ import com.test.databaseimpl.dao.UserDao
 import com.test.databaseimpl.typeconverter.DateConverter
 import com.test.databaseimpl.typeconverter.StringListToStringConverter
 
-// TODO: 09.10.2021     implementation(project(":data:database:database-impl")) back to normal!!!
 @Database(
     version = 2,
     entities = [CocktailEntity::class, NameEntity::class, InstructionEntity::class,

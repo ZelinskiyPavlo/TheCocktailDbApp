@@ -1,12 +1,12 @@
 package com.test.database.source
 
-import androidx.lifecycle.LiveData
 import com.test.database.model.UserDbModel
 import com.test.database.source.base.BaseDbSource
+import kotlinx.coroutines.flow.Flow
 
 interface UserDbSource: BaseDbSource {
 
-    val userLiveData: LiveData<UserDbModel?>
+    val userFlow: Flow<UserDbModel?>
 
     suspend fun getUser(): UserDbModel?
     suspend fun saveUser(user: UserDbModel)

@@ -1,10 +1,15 @@
 package com.test.repository.source
 
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.Flow
 
 interface AppSettingRepository {
 
-    val shouldShowNavigationTitleLiveData: MutableLiveData<Boolean>
+    fun observeShowNavigationTitle(): Flow<Boolean>
 
-    val currentLanguageLiveData: MutableLiveData<Int>
+    var showNavigationTitle: Boolean
+
+    fun observeCurrentLanguage(): Flow<Int>
+
+    var currentLanguage: Int
+
 }

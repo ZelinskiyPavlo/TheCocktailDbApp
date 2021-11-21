@@ -4,11 +4,14 @@ import com.test.local.source.AppSettingLocalSource
 import com.test.repository.source.AppSettingRepository
 import javax.inject.Inject
 
-class AppSettingRepositoryImpl @Inject constructor(localSource: AppSettingLocalSource) :
+class AppSettingRepositoryImpl @Inject constructor(private val localSource: AppSettingLocalSource) :
     AppSettingRepository {
 
-    override val shouldShowNavigationTitleLiveData = localSource.showNavigationTitleLiveData
+    override fun observeShowNavigationTitle() = localSource.observeShowNavigationTitle()
 
-    override val currentLanguageLiveData = localSource.currentLanguageLiveData
+    override var showNavigationTitle = localSource.showNavigationTitle
 
+    override fun observeCurrentLanguage() = localSource.observeCurrentLanguage()
+
+    override var currentLanguage = localSource.currentLanguage
 }

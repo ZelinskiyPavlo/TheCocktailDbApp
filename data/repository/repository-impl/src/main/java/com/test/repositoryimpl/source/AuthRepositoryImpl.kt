@@ -26,7 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
                     .run(userModelMapper::mapNetToDb)
                     .run { userDbSource.saveUser(this) }
 
-                tokenLocalSource.authToken != null
+                tokenLocalSource.authToken.isNotEmpty()
             }
     }
 
@@ -41,7 +41,7 @@ class AuthRepositoryImpl @Inject constructor(
                     .run(userModelMapper::mapNetToDb)
                     .run { userDbSource.saveUser(this) }
 
-                tokenLocalSource.authToken != null
+                tokenLocalSource.authToken.isNotEmpty()
             }
     }
 }

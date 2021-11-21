@@ -1,6 +1,5 @@
 package com.test.databaseimpl.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,6 +14,7 @@ import com.test.database.model.cocktail.IngredientEntity
 import com.test.database.model.cocktail.InstructionEntity
 import com.test.database.model.cocktail.MeasureEntity
 import com.test.database.model.cocktail.NameEntity
+import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 import java.util.Date
 
@@ -22,7 +22,7 @@ import java.util.Date
 interface CocktailDao {
 
     @get:Query("SELECT * FROM CocktailDbModel ORDER BY dateAdded DESC")
-    val cocktailListLiveData: LiveData<List<CocktailDbModel>>
+    val cocktailListFlow: Flow<List<CocktailDbModel>>
 
     @Query("SELECT * FROM CocktailDbModel LIMIT 1")
     fun getFirstCocktail(): CocktailDbModel?

@@ -1,14 +1,14 @@
 package com.test.repository.source
 
-import androidx.lifecycle.LiveData
 import com.test.repository.model.UserRepoModel
 import com.test.repository.source.base.BaseRepository
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface UserRepository : BaseRepository {
 
 
-    val userLiveData: LiveData<UserRepoModel?>
+    val userFlow: Flow<UserRepoModel?>
     /**
      * @return true - if user has already its profile data filled (go to Main)
      * Otherwise user must fill profile data
