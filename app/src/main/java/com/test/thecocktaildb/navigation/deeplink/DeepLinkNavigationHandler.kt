@@ -2,7 +2,11 @@ package com.test.thecocktaildb.navigation.deeplink
 
 import android.net.Uri
 import androidx.core.net.toUri
-import com.github.terrakok.cicerone.*
+import com.github.terrakok.cicerone.BackTo
+import com.github.terrakok.cicerone.Command
+import com.github.terrakok.cicerone.Forward
+import com.github.terrakok.cicerone.Navigator
+import com.github.terrakok.cicerone.Replace
 import com.test.common.Event
 import com.test.firebase.common.DynamicLink
 import com.test.firebase.common.Fcm
@@ -81,6 +85,8 @@ open class DeepLinkNavigationHandler(
     }
 
     private fun navigateToCocktailTab() {
+        navigationStateHolder.tabHostSelectedTabEvent = Event(R.id.bnv_cocktail_item)
+
         val clearChain = BackTo(null)
         val replaceWithTabHost = Replace(Screen.tabHost())
 

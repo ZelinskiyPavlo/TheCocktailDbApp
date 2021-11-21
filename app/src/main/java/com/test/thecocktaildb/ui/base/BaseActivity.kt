@@ -1,18 +1,16 @@
 package com.test.thecocktaildb.ui.base
 
 import android.os.Bundle
-import androidx.annotation.MainThread
+import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.test.common.exception.*
 import com.test.presentation.exception.SimpleErrorHandler
-import com.test.presentation.extension.observeNotNull
-import com.test.presentation.extension.observeNotNullOnce
-import com.test.presentation.extension.observeTillDestroy
-import com.test.presentation.extension.observeTillDestroyNotNull
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.ui.dialog.DialogButton
@@ -23,6 +21,8 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import icepick.Icepick
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity(),
@@ -51,6 +51,7 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
         dataBinding = DataBindingUtil.setContentView(this, contentLayoutResId) as VDB
         dataBinding.lifecycleOwner = this@BaseActivity
         configureDataBinding()
+        setupObservers()
 
         Icepick.restoreInstanceState(this, savedInstanceState)
     }
@@ -58,16 +59,12 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
     protected open fun configureDataBinding() {
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-
-        configureObserver()
-        addViewModelErrorObserver(viewModel)
-    }
-
-    protected fun addViewModelErrorObserver(viewModel: BaseViewModel) {
-        viewModel.errorLiveData.observeNotNull {
-            handleError(it)
+    @CallSuper
+    protected open fun setupObservers() {
+        lifecycleScope.launch {
+            viewModel.errorFlow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
+                handleError(it)
+            }
         }
     }
 
@@ -87,57 +84,35 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel> : AppComp
 
     protected open fun handleLoginError(e: LoginError) =
         errorHandler.handleLoginError()
+
     protected open fun handleRegistrationError(e: RegistrationError) =
         errorHandler.handleRegistrationError()
+
     protected open fun handleApiError(e: ApiError) =
         errorHandler.handleApiError()
+
     protected open fun handleUnAuthorizedAccessError(e: UnAuthorizedAccessError) =
         errorHandler.handleUnAuthorizedAccessError()
+
     protected open fun handleServerError(e: ServerError) =
         errorHandler.handleServerError()
+
     protected open fun handleServerRespondingError(e: ServerRespondingError) =
         errorHandler.handleServerRespondingError()
+
     protected open fun handleUnknownError(e: UnknownError) =
         errorHandler.handleUnknownError(e)
+
     protected open fun handleCancellationError(e: CancellationError) =
         errorHandler.handleCancellationError()
+
     protected open fun handleNoInternetConnectionError(e: NoInternetConnectionError) =
         errorHandler.handleNoInternetConnectionError()
-
-    protected open fun configureObserver() {
-    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Icepick.saveInstanceState(this, outState)
     }
-
-    //region Convenient Observe Methods
-    @MainThread
-    protected inline fun <reified T> LiveData<T>.observe(noinline observer: (T) -> Unit) {
-        this.observe(this@BaseActivity, observer)
-    }
-
-    @MainThread
-    protected fun <T> LiveData<T?>.observeNotNull(observer: (T) -> Unit) {
-        this.observeNotNull(this@BaseActivity, observer)
-    }
-
-    @MainThread
-    protected inline fun <T> LiveData<T?>.observeTillDestroyNotNull(crossinline observer: (T) -> Unit) {
-        this.observeTillDestroyNotNull(this@BaseActivity, observer)
-    }
-
-    @MainThread
-    protected inline fun <T> LiveData<T>.observeTillDestroy(crossinline observer: (T) -> Unit) {
-        this.observeTillDestroy(this@BaseActivity, observer)
-    }
-
-    @MainThread
-    protected inline fun <T> LiveData<T>.observeNonNullOnce(crossinline observer: (T) -> Unit) {
-        this.observeNotNullOnce(this@BaseActivity, observer)
-    }
-    //endregion
 
     override fun onDialogFragmentDismiss(
         dialog: DialogFragment,
