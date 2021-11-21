@@ -2,7 +2,6 @@ package com.test.thecocktaildb.feature.auth
 
 import com.github.terrakok.cicerone.Router
 import com.test.auth.api.AuthNavigationApi
-import com.test.common.Event
 import com.test.thecocktaildb.di.DiConstant
 import com.test.thecocktaildb.navigation.routing.Screen
 import com.test.thecocktaildb.navigation.state.NavigationStateHolder
@@ -18,7 +17,6 @@ class AuthNavigationImpl @Inject constructor(
         if (navigationStateHolder.deepLinkModel == null)
             router.replaceScreen(Screen.tabHost())
         else
-            navigationStateHolder.deferredDeepLinkEvent.value =
-                Event(navigationStateHolder.deepLinkModel!!)
+            navigationStateHolder.sendDeferredDeepLinkEvent(navigationStateHolder.deepLinkModel!!)
     }
 }

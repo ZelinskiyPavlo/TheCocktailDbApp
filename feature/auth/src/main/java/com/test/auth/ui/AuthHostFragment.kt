@@ -38,7 +38,9 @@ class AuthHostFragment : BaseFragment<FragmentAuthHostBinding>(), HasBackPressLo
         super.onCreate(savedInstanceState)
         navigator =
             AppNavigator(requireActivity(), R.id.auth_fragment_container, childFragmentManager)
-        router.replaceScreen(Screen.login())
+        if (savedInstanceState == null) {
+            router.replaceScreen(Screen.login())
+        }
     }
 
     override fun onResume() {
