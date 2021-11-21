@@ -1,12 +1,19 @@
 package com.test.presentation.ui.custom
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Outline
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.core.content.res.use
 import androidx.core.graphics.withSave
 import com.test.presentation.R
@@ -16,6 +23,7 @@ import kotlin.math.min
 
 class RoundedFrameLayout : FrameLayout {
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
     private val is26Plus = Build.VERSION.SDK_INT >= 26
 
     private val boundsF = RectF()

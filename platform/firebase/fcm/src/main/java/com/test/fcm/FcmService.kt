@@ -15,7 +15,7 @@ class FcmService: FirebaseMessagingService() {
     lateinit var tokenRepository: TokenRepository
 
     @Inject
-    @field:Named(DiConstant.ACTIVITY_INTENT)
+    @Named(DiConstant.ACTIVITY_INTENT)
     lateinit var intent: Intent
 
     override fun onCreate() {

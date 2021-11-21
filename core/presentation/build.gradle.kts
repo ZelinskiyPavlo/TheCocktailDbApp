@@ -25,8 +25,9 @@ dependencies {
     api(Lib.AndroidX.constraintlayout)
 
     api(Lib.AndroidX.Lifecycle.common)
-    api(Lib.AndroidX.Lifecycle.livedataKtx)
     api(Lib.AndroidX.Lifecycle.viewModelKtx)
+    api(Lib.AndroidX.Lifecycle.runtimeKtx)
+    implementation(Lib.AndroidX.Lifecycle.livedataKtx)
 
     api(Lib.Logging.timber)
 
