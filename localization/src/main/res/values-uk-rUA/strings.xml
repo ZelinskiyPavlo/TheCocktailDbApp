@@ -33,7 +33,7 @@
     <string name="filter_button_reset">Скинути</string>
     <string name="filter_button_apply">До результатів</string>
     <string name="filter_fragment_choose_filter">Обрати</string>
-    <string name="filter_fragment_change_filter">Змінити</string>
+    <string name="filter_fragment_change_filter">%s       Змінити</string>
     <string name="filter_fragment_undo_filters">Відмінити</string>
     <!--endregion-->
 
@@ -158,7 +158,7 @@
     <string name="seek_bar_fragment_button_set_range">Проміжок з 20 до 50</string>
     <string name="no_cocktails_found">Коктелів не знайдено</string>
     <string name="snackbar_no_cocktail_found">Вказаного коктелю не знайдено</string>
-    <string name="filter_fragment_results_sign">Результати</string>
+    <string name="filter_fragment_results_sign">Результати (%d⌚, %d♥)</string>
     <string name="filter_fragment_glass_type">Фільтр по келиху</string>
     <string name="confirm">Підтвердити</string>
     <!--endregion-->

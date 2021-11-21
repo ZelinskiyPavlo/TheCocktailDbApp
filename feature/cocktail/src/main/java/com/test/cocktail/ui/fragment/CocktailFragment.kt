@@ -12,6 +12,9 @@ import androidx.core.text.bold
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -37,11 +40,14 @@ import com.test.cocktail_common.service.ACTION_PROPOSE_DRINK
 import com.test.navigation.HasBackPressLogic
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
-import com.test.presentation.util.EventObserver
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLogic, DrinkProposalCallback {
+class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLogic,
+    DrinkProposalCallback {
 
     companion object {
         @JvmStatic
@@ -56,9 +62,6 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     internal lateinit var viewModelFactory: CocktailViewModelFactory
 
     override val viewModel: CocktailViewModel by viewModels {
-        // I can't use requireActivity for SavedStateRegistryOwner with scoping to fragment
-        // bc it's broke application when restoring state. On the other hand savedState in CocktailVM
-        // will only work when application is running but opened different fragment
         SavedStateViewModelFactory(viewModelFactory, this)
     }
 
@@ -67,8 +70,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     @Inject
     lateinit var cocktailNavigator: CocktailNavigationApi
 
-    // Add this Api to Fragment and not into viewModel, bc I can't understand behaviour when
-    // observing forever liveData from this api
+    // TODO: 14.11.2021 Move to ViewModel
     @Inject
     lateinit var communicationApi: CocktailCommunicationApi
 
@@ -83,9 +85,8 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        setupObserver()
         setupToolbar()
         setupViewPager()
         setupTabLayout()
@@ -99,21 +100,56 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
         viewDataBinding.fragment = this
     }
 
-    private fun setupObserver() {
-        viewModel.applyFiltersEventLiveData.observe(viewLifecycleOwner, EventObserver { selectedFilters ->
-            firebaseAnalytics.logCocktailFilterApply(selectedFilters)
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow.onEach { event ->
+                    when (event) {
+                        is CocktailViewModel.Event.ApplyFilter -> {
+                            firebaseAnalytics.logCocktailFilterApply(
+                                Pair(event.selectedFiltersList, event.selectedFiltersTypeList)
+                            )
+                            closeFilterFragment()
+                        }
 
-            closeFilterFragment()
-        })
-        viewModel.favoriteStateChangedEventLiveData.observe(
-            viewLifecycleOwner,
-            EventObserver { cocktailStateData ->
-                firebaseAnalytics.logFavoriteCocktailStateChanged(cocktailStateData)
-            })
+                        is CocktailViewModel.Event.CocktailFavoriteStateChanged -> {
+                            // TODO: 21.10.2021 Why not to remove analytics log to ViewModel using interface???
+                            firebaseAnalytics.logFavoriteCocktailStateChanged(
+                                Triple(
+                                    event.isAddedToFavorite,
+                                    event.cocktailId.toString(),
+                                    event.fullUserName
+                                )
+                            )
+                        }
 
-        communicationApi.cocktailWithIdNotFoundEvent.observe(viewLifecycleOwner, EventObserver {
-            showNoCocktailFoundSnackbar()
-        })
+                        else -> Unit
+                    }
+                }.launchIn(this)
+
+                viewModel.filtersFlow.onEach {
+                    if (it.isNullOrEmpty().not().and(it != List(3) { null }))
+                        viewDataBinding.toolbar
+                            .changePrimaryOptionImage(R.drawable.ic_filter_list_24_indicator)
+                    else viewDataBinding.toolbar
+                        .changePrimaryOptionImage(R.drawable.ic_filter_list_24)
+                }.launchIn(this)
+
+                viewModel.sortingOrderFlow.onEach {
+                    if (it != null && it != CocktailSortType.RECENT)
+                        viewDataBinding.toolbar
+                            .changeSecondaryOptionImage(R.drawable.ic_sort_24_indicator)
+                    else viewDataBinding.toolbar
+                        .changeSecondaryOptionImage(R.drawable.ic_sort_24)
+                }.launchIn(this)
+
+                communicationApi.cocktailWithIdNotFoundFlow.onEach {
+                    showNoCocktailFoundSnackbar()
+                }.launchIn(this)
+
+            }
+        }
     }
 
     private fun setupToolbar() {
@@ -126,11 +162,11 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
                 .getColor(requireActivity(), R.color.selected_cocktail_sort_type)
             val sortKeyTypeList = CocktailSortType.values().mapIndexed { index, sortType ->
                 when {
-                    index == 0 && viewModel.sortingOrderLiveData.value == null -> {
+                    index == 0 && viewModel.sortingOrderFlow.value == null -> {
                         SpannableStringBuilder()
                             .bold { color(selectedColor) { append(CocktailSortType.RECENT.key) } }
                     }
-                    viewModel.sortingOrderLiveData.value?.key == sortType.key -> {
+                    viewModel.sortingOrderFlow.value?.key == sortType.key -> {
                         SpannableStringBuilder()
                             .bold { color(selectedColor) { append(sortType.key) } }
                     }
@@ -140,25 +176,9 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.dialog_cocktail_sorting_title))
                 .setItems(sortKeyTypeList) { _, i ->
-                    viewModel.sortingOrderLiveData.value = CocktailSortType.values()[i]
+                    viewModel.setSorting(CocktailSortType.values()[i])
                 }.show()
         }
-
-        viewModel.filtersLiveData.observe(viewLifecycleOwner, {
-            if (it.isNullOrEmpty().not().and(it != List(3) { null }))
-                viewDataBinding.toolbar
-                    .changePrimaryOptionImage(R.drawable.ic_filter_list_24_indicator)
-            else viewDataBinding.toolbar
-                .changePrimaryOptionImage(R.drawable.ic_filter_list_24)
-        })
-
-        viewModel.sortingOrderLiveData.observe(viewLifecycleOwner, {
-            if (it != null && it != CocktailSortType.RECENT)
-                viewDataBinding.toolbar
-                    .changeSecondaryOptionImage(R.drawable.ic_sort_24_indicator)
-            else viewDataBinding.toolbar
-                .changeSecondaryOptionImage(R.drawable.ic_sort_24)
-        })
 
         viewDataBinding.toolbar.primaryOption.setOnLongClickListener {
             viewModel.resetFilters()
@@ -166,7 +186,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
         }
 
         viewDataBinding.toolbar.secondaryOption.setOnLongClickListener {
-            viewModel.sortingOrderLiveData.value = null
+            viewModel.resetSorting()
             true
         }
     }
@@ -204,11 +224,11 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
             .add(R.id.cocktail_fragment_container, filterFragment)
             .addToBackStack(null)
             .commit()
-        communicationViewModel.onNestedFragmentNavigationLiveData.value = true
+        communicationViewModel.onNestedFragmentNavigationFlow.tryEmit(true)
     }
 
     private fun closeFilterFragment() {
-        communicationViewModel.onNestedFragmentNavigationLiveData.value = false
+        communicationViewModel.onNestedFragmentNavigationFlow.tryEmit(false)
         childFragmentManager.popBackStack()
     }
 
@@ -238,7 +258,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     }
 
     override fun proposeCocktail(selectedCocktailId: Long) {
-        if ((viewModel.cocktailsLiveData.value?.size ?: 0) > 1 && selectedCocktailId != -1L) {
+        if (viewModel.cocktailsFlow.value.size > 1 && selectedCocktailId != -1L) {
             Snackbar.make(
                 viewDataBinding.cocktailCoordinatorLayout,
                 getString(R.string.snackbar_drink_proposal_title),
