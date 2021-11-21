@@ -1,18 +1,20 @@
 package com.test.gradle.extension
 
 import Config
+import Lib
 import Version
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 fun Project.addKotlinStdLibDependency(configurationName: String = "implementation") {
 	dependencies {
 		add(configurationName, kotlin("stdlib", Version.kotlin))
 		add(configurationName, kotlin("reflect", Version.reflect))
+		add(configurationName, Lib.Kotlin.coroutines)
 	}
 }
 
