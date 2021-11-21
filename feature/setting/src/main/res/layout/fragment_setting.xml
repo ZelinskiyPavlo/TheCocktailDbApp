@@ -91,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="22dp"
-                        android:checked="@={viewModel.shouldShowNavigationTitleLiveData}"
+                        android:checked="@={viewModel.shouldShowNavigationTitle}"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/setting_fragment_show_nav_view_title"
