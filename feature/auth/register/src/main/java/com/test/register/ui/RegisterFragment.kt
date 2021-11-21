@@ -96,6 +96,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
     }
 
     override fun setupObservers() {
+        super.setupObservers()
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventsFlow.onEach { event ->
