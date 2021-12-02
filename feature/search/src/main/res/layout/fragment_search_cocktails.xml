@@ -51,7 +51,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                bind:rv_cocktails="@{viewModel.itemsLiveData}" />
+                bind:rv_cocktails="@{viewModel.itemsFlow}" />
 
             <TextView
                 android:id="@+id/search_query_empty_tv"

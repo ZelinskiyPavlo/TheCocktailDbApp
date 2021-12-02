@@ -1,12 +1,12 @@
 package com.test.repository.source
 
-import androidx.lifecycle.LiveData
 import com.test.repository.model.CocktailRepoModel
 import com.test.repository.source.base.BaseRepository
+import kotlinx.coroutines.flow.Flow
 
 interface CocktailRepository : BaseRepository {
 
-    val cocktailListLiveData: LiveData<List<CocktailRepoModel>>
+    val cocktailListFlow: Flow<List<CocktailRepoModel>>
     suspend fun searchCocktails(query: String): List<CocktailRepoModel>?
     suspend fun hasCocktails(): Boolean
     suspend fun getFirstCocktail(): CocktailRepoModel?

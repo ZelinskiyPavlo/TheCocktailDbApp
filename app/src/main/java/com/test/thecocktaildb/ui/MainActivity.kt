@@ -3,6 +3,9 @@ package com.test.thecocktaildb.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -10,10 +13,8 @@ import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.test.firebase.common.DynamicLink
 import com.test.firebase.common.Fcm
 import com.test.navigation.HasBackPressLogic
-import com.test.presentation.extension.observeOnce
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
-import com.test.presentation.util.EventObserver
 import com.test.thecocktaildb.R
 import com.test.thecocktaildb.databinding.ActivityMainBinding
 import com.test.thecocktaildb.di.DiConstant
@@ -23,6 +24,9 @@ import com.test.thecocktaildb.navigation.routing.Screen
 import com.test.thecocktaildb.navigation.state.NavigationStateHolder
 import com.test.thecocktaildb.ui.base.BaseActivity
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -38,11 +42,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     @Inject
-    @field:Named(DiConstant.GLOBAL)
+    @Named(DiConstant.GLOBAL)
     lateinit var navigatorHolder: NavigatorHolder
 
     @Inject
-    @field:Named(DiConstant.GLOBAL)
+    @Named(DiConstant.GLOBAL)
     lateinit var router: Router
 
     @Inject
@@ -58,29 +62,38 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
-        viewModel.refreshUser()
-        setupAppNavigator()
-        setupObserver()
-        viewModel.userLiveData.observeOnce {
-            handleNavigation()
+        configureNavigation(savedInstanceState)
+    }
+
+    override fun setupObservers() {
+        super.setupObservers()
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow.onEach { event ->
+                    when(event) {
+                        is MainViewModel.Event.InitNavigation -> handleNavigation()
+                    }
+                }.launchIn(this)
+
+                navigationStateHolder.deferredDeepLinkFlow.onEach { model ->
+                    DeepLinkNavigationHandler(navigator, navigationStateHolder, viewModel.isUserLoggedInFlow.value)
+                        .performNavigation(model)
+                }.launchIn(this)
+            }
         }
     }
 
-    private fun setupAppNavigator() {
+    private fun configureNavigation(savedInstanceState: Bundle?) {
         navigator = AppNavigator(this, R.id.main_fragment_container)
-    }
-
-    private fun setupObserver() {
-        navigationStateHolder.deferredDeepLinkEvent.observe(this, EventObserver { model ->
-            DeepLinkNavigationHandler(navigator, navigationStateHolder, viewModel.isUserLoggedIn)
-                .performNavigation(model)
-        })
+        if(savedInstanceState == null) {
+            viewModel.handleColdStart()
+        }
     }
 
     private fun handleNavigation() {
         when {
             handleDynamicLink() -> {}
-            viewModel.isUserLoggedIn -> navigateToTabHost()
+            viewModel.isUserLoggedInFlow.value -> navigateToTabHost()
             else -> navigateToAuth()
         }
     }
@@ -93,14 +106,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         router.replaceScreen(Screen.auth())
     }
 
-    private fun handleDynamicLink(): Boolean {
-        intent.data?.let { uri ->
+    private fun handleDynamicLink(newIntent: Intent? = null): Boolean {
+        val intentData = newIntent?.data ?: intent.data
+        intentData?.let { uri ->
             uri.getQueryParameter(DynamicLink.LINK) ?: return false
 
             return DeepLinkNavigationHandler(
                 navigator,
                 navigationStateHolder,
-                viewModel.isUserLoggedIn
+                viewModel.isUserLoggedInFlow.value
             ).processDeepLink(uri)
         }
         return false
@@ -109,11 +123,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         handleNotification(intent)
+        handleDynamicLink(intent)
     }
 
     private fun handleNotification(newIntent: Intent?) {
         newIntent?.extras?.getString(Fcm.EXTRA_KEY_NOTIFICATION_TYPE)?.also { notificationType ->
-            DeepLinkNavigationHandler(navigator, navigationStateHolder, viewModel.isUserLoggedIn)
+            DeepLinkNavigationHandler(navigator, navigationStateHolder, viewModel.isUserLoggedInFlow.value)
                 .processDeepLink(
                     notificationType,
                     newIntent.extras?.getString(Fcm.EXTRA_KEY_COCKTAIL_ID)?.toLong()

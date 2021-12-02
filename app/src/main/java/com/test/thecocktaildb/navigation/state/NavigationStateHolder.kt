@@ -1,8 +1,9 @@
 package com.test.thecocktaildb.navigation.state
 
-import androidx.lifecycle.MutableLiveData
 import com.test.common.Event
 import com.test.thecocktaildb.navigation.deeplink.model.DeepLinkModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,6 +20,10 @@ class NavigationStateHolder @Inject constructor() {
 
     var deepLinkModel: DeepLinkModel? = null
 
-    // TODO: 16.02.2021 Replace with coroutine realization
-    val deferredDeepLinkEvent = MutableLiveData<Event<DeepLinkModel>>()
+    private val deferredDeepLinkChannel = Channel<DeepLinkModel>(capacity = Channel.CONFLATED)
+    val deferredDeepLinkFlow = deferredDeepLinkChannel.receiveAsFlow()
+
+    fun sendDeferredDeepLinkEvent(event: DeepLinkModel) {
+        deferredDeepLinkChannel.trySend(event)
+    }
 }

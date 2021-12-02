@@ -4,15 +4,18 @@ buildscript {
         google()
         jcenter()
         gradlePluginPortal()
-        maven (url= "https://dl.bintray.com/kotlin/kotlin-eap")
     }
     dependencies {
-        classpath ("com.android.tools.build:gradle:4.1.0")
-        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")
+        classpath ("com.android.tools.build:gradle:7.0.2")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
         
-        classpath ("com.google.gms:google-services:4.3.3")
-        classpath ("com.google.firebase:firebase-crashlytics-gradle:2.2.0")
+        classpath ("com.google.gms:google-services:4.3.10")
+        classpath ("com.google.firebase:firebase-crashlytics-gradle:2.7.1")
     }
+}
+
+plugins {
+    id("com.osacky.doctor") version "0.7.3"
 }
 
 allprojects {
@@ -20,7 +23,6 @@ allprojects {
         mavenCentral()
         maven (url= "https://clojars.org/repo/")
         maven (url= "https://clojars.org/repo/")
-        maven (url= "https://dl.bintray.com/kotlin/kotlin-eap")
         maven (url= "https://jitpack.io")
         google()
         jcenter()

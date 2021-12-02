@@ -1,9 +1,8 @@
 package com.test.cocktail.api
 
-import androidx.lifecycle.LiveData
-import com.test.common.Event
+import kotlinx.coroutines.flow.Flow
 
 interface CocktailCommunicationApi {
 
-    val cocktailWithIdNotFoundEvent: LiveData<Event<Unit>>
+    val cocktailWithIdNotFoundFlow: Flow<Unit>
 }

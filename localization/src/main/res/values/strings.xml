@@ -62,7 +62,7 @@
     <string name="filter_button_reset">Reset</string>
     <string name="filter_button_apply">Go to results</string>
     <string name="filter_fragment_choose_filter">Choose</string>
-    <string name="filter_fragment_change_filter">Change</string>
+    <string name="filter_fragment_change_filter">%s       Change</string>
     <string name="filter_fragment_undo_filters">Undo</string>
     <string name="filter_fragment_none_filter">None</string>
     <string name="filter_fragment_alcohol_type">Alcohol type</string>
@@ -236,7 +236,7 @@
     <string name="seek_bar_fragment_button_set_range">Set range from 20 to 50</string>
     <string name="no_cocktails_found">No cocktails found</string>
     <string name="snackbar_no_cocktail_found">No cocktail found</string>
-    <string name="filter_fragment_results_sign">Results</string>
+    <string name="filter_fragment_results_sign">Results (%d⌚, %d♥)</string>
     <string name="confirm">Confirm</string>
     <!--endregion-->
 

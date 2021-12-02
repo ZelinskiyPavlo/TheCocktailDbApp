@@ -10,7 +10,7 @@ authentication (which currently use mocked API), some custom views and usage of 
 This project includes following architecture concepts:
 + Multi-module architecture (classic division by layers following CLEAN guidelines)
 + Single-Activity architecture
-+ Model-View-ViewModel presentation pattern
++ Model-View-ViewModel presentation pattern (using only coroutines Flow instead of LiveData)
 
 ## Briefly description of main features
 
@@ -126,7 +126,7 @@ List of events, that logged in analytic:
 + Cicerone
 + Retrofit
 + Room
-+ Data binding
++ Data binding (need migration to view binding)
 + Lifecycle components
 + Firebase 
   + Analytics
@@ -136,8 +136,11 @@ List of events, that logged in analytic:
 + Glide
 
 ### Major future changes:
-- [ ] Replace liveData with kotlin coroutines (in whole or in part)
-- [ ] Move navigation logic from fragment to ViewModel
+- [x] Replace liveData with kotlin coroutines (in whole or in part)
+- [ ] Move navigation logic and firebase logic from fragment to ViewModel
+- [ ] Implement data security
+- [ ] Rework UI using Jetpack Compose
+- [ ] Rewrite business logic using KMM
 - [ ] Create own real API
 - [ ] Add drawing images behind status bar
 

@@ -12,6 +12,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.textfield.TextInputEditText
 import com.test.login.R
 import com.test.login.api.LoginNavigationApi
@@ -21,7 +24,9 @@ import com.test.presentation.extension.addLinkedText
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.RegularDialogFragment
-import com.test.presentation.util.EventObserver
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
@@ -54,13 +59,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         setWhiteSpaceFilter()
         addLinkedText()
-        setupObserver()
         setupKeyboardClosing()
-        viewModel.setInitialText()
 
         return viewDataBinding.root
     }
@@ -69,6 +72,27 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.configureDataBinding()
         viewDataBinding.viewModel = viewModel
         viewDataBinding.fragment = this
+    }
+
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow.onEach { event ->
+                    when (event) {
+                        is LoginViewModel.Event.ToLogin -> if (event.isLoginSuccess) {
+                            navigateToTabHost()
+                        }
+
+                        LoginViewModel.Event.ClearErrorTextColor -> clearErrors()
+                    }
+                }.launchIn(this)
+
+                viewModel.isDataValidFlow.onEach { isAvailable ->
+                    viewDataBinding.loginButton.isEnabled = isAvailable
+                }.launchIn(this)
+            }
+        }
     }
 
     private fun setWhiteSpaceFilter() {
@@ -84,22 +108,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun addLinkedText() {
         viewDataBinding.registerSignInTv
             .addLinkedText(this.getString(R.string.all_sign_up)) { navigateToRegisterFragment() }
-    }
-
-    private fun setupObserver() {
-        viewModel.clearErrorTextColorEventLiveData.observe(viewLifecycleOwner, {
-            clearErrors()
-        })
-
-        viewModel.loginEventLiveData.observe(
-            viewLifecycleOwner,
-            EventObserver { isLoggedSuccessful ->
-                if (isLoggedSuccessful) navigateToTabHost()
-            })
-
-        viewModel.isDataValidLiveData.observe(viewLifecycleOwner, {isAvailable ->
-            viewDataBinding.loginButton.isEnabled = isAvailable
-        })
     }
 
     fun onLoginButtonClicked() {
@@ -126,7 +134,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun isTypedDataContainErrors(): Boolean {
-        if(viewModel.isDataValidLiveData.value == null) return true
         var error = false
 
         fun markFieldAsError(textField: TextInputEditText) {

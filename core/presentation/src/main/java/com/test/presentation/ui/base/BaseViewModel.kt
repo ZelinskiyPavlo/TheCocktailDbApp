@@ -1,32 +1,50 @@
 package com.test.presentation.ui.base
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.test.common.constant.BaseUrl
-import com.test.common.exception.*
+import com.test.common.exception.ApiError
+import com.test.common.exception.ApiException
+import com.test.common.exception.HttpException
+import com.test.common.exception.LoginError
+import com.test.common.exception.NoInternetConnectionError
+import com.test.common.exception.RegistrationError
+import com.test.common.exception.RequestError
+import com.test.common.exception.ServerError
+import com.test.common.exception.ServerRespondingError
+import com.test.common.exception.UnAuthorizedAccessError
+import com.test.common.exception.UnknownError
+import com.test.common.exception.UploadAvatarError
 import com.test.presentation.BuildConfig
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    val errorLiveData: LiveData<RequestError?> = MutableLiveData()
+    private val _errorFlow = MutableSharedFlow<RequestError>()
+    val errorFlow = _errorFlow.asSharedFlow()
 
-    protected fun <T> launchRequest(
-        liveData: LiveData<T>? = null,
+    protected fun launchRequest(
         context: CoroutineContext = Dispatchers.IO,
-        request: suspend CoroutineScope.() -> T
+        request: suspend CoroutineScope.() -> Unit
     ): Job {
         return viewModelScope.launch {
             try {
-                val result: T = withContext(context) { request() }
-                liveData?.setValue(result)
+                withContext(context) { request() }
             } catch (e: Exception) {
                 handleError(e)
             }
         }
     }
 
-    private suspend fun handleError(e: Exception) {
+    private fun handleError(e: Exception) {
         if (BuildConfig.DEBUG) e.printStackTrace()
 
         if (e is ApiException) {
@@ -66,20 +84,7 @@ open class BaseViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
                     throw IllegalArgumentException("Unknown error caught")
                 }
             }
-            withContext(Dispatchers.Main) {
-                // TODO: 10.02.2021 I know it's bad practice
-                errorLiveData.setValue(error)
-                errorLiveData.setValue(null)
-            }
+            _errorFlow.tryEmit(error)
         }
     }
-
-    protected fun <T> LiveData<T>.setValue(value: T) {
-        (this as? MutableLiveData)?.value = value
-    }
-
-    protected fun <T> LiveData<T>.postValue(value: T) {
-        (this as? MutableLiveData)?.postValue(value)
-    }
-
 }

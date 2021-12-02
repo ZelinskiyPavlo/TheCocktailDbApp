@@ -17,8 +17,8 @@ class AppModulePlugin : BaseAndroidModulePlugin<AppExtension>() {
 
 	override fun configure(extension: AppExtension) = with(extension) {
 		defaultConfig.applicationId = Config.applicationId
-//		dataBinding.isEnabled = true
-		buildFeatures.dataBinding = true
+		dataBinding.isEnabled = true
+//		buildFeatures.dataBinding = true
 
 		buildTypes {
 			debug {

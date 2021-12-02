@@ -2,12 +2,12 @@
 
 object Version {
 
-	const val kotlin = "1.4.10"
-	const val reflect = "1.4.10"
-	const val coroutines = "1.4.1"
+	const val kotlin = "1.5.31"
+	const val reflect = "1.5.31"
+	const val coroutines = "1.5.2"
 
 	object Plugin {
-		const val android = "3.5.3"
+		const val android = "4.1.3"
 		const val fabric = "1.31.2"
 		const val crashlytics = "2.10.1"
 	}
@@ -29,7 +29,7 @@ object Version {
 	}
 
 	object Dagger {
-		const val dagger = "2.25.2"
+		const val dagger = "2.39.1"
 	}
 
 	object AndroidX {
@@ -43,8 +43,8 @@ object Version {
 		const val constraintLayout = "1.1.3"
 		const val preference = "1.1.0"
 		const val legacy = "1.0.0"
-		const val room = "2.2.5"
-		const val lifecycle = "2.2.0"
+		const val room = "2.3.0"
+		const val lifecycle = "2.4.0-rc01"
 	}
 
 	object Navigation {
@@ -52,11 +52,7 @@ object Version {
 	}
 
 	object Firebase {
-		const val analytics = "17.4.4"
-		const val crashlytics = "17.1.1"
-		const val fcm = "20.2.4"
-		const val dynamicLinks = "19.1.0"
-		const val remoteConfig = "19.2.0"
+		const val bom = "28.4.2"
 	}
 
 	object Logging {
@@ -94,7 +90,7 @@ object Version {
 object Lib {
 
 	object Plugin {
-		const val kotlin = "com.android.tools.build:gradle:${Version.Plugin.android}"
+		const val gradle = "com.android.tools.build:gradle:${Version.Plugin.android}"
 		const val android = "org.jetbrains.kotlin:kotlin-gradle-plugin${Version.kotlin}"
 	}
 
@@ -102,6 +98,7 @@ object Lib {
 		const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlin}"
 		const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Version.reflect}"
 		const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutines}"
+		const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.coroutines}"
 	}
 
 	object AndroidX {
@@ -119,6 +116,7 @@ object Lib {
 			const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.AndroidX.lifecycle}"
 			const val livedataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.AndroidX.lifecycle}"
 			const val common = "androidx.lifecycle:lifecycle-common-java8:${Version.AndroidX.lifecycle}"
+			const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.AndroidX.lifecycle}"
 		}
 
 		object Room {
@@ -177,11 +175,12 @@ object Lib {
 	}
 
 	object Firebase {
-		const val analytics = "com.google.firebase:firebase-analytics-ktx:${Version.Firebase.analytics}"
-		const val crashLytics = "com.google.firebase:firebase-crashlytics:${Version.Firebase.crashlytics}"
-		const val dynamicLinks = "com.google.firebase:firebase-dynamic-links-ktx:${Version.Firebase.dynamicLinks}"
-		const val remoteConfig = "com.google.firebase:firebase-config-ktx:${Version.Firebase.remoteConfig}"
-		const val fcm = "com.google.firebase:firebase-messaging:${Version.Firebase.fcm}"
+		const val bom = "com.google.firebase:firebase-bom:28.4.2"
+		const val analytics = "com.google.firebase:firebase-analytics-ktx"
+		const val crashLytics = "com.google.firebase:firebase-crashlytics"
+		const val dynamicLinks = "com.google.firebase:firebase-dynamic-links-ktx"
+		const val remoteConfig = "com.google.firebase:firebase-config-ktx"
+		const val fcm = "com.google.firebase:firebase-messaging"
 	}
 	
 	object Logging {

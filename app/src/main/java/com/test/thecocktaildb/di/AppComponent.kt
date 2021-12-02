@@ -1,11 +1,11 @@
 package com.test.thecocktaildb.di
 
 import android.app.Application
+import com.test.databaseimpl.di.DbModule
 import com.test.firebase.di.FirebaseModule
-import com.test.impl.di.DbModule
-import com.test.impl.di.NetworkModule
-import com.test.impl.di.RepositoryModule
+import com.test.networkimpl.di.NetworkModule
 import com.test.preference.di.LocalModule
+import com.test.repositoryimpl.di.RepositoryModule
 import com.test.thecocktaildb.CocktailApplication
 import com.test.thecocktaildb.di.module.contribute.ActivityModule
 import com.test.thecocktaildb.di.module.contribute.FragmentModule

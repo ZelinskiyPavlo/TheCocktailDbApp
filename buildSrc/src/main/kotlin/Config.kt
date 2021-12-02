@@ -3,10 +3,10 @@ object Config {
 	const val appName = "TheCocktailDb"
 	const val appNameAlternate = "Pavlo Zelinskiy"
 	const val applicationId = "com.test.thecocktaildb"
-	const val compileSdkVersion = 29
-	const val buildToolsVersion = "29.0.3"
+	const val compileSdkVersion = 31
+	const val buildToolsVersion = "30.0.2"
 	const val minSdkVersion = 21
-	const val targetSdkVersion = 29
+	const val targetSdkVersion = 31
 	const val versionCode = 1
 	const val versionName = "1.0"
 
@@ -22,7 +22,7 @@ object Config {
 
 	const val enableCrashlytics = false
 
-	const val jvmTarget = "1.8"
+	const val jvmTarget = "11"
 
 	object Keystore {
 		const val dir = ".keystore/"

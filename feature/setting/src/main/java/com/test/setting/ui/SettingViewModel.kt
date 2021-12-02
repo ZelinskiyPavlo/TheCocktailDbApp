@@ -1,33 +1,34 @@
 package com.test.setting.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.repository.source.AppSettingRepository
 import com.test.setting.R
 import com.test.setting.model.BatteryStateCacheHolder
 import com.test.setting.model.BatteryStateHolder
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 
 class SettingViewModel(
     savedStateHandle: SavedStateHandle,
     settingRepository: AppSettingRepository
 ) : BaseViewModel(savedStateHandle) {
 
-    private val _batteryPercentLiveData = MutableLiveData<String>()
-    val batteryPercentLiveData: LiveData<String> = _batteryPercentLiveData
+    private val _batteryPercentFlow = MutableStateFlow("")
+    val batteryPercentFlow = _batteryPercentFlow.asStateFlow()
 
-    private val _batteryStatusLiveData = MutableLiveData<Boolean>()
-    val batteryStatusLiveData: LiveData<Int> =
-        Transformations.map(_batteryStatusLiveData) {
-            if (it) R.string.battery_status_battery_okay else R.string.battery_status_battery_low
-        }
+    private val _batteryStatusFlow = MutableStateFlow<Boolean?>(null)
+    // TODO: 11.10.2021 Did i use R.strings in other projects?
+    val batteryStatusFlow = _batteryStatusFlow.map {
+        if (it == true) R.string.battery_status_battery_okay else R.string.battery_status_battery_low
+    }
 
-    private val _isBatteryChargingLiveData = MutableLiveData<Boolean>()
-    val isBatteryChargingLiveData: LiveData<Boolean> = _isBatteryChargingLiveData
+    private val _isBatteryChargingFlow = MutableStateFlow<Boolean?>(null)
+    val isBatteryChargingFlow = _isBatteryChargingFlow.asStateFlow().filterNotNull()
 
-    val shouldShowNavigationTitleLiveData = settingRepository.shouldShowNavigationTitleLiveData
+    var shouldShowNavigationTitle = settingRepository.showNavigationTitle
 
     private val batteryStateCache = BatteryStateCacheHolder()
 
@@ -57,11 +58,11 @@ class SettingViewModel(
         cacheBatteryState()
 
         if (batteryStateCache.batteryStatus == null) {
-            _batteryStatusLiveData.value = determineBatteryStatus()
+            _batteryStatusFlow.value = determineBatteryStatus()
         } else {
-            _batteryStatusLiveData.value = batteryStateCache.batteryStatus
+            _batteryStatusFlow.value = batteryStateCache.batteryStatus
         }
-        _isBatteryChargingLiveData.value = batteryStateCache.isCharging ?: false
-        _batteryPercentLiveData.value = batteryStateCache.batteryPercent.toString()
+        _isBatteryChargingFlow.value = batteryStateCache.isCharging ?: false
+        _batteryPercentFlow.value = batteryStateCache.batteryPercent.toString()
     }
 }

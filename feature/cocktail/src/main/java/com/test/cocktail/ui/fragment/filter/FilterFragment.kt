@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.test.cocktail.R
@@ -20,7 +23,9 @@ import com.test.presentation.model.cocktail.type.CocktailAlcoholType
 import com.test.presentation.model.cocktail.type.CocktailCategory
 import com.test.presentation.model.cocktail.type.CocktailGlassType
 import com.test.presentation.ui.base.BaseFragment
-import com.test.presentation.util.EventObserver
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FilterFragment : BaseFragment<FragmentFilterBinding>() {
@@ -45,23 +50,68 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     private lateinit var categoryMenu: PopupMenu
     private lateinit var glassMenu: PopupMenu
 
+    private val chooseTextId = R.string.filter_fragment_choose_filter
+    private val changeTextId = R.string.filter_fragment_change_filter
+    private val emptyResultTextId = R.string.filter_fragment_snackbar_no_results
+    private val resultsSignId = R.string.filter_fragment_results_sign
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         setupToolbar()
         setupFilterPopMenu()
         setupFilterButtons()
-        setupResultSnackbar()
-        setInitialText()
-        
+
         return viewDataBinding.root
     }
 
     override fun configureDataBinding() {
         super.configureDataBinding()
         viewDataBinding.viewModel = cocktailViewModel
+    }
+
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                cocktailViewModel.eventsFlow.onEach { event ->
+//                    when (event) {
+//                        is CocktailViewModel.Event.FilterResult -> showFilterResultSnackbar("Test result")
+//                    }
+//                }.launchIn(this)
+                cocktailViewModel.filterResultFlow.onEach { resultPair ->
+                    showFilterResultSnackbar(generateResultSign(resultPair))
+                }.launchIn(this)
+
+                cocktailViewModel.alcoholSignFlow.onEach { sign ->
+                    viewDataBinding.filterBtnAlcohol.text = generateSign(sign)
+                }.launchIn(this)
+
+                cocktailViewModel.categorySignFlow.onEach { sign ->
+                    viewDataBinding.filterBtnCategory.text = generateSign(sign)
+                }.launchIn(this)
+
+                cocktailViewModel.glassSignFlow.onEach { sign ->
+                    viewDataBinding.filterBtnGlass.text = generateSign(sign)
+                }.launchIn(this)
+            }
+        }
+    }
+
+    private fun generateSign(input: String?): String {
+        // TODO: 05.11.2021 remove hardcoded whitespaces
+        return if (input == null) getString(chooseTextId)
+        else getString(changeTextId, input)
+    }
+
+    private fun generateResultSign(input: Pair<Int, Int>?): String {
+        return if (input == null) {
+            getString(emptyResultTextId)
+        } else {
+            getString(resultsSignId, input.first, input.second)
+        }
     }
 
     private fun setupToolbar() {
@@ -93,15 +143,15 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         populateMenu(glassDrinkFilter, glassMenu)
 
         alcoholMenu.setOnMenuItemClickListener { menuItem ->
-            cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.ALCOHOL)
+            cocktailViewModel.addFilter(menuItem.itemId, DrinkFilterType.ALCOHOL)
             true
         }
         categoryMenu.setOnMenuItemClickListener { menuItem ->
-            cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.CATEGORY)
+            cocktailViewModel.addFilter(menuItem.itemId, DrinkFilterType.CATEGORY)
             true
         }
         glassMenu.setOnMenuItemClickListener { menuItem ->
-            cocktailViewModel.filterSpecified(menuItem.itemId, DrinkFilterType.GLASS)
+            cocktailViewModel.addFilter(menuItem.itemId, DrinkFilterType.GLASS)
             true
         }
     }
@@ -112,32 +162,16 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         viewDataBinding.filterBtnGlass.setOnClickListener { glassMenu.show() }
     }
 
-    // TODO: 24.02.2021 Fix bug with flickering when showing snackbar
-    //  (maybe some race condition happen)
-    private fun setupResultSnackbar() {
-        cocktailViewModel.filterResultLiveData.observe(
-            viewLifecycleOwner,
-            EventObserver { message ->
-                Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)
-                    .apply {
-                        setAction(getString(R.string.filter_fragment_undo_filters)) {
-                            cocktailViewModel.resetFilters()
-                        }
-                        animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
-                        show()
-                    }
-            })
-    }
-
-    private fun setInitialText() {
-        val chooseText = getString(R.string.filter_fragment_choose_filter)
-        val changeText = getString(R.string.filter_fragment_change_filter)
-        val emptyResultText = getString(R.string.filter_fragment_snackbar_no_results)
-        val resultsSign = getString(R.string.filter_fragment_results_sign)
-
-        if(cocktailViewModel.alcoholSignLiveData.value == null &&
-            cocktailViewModel.categorySignLiveData.value == null){
-            cocktailViewModel.setInitialText(chooseText, changeText, emptyResultText, resultsSign)
-        }
+    // TODO: 06.11.2021 Remove flickering, see:
+    //  https://stackoverflow.com/questions/61224010/snackbar-flickers-if-androidanimatelayoutchanges-is-true-on-root-layout
+    private fun showFilterResultSnackbar(message: String) {
+        Snackbar.make(viewDataBinding.root, message, Snackbar.LENGTH_SHORT)
+            .apply {
+                setAction(getString(R.string.filter_fragment_undo_filters)) {
+                    cocktailViewModel.resetFilters()
+                }
+                animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+                show()
+            }
     }
 }

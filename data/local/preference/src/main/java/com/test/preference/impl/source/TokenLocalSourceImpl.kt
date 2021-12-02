@@ -1,31 +1,31 @@
 package com.test.preference.impl.source
 
-import androidx.lifecycle.LiveData
 import com.test.local.source.TokenLocalSource
 import com.test.preference.impl.SharedPrefsHelper
-import com.test.preference.impl.base.BaseLocalSourceImpl
 import javax.inject.Inject
 
-class TokenLocalSourceImpl @Inject constructor(preferences: SharedPrefsHelper) :
-    BaseLocalSourceImpl(preferences),
+const val EXTRA_KEY_AUTH_TOKEN = "AUTH_TOKEN"
+const val EXTRA_KEY_FIREBASE_TOKEN = "FIREBASE_TOKEN"
+
+const val DEFAULT_AUTH_TOKEN = ""
+const val DEFAULT_FIREBASE_TOKEN = ""
+
+class TokenLocalSourceImpl @Inject constructor(private val sharedPrefsHelper: SharedPrefsHelper) :
     TokenLocalSource {
 
-    override val authTokenLiveData: LiveData<String?> = sharedPrefLiveData(AUTH_TOKEN, "")
+    override fun observeAuthToken() =
+        sharedPrefsHelper.observeKey(EXTRA_KEY_AUTH_TOKEN, DEFAULT_AUTH_TOKEN)
 
-    override var authToken: String? = sharedPrefsHelper.get(AUTH_TOKEN, null)
-        get() = sharedPrefsHelper.get(AUTH_TOKEN, field)
-        set(value) {
-            sharedPrefsHelper.set(AUTH_TOKEN, value)
-        }
+    override var authToken by sharedPrefsHelper.stateHandle(
+        EXTRA_KEY_AUTH_TOKEN,
+        DEFAULT_AUTH_TOKEN
+    )
 
-    override var firebaseToken: String? = sharedPrefsHelper.get(FIREBASE_TOKEN, null)
-        get() = sharedPrefsHelper.get(FIREBASE_TOKEN, field)
-        set(value) {
-            sharedPrefsHelper.set(FIREBASE_TOKEN, value)
-        }
+    override fun observeFirebaseToken() =
+        sharedPrefsHelper.observeKey(EXTRA_KEY_FIREBASE_TOKEN, DEFAULT_FIREBASE_TOKEN)
 
-    companion object {
-        const val AUTH_TOKEN = "AUTH_TOKEN"
-        const val FIREBASE_TOKEN = "FIREBASE_TOKEN"
-    }
+    override var firebaseToken by sharedPrefsHelper.stateHandle(
+        EXTRA_KEY_FIREBASE_TOKEN,
+        DEFAULT_FIREBASE_TOKEN
+    )
 }

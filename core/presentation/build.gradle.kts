@@ -1,3 +1,5 @@
+import com.test.gradle.dependency.daggerKaptDependencies
+
 plugins {
     `feature-module`
 }
@@ -12,6 +14,8 @@ dependencies {
 
     implementation(platformFirebase)
     implementation(coreDagger)
+    // Without this dep, dagger will throw error, see issue #955 in Dagger github repo
+    daggerKaptDependencies(properties["dagger.reflect"])
 
     api(Lib.AndroidX.coreKtx)
     api(Lib.AndroidX.annotation)
@@ -21,8 +25,9 @@ dependencies {
     api(Lib.AndroidX.constraintlayout)
 
     api(Lib.AndroidX.Lifecycle.common)
-    api(Lib.AndroidX.Lifecycle.livedataKtx)
     api(Lib.AndroidX.Lifecycle.viewModelKtx)
+    api(Lib.AndroidX.Lifecycle.runtimeKtx)
+    implementation(Lib.AndroidX.Lifecycle.livedataKtx)
 
     api(Lib.Logging.timber)
 

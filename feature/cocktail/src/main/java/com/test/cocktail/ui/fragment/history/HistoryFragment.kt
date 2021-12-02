@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.test.cocktail.R
 import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentHistoryBinding
@@ -16,7 +19,9 @@ import com.test.cocktail.ui.adapter.recyclerview.CocktailItemDecoration
 import com.test.cocktail.ui.adapter.recyclerview.CocktailLayoutManager
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
-import com.test.presentation.util.EventObserver
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
@@ -40,15 +45,16 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     @Inject
     lateinit var cocktailNavigator: CocktailNavigationApi
 
+    private val historyAdapter by lazy { CocktailAdapter(cocktailViewModel) }
+
     private var recyclerViewParcelable: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        setupNavigation()
         setupRecyclerView()
 
         return viewDataBinding.root
@@ -59,37 +65,46 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         viewDataBinding.sharedViewModel = cocktailViewModel
     }
 
-    private fun setupNavigation() {
-        cocktailViewModel.cocktailDetailsEventLiveData.observe(
-            viewLifecycleOwner,
-            EventObserver {cocktailId ->
-                cocktailNavigator.toCocktailDetail(cocktailId)
-            })
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                cocktailViewModel.eventsFlow.onEach { event ->
+                    when (event) {
+                        is CocktailViewModel.Event.ToDetails ->
+                            cocktailNavigator.toCocktailDetail(event.cocktailId)
+
+                        else -> Unit
+                    }
+                }.launchIn(this)
+
+                cocktailViewModel.cocktailsFlow.onEach { cocktails ->
+                    saveRecyclerViewState()
+                    historyAdapter.setData(cocktails, cocktailViewModel.sortingOrderFlow.value)
+                    restoreRecyclerViewState()
+                }.launchIn(this)
+
+                cocktailViewModel.sortingOrderFlow.onEach { sortType ->
+                    saveRecyclerViewState()
+                    historyAdapter.setData(cocktailViewModel.cocktailsFlow.value, sortType)
+                    restoreRecyclerViewState()
+                }.launchIn(this)
+            }
+        }
     }
 
     private fun setupRecyclerView() {
-        val adapter = CocktailAdapter(cocktailViewModel)
-        val recyclerView = viewDataBinding.cocktailsRv
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            CocktailItemDecoration(
-                context = requireContext(),
-                horizontalDpOffSet = R.dimen.margin_8dp,
-                verticalDpOffSet = R.dimen.margin_8dp
+        with(viewDataBinding.cocktailsRv) {
+            adapter = historyAdapter
+            addItemDecoration(
+                CocktailItemDecoration(
+                    context = requireContext(),
+                    horizontalDpOffSet = R.dimen.margin_8dp,
+                    verticalDpOffSet = R.dimen.margin_8dp
+                )
             )
-        )
-        recyclerView.layoutManager = CocktailLayoutManager(requireContext(), 2, adapter)
-
-        cocktailViewModel.cocktailsLiveData.observe(viewLifecycleOwner, { cocktails ->
-            saveRecyclerViewState()
-            adapter.setData(cocktails, cocktailViewModel.sortingOrderLiveData.value)
-            restoreRecyclerViewState()
-        })
-        cocktailViewModel.sortingOrderLiveData.observe(viewLifecycleOwner, { sortType ->
-            saveRecyclerViewState()
-            adapter.setData(cocktailViewModel.cocktailsLiveData.value, sortType)
-            restoreRecyclerViewState()
-        })
+            layoutManager = CocktailLayoutManager(requireContext(), 2, historyAdapter)
+        }
     }
 
     private fun saveRecyclerViewState() {

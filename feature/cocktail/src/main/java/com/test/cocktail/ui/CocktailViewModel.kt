@@ -1,9 +1,10 @@
 package com.test.cocktail.ui
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.test.cocktail.model.sorttype.CocktailSortType
-import com.test.common.Event
 import com.test.presentation.adapter.binding.Page
+import com.test.presentation.extension.getStateFlow
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
 import com.test.presentation.mapper.user.UserModelMapper
 import com.test.presentation.model.cocktail.CocktailModel
@@ -12,14 +13,27 @@ import com.test.presentation.model.cocktail.filter.DrinkFilterType
 import com.test.presentation.model.cocktail.type.CocktailAlcoholType
 import com.test.presentation.model.cocktail.type.CocktailCategory
 import com.test.presentation.model.cocktail.type.CocktailGlassType
-import com.test.presentation.model.user.UserModel
 import com.test.presentation.ui.base.BaseViewModel
-import com.test.presentation.util.liveDataStateHandle
+import com.test.presentation.util.WhileViewSubscribed
 import com.test.presentation.util.stateHandle
 import com.test.repository.source.CocktailRepository
 import com.test.repository.source.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
+
+private const val EXTRA_KEY_CURRENT_PAGE = "EXTRA_KEY_CURRENT_PAGE"
+private const val EXTRA_KEY_SORTING = "EXTRA_KEY_SORTING"
+private const val EXTRA_KEY_FILTER = "EXTRA_KEY_FILTER"
 
 class CocktailViewModel(
     handle: SavedStateHandle,
@@ -29,240 +43,128 @@ class CocktailViewModel(
     private val userMapper: UserModelMapper
 ) : BaseViewModel(handle) {
 
-    val currentPageLiveData by liveDataStateHandle(initialValue = Page.HistoryPage)
+    sealed class Event {
+        class ToDetails(val cocktailId: Long) : Event()
 
-    private val cocktailsDbListLiveData: LiveData<List<CocktailModel>> =
-        cocktailRepo.cocktailListLiveData.map(cocktailMapper::mapToList)
+        class ApplyFilter(
+            val selectedFiltersList: List<String>,
+            val selectedFiltersTypeList: List<String>
+        ) : Event()
 
-    private val userLiveData: LiveData<UserModel?> = userRepo.userLiveData.map {
+        // TODO: 21.10.2021 Maybe all related to analytics move to separate event (if it will properly work with Channels)
+        //  or even better, move to interface that will be injected in constructor
+        //  or even better using delegate, see IoShed UPD: maybe it's pattern from MVI
+        class CocktailFavoriteStateChanged(
+            val isAddedToFavorite: Boolean,
+            val cocktailId: Long,
+            val fullUserName: String
+        ) : Event()
+    }
+
+    private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
+    val eventsFlow = _eventsChannel.receiveAsFlow()
+        .shareIn(viewModelScope, WhileViewSubscribed)
+
+    private val cocktailsDbListFlow: Flow<List<CocktailModel>> =
+        cocktailRepo.cocktailListFlow.map(cocktailMapper::mapToList)
+
+    private val userFlow = userRepo.userFlow.map {
         it?.run(userMapper::mapTo)
-    }
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    private var allCocktails: List<CocktailModel>? = null
+    private val _filtersFlow = MutableStateFlow<List<DrinkFilter?>?>(null)
+    val filtersFlow = _filtersFlow.asStateFlow()
 
-    private val _cocktailsLiveData =
-        MutableLiveData<List<CocktailModel>>().apply { value = emptyList() }
-    val cocktailsLiveData: LiveData<List<CocktailModel>> = _cocktailsLiveData
+    private val _sortingOrderFlow = MutableStateFlow<CocktailSortType?>(null)
+    internal val sortingOrderFlow = _sortingOrderFlow.asStateFlow()
 
-    val favoriteCocktailsLiveData: LiveData<List<CocktailModel>> =
-        Transformations.map(_cocktailsLiveData) {
-            it.filter { cocktail -> cocktail.isFavorite }
+    private val _cocktailsFlow = combineTransform(
+        cocktailsDbListFlow,
+        _filtersFlow,
+        _sortingOrderFlow
+    ) { cocktailsList, filtersList, sortType ->
+        emit(cocktailsList.applyFilter(filtersList).applySorting(sortType))
+    }.shareIn(viewModelScope, WhileViewSubscribed)
+    val cocktailsFlow = _cocktailsFlow.stateIn(viewModelScope, WhileViewSubscribed, emptyList())
+
+    val favoriteCocktailsFlow = _cocktailsFlow
+        .map { it.filter { cocktail -> cocktail.isFavorite } }
+        .stateIn(viewModelScope, WhileViewSubscribed, emptyList())
+
+    val isCocktailsEmptyFlow = cocktailsFlow.map { it.isEmpty() }
+        .stateIn(viewModelScope, WhileViewSubscribed, true)
+
+    val isFavoriteCocktailsEmptyFlow = favoriteCocktailsFlow.map { it.isEmpty() }
+        .stateIn(viewModelScope, WhileViewSubscribed, true)
+
+    val filterResultFlow = _cocktailsFlow.map {
+        val numberOfHistory = it.size
+        val numberOfFavorite = it.filter { item -> item.isFavorite }.size
+
+        if (numberOfHistory == 0 && numberOfFavorite == 0) {
+            null
+        } else {
+            numberOfHistory to numberOfFavorite
         }
+    }.shareIn(viewModelScope, SharingStarted.Eagerly)
 
-    val isCocktailsEmptyLiveData: LiveData<Boolean> =
-        Transformations.map(_cocktailsLiveData) { it.isEmpty() }
+    val alcoholSignFlow = _filtersFlow.map {
+        it?.get(0)?.toString()?.replace("\\/", "")
+    }.stateIn(viewModelScope, WhileViewSubscribed, null)
 
-    val isFavoriteCocktailsEmptyLiveData: LiveData<Boolean> =
-        Transformations.map(favoriteCocktailsLiveData) { it.isEmpty() }
+    val categorySignFlow = _filtersFlow.map {
+        it?.get(1)?.toString()?.replace("\\/", "")
+    }.stateIn(viewModelScope, WhileViewSubscribed, null)
 
-    private val _filtersLiveData = MutableLiveData<List<DrinkFilter?>?>()
-    val filtersLiveData: LiveData<List<DrinkFilter?>?> = _filtersLiveData
+    val glassSignFlow = _filtersFlow.map {
+        it?.get(2)?.toString()?.replace("\\/", "")
+    }.stateIn(viewModelScope, WhileViewSubscribed, null)
 
-    internal var sortingOrderLiveData = MutableLiveData<CocktailSortType?>()
+    val currentPageFlow =
+        savedStateHandle.getStateFlow(viewModelScope, EXTRA_KEY_CURRENT_PAGE, Page.HistoryPage)
 
-    private val _cocktailDetailsEventLiveData =
-        MutableLiveData<Event<Long>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Long>> =
-        _cocktailDetailsEventLiveData
-
-    private val _applyFiltersEventLiveData =
-        MutableLiveData<Event<Pair<List<String>, List<String>>?>>()
-    val applyFiltersEventLiveData: LiveData<Event<Pair<List<String>, List<String>>?>> =
-        _applyFiltersEventLiveData
-
-    private val _favoriteStateChangedEventLiveData =
-        MutableLiveData<Event<Triple<Boolean, String, String>>>()
-    val favoriteStateChangedEventLiveData: LiveData<Event<Triple<Boolean, String, String>>> =
-        _favoriteStateChangedEventLiveData
-
-    private lateinit var changeTextSuffix: String
-    private lateinit var chooseTextSuffix: String
-    private lateinit var emptyResultText: String
-    private lateinit var resultsSign: String
-
-    val alcoholSignLiveData: LiveData<String> = Transformations.map(_filtersLiveData) {
-        if (it?.get(0) == null) chooseTextSuffix
-        else "${it[0]?.key}    $changeTextSuffix"
-    }
-
-    val categorySignLiveData: LiveData<String> = Transformations.map(_filtersLiveData) {
-        if (it?.get(1) == null) chooseTextSuffix
-        else "${it[1]?.key?.replace("\\/", "")}    $changeTextSuffix"
-    }
-
-    val glassSignLiveData: LiveData<String> = Transformations.map(_filtersLiveData) {
-        if (it?.get(2) == null) chooseTextSuffix
-        else "${it[2]?.key?.replace("\\/", "")}    $changeTextSuffix"
-    }
-
-    private var sortingOrderIndex by stateHandle<Int?>()
-    private var filterTypeIndexArray by stateHandle<Array<String?>>()
-
-    private val cocktailsListUpdateObservableLiveData: LiveData<Unit> =
-        MediatorLiveData<Unit>().apply {
-            fun updateList() {
-                allCocktails?.let { _cocktailsLiveData.value = it }
-                applyFilter(_filtersLiveData.value)
-                applySorting(sortingOrderLiveData.value)
-                value = Unit
-            }
-
-            addSource(_filtersLiveData) {
-                updateList()
-            }
-
-            addSource(sortingOrderLiveData) {
-                updateList()
-            }
-
-            addSource(cocktailsDbListLiveData) {
-                cocktailsDbListLiveData.value?.let { cocktailsList ->
-                    _cocktailsLiveData.value = cocktailsList
-                    allCocktails = cocktailsList
-                    updateList()
-                }
-            }
-        }
-
-    val filterResultLiveData: LiveData<Event<String>> = MediatorLiveData<Event<String>>().apply {
-        fun determineResult() {
-            if (_filtersLiveData.value == null) return
-
-            val numberOfHistory = cocktailsLiveData.value?.size
-            val numberOfFavorite = favoriteCocktailsLiveData.value?.size
-
-            value = if (numberOfHistory == 0 && numberOfFavorite == 0)
-                Event(emptyResultText)
-            else
-                Event("$resultsSign (${numberOfHistory ?: 0}⌚, ${numberOfFavorite ?: 0}♥)")
-        }
-        addSource(cocktailsListUpdateObservableLiveData) {
-            determineResult()
-        }
-    }
-
-    private val emptyObserver = Observer<Any?> {}
+    private var sortingOrderIndex by stateHandle<Int?>(EXTRA_KEY_SORTING)
+    private var filterTypeIndexArray by stateHandle<Array<String?>>(EXTRA_KEY_FILTER)
 
     init {
-        fun restoreSortingOrder() {
-            sortingOrderIndex?.let {
-                sortingOrderLiveData.value = CocktailSortType.values()[it]
-            }
-        }
-
-        @Suppress("IMPLICIT_CAST_TO_ANY")
-        fun restoreFilters() {
-            if (filterTypeIndexArray == null) {
-                _filtersLiveData.value = null
-                filterTypeIndexArray = arrayOfNulls<String?>(3)
-            } else {
-                val extractedFilterList = filterTypeIndexArray!!
-                    .mapIndexed { index, filterTypeKey ->
-                        when {
-                            filterTypeKey == null -> null
-                            index == 0 -> CocktailAlcoholType.values()
-                                .find { it.key == filterTypeKey }
-                            index == 1 -> CocktailCategory.values()
-                                .find { it.key == filterTypeKey }
-                            index == 2 -> CocktailGlassType.values()
-                                .find { it.key == filterTypeKey }
-                            index == 3 -> throw IndexOutOfBoundsException(
-                                "Looks like you added new filter type" +
-                                        " and forget to add extracting it's value"
-                            )
-                            else -> throw IllegalArgumentException(
-                                "Error during extracting values from filterType " +
-                                        "array. "
-                            )
-                        }
-                    } as List<DrinkFilter?>
-                _filtersLiveData.value = extractedFilterList
-            }
-        }
-        restoreSortingOrder()
+        restoreSorting()
         restoreFilters()
 
-        // TODO: 23.02.2021 It's bad practice. Consider using switchMap for example
-        userLiveData.observeForever (emptyObserver)
-        cocktailsListUpdateObservableLiveData.observeForever (emptyObserver)
-        currentPageLiveData.observeForever (emptyObserver)
-    }
-
-    override fun onCleared() {
-        fun saveFilters() {
-            _filtersLiveData.value?.forEachIndexed { index, filterType ->
-                filterTypeIndexArray = when {
-                    filterType == null -> {
-                        filterTypeIndexArray?.set(index, null)
-                        filterTypeIndexArray
-                    }
-                    filterType.type == DrinkFilterType.ALCOHOL -> {
-                        filterTypeIndexArray?.set(0, filterType.key)
-                        filterTypeIndexArray
-                    }
-                    filterType.type == DrinkFilterType.CATEGORY -> {
-                        filterTypeIndexArray?.set(1, filterType.key)
-                        filterTypeIndexArray
-                    }
-                    filterType.type == DrinkFilterType.GLASS -> {
-                        filterTypeIndexArray?.set(2, filterType.key)
-                        filterTypeIndexArray
-                    }
-                    else -> throw IllegalArgumentException("Unknown filter type was chosen")
-                }
-            }
-        }
-
-        fun saveSorting() {
-            sortingOrderIndex = sortingOrderLiveData.value?.ordinal ?: 0
-        }
-        /** Is this worth doing it??? Bc after changing scope of viewModel from
-         *  activity to CocktailFragment no saving performed after closing app. I think with
-         *  fragment scope it will only save data when app is open but you just navigated to
-         *  different screen
-         */
-        saveFilters()
-        saveSorting()
-
-        userLiveData.removeObserver (emptyObserver)
-        cocktailsListUpdateObservableLiveData.removeObserver (emptyObserver)
-        currentPageLiveData.removeObserver (emptyObserver)
-
-        super.onCleared()
-    }
-
-    fun setInitialText(chooseText: String, changeText: String, emptyResultText: String, resultsSign: String) {
-        changeTextSuffix = changeText
-        chooseTextSuffix = chooseText
-        this.emptyResultText = emptyResultText
-        this.resultsSign = resultsSign
+        sortingOrderFlow.onEach {
+            saveSorting(it)
+        }.launchIn(viewModelScope)
+        filtersFlow.onEach {
+            saveFilters(it)
+        }.launchIn(viewModelScope)
     }
 
     fun updateCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
         launchRequest {
             cocktailRepo.updateCocktailDate(cocktail.id)
-            withContext(Dispatchers.Main) {
-                navigateToCocktailDetailsFragment(cocktail)
-            }
+            _eventsChannel.trySend(Event.ToDetails(cocktail.id))
         }
-    }
-
-    private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
-        _cocktailDetailsEventLiveData.value = Event(cocktail.id)
     }
 
     fun changeIsFavoriteState(cocktail: CocktailModel) {
         launchRequest {
             cocktailRepo.updateCocktailFavoriteState(cocktail.id, cocktail.isFavorite.not())
 
-            withContext(Dispatchers.Main) {
-                val isAddedToFavorite = cocktail.isFavorite.not()
-                val cocktailId = cocktail.id.toString()
-                val fullUserName = "${userLiveData.value?.name} ${userLiveData.value?.lastName}"
-
-                _favoriteStateChangedEventLiveData.value =
-                    Event(Triple(isAddedToFavorite, cocktailId, fullUserName))
+            val isAddedToFavorite = cocktail.isFavorite.not()
+            val cocktailId = cocktail.id
+            val userModel = userFlow.value
+            val fullUserName = if (userModel != null) {
+                "${userModel.name} ${userModel.lastName}"
+            } else {
+                "Empty userName"
             }
+
+            _eventsChannel.trySend(
+                Event.CocktailFavoriteStateChanged(
+                    isAddedToFavorite,
+                    cocktailId,
+                    fullUserName
+                )
+            )
         }
     }
 
@@ -273,27 +175,24 @@ class CocktailViewModel(
     }
 
     fun onApplyButtonClicked() {
-        val filterList = _filtersLiveData.value
+        val filterList = _filtersFlow.value
         if (filterList != null || filterList == listOf(null, null, null)) {
             val selectedFiltersList = filterList.map { it?.key ?: "None" }
             val selectedFiltersTypeList = filterList.filterNotNull().map { it.type.name }
-            _applyFiltersEventLiveData.value =
-                Event(Pair(selectedFiltersList, selectedFiltersTypeList))
+            _eventsChannel.trySend(Event.ApplyFilter(selectedFiltersList, selectedFiltersTypeList))
         } else {
-            _applyFiltersEventLiveData.value = Event(Pair(emptyList(), emptyList()))
+            _eventsChannel.trySend(Event.ApplyFilter(emptyList(), emptyList()))
         }
     }
 
     fun openProposedCocktail(selectedCocktailId: Long?) {
-        val otherCocktail = cocktailsLiveData.value
-            ?.filter { it.id != selectedCocktailId }?.random()
-
-        if (otherCocktail != null) {
+        if (cocktailsFlow.value.size > 1) {
+            val otherCocktail = cocktailsFlow.value.filter { it.id != selectedCocktailId }.random()
             updateCocktailAndNavigateDetailsFragment(otherCocktail)
         }
     }
 
-    fun filterSpecified(itemId: Int, filterType: DrinkFilterType) {
+    fun addFilter(itemId: Int, filterType: DrinkFilterType) {
         val selectedFilterEnumList = when (filterType) {
             DrinkFilterType.ALCOHOL -> CocktailAlcoholType.values()
             DrinkFilterType.CATEGORY -> CocktailCategory.values()
@@ -301,48 +200,132 @@ class CocktailViewModel(
             else -> throw IllegalArgumentException("Unknown filter type was chosen")
         }
 
-        _filtersLiveData.value =
-            (_filtersLiveData.value ?: listOf(null, null, null)).toMutableList().apply {
+        _filtersFlow.value =
+            (_filtersFlow.value ?: listOf(null, null, null)).toMutableList().apply {
                 set(filterType.ordinal, selectedFilterEnumList[itemId])
             }
     }
 
-    fun resetFilters() {
-        _filtersLiveData.value = null
+    internal fun setSorting(newSorting: CocktailSortType?) {
+        _sortingOrderFlow.value = newSorting
     }
 
-    private fun applyFilter(filterTypeList: List<DrinkFilter?>?) {
-        if (filterTypeList == null) return
+    fun resetFilters() {
+        _filtersFlow.value = null
+    }
 
+    fun resetSorting() {
+        _sortingOrderFlow.value = null
+    }
+
+    private fun List<CocktailModel>.applyFilter(filterTypeList: List<DrinkFilter?>?): List<CocktailModel> {
+        if (filterTypeList == null) return this
+
+        var currentList = this
         filterTypeList.filterNotNull().forEach { filterType ->
-            _cocktailsLiveData.value = _cocktailsLiveData.value?.filter {
+            currentList = currentList.filter {
                 when (filterType.type) {
                     DrinkFilterType.ALCOHOL -> it.alcoholType == filterType
+
                     DrinkFilterType.CATEGORY -> it.category == filterType
+
                     DrinkFilterType.GLASS -> it.glass == filterType
+
                     else -> throw IllegalArgumentException("Unknown filter type was chosen")
                 }
             }
         }
+        return currentList
     }
 
-    private fun applySorting(cocktailSortType: CocktailSortType?) {
+    private fun List<CocktailModel>.applySorting(cocktailSortType: CocktailSortType?): List<CocktailModel> {
+        if (isEmpty()) {
+            return this
+        }
         val alcoholDrinkFilter = CocktailAlcoholType.values()
         val alcoholComparator = kotlin.Comparator<CocktailModel> { t, t2 ->
             alcoholDrinkFilter.indexOf(alcoholDrinkFilter.find { it == t.alcoholType }) -
                     alcoholDrinkFilter.indexOf(alcoholDrinkFilter.find { it == t2.alcoholType })
         }
 
-        _cocktailsLiveData.value = _cocktailsLiveData.value?.run {
-            when (cocktailSortType ?: CocktailSortType.RECENT) {
-                CocktailSortType.RECENT -> sortedByDescending { it.dateAdded }
-                CocktailSortType.NAME_DESC -> sortedByDescending { it.names.defaults }
-                CocktailSortType.NAME_ASC -> sortedBy { it.names.defaults }
-                CocktailSortType.ALCOHOL_FIRST -> sortedWith(nullsLast(alcoholComparator))
-                CocktailSortType.NON_ALCOHOL_FIRST -> sortedWith(nullsLast(alcoholComparator)).reversed()
-                CocktailSortType.INGREDIENT_DESC -> sortedByDescending { it.ingredients.size }
-                CocktailSortType.INGREDIENT_ASC -> sortedBy { it.ingredients.size }
+        return when (cocktailSortType ?: CocktailSortType.RECENT) {
+            CocktailSortType.RECENT -> sortedByDescending { it.dateAdded }
+
+            CocktailSortType.NAME_DESC -> sortedByDescending { it.names.defaults }
+
+            CocktailSortType.NAME_ASC -> sortedBy { it.names.defaults }
+
+            CocktailSortType.ALCOHOL_FIRST -> sortedWith(nullsLast(alcoholComparator))
+
+            CocktailSortType.NON_ALCOHOL_FIRST -> sortedWith(nullsLast(alcoholComparator)).reversed()
+
+            CocktailSortType.INGREDIENT_DESC -> sortedByDescending { it.ingredients.size }
+
+            CocktailSortType.INGREDIENT_ASC -> sortedBy { it.ingredients.size }
+        }
+    }
+
+    private fun saveFilters(currentFilters: List<DrinkFilter?>?) {
+        currentFilters?.forEachIndexed { index, filterType ->
+            filterTypeIndexArray = when {
+                filterType == null -> {
+                    filterTypeIndexArray?.set(index, null)
+                    filterTypeIndexArray
+                }
+                filterType.type == DrinkFilterType.ALCOHOL -> {
+                    filterTypeIndexArray?.set(0, filterType.key)
+                    filterTypeIndexArray
+                }
+                filterType.type == DrinkFilterType.CATEGORY -> {
+                    filterTypeIndexArray?.set(1, filterType.key)
+                    filterTypeIndexArray
+                }
+                filterType.type == DrinkFilterType.GLASS -> {
+                    filterTypeIndexArray?.set(2, filterType.key)
+                    filterTypeIndexArray
+                }
+                else -> throw IllegalArgumentException("Unknown filter type was chosen")
             }
+        }
+    }
+
+    private fun saveSorting(currentSorting: CocktailSortType?) {
+        sortingOrderIndex = currentSorting?.ordinal ?: 0
+    }
+
+    private fun restoreSorting() {
+        sortingOrderIndex?.let {
+            _sortingOrderFlow.value = CocktailSortType.values()[it]
+        }
+    }
+
+    @Suppress("IMPLICIT_CAST_TO_ANY")
+    private fun restoreFilters() {
+        if (filterTypeIndexArray == null) {
+            _filtersFlow.value = null
+            filterTypeIndexArray = arrayOfNulls<String?>(3)
+        } else {
+            val extractedFilterList = filterTypeIndexArray!!
+                .mapIndexed { index, filterTypeKey ->
+                    when {
+                        filterTypeKey == null -> null
+                        index == 0 -> CocktailAlcoholType.values()
+                            .find { it.key == filterTypeKey }
+                        index == 1 -> CocktailCategory.values()
+                            .find { it.key == filterTypeKey }
+                        index == 2 -> CocktailGlassType.values()
+                            .find { it.key == filterTypeKey }
+                        index == 3 -> throw IndexOutOfBoundsException(
+                            "Looks like you added new filter type" +
+                                    " and forget to add extracting it's value"
+                        )
+                        else -> throw IllegalArgumentException(
+                            "Error during extracting values from filterType " +
+                                    "array. "
+                        )
+                    }
+                } as List<DrinkFilter?>
+            _filtersFlow.value = extractedFilterList
         }
     }
 }

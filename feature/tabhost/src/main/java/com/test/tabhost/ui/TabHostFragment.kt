@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -25,6 +28,9 @@ import com.test.tabhost.databinding.FragmentTabHostBinding
 import com.test.tabhost.factory.TabHostViewModelFactory
 import com.test.tabhost.navigation.routing.Screen
 import icepick.State
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogic {
@@ -70,10 +76,9 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         setupBottomNavigation()
-        setupObserver()
 
         return viewDataBinding.root
     }
@@ -144,18 +149,21 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
             else LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
     }
 
-    private fun setupObserver() {
-        cocktailCommunicationVM.onNestedFragmentNavigationLiveData.observe(
-            viewLifecycleOwner,
-            { isDeeplyNestedFragmentShown ->
-                viewDataBinding.tabHostBottomNavigation.visibility =
-                    if (isDeeplyNestedFragmentShown) View.GONE
-                    else View.VISIBLE
-            })
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.shouldShowNavigationTitleFlow.onEach {
+                    changeBottomNavTitleVisibility(it)
+                }.launchIn(this)
 
-        viewModel.shouldShowNavigationTitleLiveData.observe(viewLifecycleOwner, {
-            changeBottomNavTitleVisibility(it)
-        })
+                cocktailCommunicationVM.onNestedFragmentNavigationFlow.onEach { isDeeplyNestedFragmentShown ->
+                    viewDataBinding.tabHostBottomNavigation.visibility =
+                        if (isDeeplyNestedFragmentShown) View.GONE
+                        else View.VISIBLE
+                }.launchIn(this)
+            }
+        }
     }
 
     override fun onBackPressed() {

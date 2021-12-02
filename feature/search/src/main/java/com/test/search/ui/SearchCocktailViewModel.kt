@@ -1,13 +1,23 @@
 package com.test.search.ui
 
-import androidx.lifecycle.*
-import com.test.common.Event
-import com.test.presentation.extension.debounce
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.test.presentation.mapper.cocktail.CocktailModelMapper
 import com.test.presentation.model.cocktail.CocktailModel
 import com.test.presentation.ui.base.BaseViewModel
+import com.test.presentation.util.WhileViewSubscribed
 import com.test.repository.source.CocktailRepository
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class SearchCocktailViewModel(
     stateHandle: SavedStateHandle,
@@ -15,43 +25,58 @@ class SearchCocktailViewModel(
     private val cocktailMapper: CocktailModelMapper
 ) : BaseViewModel(stateHandle) {
 
-    private val _itemsLiveData = MutableLiveData<List<CocktailModel>>().apply { value = emptyList() }
-    val itemsLiveData: LiveData<List<CocktailModel>> = _itemsLiveData
+    sealed class Event {
+        class ToDetails(val cocktailId: Long) : Event()
+    }
 
-    private val _cocktailDetailsEventLiveData = MutableLiveData<Event<Long>>()
-    val cocktailDetailsEventLiveData: LiveData<Event<Long>> =
-        _cocktailDetailsEventLiveData
+    private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
+    val eventsFlow = _eventsChannel.receiveAsFlow()
+
+    private val _itemsFlow = MutableSharedFlow<List<CocktailModel>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val itemsFlow = _itemsFlow
+        .stateIn(viewModelScope, WhileViewSubscribed, emptyList())
+
+    val searchQueryFlow = MutableStateFlow("")
+
+    val isSearchQueryEmptyFlow = _itemsFlow.map {
+        it.isEmpty() && searchQueryFlow.value.isEmpty()
+    }
+
+    val isSearchResultEmptyFlow = _itemsFlow.map {
+        it.isEmpty() && searchQueryFlow.value.isEmpty().not()
+    }
 
     private var searchJob: Job? = null
 
-    val searchQueryLiveData = MutableLiveData<String>()
-    private val _searchQueryLiveData: LiveData<String?> = searchQueryLiveData.debounce(550L)
-
-    val isSearchQueryEmptyLiveData: LiveData<Boolean> =
-        _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty() }
-
-    val isSearchResultEmptyLiveData: LiveData<Boolean> =
-        _itemsLiveData.map { it.isNullOrEmpty() && _searchQueryLiveData.value.isNullOrEmpty().not() }
-
-    private val searchQueryObserver = Observer<String?> {
-        if (it.isNullOrBlank()) _itemsLiveData.value = emptyList()
-        else performSearch(it)
-    }
-
     init {
-        _searchQueryLiveData.observeForever(searchQueryObserver)
-    }
+        // set initial value to sharedFlow to trigger dependent flows
+        _itemsFlow.tryEmit(emptyList())
 
-    override fun onCleared() {
-        _searchQueryLiveData.removeObserver(searchQueryObserver)
-        super.onCleared()
+        viewModelScope.launch {
+            searchQueryFlow.collect {
+                performSearch(it)
+            }
+        }
     }
 
     private fun performSearch(query: String) {
-        if (searchJob?.isActive == true) searchJob?.cancel()
+        searchJob?.cancel()
 
-        searchJob = launchRequest(_itemsLiveData) {
-            cocktailRepo.searchCocktails(query)?.map(cocktailMapper::mapTo) ?: emptyList()
+        if (query.isEmpty()) {
+            _itemsFlow.tryEmit(emptyList())
+            return
+        }
+
+        searchJob = launchRequest {
+            // Simulating debounce to avoid using built function, bc of FlowPreview annotation
+            delay(500)
+            _itemsFlow.emit(
+                cocktailRepo.searchCocktails(query)?.map(cocktailMapper::mapTo)
+                    ?: emptyList()
+            )
         }
     }
 
@@ -67,7 +92,6 @@ class SearchCocktailViewModel(
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
-        _cocktailDetailsEventLiveData
-            .postValue(Event(cocktail.id))
+        _eventsChannel.trySend(Event.ToDetails(cocktail.id))
     }
 }

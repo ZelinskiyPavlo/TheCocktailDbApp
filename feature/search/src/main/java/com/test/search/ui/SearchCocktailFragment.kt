@@ -13,16 +13,21 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
-import com.test.presentation.util.EventObserver
 import com.test.search.R
 import com.test.search.adapter.recyclerview.SearchCocktailAdapter
 import com.test.search.adapter.recyclerview.SearchCocktailItemDecoration
 import com.test.search.api.SearchNavigationApi
 import com.test.search.databinding.FragmentSearchCocktailsBinding
 import com.test.search.factory.SearchCocktailsViewModelFactory
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
@@ -43,11 +48,9 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        setupNavigation()
         setupRecyclerView()
-        setupVisibilityObserver()
         setupSearchField()
         setupKeyboardClosing()
 
@@ -59,11 +62,38 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
         viewDataBinding.viewModel = viewModel
     }
 
-    private fun setupNavigation() {
-        viewModel.cocktailDetailsEventLiveData.observe(
-            viewLifecycleOwner, EventObserver { cocktailId ->
-                searchNavigator.toCocktailDetail(cocktailId)
-            })
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow.onEach { event ->
+                    when (event) {
+                        is SearchCocktailViewModel.Event.ToDetails ->
+                            searchNavigator.toCocktailDetail(event.cocktailId)
+                    }
+                }.launchIn(this)
+                viewModel.isSearchQueryEmptyFlow.onEach { isQueryEmpty ->
+                    with(viewDataBinding) {
+                        searchQueryEmptyTv.visibility =
+                            if (isQueryEmpty) View.VISIBLE else View.GONE
+
+                        searchCocktailsRv.visibility =
+                            if (isQueryEmpty) View.GONE else View.VISIBLE
+                        searchResultEmptyTv.visibility = View.GONE
+                    }
+                }.launchIn(this)
+                viewModel.isSearchResultEmptyFlow.onEach { isResultEmpty ->
+                    with(viewDataBinding) {
+                        if (isResultEmpty) {
+                            searchResultEmptyTv.visibility = View.VISIBLE
+
+                            searchQueryEmptyTv.visibility = View.GONE
+                            searchCocktailsRv.visibility = View.GONE
+                        }
+                    }
+                }.launchIn(this)
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -78,27 +108,6 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
             verticalDpOffSet = R.dimen.margin_16dp
         )
         viewDataBinding.searchCocktailsRv.addItemDecoration(decoration)
-    }
-
-    private fun setupVisibilityObserver() {
-        with(viewDataBinding) {
-            this@SearchCocktailFragment.viewModel.isSearchQueryEmptyLiveData.observe(
-                viewLifecycleOwner, { isQueryEmpty ->
-                    searchQueryEmptyTv.visibility = if (isQueryEmpty) View.VISIBLE else View.GONE
-
-                    searchCocktailsRv.visibility = if (isQueryEmpty) View.GONE else View.VISIBLE
-                    searchResultEmptyTv.visibility = View.GONE
-                })
-            this@SearchCocktailFragment.viewModel.isSearchResultEmptyLiveData.observe(
-                viewLifecycleOwner, { isResultEmpty ->
-                    if (isResultEmpty) {
-                        searchResultEmptyTv.visibility = View.VISIBLE
-
-                        searchQueryEmptyTv.visibility = View.GONE
-                        searchCocktailsRv.visibility = View.GONE
-                    }
-                })
-        }
     }
 
     private fun setupSearchField() {
@@ -119,7 +128,7 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
 
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(query: Editable?) {
-                viewModel.searchQueryLiveData.value = query.toString()
+                viewModel.searchQueryFlow.value = query.toString()
             }
 
             override fun beforeTextChanged(query: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -134,7 +143,8 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
             if (event.action == MotionEvent.ACTION_DOWN) {
                 if (viewDataBinding.searchFieldLayout.searchFieldEditText.isFocused) {
                     val outRect = Rect()
-                    viewDataBinding.searchFieldLayout.searchFieldEditText.getGlobalVisibleRect(outRect)
+                    viewDataBinding.searchFieldLayout.searchFieldEditText
+                        .getGlobalVisibleRect(outRect)
                     if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                         viewDataBinding.searchFieldLayout.searchFieldEditText.clearFocus()
                         val imm =

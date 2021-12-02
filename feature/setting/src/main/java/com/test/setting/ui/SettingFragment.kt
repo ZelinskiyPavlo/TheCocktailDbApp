@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.DialogButton
@@ -21,6 +24,9 @@ import com.test.setting.databinding.FragmentSettingBinding
 import com.test.setting.factory.SettingViewModelFactory
 import com.test.setting.model.BatteryStateHolder
 import com.test.setting.receiver.BatteryStateReceiver
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCallback,
@@ -51,9 +57,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        setupBatteryStateObserver()
 
         return viewDataBinding.root
     }
@@ -64,35 +69,34 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
         viewDataBinding.fragment = this
     }
 
-    private fun setupBatteryStateObserver() {
-        val batteryStateView = viewDataBinding.settingFragmentBatteryRow
+    override fun setupObservers() {
+        super.setupObservers()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isBatteryChargingFlow.onEach { isCharging ->
+                    val iconTint = when (isCharging) {
+                        true -> ContextCompat.getColor(requireContext(), R.color.battery_connected)
+                        false -> ContextCompat.getColor(requireContext(), R.color.battery_disconnected)
+                    }
+                    viewDataBinding.settingFragmentBatteryRow.changeIconTint(iconTint)
+                }.launchIn(this)
 
-        viewModel.isBatteryChargingLiveData.observe(viewLifecycleOwner, { isCharging ->
-            if (isCharging != null) {
-                val iconTint = when (isCharging) {
-                    true -> ContextCompat.getColor(requireContext(), R.color.battery_connected)
-                    false -> ContextCompat.getColor(requireContext(), R.color.battery_disconnected)
-                }
-                batteryStateView.changeIconTint(iconTint)
-            }
-        })
+                viewModel.batteryStatusFlow.onEach { status ->
+                    viewDataBinding.settingFragmentBatteryRow.changeMainText(getString(status))
+                }.launchIn(this)
 
-        viewModel.batteryStatusLiveData.observe(viewLifecycleOwner, { status ->
-            if (status != null) {
-                batteryStateView.changeMainText(getString(status))
+                viewModel.batteryPercentFlow.onEach { percentage ->
+                    viewDataBinding.settingFragmentBatteryRow.changeAdditionalText(percentage)
+                }.launchIn(this)
             }
-        })
-
-        viewModel.batteryPercentLiveData.observe(viewLifecycleOwner, { percentage ->
-            if (percentage != null) {
-                batteryStateView.changeAdditionalText(percentage)
-            }
-        })
+        }
     }
 
     // TODO: 21.02.2021 Bring back change language feature when google release appcompat lib with
     //  bug fix for locales. See previous commits for previously used code for showing language
     //  change dialog and handling user input.
+
+    // TODO: 11.10.2021 Maybe add feature to switch to dark theme too?
 
     fun openProfileFragment() {
         settingNavigator.toProfile()

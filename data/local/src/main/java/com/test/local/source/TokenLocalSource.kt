@@ -1,10 +1,14 @@
 package com.test.local.source
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface TokenLocalSource {
-    val authTokenLiveData: LiveData<String?>
-    var authToken: String?
 
-    var firebaseToken: String?
+    fun observeAuthToken(): Flow<String>
+
+    var authToken: String
+
+    fun observeFirebaseToken(): Flow<String>
+
+    var firebaseToken: String
 }

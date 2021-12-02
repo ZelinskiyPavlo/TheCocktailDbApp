@@ -5,14 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.test.common.exception.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.test.common.exception.ApiError
+import com.test.common.exception.CancellationError
+import com.test.common.exception.LoginError
+import com.test.common.exception.NoInternetConnectionError
+import com.test.common.exception.RegistrationError
+import com.test.common.exception.RequestError
+import com.test.common.exception.ServerError
+import com.test.common.exception.ServerRespondingError
+import com.test.common.exception.UnAuthorizedAccessError
+import com.test.common.exception.UnknownError
 import com.test.presentation.exception.SimpleErrorHandler
-import com.test.presentation.extension.observeNotNull
 import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
 import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
@@ -22,6 +34,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import icepick.Icepick
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class BaseFragment<VDB : ViewDataBinding> : Fragment(), HasAndroidInjector,
@@ -57,6 +71,7 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment(), HasAndroidInjec
         viewDataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
         configureDataBinding()
+        setupObservers()
 
         Icepick.restoreInstanceState(this, savedInstanceState)
         return viewDataBinding.root
@@ -64,14 +79,13 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment(), HasAndroidInjec
 
     protected open fun configureDataBinding() {}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        addViewModelErrorObserver(viewModel)
-    }
-
-    protected fun addViewModelErrorObserver(viewModel: BaseViewModel) {
-        viewModel.errorLiveData.observeNotNull(viewLifecycleOwner, {
-            handleError(it)
-        })
+    @CallSuper
+    protected open fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.errorFlow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
+                handleError(it)
+            }
+        }
     }
 
     open fun onBackPressed() {}
@@ -92,20 +106,28 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment(), HasAndroidInjec
 
     protected open fun handleLoginError(e: LoginError) =
         errorHandler.handleLoginError()
+
     protected open fun handleRegistrationError(e: RegistrationError) =
         errorHandler.handleRegistrationError()
+
     protected open fun handleApiError(e: ApiError) =
         errorHandler.handleApiError()
+
     protected open fun handleUnAuthorizedAccessError(e: UnAuthorizedAccessError) =
         errorHandler.handleUnAuthorizedAccessError()
+
     protected open fun handleServerError(e: ServerError) =
         errorHandler.handleServerError()
+
     protected open fun handleServerRespondingError(e: ServerRespondingError) =
         errorHandler.handleServerRespondingError()
+
     protected open fun handleUnknownError(e: UnknownError) =
         errorHandler.handleUnknownError(e)
+
     protected open fun handleCancellationError(e: CancellationError) =
         errorHandler.handleCancellationError()
+
     protected open fun handleNoInternetConnectionError(e: NoInternetConnectionError) =
         errorHandler.handleNoInternetConnectionError()
 

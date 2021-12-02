@@ -56,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/app_background"
-                    android:text="@={viewModel.emailInputLiveData}"
+                    android:text="@={viewModel.emailInputFlow}"
                     android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/app_background"
                     android:inputType="textPassword"
-                    android:text="@={viewModel.passwordInputLiveData}"
+                    android:text="@={viewModel.passwordInputFlow}"
                     android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>

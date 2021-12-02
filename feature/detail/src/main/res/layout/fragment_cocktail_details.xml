@@ -35,7 +35,7 @@
                 app:expandedTitleMarginStart="@dimen/margin_24dp"
                 app:expandedTitleTextAppearance="@style/TextTitleExpanded"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:title="@{viewModel.cocktailNameLiveData}">
+                app:title="@{viewModel.cocktailNameFlow}">
 
                 <LinearLayout
                     android:id="@+id/image_container"
@@ -57,7 +57,7 @@
                             android:adjustViewBounds="true"
                             android:contentDescription="@string/content_description_cocktail_image"
                             android:scaleType="centerCrop"
-                            bind:iv_imageUrl="@{viewModel.cocktailPictureLiveData}" />
+                            bind:iv_imageUrl="@{viewModel.cocktailPictureFlow}" />
                     </com.test.presentation.ui.custom.RoundedFrameLayout>
                 </LinearLayout>
 
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="13dp"
                     android:layout_marginTop="20dp"
-                    android:text="@{viewModel.cocktailNameLiveData}"
+                    android:text="@{viewModel.cocktailNameFlow}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
                     app:layout_constraintTop_toBottomOf="@+id/image_view_container"
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="13dp"
-                    android:text="@{viewModel.cocktailAlcoholicLiveData}"
+                    android:text="@{viewModel.cocktailAlcoholicFlow}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
                     app:layout_constraintTop_toBottomOf="@+id/cocktail_name"
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="13dp"
                     android:layout_marginBottom="@dimen/margin_8dp"
-                    android:text="@{viewModel.cocktailGlassLiveData}"
+                    android:text="@{viewModel.cocktailGlassFlow}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintStart_toStartOf="@+id/second_column_guideline"
                     app:layout_constraintTop_toBottomOf="@+id/cocktail_alcoholic"
@@ -212,7 +212,7 @@
                     android:lineSpacingExtra="12sp"
                     android:paddingTop="13dp"
                     android:paddingBottom="@dimen/margin_16dp"
-                    android:text="@{viewModel.cocktailInstructionLiveData}"
+                    android:text="@{viewModel.cocktailInstructionFlow}"
                     android:textAppearance="@style/TextRegular"
                     app:layout_constraintLeft_toLeftOf="@+id/first_column_guideline"
                     app:layout_constraintRight_toRightOf="parent"
