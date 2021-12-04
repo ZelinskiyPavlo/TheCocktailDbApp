@@ -2,24 +2,26 @@ package com.test.login.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.test.login.api.LoginNavigationApi
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.WhileViewSubscribed
 import com.test.repository.source.AuthRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     savedStateHandle: SavedStateHandle,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val navigator: LoginNavigationApi
 ) : BaseViewModel(savedStateHandle) {
 
     sealed class Event {
         object ClearErrorTextColor: Event()
-
-        class ToLogin(val isLoginSuccess: Boolean): Event()
     }
 
     private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
@@ -72,9 +74,15 @@ class LoginViewModel(
                 password = passwordInputFlow.value
             )
             if (loginStatus) {
-                _eventsChannel.trySend(Event.ToLogin(loginStatus))
+                withContext(Dispatchers.Main) {
+                    navigator.toTabHost()
+                }
             }
         }
+    }
+
+    fun navigateToRegister() {
+        navigator.toRegister()
     }
 
 }

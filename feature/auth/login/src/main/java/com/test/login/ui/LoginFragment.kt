@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.textfield.TextInputEditText
 import com.test.login.R
-import com.test.login.api.LoginNavigationApi
 import com.test.login.databinding.FragmentLoginBinding
 import com.test.login.factory.LoginViewModelFactory
 import com.test.presentation.extension.addLinkedText
@@ -46,9 +45,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override val viewModel: LoginViewModel by viewModels {
         SavedStateViewModelFactory(loginViewModelFactory, this)
     }
-
-    @Inject
-    lateinit var loginNavigator: LoginNavigationApi
 
     private val errorTextColor
             by lazy { ContextCompat.getColor(requireActivity(), R.color.error_text) }
@@ -80,10 +76,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventsFlow.onEach { event ->
                     when (event) {
-                        is LoginViewModel.Event.ToLogin -> if (event.isLoginSuccess) {
-                            navigateToTabHost()
-                        }
-
                         LoginViewModel.Event.ClearErrorTextColor -> clearErrors()
                     }
                 }.launchIn(this)
@@ -107,7 +99,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun addLinkedText() {
         viewDataBinding.registerSignInTv
-            .addLinkedText(this.getString(R.string.all_sign_up)) { navigateToRegisterFragment() }
+            .addLinkedText(this.getString(R.string.all_sign_up)) { viewModel.navigateToRegister() }
     }
 
     fun onLoginButtonClicked() {
@@ -123,14 +115,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             imm.hideSoftInputFromWindow(v.windowToken, 0)
         }
         viewModel.loginUser()
-    }
-
-    private fun navigateToRegisterFragment() {
-        loginNavigator.toRegister()
-    }
-
-    private fun navigateToTabHost() {
-        loginNavigator.toTabHost()
     }
 
     private fun isTypedDataContainErrors(): Boolean {
