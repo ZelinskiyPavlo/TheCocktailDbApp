@@ -5,10 +5,13 @@ import com.test.auth.di.navigation.AuthCiceroneModule
 import com.test.auth.ui.AuthHostFragment
 import com.test.cube.ui.CubeFragment
 import com.test.dagger.scope.PerFragment
+import com.test.detail.di.CocktailDetailsAnalyticModule
 import com.test.detail.ui.CocktailDetailsFragment
+import com.test.profile.di.ProfileAnalyticModule
 import com.test.profile.ui.ProfileFragment
 import com.test.search.ui.SearchCocktailFragment
 import com.test.seekbar.ui.RangeSeekBarFragment
+import com.test.tabhost.di.TabHostAnalyticModule
 import com.test.tabhost.di.TabHostFragmentModule
 import com.test.tabhost.di.navigation.TabHostCiceroneModule
 import com.test.tabhost.ui.TabHostFragment
@@ -39,7 +42,7 @@ interface FragmentModule {
     @ContributesAndroidInjector(
         modules = [
             TabHostFragmentModule::class, TabHostCiceroneModule::class, TabHostNavigationModule::class,
-            TabHostCommunicationModule::class
+            TabHostCommunicationModule::class, TabHostAnalyticModule::class
         ]
     )
     fun contributeTabHostFragment(): TabHostFragment
@@ -51,12 +54,17 @@ interface FragmentModule {
 
     @Suppress("unused")
     @PerFragment
-    @ContributesAndroidInjector(modules = [SimpleNavigationModule::class, DetailCommunicationModule::class])
+    @ContributesAndroidInjector(
+        modules = [SimpleNavigationModule::class,
+            DetailCommunicationModule::class, CocktailDetailsAnalyticModule::class]
+    )
     fun contributeDetailsFragment(): CocktailDetailsFragment
 
     @Suppress("unused")
     @PerFragment
-    @ContributesAndroidInjector(modules = [ProfileNavigationModule::class])
+    @ContributesAndroidInjector(
+        modules = [ProfileNavigationModule::class, ProfileAnalyticModule::class]
+    )
     fun contributeProfileFragment(): ProfileFragment
 
     @Suppress("unused")
