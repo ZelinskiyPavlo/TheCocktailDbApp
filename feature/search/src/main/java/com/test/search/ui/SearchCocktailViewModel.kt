@@ -7,6 +7,8 @@ import com.test.presentation.model.cocktail.CocktailModel
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.WhileViewSubscribed
 import com.test.repository.source.CocktailRepository
+import com.test.search.api.SearchNavigationApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
@@ -18,16 +20,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchCocktailViewModel(
     stateHandle: SavedStateHandle,
     private val cocktailRepo: CocktailRepository,
-    private val cocktailMapper: CocktailModelMapper
+    private val cocktailMapper: CocktailModelMapper,
+    private val navigator: SearchNavigationApi
 ) : BaseViewModel(stateHandle) {
 
-    sealed class Event {
-        class ToDetails(val cocktailId: Long) : Event()
-    }
+    sealed class Event
 
     private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
     val eventsFlow = _eventsChannel.receiveAsFlow()
@@ -83,7 +85,9 @@ class SearchCocktailViewModel(
     fun saveCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
         launchRequest {
             saveCocktailToDb(cocktail)
-            navigateToCocktailDetailsFragment(cocktail)
+            withContext(Dispatchers.Main) {
+                navigateToCocktailDetailsFragment(cocktail)
+            }
         }
     }
 
@@ -92,6 +96,6 @@ class SearchCocktailViewModel(
     }
 
     private fun navigateToCocktailDetailsFragment(cocktail: CocktailModel) {
-        _eventsChannel.trySend(Event.ToDetails(cocktail.id))
+        navigator.toCocktailDetail(cocktail.id)
     }
 }
