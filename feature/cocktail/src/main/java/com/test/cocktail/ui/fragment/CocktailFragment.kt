@@ -19,12 +19,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.cocktail.R
-import com.test.cocktail.analytic.logCocktailFilterApply
-import com.test.cocktail.analytic.logFavoriteCocktailStateChanged
 import com.test.cocktail.api.CocktailCommunicationApi
-import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentCocktailBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
 import com.test.cocktail.model.sorttype.CocktailSortType
@@ -68,14 +64,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     private val communicationViewModel: CommunicationViewModel by viewModels({ requireParentFragment() })
 
     @Inject
-    lateinit var cocktailNavigator: CocktailNavigationApi
-
-    // TODO: 14.11.2021 Move to ViewModel
-    @Inject
     lateinit var communicationApi: CocktailCommunicationApi
-
-    @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val currentFragment: BaseFragment<*>?
         get() = childFragmentManager.findFragmentById(R.id.cocktail_fragment_container) as? BaseFragment<*>
@@ -107,24 +96,8 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
                 viewModel.eventsFlow.onEach { event ->
                     when (event) {
                         is CocktailViewModel.Event.ApplyFilter -> {
-                            firebaseAnalytics.logCocktailFilterApply(
-                                Pair(event.selectedFiltersList, event.selectedFiltersTypeList)
-                            )
                             closeFilterFragment()
                         }
-
-                        is CocktailViewModel.Event.CocktailFavoriteStateChanged -> {
-                            // TODO: 21.10.2021 Why not to remove analytics log to ViewModel using interface???
-                            firebaseAnalytics.logFavoriteCocktailStateChanged(
-                                Triple(
-                                    event.isAddedToFavorite,
-                                    event.cocktailId.toString(),
-                                    event.fullUserName
-                                )
-                            )
-                        }
-
-                        else -> Unit
                     }
                 }.launchIn(this)
 
@@ -215,7 +188,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     }
 
     fun onFabClicked() {
-        cocktailNavigator.toCocktailSearch()
+        viewModel.navigateToCocktailSearch()
     }
 
     private fun navigateToFilterFragment() {
@@ -235,7 +208,7 @@ class CocktailFragment : BaseFragment<FragmentCocktailBinding>(), HasBackPressLo
     override fun onBackPressed() {
         if (currentFragment != null)
             closeFilterFragment()
-        else cocktailNavigator.exit()
+        else viewModel.navigateToExit()
     }
 
     override fun onStart() {

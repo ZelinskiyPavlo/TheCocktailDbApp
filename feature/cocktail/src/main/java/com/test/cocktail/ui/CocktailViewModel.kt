@@ -2,6 +2,8 @@ package com.test.cocktail.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.test.cocktail.analytic.CocktailAnalyticApi
+import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.model.sorttype.CocktailSortType
 import com.test.presentation.adapter.binding.Page
 import com.test.presentation.extension.getStateFlow
@@ -18,6 +20,7 @@ import com.test.presentation.util.WhileViewSubscribed
 import com.test.presentation.util.stateHandle
 import com.test.repository.source.CocktailRepository
 import com.test.repository.source.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +33,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 
 private const val EXTRA_KEY_CURRENT_PAGE = "EXTRA_KEY_CURRENT_PAGE"
 private const val EXTRA_KEY_SORTING = "EXTRA_KEY_SORTING"
@@ -40,25 +44,13 @@ class CocktailViewModel(
     private val cocktailRepo: CocktailRepository,
     userRepo: UserRepository,
     private val cocktailMapper: CocktailModelMapper,
-    private val userMapper: UserModelMapper
+    private val userMapper: UserModelMapper,
+    private val navigator: CocktailNavigationApi,
+    private val analytic: CocktailAnalyticApi
 ) : BaseViewModel(handle) {
 
     sealed class Event {
-        class ToDetails(val cocktailId: Long) : Event()
-
-        class ApplyFilter(
-            val selectedFiltersList: List<String>,
-            val selectedFiltersTypeList: List<String>
-        ) : Event()
-
-        // TODO: 21.10.2021 Maybe all related to analytics move to separate event (if it will properly work with Channels)
-        //  or even better, move to interface that will be injected in constructor
-        //  or even better using delegate, see IoShed UPD: maybe it's pattern from MVI
-        class CocktailFavoriteStateChanged(
-            val isAddedToFavorite: Boolean,
-            val cocktailId: Long,
-            val fullUserName: String
-        ) : Event()
+        object ApplyFilter : Event()
     }
 
     private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
@@ -141,7 +133,9 @@ class CocktailViewModel(
     fun updateCocktailAndNavigateDetailsFragment(cocktail: CocktailModel) {
         launchRequest {
             cocktailRepo.updateCocktailDate(cocktail.id)
-            _eventsChannel.trySend(Event.ToDetails(cocktail.id))
+            withContext(Dispatchers.Main) {
+                navigator.toCocktailDetail(cocktail.id)
+            }
         }
     }
 
@@ -158,12 +152,10 @@ class CocktailViewModel(
                 "Empty userName"
             }
 
-            _eventsChannel.trySend(
-                Event.CocktailFavoriteStateChanged(
-                    isAddedToFavorite,
-                    cocktailId,
-                    fullUserName
-                )
+            analytic.logFavoriteCocktailStateChanged(
+                isAddedToFavorite,
+                cocktailId.toString(),
+                fullUserName
             )
         }
     }
@@ -176,13 +168,20 @@ class CocktailViewModel(
 
     fun onApplyButtonClicked() {
         val filterList = _filtersFlow.value
+        val selectedFiltersList: List<String>
+        val selectedFiltersTypeList: List<String>
+
         if (filterList != null || filterList == listOf(null, null, null)) {
-            val selectedFiltersList = filterList.map { it?.key ?: "None" }
-            val selectedFiltersTypeList = filterList.filterNotNull().map { it.type.name }
-            _eventsChannel.trySend(Event.ApplyFilter(selectedFiltersList, selectedFiltersTypeList))
+            selectedFiltersList = filterList.map { it?.key ?: "None" }
+            selectedFiltersTypeList = filterList.filterNotNull().map { it.type.name }
         } else {
-            _eventsChannel.trySend(Event.ApplyFilter(emptyList(), emptyList()))
+            selectedFiltersList = emptyList()
+            selectedFiltersTypeList = emptyList()
         }
+
+        analytic.logCocktailFilterApply(selectedFiltersList, selectedFiltersTypeList)
+
+        _eventsChannel.trySend(Event.ApplyFilter)
     }
 
     fun openProposedCocktail(selectedCocktailId: Long?) {
@@ -190,6 +189,14 @@ class CocktailViewModel(
             val otherCocktail = cocktailsFlow.value.filter { it.id != selectedCocktailId }.random()
             updateCocktailAndNavigateDetailsFragment(otherCocktail)
         }
+    }
+
+    fun navigateToCocktailSearch() {
+        navigator.toCocktailSearch()
+    }
+
+    fun navigateToExit() {
+        navigator.exit()
     }
 
     fun addFilter(itemId: Int, filterType: DrinkFilterType) {

@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.test.cocktail.R
-import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentHistoryBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
 import com.test.cocktail.ui.CocktailViewModel
@@ -42,9 +41,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         SavedStateViewModelFactory(cocktailViewModelFactory, requireParentFragment())
     }
 
-    @Inject
-    lateinit var cocktailNavigator: CocktailNavigationApi
-
     private val historyAdapter by lazy { CocktailAdapter(cocktailViewModel) }
 
     private var recyclerViewParcelable: Parcelable? = null
@@ -70,12 +66,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 cocktailViewModel.eventsFlow.onEach { event ->
-                    when (event) {
-                        is CocktailViewModel.Event.ToDetails ->
-                            cocktailNavigator.toCocktailDetail(event.cocktailId)
-
-                        else -> Unit
-                    }
                 }.launchIn(this)
 
                 cocktailViewModel.cocktailsFlow.onEach { cocktails ->

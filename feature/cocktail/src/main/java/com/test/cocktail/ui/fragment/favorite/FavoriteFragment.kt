@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.cocktail.R
-import com.test.cocktail.api.CocktailNavigationApi
 import com.test.cocktail.databinding.FragmentFavoriteBinding
 import com.test.cocktail.factory.CocktailViewModelFactory
 import com.test.cocktail.ui.CocktailViewModel
@@ -42,9 +41,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         SavedStateViewModelFactory(cocktailViewModelFactory, requireParentFragment())
     }
 
-    @Inject
-    lateinit var cocktailNavigator: CocktailNavigationApi
-
     private val favoriteAdapter by lazy { CocktailAdapter(cocktailViewModel).asFavorite }
 
     private var recyclerViewParcelable: Parcelable? = null
@@ -69,13 +65,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 cocktailViewModel.eventsFlow.onEach { event ->
-                    when (event) {
-                        // Temporary didn't make navigation bc it's handled in HistoryFragment
-//                        is CocktailViewModel.Event.ToDetails ->
-//                            cocktailNavigator.toCocktailDetail(event.cocktailId)
-
-                        else -> Unit
-                    }
                 }.launchIn(this)
 
                 cocktailViewModel.favoriteCocktailsFlow.onEach { cocktails ->
