@@ -1,5 +1,6 @@
 package com.test.tabhost.di
 
+import com.test.cocktail.di.CocktailAnalyticModule
 import com.test.cocktail.di.CocktailFragmentModule
 import com.test.cocktail.ui.fragment.CocktailFragment
 import com.test.dagger.scope.PerNestedFragment
@@ -19,7 +20,8 @@ interface TabHostFragmentModule {
         modules = [
             CocktailFragmentModule::class,
             CocktailNavigationModule::class,
-            CocktailCommunicationModule::class]
+            CocktailCommunicationModule::class,
+            CocktailAnalyticModule::class]
     )
     fun provideCocktailFragment(): CocktailFragment
 
