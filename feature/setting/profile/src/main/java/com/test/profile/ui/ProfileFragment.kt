@@ -24,7 +24,6 @@ import coil.api.load
 import coil.request.LoadRequest
 import coil.transform.BlurTransformation
 import coil.transform.CircleCropTransformation
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.presentation.extension.*
 import com.test.presentation.extension.BitmapHelper.Companion.convertMbToBinaryBytes
 import com.test.presentation.extension.BitmapHelper.Companion.getBitmap
@@ -32,8 +31,6 @@ import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.*
 import com.test.profile.R
-import com.test.profile.analytics.logUserNameChanged
-import com.test.profile.api.ProfileNavigationApi
 import com.test.profile.databinding.FragmentProfileBinding
 import com.test.profile.factory.ProfileViewModelFactory
 import kotlinx.coroutines.flow.launchIn
@@ -64,12 +61,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override val viewModel: ProfileViewModel by viewModels {
         SavedStateViewModelFactory(profileViewModelFactory, this)
     }
-
-    @Inject
-    lateinit var profileNavigationApi: ProfileNavigationApi
-
-    @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val isReadExternalStoragePermissionGranted
         get() = requireActivity().isAllPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -103,9 +94,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventsFlow.onEach { event ->
-                    when (event) {
-                        ProfileViewModel.Event.LogOut -> profileNavigationApi.logOut()
-                    }
                 }.launchIn(this)
 
                 viewModel.userAvatarFlow.onEach { avatar ->
@@ -113,7 +101,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }.launchIn(this)
 
                 viewModel.userDataChangedFlow.onEach {
-                    firebaseAnalytics.logUserNameChanged(viewModel.userFullNameFlow.value)
                     viewSwitcher.showNext()
                 }.launchIn(this)
             }
@@ -122,7 +109,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun configureToolbar() {
         viewDataBinding.profileFragmentToolbar.backButton.setOnClickListener {
-            profileNavigationApi.exit()
+            viewModel.exit()
         }
 
         viewDataBinding.profileFragmentToolbar.primaryOption.setOnClickListener {
@@ -287,19 +274,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         bitmap.convertBitmapToFile(imageFile)
 
-        logAvatarChangeEvent(viewModel.userAvatarFlow.value ?: "")
         viewModel.uploadAvatar(imageFile) { fraction ->
             Timber.i("LOG PROGRESS = fraction=$fraction, percent=${fraction * 100.0F}%")
         }
-    }
-
-    private fun logAvatarChangeEvent(oldAvatarUrl: String) {
-        // TODO: 23.10.2021 Move to viewModel in the end of uploadAvatar function
-
-//                    firebaseAnalytics.logUserAvatarChanged(
-//                        newAvatarUrl,
-//                        viewModel.userFullNameFlow.value
-//                    )
     }
 
     override fun onRequestPermissionsResult(

@@ -6,29 +6,34 @@ import com.test.presentation.mapper.user.UserModelMapper
 import com.test.presentation.model.user.UserModel
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.WhileViewSubscribed
+import com.test.profile.analytic.ProfileAnalyticApi
+import com.test.profile.api.ProfileNavigationApi
 import com.test.repository.source.TokenRepository
 import com.test.repository.source.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class ProfileViewModel(
     savedStateHandle: SavedStateHandle,
     private val tokenRepo: TokenRepository,
     private val userRepo: UserRepository,
-    private val userMapper: UserModelMapper
+    private val userMapper: UserModelMapper,
+    private val navigator: ProfileNavigationApi,
+    private val analytic: ProfileAnalyticApi
 ) : BaseViewModel(savedStateHandle) {
 
-    sealed class Event {
-        object LogOut: Event()
-    }
+    sealed class Event
 
     private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
     val eventsFlow = _eventsChannel.receiveAsFlow()
@@ -38,21 +43,22 @@ class ProfileViewModel(
     }
 
     val userNameFlow = userModelFlow.filterNotNull().map { it.name }
-    .stateIn(viewModelScope, WhileViewSubscribed, "")
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
     val userLastNameFlow = userModelFlow.filterNotNull().map { it.lastName }
-        .stateIn(viewModelScope, WhileViewSubscribed, "")
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
     val userEmailFlow = userModelFlow.filterNotNull().map { it.email }
         .stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val userFullNameFlow = combine(userNameFlow, userLastNameFlow) { name, lastName ->
-        name.replaceFirstChar { it.uppercase() }
+    val userFullNameFlow = userModelFlow.filterNotNull().map {
+        it.name.replaceFirstChar { char -> char.uppercase() }
             .plus(" ")
-            .plus(lastName.replaceFirstChar { it.uppercase() })
+            .plus(it.lastName.replaceFirstChar { char -> char.uppercase() })
     }.stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val userDataChangedFlow = userFullNameFlow.filter { it.isEmpty() }.drop(1)
+    val userDataChangedFlow = userFullNameFlow.filter { it.isNotEmpty() }.drop(1)
+        .onEach { analytic.logUserNameChanged(it) }
 
     val userAvatarFlow = userModelFlow.filterNotNull().map { it.avatar }
         .stateIn(viewModelScope, WhileViewSubscribed, null)
@@ -83,6 +89,7 @@ class ProfileViewModel(
 
     fun uploadAvatar(avatar: File, onUploadProgress: (Float) -> Unit = { _ -> }) {
         launchRequest {
+            // TODO: 19.12.2021 Rework user avatar upload
             val newAvatarUrl = userRepo.updateUserAvatar(avatar, onUploadProgress)
             val updatedUser = UserModel(
                 email = emailInputFlow.value,
@@ -91,6 +98,8 @@ class ProfileViewModel(
                 avatar = newAvatarUrl
             )
             userRepo.updateUser(updatedUser.run(userMapper::mapFrom))
+
+            analytic.logUserAvatarChanged(newAvatarUrl, userFullNameFlow.value)
         }
     }
 
@@ -111,7 +120,13 @@ class ProfileViewModel(
         launchRequest {
             tokenRepo.authToken = ""
             userRepo.deleteUser()
-            _eventsChannel.trySend(Event.LogOut)
+            withContext(Dispatchers.Main) {
+                navigator.logOut()
+            }
         }
+    }
+
+    fun exit() {
+        navigator.exit()
     }
 }

@@ -11,13 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.cocktail_common.service.DrinkProposalService
 import com.test.detail.adapter.IngredientAdapter
-import com.test.detail.analytic.logOpenCocktailDetail
 import com.test.detail.databinding.FragmentCocktailDetailsBinding
 import com.test.detail.factory.CocktailDetailsViewModelFactory
-import com.test.navigation.api.SimpleNavigatorApi
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import kotlinx.coroutines.flow.launchIn
@@ -51,12 +48,6 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
 
     private lateinit var ingredientsAdapter: IngredientAdapter
 
-    @Inject
-    lateinit var simpleNavigator: SimpleNavigatorApi
-
-    @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,7 +58,6 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         setCollapsingToolbarListener()
         getCocktail()
 
-        logFirebaseEvent()
         return viewDataBinding.root
     }
 
@@ -100,14 +90,6 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
                 viewModel.ingredientsFlow.onEach { ingredients ->
                     ingredientsAdapter.setData(ingredients)
                 }.launchIn(this)
-
-                viewModel.isCocktailFoundFlow.onEach { result ->
-                    if (result == false) {
-                        // TODO: 11.10.2021 This logic needs to be moved in viewModel!
-                        viewModel.cocktailNotFound()
-                        simpleNavigator.exit()
-                    }
-                }.launchIn(this)
             }
         }
     }
@@ -117,12 +99,8 @@ class CocktailDetailsFragment : BaseFragment<FragmentCocktailDetailsBinding>() {
         viewModel.getCocktailById(cocktailId)
     }
 
-    private fun logFirebaseEvent() {
-        firebaseAnalytics.logOpenCocktailDetail(viewModel.cocktailId.value)
-    }
-
     fun onBackButtonClicked() {
-        simpleNavigator.exit()
+        viewModel.navigateToExit()
     }
 
     override fun onDestroyView() {

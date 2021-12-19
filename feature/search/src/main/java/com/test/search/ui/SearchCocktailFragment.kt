@@ -22,7 +22,6 @@ import com.test.presentation.ui.base.BaseFragment
 import com.test.search.R
 import com.test.search.adapter.recyclerview.SearchCocktailAdapter
 import com.test.search.adapter.recyclerview.SearchCocktailItemDecoration
-import com.test.search.api.SearchNavigationApi
 import com.test.search.databinding.FragmentSearchCocktailsBinding
 import com.test.search.factory.SearchCocktailsViewModelFactory
 import kotlinx.coroutines.flow.launchIn
@@ -40,9 +39,6 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
     override val viewModel: SearchCocktailViewModel by viewModels {
         SavedStateViewModelFactory(searchCocktailsViewModelFactory, this)
     }
-
-    @Inject
-    lateinit var searchNavigator: SearchNavigationApi
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,10 +63,6 @@ class SearchCocktailFragment : BaseFragment<FragmentSearchCocktailsBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventsFlow.onEach { event ->
-                    when (event) {
-                        is SearchCocktailViewModel.Event.ToDetails ->
-                            searchNavigator.toCocktailDetail(event.cocktailId)
-                    }
                 }.launchIn(this)
                 viewModel.isSearchQueryEmptyFlow.onEach { isQueryEmpty ->
                     with(viewDataBinding) {

@@ -23,7 +23,6 @@ import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.presentation.ui.dialog.RegularDialogFragment
 import com.test.register.R
-import com.test.register.api.RegisterNavigationApi
 import com.test.register.databinding.FragmentRegisterBinding
 import com.test.register.factory.RegisterViewModelFactory
 import kotlinx.coroutines.flow.launchIn
@@ -48,9 +47,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
     override val viewModel: RegisterViewModel by viewModels {
         SavedStateViewModelFactory(registerViewModelFactory, this)
     }
-
-    @Inject
-    lateinit var registerNavigator: RegisterNavigationApi
 
     private val errorTextColor
             by lazy { ContextCompat.getColor(requireActivity(), R.color.error_text) }
@@ -92,7 +88,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
 
     private fun addLinkedText() {
         viewDataBinding.registerSignInTv
-            .addLinkedText(this.getString(R.string.all_sign_in)) { navigateToLoginScreen() }
+            .addLinkedText(this.getString(R.string.all_sign_in)) { viewModel.navigateToLogin() }
     }
 
     override fun setupObservers() {
@@ -102,8 +98,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
                 viewModel.eventsFlow.onEach { event ->
                     when (event) {
                         RegisterViewModel.Event.ClearErrorTextColor -> clearErrors()
-
-                        RegisterViewModel.Event.ToRegister -> navigateToCocktailScreen()
                     }
                 }.launchIn(this)
 
@@ -149,16 +143,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(), HasBackPressLo
         viewModel.registerUser()
     }
 
-    private fun navigateToLoginScreen() {
-        registerNavigator.toLogin()
-    }
-
-    private fun navigateToCocktailScreen() {
-        registerNavigator.toTabHost()
-    }
-
     override fun onBackPressed() {
-        registerNavigator.toLogin()
+        viewModel.navigateToExit()
     }
 
     private fun isTypedDataContainErrors(): Boolean {

@@ -4,22 +4,24 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.presentation.util.WhileViewSubscribed
+import com.test.register.api.RegisterNavigationApi
 import com.test.repository.source.AuthRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
 
 class RegisterViewModel(
     savedStateHandle: SavedStateHandle,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val navigator: RegisterNavigationApi
 ) : BaseViewModel(savedStateHandle) {
 
     sealed class Event {
         object ClearErrorTextColor : Event()
-
-        object ToRegister : Event()
     }
 
     private val _eventsChannel = Channel<Event>(capacity = Channel.CONFLATED)
@@ -103,8 +105,18 @@ class RegisterViewModel(
                 lastName = lastNameInputFlow.value,
                 password = passwordInputFlow.value
             )
-            _eventsChannel.trySend(Event.ToRegister)
+            withContext(Dispatchers.Main) {
+                navigator.toTabHost()
+            }
         }
+    }
+
+    fun navigateToLogin() {
+        navigator.toLogin()
+    }
+
+    fun navigateToExit() {
+        navigator.toLogin()
     }
 
 }

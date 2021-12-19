@@ -15,14 +15,12 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.test.cocktail.ui.CommunicationViewModel
 import com.test.navigation.HasBackPressLogic
 import com.test.presentation.factory.SavedStateViewModelFactory
 import com.test.presentation.ui.base.BaseFragment
 import com.test.tabhost.R
-import com.test.tabhost.analytic.logCocktailTabClicked
-import com.test.tabhost.analytic.logSettingTabClicked
+import com.test.tabhost.analytic.TabHostAnalyticApi
 import com.test.tabhost.api.TabHostNavigationApi
 import com.test.tabhost.databinding.FragmentTabHostBinding
 import com.test.tabhost.factory.TabHostViewModelFactory
@@ -44,7 +42,7 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
         SavedStateViewModelFactory(tabHostViewModelFactory, this)
     }
 
-    private val cocktailCommunicationVM: CommunicationViewModel by viewModels()
+    private val cocktailCommunicationViewModel: CommunicationViewModel by viewModels()
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
@@ -58,7 +56,7 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
     lateinit var tabHostNavigationApi: TabHostNavigationApi
 
     @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
+    lateinit var analytic: TabHostAnalyticApi
 
     @JvmField
     @State
@@ -96,13 +94,13 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
                 R.id.bnv_cocktail_item -> {
                     selectTab(Screen.Keys.COCKTAIL)
 
-                    firebaseAnalytics.logCocktailTabClicked()
+                    analytic.logCocktailTabClicked()
                     true
                 }
                 R.id.bnv_setting_item -> {
                     selectTab(Screen.Keys.SETTING)
 
-                    firebaseAnalytics.logSettingTabClicked()
+                    analytic.logSettingTabClicked()
                     true
                 }
                 else -> false
@@ -157,7 +155,7 @@ class TabHostFragment : BaseFragment<FragmentTabHostBinding>(), HasBackPressLogi
                     changeBottomNavTitleVisibility(it)
                 }.launchIn(this)
 
-                cocktailCommunicationVM.onNestedFragmentNavigationFlow.onEach { isDeeplyNestedFragmentShown ->
+                cocktailCommunicationViewModel.onNestedFragmentNavigationFlow.onEach { isDeeplyNestedFragmentShown ->
                     viewDataBinding.tabHostBottomNavigation.visibility =
                         if (isDeeplyNestedFragmentShown) View.GONE
                         else View.VISIBLE

@@ -18,7 +18,6 @@ import com.test.presentation.ui.dialog.DialogButton
 import com.test.presentation.ui.dialog.DialogType
 import com.test.presentation.ui.dialog.base.BaseBottomSheetDialogFragment
 import com.test.setting.R
-import com.test.setting.api.SettingNavigationApi
 import com.test.setting.callback.BatteryStateCallback
 import com.test.setting.databinding.FragmentSettingBinding
 import com.test.setting.factory.SettingViewModelFactory
@@ -47,9 +46,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     override val viewModel: SettingViewModel by viewModels {
         SavedStateViewModelFactory(settingViewModelFactory, this)
     }
-
-    @Inject
-    lateinit var settingNavigator: SettingNavigationApi
 
     private lateinit var batteryStateReceiver: BroadcastReceiver
 
@@ -99,15 +95,15 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(), BatteryStateCall
     // TODO: 11.10.2021 Maybe add feature to switch to dark theme too?
 
     fun openProfileFragment() {
-        settingNavigator.toProfile()
+        viewModel.navigateToProfile()
     }
 
     fun openCubeView() {
-        settingNavigator.toCube()
+        viewModel.navigateToCube()
     }
 
     fun openRangeSeekBarFragment() {
-        settingNavigator.toSeekBar()
+        viewModel.navigateToSeekBar()
     }
 
     override fun onStart() {

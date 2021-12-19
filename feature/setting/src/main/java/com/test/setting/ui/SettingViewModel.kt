@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.test.presentation.ui.base.BaseViewModel
 import com.test.repository.source.AppSettingRepository
 import com.test.setting.R
+import com.test.setting.api.SettingNavigationApi
 import com.test.setting.model.BatteryStateCacheHolder
 import com.test.setting.model.BatteryStateHolder
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.map
 
 class SettingViewModel(
     savedStateHandle: SavedStateHandle,
-    settingRepository: AppSettingRepository
+    settingRepository: AppSettingRepository,
+    private val navigator: SettingNavigationApi
 ) : BaseViewModel(savedStateHandle) {
 
     private val _batteryPercentFlow = MutableStateFlow("")
@@ -64,5 +66,17 @@ class SettingViewModel(
         }
         _isBatteryChargingFlow.value = batteryStateCache.isCharging ?: false
         _batteryPercentFlow.value = batteryStateCache.batteryPercent.toString()
+    }
+
+    fun navigateToProfile() {
+        navigator.toProfile()
+    }
+
+    fun navigateToCube() {
+        navigator.toCube()
+    }
+
+    fun navigateToSeekBar() {
+        navigator.toSeekBar()
     }
 }

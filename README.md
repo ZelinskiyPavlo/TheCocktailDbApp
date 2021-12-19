@@ -137,10 +137,12 @@ List of events, that logged in analytic:
 
 ### Major future changes:
 - [x] Replace liveData with kotlin coroutines (in whole or in part)
-- [ ] Move navigation logic and firebase logic from fragment to ViewModel
+- [x] Move navigation logic and firebase logic from fragment to ViewModel
 - [ ] Implement data security
 - [ ] Rework UI using Jetpack Compose
 - [ ] Rewrite business logic using KMM
+- [ ] Add static code analysis tools
+- [ ] Reorganize Gradle scripts
 - [ ] Create own real API
 - [ ] Add drawing images behind status bar
 
