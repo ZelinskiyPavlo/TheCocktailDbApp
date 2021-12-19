@@ -13,7 +13,7 @@ import com.test.repository.source.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -43,21 +43,21 @@ class ProfileViewModel(
     }
 
     val userNameFlow = userModelFlow.filterNotNull().map { it.name }
-    .stateIn(viewModelScope, WhileViewSubscribed, "")
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
     val userLastNameFlow = userModelFlow.filterNotNull().map { it.lastName }
-        .stateIn(viewModelScope, WhileViewSubscribed, "")
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
     val userEmailFlow = userModelFlow.filterNotNull().map { it.email }
         .stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val userFullNameFlow = combine(userNameFlow, userLastNameFlow) { name, lastName ->
-        name.replaceFirstChar { it.uppercase() }
+    val userFullNameFlow = userModelFlow.filterNotNull().map {
+        it.name.replaceFirstChar { char -> char.uppercase() }
             .plus(" ")
-            .plus(lastName.replaceFirstChar { it.uppercase() })
+            .plus(it.lastName.replaceFirstChar { char -> char.uppercase() })
     }.stateIn(viewModelScope, WhileViewSubscribed, "")
 
-    val userDataChangedFlow = userFullNameFlow.filter { it.isEmpty() }.drop(1)
+    val userDataChangedFlow = userFullNameFlow.filter { it.isNotEmpty() }.drop(1)
         .onEach { analytic.logUserNameChanged(it) }
 
     val userAvatarFlow = userModelFlow.filterNotNull().map { it.avatar }
@@ -89,6 +89,7 @@ class ProfileViewModel(
 
     fun uploadAvatar(avatar: File, onUploadProgress: (Float) -> Unit = { _ -> }) {
         launchRequest {
+            // TODO: 19.12.2021 Rework user avatar upload
             val newAvatarUrl = userRepo.updateUserAvatar(avatar, onUploadProgress)
             val updatedUser = UserModel(
                 email = emailInputFlow.value,
@@ -98,7 +99,6 @@ class ProfileViewModel(
             )
             userRepo.updateUser(updatedUser.run(userMapper::mapFrom))
 
-            // TODO: 04.12.2021 Check how many times it called
             analytic.logUserAvatarChanged(newAvatarUrl, userFullNameFlow.value)
         }
     }

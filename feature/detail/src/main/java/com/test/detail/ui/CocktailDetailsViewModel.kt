@@ -70,7 +70,7 @@ class CocktailDetailsViewModel(
         }.launchIn(viewModelScope)
 
         viewModelScope.launch {
-            analytic.logOpenCocktailDetail(cocktailId.first())
+            analytic.logOpenCocktailDetail(cocktailId.first { it != -1L })
         }
     }
 
